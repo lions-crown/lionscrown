@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>俺のプロ野球データ室 2025</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    table { border-collapse: collapse; width:100%; font-size:14px; }
+    th, td { border:1px solid #ccc; padding:6px; text-align:center; }
+    th { background:#f0f8ff; }
+    .team-y { background:#ffffe0; } /* ヤクルト */
+    .team-h { background:#ffdddd; } /* 阪神など */
+  </style>
+</head>
+<body>
+
+<h1>2025シーズン 打撃成績（俺まとめ）</h1>
+
+<div id="table-container"></div>
+
+<script>
+// CSVを読み込んで表にする（PapaParseという軽量ライブラリを使うのが楽）
+</script>
+
+<!-- PapaParse CDN（超便利） -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+// ここに貼り付け用コード
+Papa.parse("data/2025_batting.csv", {
+  download: true,
+  header: true,
+  complete: function(results) {
+    const data = results.data;
+    let html = '<table><thead><tr>';
+
+    // ヘッダー
+    Object.keys(data[0]).forEach(key => {
+      html += `<th>${key}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+
+    // データ行
+    data.forEach(row => {
+      html += '<tr>';
+      Object.values(row).forEach(val => {
+        html += `<td>${val || '-'}</td>`;
+      });
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    document.getElementById('table-container').innerHTML = html;
+  }
+});
+</script>
+
+</body>
+</html>
