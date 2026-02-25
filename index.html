@@ -1,58 +1,90 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>俺のプロ野球データ室 2025</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lions Data 紹介</title>
   <style>
-    table { border-collapse: collapse; width:100%; font-size:14px; }
-    th, td { border:1px solid #ccc; padding:6px; text-align:center; }
-    th { background:#f0f8ff; }
-    .team-y { background:#ffffe0; } /* ヤクルト */
-    .team-h { background:#ffdddd; } /* 阪神など */
+    body {
+      font-family: system-ui, sans-serif;
+      background: #092048;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .intro-container {
+      max-width: 900px;
+      padding: 40px 20px;
+    }
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+    }
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 24px;
+      color: #6eb9ff;
+      text-shadow: 0 2px 8px rgba(110,185,255,0.3);
+    }
+    p {
+      font-size: 1.25rem;
+      line-height: 1.9;
+      margin: 16px 0;
+    }
+    .highlight {
+      color: #7fc3ff;
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+    .strong {
+      font-size: 1.4rem;
+      color: #ffd700;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
-<h1>2025シーズン 打撃成績（俺まとめ）</h1>
+<div class="intro-container">
+  <div class="fade-in-section">
+    <h1>「ライオンズで〜た【Lions Data】」を更に深化。</h1>
+  </div>
 
-<div id="table-container"></div>
+  <div class="fade-in-section" style="transition-delay: 0.4s;">
+    <p>データも、機能も、体験も<span class="highlight">“ひとつ上のレベルへ”</span>。</p>
+  </div>
+
+  <div class="fade-in-section" style="transition-delay: 0.8s;">
+    <p>埼玉西武ライオンズの成績や記録を、<br>
+    より速く、より見やすく、分かりやすく設計した新データ情報サイトです。</p>
+  </div>
+
+  <div class="fade-in-section" style="transition-delay: 1.2s;">
+    <p>ファンの皆さまにとって「データを身近なものにする」ために、<br>
+    これまで以上に進化したコンテンツを発信していきます。</p>
+  </div>
+</div>
 
 <script>
-// CSVを読み込んで表にする（PapaParseという軽量ライブラリを使うのが楽）
-</script>
-
-<!-- PapaParse CDN（超便利） -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
-<script>
-// ここに貼り付け用コード
-Papa.parse("data/2025_batting.csv", {
-  download: true,
-  header: true,
-  complete: function(results) {
-    const data = results.data;
-    let html = '<table><thead><tr>';
-
-    // ヘッダー
-    Object.keys(data[0]).forEach(key => {
-      html += `<th>${key}</th>`;
+  // ページ読み込み後に順番にフェードイン
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll('.fade-in-section');
+    sections.forEach((section, index) => {
+      setTimeout(() => {
+        section.classList.add('visible');
+      }, index * 400); // 0.4秒ずつ遅延させて順番に登場
     });
-    html += '</tr></thead><tbody>';
-
-    // データ行
-    data.forEach(row => {
-      html += '<tr>';
-      Object.values(row).forEach(val => {
-        html += `<td>${val || '-'}</td>`;
-      });
-      html += '</tr>';
-    });
-
-    html += '</tbody></table>';
-    document.getElementById('table-container').innerHTML = html;
-  }
-});
+  });
 </script>
 
 </body>
