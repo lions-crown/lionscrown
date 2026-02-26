@@ -394,6 +394,103 @@ button.slide-btn {
   margin-left: 8px;
 }
 
+/* =========================
+   フッター
+========================= */
+.footer {
+  background: linear-gradient(to bottom, #0d2b5e, #092048);
+  padding: 60px 20px 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-brand .footer-logo {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.footer-brand p {
+  margin: 0;
+  max-width: 400px;
+  opacity: 0.8;
+}
+
+.footer-social a {
+  color: #6eb9ff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+
+.footer-social a:hover {
+  color: white;
+}
+
+.social-icon {
+  font-size: 20px;
+}
+
+.footer-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-nav ul {
+    justify-content: center;
+  }
+}
+
 </style>
 </head>
 
@@ -651,3 +748,40 @@ async function loadNotices() {
 
 </body>
 </html>
+
+
+
+<footer class="footer">
+  <div class="footer-container">
+    <!-- 上段: ロゴ + 説明 + SNS -->
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/lionscrown/" class="footer-logo">L-crown</a>
+        <p>ライオンズを愛するすべての人へ。データも、速報も、もっと深く。</p>
+      </div>
+      
+      <div class="footer-social">
+        <a href="https://x.com/Lcrown_official" target="_blank" aria-label="X (Twitter)">
+          <span class="social-icon">𝕏</span> @Lcrown_official
+        </a>
+        <!-- 他のSNSがあればここに追加 -->
+      </div>
+    </div>
+
+    <!-- 中段: ナビゲーション -->
+    <div class="footer-nav">
+      <ul>
+        <li><a href="/lionscrown/">ホーム</a></li>
+        <li><a href="/lionscrown/news">お知らせ</a></li>
+        <li><a href="#mlb-section">MLBデータ</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+        <li><a href="#">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+
+    <!-- 下段: コピーライト -->
+    <div class="footer-bottom">
+      <p>© 2026 L-crown. All Rights Reserved. Powered by Lions fans.</p>
+    </div>
+  </div>
+</footer>
