@@ -91,7 +91,7 @@ body {
 }
 
 /* =========================
-   ヒーロー（新フェード）
+   ヒーロー
 ========================= */
 
 .hero {
@@ -123,7 +123,7 @@ body {
 }
 
 /* =========================
-   試合速報スライダー
+   試合速報
 ========================= */
 
 .games-wrapper {
@@ -179,13 +179,8 @@ body {
   font-size: 14px;
 }
 
-.outs span {
-  opacity: 0.25;
-}
-
-.outs .on {
-  opacity: 1;
-}
+.outs span { opacity: 0.25; }
+.outs .on { opacity: 1; }
 
 .bases {
   display: flex;
@@ -229,13 +224,97 @@ button.slide-btn {
 #nextBtn { right: 10px; }
 
 /* =========================
-   MLB
+   ニュース
+========================= */
+
+.news-title {
+  font-size: 22px;
+  margin-bottom: 24px;
+  color: #6eb9ff;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.news-card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 18px;
+  transition: 0.25s;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  background: #263449;
+}
+
+/* =========================
+   MLBセクション（改修）
 ========================= */
 
 .mlb {
-  background:#900123;
-  padding:60px 20px;
-  text-align:center;
+  background: linear-gradient(135deg, #7a0019, #900123);
+  padding: 70px 20px;
+}
+
+.mlb-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.mlb-title {
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.mlb-description {
+  text-align: center;
+  opacity: 0.7;
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+
+.mlb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.mlb-card {
+  background: rgba(0,0,0,0.25);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.25s;
+}
+
+.mlb-card:hover {
+  transform: translateY(-5px);
+  background: rgba(0,0,0,0.35);
+}
+
+.mlb-player {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.mlb-stats {
+  font-size: 13px;
+  opacity: 0.75;
+  line-height: 1.7;
+}
+
+.mlb-link {
+  margin-top: 12px;
+  display: inline-block;
+  font-size: 13px;
+  color: #6eb9ff;
+  text-decoration: none;
 }
 
 </style>
@@ -259,22 +338,15 @@ button.slide-btn {
   </div>
 </div>
 
-<!-- ✅ 新ヒーロー -->
 <div class="hero">
-
   <h1 class="fade-in">Lions Data を更に深化。</h1>
   <p class="fade-in">データも、機能も、体験も。</p>
   <p class="fade-in">ひとつ上のレベルへ。</p>
-
 </div>
 
-<!-- 試合速報 -->
 <div class="section">
   <div class="games-wrapper">
-
     <div id="slider">
-
-      <!-- 試合1 -->
       <div class="slide">
         <div class="game-card">
           <div class="game-header">
@@ -286,86 +358,101 @@ button.slide-btn {
             <div class="score">2 – 1</div>
             <div class="team">ソフトバンク</div>
           </div>
-          <div class="live-area">
-            <div>
-              <div class="outs">
-                <span class="on">●</span><span>●</span><span>●</span>
-              </div>
-              <div class="bases">
-                <div class="base on"></div>
-                <div class="base"></div>
-                <div class="base"></div>
-              </div>
-            </div>
-            <div>打者：源田 / 投手：有原</div>
-          </div>
           <div class="status">14:52 更新</div>
         </div>
       </div>
-
-      <!-- 試合2 -->
       <div class="slide">
         <div class="game-card">
           <div class="game-header">
             <span>【オープン戦】3月2日</span>
-            <span>3回裏</span>
+            <span>試合中</span>
           </div>
           <div class="scoreboard">
             <div class="team">西武</div>
             <div class="score">0 – 0</div>
             <div class="team">楽天</div>
           </div>
-          <div class="status">試合中</div>
         </div>
       </div>
-
-      <!-- ✅ 試合3追加 -->
       <div class="slide">
         <div class="game-card">
           <div class="game-header">
             <span>【オープン戦】3月3日</span>
-            <span>試合終了</span>
+            <span>FINAL</span>
           </div>
           <div class="scoreboard">
             <div class="team">西武</div>
             <div class="score">5 – 3</div>
             <div class="team">ロッテ</div>
           </div>
-          <div class="status">FINAL</div>
         </div>
       </div>
-
     </div>
 
     <button id="prevBtn" class="slide-btn">◀</button>
     <button id="nextBtn" class="slide-btn">▶</button>
-
   </div>
 </div>
 
+<div class="section">
+  <h2 class="news-title">最新ニュース</h2>
+  <div class="news-grid">
+    <div class="news-card">ニュースコンテンツ</div>
+    <div class="news-card">ニュースコンテンツ</div>
+    <div class="news-card">ニュースコンテンツ</div>
+  </div>
+</div>
+
+<!-- ✅ 改修MLB -->
 <div class="mlb">
-  <h2>夢のMLBへ</h2>
+
+  <div class="mlb-container">
+
+    <h2 class="mlb-title">夢のMLBへ ― 海外挑戦データ</h2>
+
+    <p class="mlb-description">
+      L-crownでは、MLBで戦うライオンズ戦士の成績・指標・推移データも追跡。
+      NPB時代との比較分析や詳細スタッツを公開。
+    </p>
+
+    <div class="mlb-grid">
+
+      <div class="mlb-card">
+        <div class="mlb-player">菊池 雄星</div>
+        <div class="mlb-stats">
+          ERA / FIP / xERA<br>
+          奪三振率・被打球指標<br>
+          球種割合・回転数分析<br>
+          NPB→MLB変化トラッキング
+        </div>
+        <a href="#" class="mlb-link">MLBデータを見る →</a>
+      </div>
+
+      <div class="mlb-card">
+        <div class="mlb-player">今井 達也</div>
+        <div class="mlb-stats">
+          登板別パフォーマンス<br>
+          球速帯・スピン効率<br>
+          三振／四球プロファイル<br>
+          将来予測モデル・適応評価
+        </div>
+        <a href="#" class="mlb-link">MLB分析ページ →</a>
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
 <script>
 
-/* =========================
-   ヒーローフェード
-========================= */
-
 document.addEventListener("DOMContentLoaded", () => {
   const fades = document.querySelectorAll(".fade-in");
-
   fades.forEach((el, i) => {
-    setTimeout(() => {
-      el.classList.add("visible");
-    }, i * 400);
+    setTimeout(() => el.classList.add("visible"), i * 400);
   });
 });
-
-/* =========================
-   スライダー
-========================= */
 
 const slider = document.getElementById("slider");
 const slides = document.querySelectorAll(".slide").length;
