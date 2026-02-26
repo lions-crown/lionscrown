@@ -8,28 +8,34 @@
 
 <style>
 
-/* ===== 全体背景 ===== */
+/* ===== 背景 ===== */
 body {
   margin: 0;
   font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background: linear-gradient(135deg, #091b3d, #0d2b5e, #123a78);
-  background-size: 400% 400%;
-  animation: bgMove 12s ease infinite;
+  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
   color: white;
+  overflow-x: hidden;
 }
 
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* 光のオーブ */
+body::before {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top: -120px;
+  right: -120px;
+  filter: blur(40px);
+  z-index: -1;
 }
 
-/* ===== メニューバー ===== */
+/* ===== ヘッダー ===== */
 header {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(12px);
-  background: rgba(10, 25, 60, 0.65);
+  backdrop-filter: blur(14px);
+  background: rgba(10, 25, 60, 0.55);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   z-index: 1000;
 }
@@ -40,7 +46,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
+  padding: 16px 20px;
 }
 
 /* ロゴ */
@@ -48,7 +54,7 @@ nav {
   font-weight: bold;
   font-size: 18px;
   letter-spacing: 1px;
-  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -56,15 +62,15 @@ nav {
 /* メニュー */
 .menu {
   display: flex;
-  gap: 24px;
+  gap: 26px;
 }
 
 .menu a {
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.7);
   text-decoration: none;
   font-size: 13px;
   position: relative;
-  transition: 0.3s;
+  transition: 0.25s;
 }
 
 .menu a::after {
@@ -75,41 +81,54 @@ nav {
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, #4da3ff, #7ecbff);
-  transition: 0.3s;
+  transition: 0.25s;
 }
 
 .menu a:hover {
   color: white;
+  text-shadow: 0 0 10px rgba(77,163,255,0.6);
 }
 
 .menu a:hover::after {
   width: 100%;
 }
 
-/* ===== メイン領域 ===== */
+/* ===== メイン ===== */
 main {
   max-width: 1100px;
-  margin: 40px auto;
+  margin: 50px auto;
   padding: 0 20px;
 }
 
 /* フォームカード */
 .form-card {
   background: rgba(255,255,255,0.06);
-  border-radius: 18px;
-  padding: 18px;
-  backdrop-filter: blur(10px);
+  border-radius: 22px;
+  padding: 22px;
+  backdrop-filter: blur(16px);
   box-shadow:
-    0 10px 40px rgba(0,0,0,0.35),
-    inset 0 0 0 1px rgba(255,255,255,0.08);
-  transition: 0.4s;
+    0 20px 60px rgba(0,0,0,0.55),
+    inset 0 0 0 1px rgba(255,255,255,0.1);
+  transition: 0.35s;
+  position: relative;
+}
+
+/* ガラスのハイライト */
+.form-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15), transparent 70%);
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .form-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.01);
   box-shadow:
-    0 15px 50px rgba(0,0,0,0.45),
-    inset 0 0 0 1px rgba(255,255,255,0.12);
+    0 30px 80px rgba(0,0,0,0.65),
+    inset 0 0 0 1px rgba(255,255,255,0.16);
 }
 
 /* iframe */
@@ -117,34 +136,34 @@ iframe {
   width: 100%;
   height: 1000px;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   background: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
 /* ===== フッター ===== */
 footer {
-  margin-top: 80px;
-  background: rgba(0,0,0,0.25);
-  backdrop-filter: blur(10px);
+  margin-top: 100px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(16px);
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-/* コンテナ */
 .footer-container {
   max-width: 1100px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 50px 20px;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 0.6fr;
-  gap: 40px;
+  grid-template-columns: 1.6fr 1fr 0.6fr;
+  gap: 50px;
 }
 
 /* ブランド */
 .footer-logo {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -152,14 +171,15 @@ footer {
 .footer-text {
   font-size: 12px;
   color: rgba(255,255,255,0.55);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* タイトル */
 .footer-title {
   font-size: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   color: rgba(255,255,255,0.9);
+  letter-spacing: 0.5px;
 }
 
 /* リンク */
@@ -167,7 +187,7 @@ footer {
 .footer-follow {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 footer a {
@@ -179,35 +199,32 @@ footer a {
 
 footer a:hover {
   color: white;
-  transform: translateX(3px);
+  transform: translateX(4px);
+  text-shadow: 0 0 8px rgba(77,163,255,0.5);
 }
 
 /* 下段 */
 .footer-bottom {
   text-align: center;
-  padding: 14px;
+  padding: 16px;
   font-size: 11px;
   color: rgba(255,255,255,0.35);
   border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-/* レスポンシブ */
-@media (max-width: 768px) {
-  .footer-container {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
 }
 
 /* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
   .menu {
     gap: 16px;
-    font-size: 12px;
   }
 
   iframe {
     height: 900px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
 }
 
@@ -239,7 +256,7 @@ footer a:hover {
 <footer>
   <div class="footer-container">
 
-    <div class="footer-brand">
+    <div>
       <div class="footer-logo">L-crown</div>
       <div class="footer-text">
         データをより身近なものへ。<br>
@@ -250,9 +267,9 @@ footer a:hover {
     <div class="footer-links">
       <div class="footer-title">リンク</div>
       <a href="/lionscrown">ホーム</a>
-      <a href="#">お知らせ</a>
-      <a href="#">利用規約</a>
-      <a href="#">お問い合わせ</a>
+      <a href="/lionscrown/news">お知らせ</a>
+      <a href="/lionscrown/privacypolicy">利用規約</a>
+      <a href="/lionscrown/contact">お問い合わせ</a>
     </div>
 
     <div class="footer-follow">
