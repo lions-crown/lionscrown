@@ -1,12 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>{{ page.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    .navbar {
+      background-color: #24292e;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-menu li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.05rem;
+      transition: 0.25s;
+    }
+
+    .nav-menu li a:hover {
+      color: #f0f0f0;
+      border-bottom: 2px solid #0366d6;
+      padding-bottom: 4px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-{{ content }}
+  <!-- ✅ メニューバー -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="{{ '/' | relative_url }}" class="logo">L-crown</a>
+
+      <ul class="nav-menu">
+        <li><a href="{{ '/' | relative_url }}">ホーム</a></li>
+        <li><a href="{{ '/about.html' | relative_url }}">About</a></li>
+        <li><a href="{{ '/news/' | relative_url }}">お知らせ</a></li>
+        <li><a href="{{ '/blog.html' | relative_url }}">ブログ</a></li>
+        <li><a href="{{ '/contact.html' | relative_url }}">お問い合わせ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ✅ ページ本体 -->
+  <main>
+    {{ content }}
+  </main>
 
 </body>
 </html>
