@@ -21,6 +21,7 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   background: #0f172a;
   color: white;
+  line-height: 1.6;
 }
 
 /* =========================
@@ -29,14 +30,14 @@ body {
 
 .navbar {
   background-color: #24292e;
-  padding: 1rem 2rem;
+  padding: 16px 24px;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
 .nav-container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -45,14 +46,20 @@ body {
 
 .logo {
   color: white;
-  font-size: 1.5rem;
+  font-size: 20px;
   text-decoration: none;
 }
 
 .nav-menu {
   list-style: none;
   display: flex;
-  gap: 2.5rem;
+  gap: 24px;
+}
+
+.nav-menu a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 14px;
 }
 
 /* =========================
@@ -66,105 +73,51 @@ body {
 }
 
 /* =========================
-   フェード
+   YouTube
+========================= */
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================
+   ヒーロー
 ========================= */
 
 .hero {
-  background: #092048;
+  background: linear-gradient(to bottom, #092048, #0d2b5e);
   text-align: center;
   padding: 80px 20px;
 }
 
-/* =========================
-   TOP3カード用
-========================= */
-
-.scroll-container {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  padding: 10px;
+.hero h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
-.card {
-  flex: 0 0 230px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 18px;
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- =========================
-     ナビ
-========================= -->
-
-<nav class="navbar">
-  <div class="nav-container">
-    <a href="/" class="logo">L-crown</a>
-    <ul class="nav-menu">
-      <li><a href="/lionscrown/">ホーム</a></li>
-      <li><a href="/lionscrown/news">お知らせ</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- =========================
-     YouTube
-========================= -->
-
-<div class="section">
-  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-    <iframe style="position:absolute;width:100%;height:100%;"
-      src="https://www.youtube.com/embed/3Gc5eSL5kxU">
-    </iframe>
-  </div>
-</div>
-
-<!-- =========================
-     フェード領域
-========================= -->
-
-<div class="hero">
-  <h1 id="fade1">Lions Data を更に深化。</h1>
-  <p id="fade2">データも、機能も、体験も。</p>
-  <p id="fade3">ひとつ上のレベルへ。</p>
-</div>
-
-<!-- =========================
-     試合カード
-========================= -->
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>試合速報スライダー</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background: linear-gradient(to bottom, #092048, #0d2b5e);
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  color: white;
+.hero p {
+  opacity: 0.7;
+  margin-top: 6px;
 }
 
 /* =========================
-   スライダー全体
+   試合スライダー
 ========================= */
 
 .games-wrapper {
   position: relative;
-  width: 100%;
   max-width: 420px;
+  margin: 0 auto;
   overflow: hidden;
 }
 
@@ -176,11 +129,10 @@ body {
 .slide {
   min-width: 100%;
   padding: 10px;
-  box-sizing: border-box;
 }
 
 /* =========================
-   カードUI
+   試合カード
 ========================= */
 
 .game-card {
@@ -191,110 +143,47 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.35);
 }
 
-h2 {
-  font-size: 16px;
-  margin: 0 0 12px;
+.game-card h2 {
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .game-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  opacity: 0.7;
-  margin-bottom: 12px;
+  font-size: 12px;
+  opacity: 0.6;
+  margin-bottom: 10px;
 }
-
-/* =========================
-   スコアボード
-========================= */
 
 .scoreboard {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin: 12px 0;
+  align-items: center;
+  margin: 10px 0;
 }
 
 .team {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
   font-size: 13px;
   width: 80px;
 }
 
 .team img {
   width: 40px;
-  height: 40px;
-  object-fit: contain;
   margin-bottom: 4px;
 }
 
 .score {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.dash {
-  opacity: 0.4;
-}
-
-/* =========================
-   ライブ情報
-========================= */
-
-.live-area {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-  font-size: 13px;
-}
-
-.count {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.outs span {
-  opacity: 0.25;
-  font-size: 14px;
-}
-
-.outs .on {
-  opacity: 1;
-}
-
-.bases {
-  display: flex;
-  gap: 6px;
-}
-
-.base {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  background: rgba(255,255,255,0.2);
-}
-
-.base.on {
-  background: #00d4ff;
-  box-shadow: 0 0 8px rgba(0,212,255,0.7);
-}
-
-.matchup {
-  text-align: right;
-  line-height: 1.6;
 }
 
 .status {
   text-align: center;
   font-size: 12px;
   opacity: 0.6;
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
 /* =========================
@@ -312,305 +201,132 @@ button {
   height: 34px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 16px;
-  backdrop-filter: blur(5px);
-}
-
-button:hover {
-  background: rgba(0,0,0,0.7);
 }
 
 #prevBtn { left: 6px; }
 #nextBtn { right: 6px; }
 
 /* =========================
-   インジケーター
+   TOP3
 ========================= */
 
-.indicators {
+.scroll-container {
   display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 0;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.3);
+.card {
+  flex: 0 0 220px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 18px;
 }
 
-.dot.active {
-  background: #00d4ff;
+/* =========================
+   MLB
+========================= */
+
+.mlb {
+  background:#900123;
+  padding:60px 20px;
+  text-align:center;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="games-wrapper">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="logo">L-crown</a>
+    <ul class="nav-menu">
+      <li><a href="/lionscrown/">ホーム</a></li>
+      <li><a href="/lionscrown/news">お知らせ</a></li>
+    </ul>
+  </div>
+</nav>
 
-  <div id="slider">
+<div class="section">
+  <div class="video-wrapper">
+    <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
+  </div>
+</div>
 
-    <div class="slide">
-      <div class="game-card">
-        <h2>【オープン戦】2026年3月1日 vs 福岡ソフトバンクホークス</h2>
+<div class="hero">
+  <h1 id="fade1">Lions Data を更に深化。</h1>
+  <p id="fade2">データも、機能も、体験も。</p>
+  <p id="fade3">ひとつ上のレベルへ。</p>
+</div>
 
-        <div class="game-meta">
-          <span>13:00</span>
-          <span>アイビースタジアム</span>
+<div class="section">
+
+  <div class="games-wrapper">
+
+    <div id="slider">
+
+      <div class="slide">
+        <div class="game-card">
+          <h2>2026年3月1日 vs ソフトバンク</h2>
+          <div class="game-meta">
+            <span>13:00</span>
+            <span>アイビースタジアム</span>
+          </div>
+          <div class="scoreboard">
+            <div class="team">西武</div>
+            <div class="score">2 – 1</div>
+            <div class="team">ソフトバンク</div>
+          </div>
+          <div class="status">7回表</div>
         </div>
-
-        <div class="scoreboard">
-          <div class="team">
-            <img src="https://lions-crown.homep.jp/img/1759836807957.webp">
-            <div>西武</div>
-          </div>
-
-          <div class="score">
-            <span>2</span>
-            <span class="dash">–</span>
-            <span>1</span>
-          </div>
-
-          <div class="team">
-            <img src="https://lions-crown.homep.jp/img/1759836829251.webp">
-            <div>ソフトバンク</div>
-          </div>
-        </div>
-
-        <div class="live-area">
-          <div class="count">
-            <div class="outs">
-              <span class="on">●</span>
-              <span>●</span>
-              <span>●</span>
-            </div>
-
-            <div class="bases">
-              <div class="base on"></div>
-              <div class="base"></div>
-              <div class="base"></div>
-            </div>
-          </div>
-
-          <div class="matchup">
-            <div>打者：源田 壮亮</div>
-            <div>投手：有原 航平</div>
-          </div>
-        </div>
-
-        <div class="status">7回表 / 14:52時点</div>
       </div>
+
+      <div class="slide">
+        <div class="game-card">
+          <h2>2026年3月2日 vs 楽天</h2>
+          <div class="scoreboard">
+            <div class="team">西武</div>
+            <div class="score">0 – 0</div>
+            <div class="team">楽天</div>
+          </div>
+          <div class="status">試合中</div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="slide">
-      <div class="game-card">
-        <h2>【オープン戦】2026年3月2日 vs 楽天</h2>
-
-        <div class="game-meta">
-          <span>14:00</span>
-          <span>ベルーナドーム</span>
-        </div>
-
-        <div class="scoreboard">
-          <div class="team"><div>西武</div></div>
-
-          <div class="score">
-            <span>0</span>
-            <span class="dash">–</span>
-            <span>0</span>
-          </div>
-
-          <div class="team"><div>楽天</div></div>
-        </div>
-
-        <div class="live-area">
-          <div class="count">
-            <div class="outs">
-              <span class="on">●</span>
-              <span class="on">●</span>
-              <span>●</span>
-            </div>
-
-            <div class="bases">
-              <div class="base"></div>
-              <div class="base on"></div>
-              <div class="base"></div>
-            </div>
-          </div>
-
-          <div class="matchup">
-            <div>打者：外崎 修汰</div>
-            <div>投手：早川 隆久</div>
-          </div>
-        </div>
-
-        <div class="status">3回裏 / 試合中</div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="game-card">
-        <h2>【オープン戦】2026年3月3日 vs ロッテ</h2>
-
-        <div class="game-meta">
-          <span>13:00</span>
-          <span>ZOZOマリン</span>
-        </div>
-
-        <div class="scoreboard">
-          <div class="team"><div>西武</div></div>
-
-          <div class="score">
-            <span>5</span>
-            <span class="dash">–</span>
-            <span>3</span>
-          </div>
-
-          <div class="team"><div>ロッテ</div></div>
-        </div>
-
-        <div class="status">試合終了</div>
-      </div>
-    </div>
+    <button id="prevBtn">◀</button>
+    <button id="nextBtn">▶</button>
 
   </div>
 
-  <button id="prevBtn">◀</button>
-  <button id="nextBtn">▶</button>
-
-  <div class="indicators"></div>
-
 </div>
-
-<script>
-const slider = document.getElementById("slider");
-const slides = document.querySelectorAll(".slide");
-const indicators = document.querySelector(".indicators");
-
-let index = 0;
-let autoSlide;
-
-/* =====================
-   インジケーター生成
-===================== */
-slides.forEach((_, i) => {
-  const dot = document.createElement("div");
-  dot.classList.add("dot");
-  if (i === 0) dot.classList.add("active");
-  indicators.appendChild(dot);
-});
-
-const dots = document.querySelectorAll(".dot");
-
-/* =====================
-   スライド更新
-===================== */
-function updateSlider() {
-  slider.style.transform = `translateX(-${index * 100}%)`;
-
-  dots.forEach(dot => dot.classList.remove("active"));
-  dots[index].classList.add("active");
-}
-
-/* =====================
-   ボタン制御
-===================== */
-document.getElementById("nextBtn").onclick = () => {
-  index = (index + 1) % slides.length;
-  updateSlider();
-  resetAutoSlide();
-};
-
-document.getElementById("prevBtn").onclick = () => {
-  index = (index - 1 + slides.length) % slides.length;
-  updateSlider();
-  resetAutoSlide();
-};
-
-/* =====================
-   自動スライド
-===================== */
-function startAutoSlide() {
-  autoSlide = setInterval(() => {
-    index = (index + 1) % slides.length;
-    updateSlider();
-  }, 4000);
-}
-
-function resetAutoSlide() {
-  clearInterval(autoSlide);
-  startAutoSlide();
-}
-
-startAutoSlide();
-
-/* =====================
-   スワイプ対応
-===================== */
-let startX = 0;
-
-slider.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-slider.addEventListener("touchend", e => {
-  const endX = e.changedTouches[0].clientX;
-  const diff = startX - endX;
-
-  if (diff > 50) {
-    index = (index + 1) % slides.length;
-  } else if (diff < -50) {
-    index = (index - 1 + slides.length) % slides.length;
-  }
-
-  updateSlider();
-  resetAutoSlide();
-});
-</script>
-
-</body>
-</html>
-
-<!-- =========================
-     TOP3
-========================= -->
 
 <div class="section">
   <h2>TOP3ランキング</h2>
-
   <div class="scroll-container">
     <div class="card">打率</div>
     <div class="card">本塁打</div>
   </div>
 </div>
 
-<!-- =========================
-     MLB
-========================= -->
-
-<div style="background:#900123; padding:60px 20px; text-align:center;">
+<div class="mlb">
   <h2>夢のMLBへ</h2>
 </div>
 
 <script>
 
-/* =========================
-   フェード
-========================= */
-
+/* フェード */
 ["fade1","fade2","fade3"].forEach((id,i)=>{
   const el=document.getElementById(id);
   el.style.opacity=0;
+  el.style.transition="0.6s";
   setTimeout(()=>el.style.opacity=1,i*400);
 });
 
-/* =========================
-   スライダー
-========================= */
-
+/* スライダー */
 const slider = document.getElementById("slider");
 const slides = document.querySelectorAll(".slide").length;
 let index = 0;
@@ -623,7 +339,7 @@ function moveSlide(step){
 document.getElementById("prevBtn").onclick = () => moveSlide(-1);
 document.getElementById("nextBtn").onclick = () => moveSlide(1);
 
-setInterval(()=>moveSlide(1),3000);
+setInterval(()=>moveSlide(1),4000);
 
 </script>
 
