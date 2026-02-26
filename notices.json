@@ -1,18 +1,22 @@
 [
   {
-    "text": "新機能「MLB選手比較ツール」公開しました",
-    "time": "2026-02-25 18:30"
+    "text": "サイトを公開しました",
+    "time": "2026-03-01 18:00",
+    "url": "https://lions-crown.github.io/lionscrown/mlb-comparison-tool"
   },
   {
-    "text": "今井達也メジャー移籍後初登板が決定！分析記事を追加",
-    "time": "2026-02-24 14:10"
+    "text": "データページ公開延期のお知らせ",
+    "time": "2026-02-24 18:00",
+    "url": "/lionscrown/news/20260224-imaidaichi"
   },
   {
     "text": "サイトデザインをリニューアル（ダークモード対応強化）",
-    "time": "2026-02-20 09:45"
+    "time": "2026-02-20 09:45",
+    "url": ""
   },
   {
     "text": "オープン戦速報機能を実装しました",
-    "time": "2026-02-15 20:00"
+    "time": "2026-02-15 20:00",
+    "url": "https://example.com/open-war-report"
   }
 ]
