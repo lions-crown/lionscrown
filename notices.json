@@ -1,22 +1,20 @@
 [
   {
-    "text": "サイトを公開しました",
-    "time": "2026-03-01 18:00",
-    "url": "https://lions-crown.github.io/lionscrown/mlb-comparison-tool"
-  },
-  {
-    "text": "データページ公開延期のお知らせ",
-    "time": "2026-02-24 18:00",
-    "url": "/lionscrown/news/20260224-imaidaichi"
-  },
-  {
-    "text": "サイトデザインをリニューアル（ダークモード対応強化）",
-    "time": "2026-02-20 09:45",
+    "category": "公式",
+    "text": "サイトをリニューアルしました",
+    "time": "2026-02-27 18:00",
     "url": ""
   },
   {
-    "text": "オープン戦速報機能を実装しました",
-    "time": "2026-02-15 20:00",
-    "url": "https://example.com/open-war-report"
+    "category": "更新",
+    "text": "MLBデータページを追加しました",
+    "time": "2026-02-27 15:30",
+    "url": ""
+  },
+  {
+    "category": "重要",
+    "text": "一部機能で不具合が発生しています",
+    "time": "2026-02-26 21:00",
+    "url": ""
   }
 ]
