@@ -1,3 +1,18 @@
+<div align="center">
+  <a href="#about"><strong>About</strong></a> •
+  <a href="#features"><strong>Features</strong></a> •
+  <a href="#installation"><strong>Install</strong></a> •
+  <a href="#usage"><strong>Usage</strong></a> •
+  <a href="#contributing"><strong>Contribute</strong></a>
+</div>
+
+<br>
+
+L-crown
+
+埼玉西武ライオンズのデータ情報を公開。
+...
+
 <div style="max-width: 1100px; width: 94%; margin: 40px auto; overflow: hidden; position: relative;">
   <!-- スライドショー全体ラッパー -->
   <div id="slider" style="display: flex; transition: transform 0.5s ease; width: 300%;"> <!-- 3枚なので300%幅 -->
