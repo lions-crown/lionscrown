@@ -1,11 +1,3 @@
-<div align="center">
-  <a href="#about"><strong>About</strong></a> •
-  <a href="#features"><strong>Features</strong></a> •
-  <a href="#installation"><strong>Install</strong></a> •
-  <a href="#usage"><strong>Usage</strong></a> •
-  <a href="#contributing"><strong>Contribute</strong></a>
-</div>
-
 <br>
 
 L-crown
