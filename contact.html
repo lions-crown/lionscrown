@@ -4,45 +4,112 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>フォームページ</title>
+<title>お問い合わせ</title>
 
 <style>
+
+/* ===== 全体背景 ===== */
 body {
   margin: 0;
   font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background: #0d2b5e;
+  background: linear-gradient(135deg, #091b3d, #0d2b5e, #123a78);
+  background-size: 400% 400%;
+  animation: bgMove 12s ease infinite;
   color: white;
 }
 
-/* メニューバー */
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== メニューバー ===== */
 header {
-  position: sticky;   /* スクロールしても上に固定 */
+  position: sticky;
   top: 0;
-  background: #092048;
-  padding: 15px 30px;
+  backdrop-filter: blur(12px);
+  background: rgba(10, 25, 60, 0.65);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 nav {
+  max-width: 1100px;
+  margin: auto;
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
 }
 
-nav a {
-  color: white;
+/* ロゴ */
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* メニュー */
+.menu {
+  display: flex;
+  gap: 24px;
+}
+
+.menu a {
+  color: rgba(255,255,255,0.75);
   text-decoration: none;
-  font-size: 14px;
-  opacity: 0.8;
+  font-size: 13px;
+  position: relative;
+  transition: 0.3s;
 }
 
-nav a:hover {
-  opacity: 1;
+.menu a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  transition: 0.3s;
 }
 
-/* メイン領域 */
+.menu a:hover {
+  color: white;
+}
+
+.menu a:hover::after {
+  width: 100%;
+}
+
+/* ===== メイン領域 ===== */
 main {
-  padding: 20px;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* フォームカード */
+.form-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 18px;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+  transition: 0.4s;
+}
+
+.form-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 15px 50px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.12);
 }
 
 /* iframe */
@@ -50,19 +117,34 @@ iframe {
   width: 100%;
   height: 1000px;
   border: none;
+  border-radius: 14px;
   background: white;
-  border-radius: 12px;
 }
 
-/* フッター */
+/* ===== フッター ===== */
 footer {
-  margin-top: 40px;
-  background: #092048;
-  padding: 20px;
+  margin-top: 60px;
+  padding: 30px 20px;
   text-align: center;
   font-size: 12px;
-  opacity: 0.7;
+  color: rgba(255,255,255,0.45);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(6px);
 }
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+  .menu {
+    gap: 16px;
+    font-size: 12px;
+  }
+
+  iframe {
+    height: 900px;
+  }
+}
+
 </style>
 </head>
 
@@ -70,17 +152,22 @@ footer {
 
 <header>
   <nav>
-    <a href="/lionscrown">TOP</a>
-    <a href="#">試合</a>
-    <a href="#">データ</a>
-    <a href="/lionscrown/contact">お問い合わせ</a>
+    <div class="logo">L-crown</div>
+    <div class="menu">
+      <a href="/lionscrown">TOP</a>
+      <a href="#">試合</a>
+      <a href="#">データ</a>
+      <a href="lionscrown/contact">お問い合わせ</a>
+    </div>
   </nav>
 </header>
 
 <main>
-  <iframe
-    src="https://docs.google.com/forms/d/e/1FAIpQLSdkF7ux7JjvJMFFNe86-SXt4uwLcqq-I6O8sB6VS17-9Bm_mA/viewform?embedded=true">
-  </iframe>
+  <div class="form-card">
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSdkF7ux7JjvJMFFNe86-SXt4uwLcqq-I6O8sB6VS17-9Bm_mA/viewform?embedded=true">
+    </iframe>
+  </div>
 </main>
 
 <footer>
