@@ -43,7 +43,6 @@ header {
   padding: 14px 20px;
 }
 
-/* ロゴ */
 .logo {
   font-weight: bold;
   font-size: 18px;
@@ -53,7 +52,6 @@ header {
   -webkit-text-fill-color: transparent;
 }
 
-/* メニュー */
 nav ul {
   display: flex;
   list-style: none;
@@ -96,7 +94,6 @@ main {
   padding: 0 20px;
 }
 
-/* コンテンツカード */
 .content-card {
   background: rgba(255,255,255,0.06);
   border-radius: 18px;
@@ -107,7 +104,6 @@ main {
     inset 0 0 0 1px rgba(255,255,255,0.08);
 }
 
-/* 見出し */
 h1 {
   text-align: center;
   margin-top: 0;
@@ -133,15 +129,6 @@ p, li {
   line-height: 1.8;
 }
 
-/* 更新日 */
-.last-updated {
-  text-align: right;
-  font-size: 12px;
-  color: rgba(255,255,255,0.45);
-  margin-bottom: 30px;
-}
-
-/* お問い合わせボックス */
 .contact {
   background: rgba(255,255,255,0.05);
   padding: 16px;
@@ -150,14 +137,9 @@ p, li {
   font-size: 12px;
 }
 
-/* リンク色 */
 a {
   color: #7ecbff;
   text-decoration: none;
-}
-
-a:hover {
-  opacity: 0.8;
 }
 
 /* ===== フッター ===== */
@@ -207,12 +189,6 @@ footer {
 footer a {
   font-size: 12px;
   color: rgba(255,255,255,0.55);
-  transition: 0.25s;
-}
-
-footer a:hover {
-  color: white;
-  transform: translateX(3px);
 }
 
 .footer-bottom {
@@ -223,18 +199,9 @@ footer a:hover {
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-/* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
-  nav ul {
-    gap: 16px;
-  }
-
   .footer-container {
     grid-template-columns: 1fr;
-  }
-
-  .content-card {
-    padding: 22px;
   }
 }
 
@@ -260,52 +227,98 @@ footer a:hover {
 <main>
   <div class="content-card">
 
-    <h1>L-crown プライバシーポリシー および 利用規約</h1>
-    <div class="last-updated">最終更新日：2026年3月1日</div>
+    <h1>プライバシーポリシー / 利用規約</h1>
 
     <h2>プライバシーポリシー</h2>
-    <p>L-crown（以下「当サービス」）は、ユーザーの個人情報を適切に保護することを重要な責務と考え、以下の通り定めます。</p>
+    <p>
+      L-crown（以下「当サービス」）は、ユーザーの個人情報を適切に保護することを重要な責務と考え、以下の通りプライバシーポリシーを定めます。
+    </p>
 
     <h3>1. 収集する情報</h3>
     <ul>
-      <li>アカウント情報</li>
-      <li>投稿コンテンツ</li>
-      <li>デバイス情報</li>
-      <li>Cookie・行動履歴</li>
-      <li>お問い合わせ情報</li>
+      <li>アカウント情報（メールアドレス、ユーザー名、プロフィール画像など）</li>
+      <li>サービス利用時に送信されるコンテンツ（投稿、コメント、DMなど）</li>
+      <li>デバイス情報（IPアドレス、ブラウザ種類、OS、アクセス時間など）</li>
+      <li>Cookieおよび類似技術により取得される行動履歴</li>
+      <li>お問い合わせ時に任意でご提供いただいた情報</li>
     </ul>
 
     <h3>2. 利用目的</h3>
     <ul>
-      <li>サービス提供・改善</li>
-      <li>不正利用防止</li>
-      <li>サポート対応</li>
-      <li>分析・統計処理</li>
+      <li>サービス提供・維持・改善のため</li>
+      <li>本人確認、不正利用防止のため</li>
+      <li>お問い合わせ対応、アンケート実施のため</li>
+      <li>利用状況の分析、マーケティング施策のため（個人を特定しない形）</li>
     </ul>
+
+    <h3>3. 第三者への提供</h3>
+    <p>以下の場合を除き、個人情報を第三者に提供することはありません。</p>
+    <ul>
+      <li>ユーザーの同意がある場合</li>
+      <li>法令に基づく場合</li>
+      <li>人の生命・身体・財産を保護するために必要で同意を得ることが困難な場合</li>
+      <li>業務委託先へ委託する場合（適切な監督を行います）</li>
+    </ul>
+
+    <h3>4. Cookie・類似技術について</h3>
+    <p>
+      当サービスでは利便性向上・利用状況把握のためにCookieを使用しています。
+      ブラウザ設定で無効化できますが、一部機能が利用できなくなる場合があります。
+    </p>
 
     <h3>5. お問い合わせ窓口</h3>
     <div class="contact">
-      Email: lionscrown.inquiry@gmail.com
+      Email: privacy@lcrown-official.com
     </div>
 
     <h2>利用規約</h2>
-    <p>本規約は当サービスを利用するすべてのユーザーに適用されます。</p>
+    <p>
+      本規約は、L-crown（以下「当サービス」）を利用する全ての方（以下「ユーザー」）に適用されます。
+      サービスを利用した時点で本規約に同意したものとみなします。
+    </p>
 
     <h3>第1条（禁止行為）</h3>
-    <p>ユーザーは以下の行為を行ってはなりません。</p>
+    <ul>
+      <li>法令・公序良俗に違反する行為</li>
+      <li>権利侵害行為</li>
+      <li>虚偽登録・なりすまし</li>
+      <li>スパム・ボット利用</li>
+      <li>不適切な表現・嫌がらせ</li>
+      <li>運営妨害行為</li>
+      <li>その他不適切と判断する行為</li>
+    </ul>
 
-    <div class="contact">
-      運営者連絡先<br>
-      L-crown製作委員会<br>
-      lionscrown.inquiry@gmail.com
-    </div>
+    <h3>第2条（アカウントの管理）</h3>
+    <p>
+      ユーザーは自己の責任においてアカウントおよびパスワードを管理するものとします。
+    </p>
+
+    <h3>第3条（投稿コンテンツの権利）</h3>
+    <p>
+      著作権は投稿者に帰属しますが、当サービスへの利用許諾を行うものとします。
+    </p>
+
+    <h3>第4条（サービスの中断・終了）</h3>
+    <ul>
+      <li>システム保守・障害対応</li>
+      <li>不可抗力</li>
+      <li>その他必要と判断した場合</li>
+    </ul>
+
+    <h3>第5条（免責事項）</h3>
+    <p>当サービスは一切の責任を負いません。</p>
+
+    <h3>第6条（規約の変更）</h3>
+    <p>掲載時点から効力を生じます。</p>
+
+    <h3>第7条（準拠法・管轄）</h3>
+    <p>大阪地方裁判所を専属管轄裁判所とします。</p>
 
   </div>
 </main>
 
 <footer>
   <div class="footer-container">
-
     <div>
       <div class="footer-logo">L-crown</div>
       <div class="footer-text">
@@ -327,7 +340,6 @@ footer a:hover {
       <div class="footer-title">フォロー</div>
       <a href="#">𝕏</a>
     </div>
-
   </div>
 
   <div class="footer-bottom">
