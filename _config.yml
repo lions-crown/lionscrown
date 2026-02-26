@@ -4,7 +4,7 @@
 title: L-crown Data
 description: データで見る分析サイト
 url: "https://lions-crown.github.io"          # ← あなたの実際のリポジトリURLに合わせる
-baseurl: ""                                   # ← User/Organization siteなら空に（これが重要！）
+baseurl: "/lionscrown"                                   # ← User/Organization siteなら空に（これが重要！）
 lang: ja
 timezone: Asia/Tokyo
 encoding: utf-8
