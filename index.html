@@ -1,215 +1,563 @@
----
-layout: default
-title: news
----
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>L-crown</title>
+  
+  <style>
+    /* シンプルなメニューバー CSS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<h1 class="page-title">Updates</h1>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+    }
 
-<div class="controls">
+    /* メニューバー全体 */
+    .navbar {
+      background-color: #24292e;    /* GitHubっぽいダークカラー */
+      padding: 1rem 2rem;
+      position: sticky;             /* 上に固定したい場合は fixed でもOK */
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
 
-  <input type="text" id="search" placeholder="🔎 検索...">
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  <select id="tag-filter">
-    <option value="">すべてのタグ</option>
-    {% assign tags = site.tags | sort %}
-    {% for tag in tags %}
-      <option value="{{ tag[0] }}">{{ tag[0] }}</option>
-    {% endfor %}
-  </select>
+    .logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-  <input type="date" id="date-from">
-  <input type="date" id="date-to">
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
 
-  <select id="sort">
-    <option value="new">新しい順</option>
-    <option value="old">古い順</option>
-    <option value="title">タイトル順</option>
-  </select>
+    .nav-menu li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
 
+    .nav-menu li a:hover {
+      color: #f0f0f0;
+      border-bottom: 2px solid #0366d6;  /* 青い下線 */
+      padding-bottom: 4px;
+    }
+
+    /* スマホ対応（ハンバーガーメニューは今回は省略） */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;  /* 必要ならここにハンバーガーメニュー実装 */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ここがメニューバー -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">L-crown</a>
+
+      <ul class="nav-menu">
+        <li><a href="/lionscrown/">ホーム</a></li>
+        <li><a href="/lionscrown/about.html">About</a></li>
+        <li><a href="/lionscrown/news">お知らせ</a></li>
+        <li><a href="/lionscrown/blog.html">ブログ</a></li>
+        <li><a href="/lionscrown/contact.html">お問い合わせ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+<div style="max-width: 900px; width: 90%; margin: 40px auto; text-align: center;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.25);">
+    <iframe 
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+      src="https://www.youtube.com/embed/3Gc5eSL5kxU?si=O-HINjrMNXdDdx2E"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </div>
 </div>
 
-<div id="post-container">
-
-{% for post in site.posts %}
-  <article class="post"
-           data-title="{{ post.title | downcase }}"
-           data-date="{{ post.date | date: "%Y-%m-%d" }}"
-           data-tags="{{ post.tags | join: ',' | downcase }}">
-
-    <div class="post-inner">
-
-      <div class="post-date">
-        {{ post.date | date: "%Y-%m-%d" }}
-      </div>
-
-      <h2>
-        <a href="{{ post.url }}">{{ post.title }}</a>
-      </h2>
-
-      {% if post.description %}
-        <p>{{ post.description }}</p>
-      {% endif %}
-
-      <div class="tags">
-        {% for tag in post.tags %}
-          <span class="tag">{{ tag }}</span>
-        {% endfor %}
-      </div>
-
+<div style="font-family: system-ui, sans-serif; background: #092048; color: #ffffff; margin: 0; padding: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+  <div style="max-width: 900px; padding: 40px 20px;">
+    <div id="fade1" style="opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease-out, transform 1.2s ease-out;">
+      <h1 style="font-size: 2.4rem; margin-bottom: 24px; color: #6eb9ff; text-shadow: 0 2px 8px rgba(110,185,255,0.3);">
+        「ライオンズで〜た【Lions Data】」を更に深化。
+      </h1>
     </div>
 
-  </article>
-{% endfor %}
+    <div id="fade2" style="opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease-out, transform 1.2s ease-out;">
+      <p style="font-size: 1.25rem; line-height: 1.9; margin: 16px 0;">
+        データも、機能も、体験も<span style="color: #7fc3ff; font-weight: bold; font-size: 1.3rem;">“ひとつ上のレベルへ”</span>。
+      </p>
+    </div>
 
+    <div id="fade3" style="opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease-out, transform 1.2s ease-out;">
+      <p style="font-size: 1.25rem; line-height: 1.9; margin: 16px 0;">
+        埼玉西武ライオンズの成績や記録を、<br>
+        より速く、より見やすく、分かりやすく設計した新データ情報サイトです。
+      </p>
+    </div>
+
+    <div id="fade4" style="opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease-out, transform 1.2s ease-out;">
+      <p style="font-size: 1.25rem; line-height: 1.9; margin: 16px 0;">
+        ファンの皆さまにとって「データを身近なものにする」ために、<br>
+        これまで以上に進化したコンテンツを発信していきます。
+      </p>
+    </div>
+  </div>
 </div>
 
-<style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // 各要素にIDを付けたので直接指定
+  const fades = [
+    document.getElementById("fade1"),
+    document.getElementById("fade2"),
+    document.getElementById("fade3"),
+    document.getElementById("fade4")
+  ];
 
-body {
-  background: #0f172a;
-  color: #e5e7eb;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
+  fades.forEach(function(el, index) {
+    if (el) {
+      setTimeout(function() {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }, index * 1000); // 0.5秒ずつ遅延（よりゆっくり見えるように調整）
+    }
+  });
+});
+</script>
 
-.page-title {
-  margin-bottom: 20px;
-}
 
-.controls {
-  position: sticky;
-  top: 0;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(10px);
-  padding: 12px 0;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  z-index: 10;
-}
 
-.controls input,
-.controls select {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #e5e7eb;
-  padding: 8px 10px;
-  border-radius: 8px;
-}
+<div style="max-width: 1100px; width: 94%; margin: 40px auto; overflow: hidden; position: relative;">
+  <!-- スライドショー全体ラッパー -->
+  <div id="slider" style="display: flex; transition: transform 0.5s ease; width: 300%;">
 
-#post-container {
-  display: grid;
-  gap: 14px;
-}
+    <!-- 試合1 -->
+    <div class="slide" style="flex: 0 0 33.333%; padding: 0 10px; box-sizing: border-box;">
+      <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <h2 style="text-align: center; color: #092048; font-size: 1.35rem; margin: 0 0 12px 0;">
+          【オープン戦】2026年3月1日 vs福岡ソフトバンクホークス
+        </h2>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #475569; margin-bottom: 12px; font-weight: bold;">
+          <div style="font-size: 1.1rem;">13:00</div>
+          <div>アイビースタジアム</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+          <div style="flex: 1 1 100px; text-align: center; min-width: 80px;">
+            <img src="https://lions-crown.homep.jp/img/1759836807957.webp" alt="西武" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px;">
+            <div style="font-size: 0.95rem; font-weight: bold; color: #092048;">西武</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 auto; justify-content: center; min-width: 180px;">
+            <div style="font-size: 0.85rem; color: #334155;">先攻</div>
+            <div style="font-size: 2.4rem; font-weight: 900; min-width: 60px; text-align: center;">0</div>
+            <div style="font-size: 1.2rem; color: #64748b; padding: 0 6px;">–</div>
+            <div style="font-size: 2.4rem; font-weight: 900; min-width: 60px; text-align: center;">0</div>
+            <div style="font-size: 0.85rem; color: #334155;">後攻</div>
+          </div>
+          <div style="flex: 1 1 100px; text-align: center; min-width: 80px;">
+            <img src="https://lions-crown.homep.jp/img/1759836829251.webp" alt="ソフトバンク" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px;">
+            <div style="font-size: 0.95rem; font-weight: bold; color: #F5C700;">ソフトバンク</div>
+          </div>
+        </div>
+        <div style="text-align: center; font-size: 1rem; margin: 12px 0 8px; color: #334155;">試合前</div>
+        <div style="text-align: right; font-size: 0.75rem; color: #6b7280; margin-top: 12px;">
+          最終更新： 2026年3月1日 00:00
+        </div>
+      </div>
+    </div>
 
-.post {
-  transition: 0.25s;
-}
+    <!-- 試合2 -->
+    <div class="slide" style="flex: 0 0 33.333%; padding: 0 10px; box-sizing: border-box;">
+      <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <h2 style="text-align: center; color: #092048; font-size: 1.35rem; margin: 0 0 12px 0;">
+          【オープン戦】2026年3月1日 vs福岡ソフトバンクホークス
+        </h2>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #475569; margin-bottom: 12px; font-weight: bold;">
+          <div style="font-size: 1.1rem;">13:00</div>
+          <div>アイビースタジアム</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+          <div style="flex: 1 1 100px; text-align: center; min-width: 80px;">
+            <img src="https://lions-crown.homep.jp/img/1759836807957.webp" alt="西武" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px;">
+            <div style="font-size: 0.95rem; font-weight: bold; color: #092048;">西武</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 auto; justify-content: center; min-width: 180px;">
+            <div style="font-size: 0.85rem; color: #334155;">先攻</div>
+            <div style="font-size: 2.4rem; font-weight: 900; min-width: 60px; text-align: center;">0</div>
+            <div style="font-size: 1.2rem; color: #64748b; padding: 0 6px;">–</div>
+            <div style="font-size: 2.4rem; font-weight: 900; min-width: 60px; text-align: center;">0</div>
+            <div style="font-size: 0.85rem; color: #334155;">後攻</div>
+          </div>
+          <div style="flex: 1 1 100px; text-align: center; min-width: 80px;">
+            <img src="https://lions-crown.homep.jp/img/1759836829251.webp" alt="ソフトバンク" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px;">
+            <div style="font-size: 0.95rem; font-weight: bold; color: #F5C700;">ソフトバンク</div>
+          </div>
+        </div>
+        <div style="text-align: center; font-size: 1rem; margin: 12px 0 8px; color: #334155;">試合前</div>
+        <div style="text-align: right; font-size: 0.75rem; color: #6b7280; margin-top: 12px;">
+          最終更新： 2026年3月1日 00:00
+        </div>
+      </div>
+    </div>
 
-.post-inner {
-  background: linear-gradient(145deg, #1e293b, #0f172a);
-  border: 1px solid #334155;
-  border-radius: 14px;
-  padding: 18px;
-  transition: 0.25s;
-}
+    <!-- 試合3 -->
+    <div class="slide" style="flex: 0 0 33.333%; padding: 0 10px; box-sizing: border-box;">
+      <div style="background: #f8f9fa; border-radius: 10px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <h2 style="text-align: center; color: #092048; font-size: 1.35rem; margin: 0 0 12px 0;">
+          【オープン戦】2026年3月1日 vs福岡ソフトバンクホークス
+        </h2>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #475569; margin-bottom: 12px; font-weight: bold;">
+          <div style="font-size: 1.1rem;">13:00</div>
+          <div>アイビースタジアム</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+          <div style="flex: 1 1 100px; text-align: center; min-width: 80px;">
+            <img src="https://lions-crown.homep.jp/img/1759836807957.webp" alt="西武" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px;">
+            <div style="font-size: 0.95rem; font-weight: bold; color: #092048;">西武</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 auto; justify-content: center; min-width: 180px;">
+            <div style="font-size: 0.85rem; color: #334155;">先攻</div>
+            <div style="font-size: 2.4rem; font-weight: 900; min-width: 60px; text-align: center;">0</div>
+            <div style="font-size: 1.2rem; color: #64748b; padding: 0 6px;">–</div>
+            <div style="font-size: 2.4rem; font-weight: 900; min-width: 60px; text-align: center;">0</div>
+            <div style="font-size: 0.85rem; color: #334155;">後攻</div>
+          </div>
+          <div style="flex: 1 1 100px; text-align: center; min-width: 80px;">
+            <img src="https://lions-crown.homep.jp/img/1759836829251.webp" alt="ソフトバンク" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px;">
+            <div style="font-size: 0.95rem; font-weight: bold; color: #F5C700;">ソフトバンク</div>
+          </div>
+        </div>
+        <div style="text-align: center; font-size: 1rem; margin: 12px 0 8px; color: #334155;">試合前</div>
+        <div style="text-align: right; font-size: 0.75rem; color: #6b7280; margin-top: 12px;">
+          最終更新： 2026年3月1日 00:00
+        </div>
+      </div>
+    </div>
 
-.post-inner:hover {
-  transform: translateY(-4px);
-  border-color: #64748b;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-}
+  </div> <!-- ★ slider をここで閉じる -->
 
-.post-date {
-  font-size: 0.8em;
-  color: #94a3b8;
-  margin-bottom: 6px;
-}
-
-.post h2 {
-  margin: 4px 0;
-}
-
-.post a {
-  text-decoration: none;
-  color: #f1f5f9;
-}
-
-.post p {
-  color: #cbd5f5;
-  font-size: 0.9em;
-}
-
-.tags {
-  margin-top: 10px;
-}
-
-.tag {
-  font-size: 0.7em;
-  background: #334155;
-  padding: 4px 8px;
-  border-radius: 999px;
-  margin-right: 6px;
-  color: #cbd5f5;
-}
-
-</style>
+  <!-- 左右ボタン -->
+  <button id="prevBtn" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 12px 16px; font-size: 1.5rem; cursor: pointer; border-radius: 50%; z-index: 10;">◀</button>
+  <button id="nextBtn" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 12px 16px; font-size: 1.5rem; cursor: pointer; border-radius: 50%; z-index: 10;">▶</button>
+</div>
 
 <script>
-const searchInput = document.getElementById('search');
-const tagFilter = document.getElementById('tag-filter');
-const dateFrom = document.getElementById('date-from');
-const dateTo = document.getElementById('date-to');
-const sortSelect = document.getElementById('sort');
+  const slider = document.getElementById('slider');
+  const slideElems = slider.querySelectorAll('.slide');
+  const slides = slideElems.length;
+  let currentIndex = 0;
 
-const posts = Array.from(document.querySelectorAll('.post'));
+  function showSlide(index) {
+    if (index >= slides) index = 0;
+    if (index < 0) index = slides - 1;
+    slider.style.transform = `translateX(-${index * (100 / slides)}%)`;
+    currentIndex = index;
+  }
 
-function filterPosts() {
+  document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentIndex - 1));
+  document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentIndex + 1));
 
-  const search = searchInput.value.toLowerCase();
-  const selectedTag = tagFilter.value.toLowerCase();
-  const from = dateFrom.value;
-  const to = dateTo.value;
+  // 初期表示
+  showSlide(0);
 
-  posts.forEach(post => {
-
-    const title = post.dataset.title;
-    const date = post.dataset.date;
-    const tags = post.dataset.tags;
-
-    let visible = true;
-
-    if (search && !title.includes(search)) visible = false;
-    if (selectedTag && !tags.includes(selectedTag)) visible = false;
-    if (from && date < from) visible = false;
-    if (to && date > to) visible = false;
-
-    post.style.display = visible ? "block" : "none";
-  });
-
-  sortPosts();
-}
-
-function sortPosts() {
-
-  const container = document.getElementById('post-container');
-  const mode = sortSelect.value;
-
-  const visiblePosts = posts.filter(p => p.style.display !== "none");
-
-  visiblePosts.sort((a, b) => {
-
-    if (mode === "new") return b.dataset.date.localeCompare(a.dataset.date);
-    if (mode === "old") return a.dataset.date.localeCompare(b.dataset.date);
-    if (mode === "title") return a.dataset.title.localeCompare(b.dataset.title);
-
-  });
-
-  visiblePosts.forEach(p => container.appendChild(p));
-}
-
-searchInput.addEventListener('input', filterPosts);
-tagFilter.addEventListener('change', filterPosts);
-dateFrom.addEventListener('change', filterPosts);
-dateTo.addEventListener('change', filterPosts);
-sortSelect.addEventListener('change', filterPosts);
+  // 自動スライド（3秒ごと）
+  setInterval(() => showSlide(currentIndex + 1), 3000);
 </script>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チームTOP3ランキング（打撃／投球）2025</title>
+<style>
+  body {
+    font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+    background: linear-gradient(to bottom, #092048, #0d2b5e);
+    color: #fff;
+    margin: 0;
+    padding: 20px 20px 40px;
+    min-height: 100vh;
+  }
+  h1 {
+    font-size: 1.9rem;
+    margin-bottom: 32px;
+    color: #6eb9ff;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(77,163,255,0.3);
+  }
+  .toggle-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  button {
+    background: transparent;
+    border: 2px solid #4da3ff;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  button.active, button:hover {
+    background: #4da3ff;
+    color: #092048;
+    box-shadow: 0 0 15px rgba(77,163,255,0.5);
+  }
+  .section {
+    display: none;
+    animation: fade 0.6s ease-in-out;
+  }
+  .section.active {
+    display: block;
+  }
+  @keyframes fade {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 24px;
+    padding: 12px 24px 24px;
+    scroll-behavior: smooth;
+    max-width: 1100px;
+    width: 94%;
+    margin: 0 auto 64px auto;
+  }
+  .scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: #4da3ff;
+    border-radius: 4px;
+  }
+  .card {
+    flex: 0 0 230px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.45);
+  }
+  .title {
+    font-size: 1.1rem;
+    color: #6eb9ff;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 10px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .player a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+  }
+  .player img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4da3ff;
+  }
+  .player.top img {
+    width: 64px;
+    height: 64px;
+    border: 3px solid #7fc3ff;
+    box-shadow: 0 0 16px rgba(127,195,255,0.7);
+  }
+  .player-info span {
+    display: block;
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
+  .player.top .player-info span {
+    font-size: 1.1rem;
+    color: #7fc3ff;
+  }
+  .rank {
+    font-size: 0.9rem;
+    color: #ddd;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<h1>チームTOP3ランキング2025</h1>
+<div class="toggle-buttons">
+  <button id="battingBtn" class="active">打撃成績</button>
+  <button id="pitchingBtn">投球成績</button>
+</div>
+
+<!-- 打撃部門 -->
+<div id="batting" class="section active">
+  <div class="scroll-container">
+    <!-- 打率 -->
+    <div class="card">
+      <div class="title">打率</div>
+      <div class="player top">
+        <a href="https://sites.google.com/view/lionscrown/ネビン">
+          <img src="https://via.placeholder.com/100" alt="ネビン">
+          <div class="player-info">
+            <span>ネビン</span>
+            <div class="rank">.277</div>
+          </div>
+        </a>
+      </div>
+      <div class="player">
+        <a href="https://sites.google.com/view/lionscrown/西川愛也">
+          <img src="https://via.placeholder.com/100" alt="西川愛也">
+          <div class="player-info">
+            <span>西川愛也</span>
+            <div class="rank">.264</div>
+          </div>
+        </a>
+      </div>
+      <div class="player">
+        <a href="https://sites.google.com/view/lionscrown/渡部聖弥">
+          <img src="https://via.placeholder.com/100" alt="渡部聖弥">
+          <div class="player-info">
+            <span>渡部聖弥</span>
+            <div class="rank">.259</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 他の打撃項目（安打数、本塁打数など）は同様の構造で続く -->
+    <!-- 省略してスペース節約（必要なら元のコードからコピー） -->
+  </div>
+</div>
+
+<!-- 投球部門 -->
+<div id="pitching" class="section">
+  <div class="scroll-container">
+    <!-- 防御率 -->
+    <div class="card">
+      <div class="title">防御率</div>
+      <div class="player top">
+        <a href="https://sites.google.com/view/lionscrown/今井達也">
+          <img src="https://via.placeholder.com/100" alt="今井達也">
+          <div class="player-info">
+            <span>今井 達也</span>
+            <div class="rank">1.92</div>
+          </div>
+        </a>
+      </div>
+      <!-- 他の選手も同様 -->
+    </div>
+    <!-- 他の投球項目も同様の構造 -->
+  </div>
+</div>
+
+<script>
+const battingBtn = document.getElementById('battingBtn');
+const pitchingBtn = document.getElementById('pitchingBtn');
+const batting = document.getElementById('batting');
+const pitching = document.getElementById('pitching');
+
+battingBtn.addEventListener('click', () => {
+  battingBtn.classList.add('active');
+  pitchingBtn.classList.remove('active');
+  batting.classList.add('active');
+  pitching.classList.remove('active');
+});
+
+pitchingBtn.addEventListener('click', () => {
+  pitchingBtn.classList.add('active');
+  battingBtn.classList.remove('active');
+  pitching.classList.add('active');
+  batting.classList.remove('active');
+});
+</script>
+</body>
+</html>
+
+
+<div style="width: 100vw; margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); 
+            background: #900123; color: #ffffff; padding: 48px 20px; box-sizing: border-box; 
+            box-shadow: 0 10px 32px rgba(0,0,0,0.4); text-align: center;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap;">
+      <!-- テキスト部分 -->
+      <div style="flex: 1 1 500px; min-width: 300px;">
+        <p style="font-size: 1.6rem; line-height: 1.8; margin: 0 0 32px 0; font-weight: bold;">
+          ライオンズから夢のMLBの舞台へと羽ばたいた<br>
+          <span style="color: #ffd700;">菊池雄星</span>、<span style="color: #ffd700;">今井達也</span>。
+        </p>
+        
+        <p style="font-size: 1.25rem; line-height: 1.7; margin: 0 0 40px 0;">
+          L-crownはそんな2人の夢の先を追いかけます。
+        </p>
+
+        <!-- ボタン（リンク） -->
+        <a href="https://your-link-here.com" target="_blank" rel="noopener noreferrer"
+           style="display: inline-block; padding: 18px 56px; background: #ffffff; color: #900123; 
+                  font-size: 1.25rem; font-weight: bold; text-decoration: none; 
+                  border-radius: 50px; box-shadow: 0 8px 24px rgba(144,1,35,0.5); 
+                  transition: all 0.3s ease;">
+          L-crownで彼らの軌跡を追う
+        </a>
+      </div>
+
+      <!-- 写真部分（右側） -->
+      <div style="flex: 0 0 340px; text-align: center; display: flex; flex-direction: column; gap: 32px;">
+
+        <!-- 今井達也の写真 -->
+        <div>
+          <img
+            src="https://lions-crown.homep.jp/img/1758706454218.webp"
+            alt="今井達也"
+            style="width: 100%; max-width: 300px; height: auto; border-radius: 16px; 
+                   box-shadow: 0 8px 24px rgba(0,0,0,0.5); border: 5px solid #ffffff;"
+          >
+          <p style="margin: 12px 0 0; font-size: 1.1rem; font-weight: bold;">今井達也</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
