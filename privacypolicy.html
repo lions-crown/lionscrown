@@ -8,13 +8,16 @@
 
 <style>
 
-/* ===== 背景 ===== */
+/* ===== 背景（質感強化） ===== */
 body {
   margin: 0;
   font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background: linear-gradient(135deg, #091b3d, #0d2b5e, #123a78);
-  background-size: 400% 400%;
-  animation: bgMove 12s ease infinite;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(77,163,255,0.15), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(126,203,255,0.12), transparent 45%),
+    linear-gradient(135deg, #08152f, #0d2b5e, #123a78);
+  background-size: 200% 200%;
+  animation: bgMove 14s ease infinite;
   color: white;
 }
 
@@ -24,13 +27,14 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* ===== ヘッダー ===== */
+/* ===== ヘッダー（高級感UP） ===== */
 header {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(12px);
-  background: rgba(10, 25, 60, 0.65);
+  backdrop-filter: blur(16px);
+  background: rgba(8, 18, 40, 0.65);
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   z-index: 1000;
 }
 
@@ -40,43 +44,45 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
+  padding: 16px 20px;
 }
 
 .logo {
   font-weight: bold;
   font-size: 18px;
   letter-spacing: 1px;
-  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  background: linear-gradient(90deg, #4da3ff, #9ad7ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+/* メニュー */
 nav ul {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 24px;
+  gap: 26px;
 }
 
 nav a {
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.65);
   text-decoration: none;
   font-size: 13px;
   position: relative;
-  transition: 0.3s;
+  transition: 0.35s;
 }
 
 nav a::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -6px;
+  bottom: -7px;
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, #4da3ff, #7ecbff);
-  transition: 0.3s;
+  transition: 0.35s;
+  box-shadow: 0 0 12px rgba(77,163,255,0.6);
 }
 
 nav a:hover {
@@ -90,88 +96,122 @@ nav a:hover::after {
 /* ===== メイン ===== */
 main {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 50px auto;
   padding: 0 20px;
 }
 
+/* カード（立体感UP） */
 .content-card {
-  background: rgba(255,255,255,0.06);
-  border-radius: 18px;
-  padding: 30px;
-  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.05);
+  border-radius: 22px;
+  padding: 36px;
+  backdrop-filter: blur(14px);
   box-shadow:
-    0 10px 40px rgba(0,0,0,0.35),
+    0 20px 60px rgba(0,0,0,0.45),
     inset 0 0 0 1px rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
 }
 
+/* 光の筋 */
+.content-card::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(77,163,255,0.18), transparent 60%);
+  pointer-events: none;
+}
+
+/* 見出し */
 h1 {
   text-align: center;
   margin-top: 0;
-  font-size: 24px;
+  font-size: 26px;
+  letter-spacing: 0.5px;
 }
 
 h2 {
-  margin-top: 40px;
+  margin-top: 46px;
   font-size: 18px;
   border-left: 3px solid #4da3ff;
-  padding-left: 10px;
+  padding-left: 12px;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 60px;
+  height: 1px;
+  background: rgba(77,163,255,0.6);
 }
 
 h3 {
   font-size: 14px;
-  margin-top: 24px;
+  margin-top: 26px;
   color: rgba(255,255,255,0.9);
 }
 
 p, li {
   font-size: 13px;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.8;
+  color: rgba(255,255,255,0.68);
+  line-height: 1.9;
 }
 
+/* リストの視認性改善 */
+ul {
+  padding-left: 18px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* お問い合わせボックス（高級感寄せ） */
 .contact {
-  background: rgba(255,255,255,0.05);
-  padding: 16px;
-  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(77,163,255,0.08), rgba(126,203,255,0.03));
+  padding: 18px;
+  border-radius: 12px;
   margin: 20px 0;
   font-size: 12px;
+  border: 1px solid rgba(77,163,255,0.15);
 }
 
-a {
-  color: #7ecbff;
-  text-decoration: none;
-}
-
-/* ===== フッター ===== */
+/* ===== フッター（深み追加） ===== */
 footer {
-  margin-top: 80px;
-  background: rgba(0,0,0,0.25);
-  backdrop-filter: blur(10px);
+  margin-top: 100px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(12px);
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .footer-container {
   max-width: 1100px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 46px 20px;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 0.6fr;
-  gap: 40px;
+  grid-template-columns: 1.6fr 1fr 0.6fr;
+  gap: 50px;
 }
 
 .footer-logo {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
-  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  background: linear-gradient(90deg, #4da3ff, #9ad7ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .footer-text {
   font-size: 12px;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.6;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.7;
 }
 
 .footer-title {
@@ -179,29 +219,41 @@ footer {
   margin-bottom: 12px;
 }
 
+footer a {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+footer a:hover {
+  color: white;
+  transform: translateX(4px);
+}
+
 .footer-links,
 .footer-follow {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-
-footer a {
-  font-size: 12px;
-  color: rgba(255,255,255,0.55);
+  gap: 8px;
 }
 
 .footer-bottom {
   text-align: center;
-  padding: 14px;
+  padding: 18px;
   font-size: 11px;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.3);
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
+/* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
   .footer-container {
     grid-template-columns: 1fr;
+  }
+
+  .content-card {
+    padding: 26px;
   }
 }
 
@@ -268,7 +320,7 @@ footer a {
 
     <h3>5. お問い合わせ窓口</h3>
     <div class="contact">
-      Email: privacy@lcrown-official.com
+      Email: lionscrown.inquiry@gmail.com
     </div>
 
     <h2>利用規約</h2>
@@ -312,7 +364,8 @@ footer a {
     <p>掲載時点から効力を生じます。</p>
 
     <h3>第7条（準拠法・管轄）</h3>
-    <p>大阪地方裁判所を専属管轄裁判所とします。</p>
+    <p>本規約は日本法を準拠法とし、本サービスに関して生じる一切の紛争については東京地方裁判所を専属的合意管轄裁判所とします。</p>
+
 
   </div>
 </main>
@@ -329,16 +382,15 @@ footer a {
 
     <div class="footer-links">
       <div class="footer-title">リンク</div>
-      <a href="#">ホーム</a>
-      <a href="#">お知らせ</a>
-      <a href="#">利用規約</a>
-      <a href="#">お問い合わせ</a>
-      <a href="#">サポート</a>
+      <a href="/lionscrown">ホーム</a>
+      <a href="/lionscrown/news">お知らせ</a>
+      <a href="/lionscrown/privacypolicy">利用規約</a>
+      <a href="/lionscrown/conact">お問い合わせ</a>
     </div>
 
     <div class="footer-follow">
       <div class="footer-title">フォロー</div>
-      <a href="#">𝕏</a>
+      <a href="https://x.com/Lcrown_official">𝕏</a>
     </div>
   </div>
 
