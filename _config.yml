@@ -3,34 +3,30 @@
 # ----------------------------
 title: L-crown Data
 description: データで見る分析サイト
-url: "https://lions-crown.github.io"          # ← あなたの実際のリポジトリURLに合わせる
-baseurl: "/lionscrown"                                   # ← User/Organization siteなら空に（これが重要！）
+url: "https://lions-crown.github.io"
+baseurl: "/lionscrown"                                   # Userサイトなので空
 lang: ja
 timezone: Asia/Tokyo
 encoding: utf-8
 
 # ----------------------------
-# Jekyll & GitHub Pages 互換設定（これがないとビルド失敗しやすい）
+# Jekyll & GitHub Pages 互換（ここを修正！）
 # ----------------------------
-theme: minima                                 # ← これを追加！ GitHub Pagesで最も安定するデフォルトテーマ
-remote_theme: jekyll/minima                   # ← 必要ならremote版（ただしminimaならthemeだけでOK）
+theme: minima                                 # ← これだけにする（remote_themeは削除）
+# remote_theme: jekyll/minima                 # ← コメントアウト or 削除
 
 # ----------------------------
 # ビルド設定
 # ----------------------------
 markdown: kramdown
 highlighter: rouge
-
-permalink: pretty                             # ← デフォルトのきれいなURL（/news/2026/02/26/title/ など）
-# newsの詳細なpermalink（必要ならここで上書き）
-news_permalink: /news/:year/:month/:day/:title/   # カスタム変数として定義（後で利用可）
-
+permalink: pretty                             # きれいなURLに変更（newsの年月日指定は後述）
 kramdown:
   input: GFM
   syntax_highlighter: rouge
 
 # ----------------------------
-# デフォルト設定
+# デフォルト設定（変更なし）
 # ----------------------------
 defaults:
   - scope:
@@ -49,7 +45,7 @@ defaults:
       layout: stat
 
 # ----------------------------
-# コレクション（output: true でページ生成）
+# コレクション（変更なし）
 # ----------------------------
 collections:
   players:
@@ -63,7 +59,7 @@ collections:
     permalink: /reports/:name/
 
 # ----------------------------
-# Sass
+# Sass（変更なし）
 # ----------------------------
 sass:
   style: compressed
@@ -77,7 +73,7 @@ plugins:
   - jekyll-sitemap
 
 # ----------------------------
-# 除外ファイル
+# 除外（追加でvendor/を入れると安全）
 # ----------------------------
 exclude:
   - README.md
@@ -87,10 +83,9 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
-  - .gitignore
 
 # ----------------------------
-# サイト変数（カスタム）
+# サイト変数（変更なし）
 # ----------------------------
 site_settings:
   version: "1.0"
@@ -99,14 +94,14 @@ site_settings:
   author: "Lcrown"
 
 # ----------------------------
-# UI制御
+# UI制御（変更なし）
 # ----------------------------
 ui:
   show_future_posts: false
   show_drafts: false
 
 # ----------------------------
-# ナビゲーション（header_pagesはminimaで自動ナビに使われる）
+# ナビゲーション（変更なし）
 # ----------------------------
 header_pages:
   - index.md
