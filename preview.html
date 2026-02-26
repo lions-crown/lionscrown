@@ -952,37 +952,61 @@ setInterval(()=>moveSlide(1), 4500);
 /* ✅ お知らせ自動更新 */
 async function loadNotices() {
   try {
-    const res = await fetch("/lionscrown/notices.json"); 
+    const res = await fetch("/lionscrown/notices.json");
     const data = await res.json();
 
     const list = document.getElementById("noticeList");
     list.innerHTML = "";
 
-    // 最新順にソート（任意ですがおすすめ）
+    // 最新順にソート
     data.sort((a, b) => new Date(b.time) - new Date(a.time));
 
     data.forEach(item => {
-  const el = document.createElement("div");
-  el.className = "notice-item";
+      const el = document.createElement("div");
+      el.className = "notice-item";
 
-  // カテゴリクラス自動決定
-  let badgeClass = "";
-  switch(item.category){
-    case "公式":
-      badgeClass = "badge-official";
-      break;
-    case "報道":
-      badgeClass = "badge-media";
-      break;
-    case "更新":
-      badgeClass = "badge-update";
-      break;
-    case "重要":
-      badgeClass = "badge-important";
-      break;
-    default:
-      badgeClass = "badge-media";
+      // カテゴリクラス決定
+      let badgeClass = "";
+      switch(item.category){
+        case "公式":
+          badgeClass = "badge-official";
+          break;
+        case "報道":
+          badgeClass = "badge-media";
+          break;
+        case "更新":
+          badgeClass = "badge-update";
+          break;
+        case "重要":
+          badgeClass = "badge-important";
+          break;
+        default:
+          badgeClass = "badge-media";
+      }
+
+      el.innerHTML = `
+        <div class="notice-content">
+          <span class="notice-badge ${badgeClass}">
+            ${item.category || "INFO"}
+          </span>
+          ${
+            item.url && item.url.trim() !== ""
+            ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
+            : `<span>${item.text}</span>`
+          }
+        </div>
+        <span class="notice-time">${item.time}</span>
+      `;
+
+      list.appendChild(el);
+    });
+
+  } catch (e) {
+    console.error("お知らせ取得エラー:", e);
+    document.getElementById("noticeList").innerHTML =
+      '<div class="notice-item">お知らせを取得できませんでした</div>';
   }
+}
 
   const contentHTML = `
     <div class="notice-content">
