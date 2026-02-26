@@ -1,0 +1,21 @@
+{% if site.posts.size > 1 %}
+  <nav class="post-navigation" aria-label="お知らせナビゲーション">
+    <ul>
+      {% if page.previous %}
+        <li class="prev">
+          <a href="{{ page.previous.url }}" rel="prev">
+            ← 前のお知らせ: {{ page.previous.title }}
+          </a>
+        </li>
+      {% endif %}
+
+      {% if page.next %}
+        <li class="next">
+          <a href="{{ page.next.url }}" rel="next">
+            次のお知らせ: {{ page.next.title }} →
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
