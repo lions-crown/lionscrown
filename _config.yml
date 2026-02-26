@@ -4,7 +4,7 @@
 title: L-crown Data
 description: データで見る分析サイト
 url: "https://lions-crown.github.io"
-baseurl: "https://lions-crown.github.io/lionscrown"   # プロジェクトページなら "/repo名"
+baseurl: "/lionscrown"   # プロジェクトページなら "/repo名"
 
 lang: ja
 timezone: Asia/Tokyo
