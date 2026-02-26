@@ -24,35 +24,7 @@ body {
   line-height: 1.6;
 }
 
-/* デフォルトの青を強制リセット */
-a,
-a:link,
-a:visited {
-  color: #ffffff !important;          /* 純白にしたい場合 */
-  /* または少し柔らかくしたいなら */
-  /* color: #f0f4ff !important; */
-  text-decoration: none !important;
-}
 
-/* ホバーしたときだけ色を変える */
-a:hover {
-  color: #a5c8ff !important;          /* 優しい水色系 */
-  /* 青を完全に避けたいなら */
-  /* color: #e0e0ff !important;  ← 薄い紫寄り白 */
-  text-decoration: underline !important;  /* 必要なら下線を出す */
-}
-
-/* クリック中 */
-a:active {
-  color: #84b0ff !important;
-}
-
-/* フォーカス（キーボード操作時）も青枠が出ないように */
-a:focus {
-  outline: none !important;
-  /* アクセシビリティ重視なら代わりに */
-  /* box-shadow: 0 0 0 3px rgba(165, 200, 255, 0.5) !important; */
-}
 
 /* =========================
    ナビゲーション
@@ -255,6 +227,29 @@ button.slide-btn {
   background: #263449;
 }
 
+.news-source {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-bottom: 6px;
+}
+
+.news-card a {
+  text-decoration: none;
+  color: white;
+}
+
+.news-headline {
+  font-size: 15px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.news-time {
+  font-size: 12px;
+  opacity: 0.4;
+}
+
+
 /* =========================
    MLB
 ========================= */
@@ -293,6 +288,31 @@ button.slide-btn {
   border-radius: 18px;
   padding: 20px;
   border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.25s;
+}
+
+.mlb-card:hover {
+  transform: translateY(-5px);
+  background: rgba(0,0,0,0.35);
+}
+
+.mlb-player {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.mlb-stats {
+  font-size: 13px;
+  opacity: 0.75;
+  line-height: 1.7;
+}
+
+.mlb-link {
+  margin-top: 12px;
+  display: inline-block;
+  font-size: 13px;
+  color: #6eb9ff;
+  text-decoration: none;
 }
 
 /* =========================
