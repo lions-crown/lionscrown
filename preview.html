@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>L-crown - プライバシーポリシー / 利用規約</title>
+<title>お問い合わせ</title>
 
 <style>
 
-/* ===== 背景（質感強化） ===== */
+/* ===== 背景 ===== */
 body {
   margin: 0;
   font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(77,163,255,0.15), transparent 40%),
-    radial-gradient(circle at 80% 90%, rgba(126,203,255,0.12), transparent 45%),
-    linear-gradient(135deg, #08152f, #0d2b5e, #123a78);
-  background-size: 200% 200%;
-  animation: bgMove 14s ease infinite;
+  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
   color: white;
+  overflow-x: hidden;
 }
 
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* 光のオーブ */
+body::before {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top: -120px;
+  right: -120px;
+  filter: blur(40px);
+  z-index: -1;
 }
 
-/* ===== ヘッダー（高級感UP） ===== */
+/* ===== ヘッダー ===== */
 header {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(16px);
-  background: rgba(8, 18, 40, 0.65);
+  backdrop-filter: blur(14px);
+  background: rgba(10, 25, 60, 0.55);
   border-bottom: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   z-index: 1000;
 }
 
-.nav-container {
+nav {
   max-width: 1100px;
   margin: auto;
   display: flex;
@@ -47,190 +49,140 @@ header {
   padding: 16px 20px;
 }
 
+/* ロゴ */
 .logo {
   font-weight: bold;
   font-size: 18px;
   letter-spacing: 1px;
-  background: linear-gradient(90deg, #4da3ff, #9ad7ff);
+  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* メニュー */
-nav ul {
+.menu {
   display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
   gap: 26px;
 }
 
-nav a {
-  color: rgba(255,255,255,0.65);
+.menu a {
+  color: rgba(255,255,255,0.7);
   text-decoration: none;
   font-size: 13px;
   position: relative;
-  transition: 0.35s;
+  transition: 0.25s;
 }
 
-nav a::after {
+.menu a::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -7px;
+  bottom: -6px;
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, #4da3ff, #7ecbff);
-  transition: 0.35s;
-  box-shadow: 0 0 12px rgba(77,163,255,0.6);
+  transition: 0.25s;
 }
 
-nav a:hover {
+.menu a:hover {
   color: white;
+  text-shadow: 0 0 10px rgba(77,163,255,0.6);
 }
 
-nav a:hover::after {
+.menu a:hover::after {
   width: 100%;
 }
 
 /* ===== メイン ===== */
 main {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 50px auto;
   padding: 0 20px;
 }
 
-/* カード（立体感UP） */
-.content-card {
-  background: rgba(255,255,255,0.05);
+/* フォームカード */
+.form-card {
+  background: rgba(255,255,255,0.06);
   border-radius: 22px;
-  padding: 36px;
-  backdrop-filter: blur(14px);
+  padding: 22px;
+  backdrop-filter: blur(16px);
   box-shadow:
-    0 20px 60px rgba(0,0,0,0.45),
-    inset 0 0 0 1px rgba(255,255,255,0.08);
+    0 20px 60px rgba(0,0,0,0.55),
+    inset 0 0 0 1px rgba(255,255,255,0.1);
+  transition: 0.35s;
   position: relative;
-  overflow: hidden;
 }
 
-/* 光の筋 */
-.content-card::before {
+/* ガラスのハイライト */
+.form-card::before {
   content: "";
   position: absolute;
-  top: -200px;
-  left: -100px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(77,163,255,0.18), transparent 60%);
+  inset: 0;
+  border-radius: 22px;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15), transparent 70%);
+  opacity: 0.4;
   pointer-events: none;
 }
 
-/* 見出し */
-h1 {
-  text-align: center;
-  margin-top: 0;
-  font-size: 26px;
-  letter-spacing: 0.5px;
+.form-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.65),
+    inset 0 0 0 1px rgba(255,255,255,0.16);
 }
 
-h2 {
-  margin-top: 46px;
-  font-size: 18px;
-  border-left: 3px solid #4da3ff;
-  padding-left: 12px;
-  position: relative;
+/* iframe */
+iframe {
+  width: 100%;
+  height: 1000px;
+  border: none;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
-h2::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 60px;
-  height: 1px;
-  background: rgba(77,163,255,0.6);
-}
-
-h3 {
-  font-size: 14px;
-  margin-top: 26px;
-  color: rgba(255,255,255,0.9);
-}
-
-p, li {
-  font-size: 13px;
-  color: rgba(255,255,255,0.68);
-  line-height: 1.9;
-}
-
-/* リストの視認性改善 */
-ul {
-  padding-left: 18px;
-}
-
-li {
-  margin-bottom: 4px;
-}
-
-/* お問い合わせボックス（高級感寄せ） */
-.contact {
-  background: linear-gradient(135deg, rgba(77,163,255,0.08), rgba(126,203,255,0.03));
-  padding: 18px;
-  border-radius: 12px;
-  margin: 20px 0;
-  font-size: 12px;
-  border: 1px solid rgba(77,163,255,0.15);
-}
-
-/* ===== フッター（深み追加） ===== */
+/* ===== フッター ===== */
 footer {
   margin-top: 100px;
   background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .footer-container {
   max-width: 1100px;
   margin: auto;
-  padding: 46px 20px;
+  padding: 50px 20px;
   display: grid;
   grid-template-columns: 1.6fr 1fr 0.6fr;
   gap: 50px;
 }
 
+/* ブランド */
 .footer-logo {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, #4da3ff, #9ad7ff);
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .footer-text {
   font-size: 12px;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.55);
   line-height: 1.7;
 }
 
+/* タイトル */
 .footer-title {
   font-size: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.5px;
 }
 
-footer a {
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
-  text-decoration: none;
-  transition: 0.25s;
-}
-
-footer a:hover {
-  color: white;
-  transform: translateX(4px);
-}
-
+/* リンク */
 .footer-links,
 .footer-follow {
   display: flex;
@@ -238,22 +190,41 @@ footer a:hover {
   gap: 8px;
 }
 
+footer a {
+  text-decoration: none;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  transition: 0.25s;
+}
+
+footer a:hover {
+  color: white;
+  transform: translateX(4px);
+  text-shadow: 0 0 8px rgba(77,163,255,0.5);
+}
+
+/* 下段 */
 .footer-bottom {
   text-align: center;
-  padding: 18px;
+  padding: 16px;
   font-size: 11px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.35);
   border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 /* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
-  .footer-container {
-    grid-template-columns: 1fr;
+  .menu {
+    gap: 16px;
   }
 
-  .content-card {
-    padding: 26px;
+  iframe {
+    height: 900px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
 }
 
@@ -263,115 +234,28 @@ footer a:hover {
 <body>
 
 <header>
-  <div class="nav-container">
+  <nav>
     <div class="logo">L-crown</div>
-    <nav>
-      <ul>
-        <li><a href="/lionscrown/">ホーム</a></li>
-        <li><a href="/lionscrown/news">お知らせ</a></li>
-        <li><a href="/lionscrown/contact">お問い合わせ</a></li>
-        <li><a href="/lionscrown/privacypolicy">利用規約</a></li>
-      </ul>
-    </nav>
-  </div>
+    <div class="menu">
+      <a href="/lionscrown">TOP</a>
+      <a href="#">試合</a>
+      <a href="#">データ</a>
+      <a href="lionscrown/contact">お問い合わせ</a>
+    </div>
+  </nav>
 </header>
 
 <main>
-  <div class="content-card">
-
-    <h1>プライバシーポリシー / 利用規約</h1>
-
-    <h2>プライバシーポリシー</h2>
-    <p>
-      L-crown（以下「当サービス」）は、ユーザーの個人情報を適切に保護することを重要な責務と考え、以下の通りプライバシーポリシーを定めます。
-    </p>
-
-    <h3>1. 収集する情報</h3>
-    <ul>
-      <li>アカウント情報（メールアドレス、ユーザー名、プロフィール画像など）</li>
-      <li>サービス利用時に送信されるコンテンツ（投稿、コメント、DMなど）</li>
-      <li>デバイス情報（IPアドレス、ブラウザ種類、OS、アクセス時間など）</li>
-      <li>Cookieおよび類似技術により取得される行動履歴</li>
-      <li>お問い合わせ時に任意でご提供いただいた情報</li>
-    </ul>
-
-    <h3>2. 利用目的</h3>
-    <ul>
-      <li>サービス提供・維持・改善のため</li>
-      <li>本人確認、不正利用防止のため</li>
-      <li>お問い合わせ対応、アンケート実施のため</li>
-      <li>利用状況の分析、マーケティング施策のため（個人を特定しない形）</li>
-    </ul>
-
-    <h3>3. 第三者への提供</h3>
-    <p>以下の場合を除き、個人情報を第三者に提供することはありません。</p>
-    <ul>
-      <li>ユーザーの同意がある場合</li>
-      <li>法令に基づく場合</li>
-      <li>人の生命・身体・財産を保護するために必要で同意を得ることが困難な場合</li>
-      <li>業務委託先へ委託する場合（適切な監督を行います）</li>
-    </ul>
-
-    <h3>4. Cookie・類似技術について</h3>
-    <p>
-      当サービスでは利便性向上・利用状況把握のためにCookieを使用しています。
-      ブラウザ設定で無効化できますが、一部機能が利用できなくなる場合があります。
-    </p>
-
-    <h3>5. お問い合わせ窓口</h3>
-    <div class="contact">
-      Email: lionscrown.inquiry@gmail.com
-    </div>
-
-    <h2>利用規約</h2>
-    <p>
-      本規約は、L-crown（以下「当サービス」）を利用する全ての方（以下「ユーザー」）に適用されます。
-      サービスを利用した時点で本規約に同意したものとみなします。
-    </p>
-
-    <h3>第1条（禁止行為）</h3>
-    <ul>
-      <li>法令・公序良俗に違反する行為</li>
-      <li>権利侵害行為</li>
-      <li>虚偽登録・なりすまし</li>
-      <li>スパム・ボット利用</li>
-      <li>不適切な表現・嫌がらせ</li>
-      <li>運営妨害行為</li>
-      <li>その他不適切と判断する行為</li>
-    </ul>
-
-    <h3>第2条（アカウントの管理）</h3>
-    <p>
-      ユーザーは自己の責任においてアカウントおよびパスワードを管理するものとします。
-    </p>
-
-    <h3>第3条（投稿コンテンツの権利）</h3>
-    <p>
-      著作権は投稿者に帰属しますが、当サービスへの利用許諾を行うものとします。
-    </p>
-
-    <h3>第4条（サービスの中断・終了）</h3>
-    <ul>
-      <li>システム保守・障害対応</li>
-      <li>不可抗力</li>
-      <li>その他必要と判断した場合</li>
-    </ul>
-
-    <h3>第5条（免責事項）</h3>
-    <p>当サービスは一切の責任を負いません。</p>
-
-    <h3>第6条（規約の変更）</h3>
-    <p>掲載時点から効力を生じます。</p>
-
-    <h3>第7条（準拠法・管轄）</h3>
-    <p>本規約は日本法を準拠法とし、本サービスに関して生じる一切の紛争については東京地方裁判所を専属的合意管轄裁判所とします。</p>
-
-
+  <div class="form-card">
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSdkF7ux7JjvJMFFNe86-SXt4uwLcqq-I6O8sB6VS17-9Bm_mA/viewform?embedded=true">
+    </iframe>
   </div>
 </main>
 
 <footer>
   <div class="footer-container">
+
     <div>
       <div class="footer-logo">L-crown</div>
       <div class="footer-text">
@@ -383,15 +267,16 @@ footer a:hover {
     <div class="footer-links">
       <div class="footer-title">リンク</div>
       <a href="/lionscrown">ホーム</a>
-      <a href="/lionscrown/news">お知らせ</a>
-      <a href="/lionscrown/privacypolicy">利用規約</a>
-      <a href="/lionscrown/conact">お問い合わせ</a>
+      <a href="#">お知らせ</a>
+      <a href="#">利用規約</a>
+      <a href="#">お問い合わせ</a>
     </div>
 
     <div class="footer-follow">
       <div class="footer-title">フォロー</div>
       <a href="https://x.com/Lcrown_official">𝕏</a>
     </div>
+
   </div>
 
   <div class="footer-bottom">
