@@ -1,0 +1,14 @@
+title: L-crown Official
+description: L-crown公式サイト
+
+theme: minima  # シンプルでおすすめ。変更したいならremote_theme: jekyll/minima など
+
+permalink: /news/:year/:month/:day/:title/
+
+# お知らせを新しい順に並べるため、デフォルトでreverseされる
+paginate: 10  # 一覧ページの1ページあたり件数（必要なら）
+plugins:
+  - jekyll-paginate  # 必要なら（GitHub Pagesでサポート済み）
+
+# 日本語対応（オプション）
+timezone: Asia/Tokyo
