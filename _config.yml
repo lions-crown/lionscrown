@@ -1,0 +1,110 @@
+# ----------------------------
+# 基本情報
+# ----------------------------
+title: L-crown Data
+description: データで見る分析サイト
+url: "https://lions-crown.github.io"
+baseurl: "https://lions-crown.github.io/lionscrown"   # プロジェクトページなら "/repo名"
+
+lang: ja
+timezone: Asia/Tokyo
+encoding: utf-8
+
+# ----------------------------
+# ビルド設定
+# ----------------------------
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# ----------------------------
+# デフォルト設定
+# ----------------------------
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+  - scope:
+      path: ""
+      type: "players"
+    values:
+      layout: player
+
+  - scope:
+      path: ""
+      type: "stats"
+    values:
+      layout: stat
+
+# ----------------------------
+# コレクション（データ管理の核）
+# ----------------------------
+collections:
+  players:
+    output: true
+    permalink: /players/:name/
+
+  stats:
+    output: true
+    permalink: /stats/:name/
+
+  reports:
+    output: true
+    permalink: /reports/:name/
+
+# ----------------------------
+# Sass（使う場合）
+# ----------------------------
+sass:
+  style: compressed
+
+# ----------------------------
+# SEO / Feed（GitHub Pages対応）
+# ----------------------------
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# ----------------------------
+# 出力対象から除外
+# ----------------------------
+exclude:
+  - README.md
+  - node_modules
+  - package.json
+  - package-lock.json
+  - Gemfile
+  - Gemfile.lock
+
+# ----------------------------
+# サイト変数（データサイトでは重要）
+# ----------------------------
+site_settings:
+  version: "1.0"
+  last_updated: 2026-02-26
+  data_source: "Manual / Official Data"
+  author: "Lcrown"
+
+# ----------------------------
+# UI制御用変数（実務向け）
+# ----------------------------
+ui:
+  show_future_posts: false
+  show_drafts: false
+
+# ----------------------------
+# ナビゲーション（テーマ依存）
+# ----------------------------
+header_pages:
+  - index.md
+  - players.md
+  - stats.md
+  - reports.md
+  - about.md
