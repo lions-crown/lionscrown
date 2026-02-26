@@ -3,8 +3,9 @@
 # ----------------------------
 title: L-crown Data
 description: データで見る分析サイト
+
 url: "https://lions-crown.github.io"
-baseurl: "/lionscrown"   # プロジェクトページなら "/repo名"
+baseurl: "/lionscrown"
 
 lang: ja
 timezone: Asia/Tokyo
@@ -15,7 +16,9 @@ encoding: utf-8
 # ----------------------------
 markdown: kramdown
 highlighter: rouge
-permalink: pretty
+
+# 🚀 NEWS URL設計（ここが核心）
+permalink: /news/:year/:month/:day/:title/
 
 kramdown:
   input: GFM
@@ -43,7 +46,7 @@ defaults:
       layout: stat
 
 # ----------------------------
-# コレクション（データ管理の核）
+# コレクション
 # ----------------------------
 collections:
   players:
@@ -59,13 +62,13 @@ collections:
     permalink: /reports/:name/
 
 # ----------------------------
-# Sass（使う場合）
+# Sass
 # ----------------------------
 sass:
   style: compressed
 
 # ----------------------------
-# SEO / Feed（GitHub Pages対応）
+# Plugins
 # ----------------------------
 plugins:
   - jekyll-feed
@@ -73,7 +76,7 @@ plugins:
   - jekyll-sitemap
 
 # ----------------------------
-# 出力対象から除外
+# 除外
 # ----------------------------
 exclude:
   - README.md
@@ -84,7 +87,7 @@ exclude:
   - Gemfile.lock
 
 # ----------------------------
-# サイト変数（データサイトでは重要）
+# サイト変数
 # ----------------------------
 site_settings:
   version: "1.0"
@@ -93,17 +96,18 @@ site_settings:
   author: "Lcrown"
 
 # ----------------------------
-# UI制御用変数（実務向け）
+# UI制御
 # ----------------------------
 ui:
   show_future_posts: false
   show_drafts: false
 
 # ----------------------------
-# ナビゲーション（テーマ依存）
+# ナビゲーション
 # ----------------------------
 header_pages:
   - index.md
+  - news.html
   - players.md
   - stats.md
   - reports.md
