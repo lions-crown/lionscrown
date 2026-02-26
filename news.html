@@ -3,15 +3,11 @@ layout: default
 title: news
 ---
 
-<h1>Updates</h1>
-
-<!-- ===================== -->
-<!-- フィルターUI -->
-<!-- ===================== -->
+<h1 class="page-title">Updates</h1>
 
 <div class="controls">
 
-  <input type="text" id="search" placeholder="検索...">
+  <input type="text" id="search" placeholder="🔎 検索...">
 
   <select id="tag-filter">
     <option value="">すべてのタグ</option>
@@ -32,10 +28,6 @@ title: news
 
 </div>
 
-<!-- ===================== -->
-<!-- 投稿一覧 -->
-<!-- ===================== -->
-
 <div id="post-container">
 
 {% for post in site.posts %}
@@ -44,22 +36,26 @@ title: news
            data-date="{{ post.date | date: "%Y-%m-%d" }}"
            data-tags="{{ post.tags | join: ',' | downcase }}">
 
-    <h2>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-    </h2>
+    <div class="post-inner">
 
-    <div class="meta">
-      {{ post.date | date: "%Y-%m-%d" }}
-    </div>
+      <div class="post-date">
+        {{ post.date | date: "%Y-%m-%d" }}
+      </div>
 
-    {% if post.description %}
-      <p>{{ post.description }}</p>
-    {% endif %}
+      <h2>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </h2>
 
-    <div class="tags">
-      {% for tag in post.tags %}
-        <span class="tag">{{ tag }}</span>
-      {% endfor %}
+      {% if post.description %}
+        <p>{{ post.description }}</p>
+      {% endif %}
+
+      <div class="tags">
+        {% for tag in post.tags %}
+          <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+
     </div>
 
   </article>
@@ -67,50 +63,96 @@ title: news
 
 </div>
 
-<!-- ===================== -->
-<!-- スタイル -->
-<!-- ===================== -->
-
 <style>
+
+body {
+  background: #0f172a;
+  color: #e5e7eb;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.page-title {
+  margin-bottom: 20px;
+}
+
 .controls {
+  position: sticky;
+  top: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 12px 0;
   display: flex;
   gap: 10px;
-  margin-bottom: 25px;
   flex-wrap: wrap;
+  z-index: 10;
 }
 
 .controls input,
 .controls select {
-  padding: 6px 10px;
-  font-size: 14px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e5e7eb;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+#post-container {
+  display: grid;
+  gap: 14px;
 }
 
 .post {
-  padding: 16px;
-  border-bottom: 1px solid #ddd;
+  transition: 0.25s;
 }
 
-.meta {
-  font-size: 0.85em;
-  color: #777;
+.post-inner {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 18px;
+  transition: 0.25s;
+}
+
+.post-inner:hover {
+  transform: translateY(-4px);
+  border-color: #64748b;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+.post-date {
+  font-size: 0.8em;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.post h2 {
+  margin: 4px 0;
+}
+
+.post a {
+  text-decoration: none;
+  color: #f1f5f9;
+}
+
+.post p {
+  color: #cbd5f5;
+  font-size: 0.9em;
 }
 
 .tags {
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .tag {
-  font-size: 0.75em;
-  background: #eee;
-  padding: 3px 6px;
-  margin-right: 5px;
-  border-radius: 4px;
+  font-size: 0.7em;
+  background: #334155;
+  padding: 4px 8px;
+  border-radius: 999px;
+  margin-right: 6px;
+  color: #cbd5f5;
 }
-</style>
 
-<!-- ===================== -->
-<!-- フィルターJS -->
-<!-- ===================== -->
+</style>
 
 <script>
 const searchInput = document.getElementById('search');
@@ -136,17 +178,8 @@ function filterPosts() {
 
     let visible = true;
 
-    // 🔎 検索
-    if (search && !title.includes(search)) {
-      visible = false;
-    }
-
-    // 🏷 タグ
-    if (selectedTag && !tags.includes(selectedTag)) {
-      visible = false;
-    }
-
-    // 📅 日付範囲
+    if (search && !title.includes(search)) visible = false;
+    if (selectedTag && !tags.includes(selectedTag)) visible = false;
     if (from && date < from) visible = false;
     if (to && date > to) visible = false;
 
