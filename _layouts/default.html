@@ -224,9 +224,9 @@
 
       <ul class="nav-menu">
         <li><a href="{{ '/' | relative_url }}"        {% if page.url == '/'        %}class="active"{% endif %}>ホーム</a></li>
-        <li><a href="{{ '/news/' | relative_url }}"        {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
-        <li><a href="{{ '/privacypolicy.html' | relative_url }}"    {% if page.url == '/blog.html'    %}class="active"{% endif %}>利用規約</a></li>
-        <li><a href="{{ '/contact.html' | relative_url }}" {% if page.url == '/contact.html' %}class="active"{% endif %}>お問い合わせ</a></li>
+        <li><a href="{{ '/news' | relative_url }}"        {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
+        <li><a href="{{ '/privacypolicy' | relative_url }}"    {% if page.url == '/blog.html'    %}class="active"{% endif %}>利用規約</a></li>
+        <li><a href="{{ '/contact' | relative_url }}" {% if page.url == '/contact.html' %}class="active"{% endif %}>お問い合わせ</a></li>
       </ul>
     </div>
   </nav>
