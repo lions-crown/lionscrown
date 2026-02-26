@@ -3,13 +3,17 @@
 # ----------------------------
 title: L-crown Data
 description: データで見る分析サイト
-
-url: "https://lions-crown.github.io"
-baseurl: "/lionscrown"
-
+url: "https://lions-crown.github.io"          # ← あなたの実際のリポジトリURLに合わせる
+baseurl: ""                                   # ← User/Organization siteなら空に（これが重要！）
 lang: ja
 timezone: Asia/Tokyo
 encoding: utf-8
+
+# ----------------------------
+# Jekyll & GitHub Pages 互換設定（これがないとビルド失敗しやすい）
+# ----------------------------
+theme: minima                                 # ← これを追加！ GitHub Pagesで最も安定するデフォルトテーマ
+remote_theme: jekyll/minima                   # ← 必要ならremote版（ただしminimaならthemeだけでOK）
 
 # ----------------------------
 # ビルド設定
@@ -17,8 +21,9 @@ encoding: utf-8
 markdown: kramdown
 highlighter: rouge
 
-# 🚀 NEWS URL設計（ここが核心）
-permalink: /news/:year/:month/:day/:title/
+permalink: pretty                             # ← デフォルトのきれいなURL（/news/2026/02/26/title/ など）
+# newsの詳細なpermalink（必要ならここで上書き）
+news_permalink: /news/:year/:month/:day/:title/   # カスタム変数として定義（後で利用可）
 
 kramdown:
   input: GFM
@@ -32,13 +37,11 @@ defaults:
       path: ""
     values:
       layout: default
-
   - scope:
       path: ""
       type: "players"
     values:
       layout: player
-
   - scope:
       path: ""
       type: "stats"
@@ -46,17 +49,15 @@ defaults:
       layout: stat
 
 # ----------------------------
-# コレクション
+# コレクション（output: true でページ生成）
 # ----------------------------
 collections:
   players:
     output: true
     permalink: /players/:name/
-
   stats:
     output: true
     permalink: /stats/:name/
-
   reports:
     output: true
     permalink: /reports/:name/
@@ -68,7 +69,7 @@ sass:
   style: compressed
 
 # ----------------------------
-# Plugins
+# Plugins（GitHub Pagesでサポートされているもののみ）
 # ----------------------------
 plugins:
   - jekyll-feed
@@ -76,7 +77,7 @@ plugins:
   - jekyll-sitemap
 
 # ----------------------------
-# 除外
+# 除外ファイル
 # ----------------------------
 exclude:
   - README.md
@@ -85,9 +86,11 @@ exclude:
   - package-lock.json
   - Gemfile
   - Gemfile.lock
+  - vendor/
+  - .gitignore
 
 # ----------------------------
-# サイト変数
+# サイト変数（カスタム）
 # ----------------------------
 site_settings:
   version: "1.0"
@@ -103,7 +106,7 @@ ui:
   show_drafts: false
 
 # ----------------------------
-# ナビゲーション
+# ナビゲーション（header_pagesはminimaで自動ナビに使われる）
 # ----------------------------
 header_pages:
   - index.md
