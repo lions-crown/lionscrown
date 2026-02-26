@@ -123,14 +123,80 @@ iframe {
 
 /* ===== フッター ===== */
 footer {
-  margin-top: 60px;
-  padding: 30px 20px;
-  text-align: center;
-  font-size: 12px;
-  color: rgba(255,255,255,0.45);
+  margin-top: 80px;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255,255,255,0.08);
-  background: rgba(0,0,0,0.15);
-  backdrop-filter: blur(6px);
+}
+
+/* コンテナ */
+.footer-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 0.6fr;
+  gap: 40px;
+}
+
+/* ブランド */
+.footer-logo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.6;
+}
+
+/* タイトル */
+.footer-title {
+  font-size: 12px;
+  margin-bottom: 12px;
+  color: rgba(255,255,255,0.9);
+}
+
+/* リンク */
+.footer-links,
+.footer-follow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+footer a {
+  text-decoration: none;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  transition: 0.25s;
+}
+
+footer a:hover {
+  color: white;
+  transform: translateX(3px);
+}
+
+/* 下段 */
+.footer-bottom {
+  text-align: center;
+  padding: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 
 /* ===== レスポンシブ ===== */
@@ -171,7 +237,34 @@ footer {
 </main>
 
 <footer>
-  © L-crown
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        そして埼玉西武ライオンズの王座奪還への道のりを追いかけます。
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-title">リンク</div>
+      <a href="/lionscrown">ホーム</a>
+      <a href="#">お知らせ</a>
+      <a href="#">利用規約</a>
+      <a href="#">お問い合わせ</a>
+    </div>
+
+    <div class="footer-follow">
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official">𝕏</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
+  </div>
 </footer>
 
 </body>
