@@ -8,7 +8,7 @@
 <style>
 
 /* =========================
-   共通設定
+   基本リセット
 ========================= */
 
 * {
@@ -21,11 +21,10 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   background: #0f172a;
   color: #e5e7eb;
-  line-height: 1.6;
 }
 
 /* =========================
-   ナビゲーション
+   メニューバー
 ========================= */
 
 .navbar {
@@ -55,14 +54,13 @@ body {
 .nav-menu {
   list-style: none;
   display: flex;
-  gap: 2.2rem;
+  gap: 2.5rem;
 }
 
 .nav-menu li a {
   color: white;
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: 0.25s;
+  font-size: 1rem;
 }
 
 .nav-menu li a:hover {
@@ -70,13 +68,13 @@ body {
 }
 
 /* =========================
-   共通セクション
+   共通余白
 ========================= */
 
 .section {
   max-width: 1100px;
+  width: 94%;
   margin: 50px auto;
-  padding: 0 20px;
 }
 
 /* =========================
@@ -100,95 +98,24 @@ body {
 }
 
 /* =========================
-   ヒーローテキスト
+   フェード演出補助
 ========================= */
 
-.hero {
+.fade-block {
   text-align: center;
-  padding: 40px 20px;
+  padding: 60px 20px;
+  background: #092048;
 }
 
-.hero h1 {
+.fade-block h1 {
   font-size: 2rem;
   color: #6eb9ff;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
-.hero p {
-  font-size: 1.1rem;
-  margin: 10px 0;
-  color: #cbd5f5;
-}
-
-/* =========================
-   スライダー
-========================= */
-
-.slider-container {
-  position: relative;
-  overflow: hidden;
-}
-
-#slider {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.slide {
-  flex: 0 0 100%;
-}
-
-/* =========================
-   ランキングカード
-========================= */
-
-.cards {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-}
-
-.card {
-  min-width: 230px;
-  background: #1e293b;
-  border-radius: 14px;
-  padding: 16px;
-}
-
-/* =========================
-   特集セクション
-========================= */
-
-.feature {
-  background: #900123;
-  padding: 50px 20px;
-  margin-top: 70px;
-}
-
-.feature-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  gap: 40px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.feature img {
-  max-width: 280px;
-  border-radius: 16px;
-}
-
-.feature a {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 14px 34px;
-  background: white;
-  color: #900123;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: bold;
+.fade-block p {
+  font-size: 1.2rem;
+  margin: 12px 0;
 }
 
 </style>
@@ -205,14 +132,14 @@ body {
     <a href="/lionscrown/" class="logo">L-crown</a>
     <ul class="nav-menu">
       <li><a href="/lionscrown/">ホーム</a></li>
-      <li><a href="/lionscrown/news/">お知らせ</a></li>
-      <li><a href="/lionscrown/stats/">Stats</a></li>
+      <li><a href="/lionscrown/news">お知らせ</a></li>
+      <li><a href="/lionscrown/blog.html">ブログ</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- =========================
-     動画
+     YouTube
 ========================= -->
 
 <div class="section">
@@ -222,50 +149,105 @@ body {
 </div>
 
 <!-- =========================
-     ヒーロー
+     フェードメッセージ
 ========================= -->
 
-<div class="section hero">
-  <h1>「L-crown Data」を更に深化。</h1>
-  <p>データも、機能も、体験も “ひとつ上のレベルへ”。</p>
-  <p>より速く、より見やすく、分かりやすく。</p>
+<div class="fade-block">
+  <h1 id="fade1">「Lions Data」を更に深化。</h1>
+  <p id="fade2">データも、機能も、体験も “ひとつ上のレベルへ”。</p>
+  <p id="fade3">より速く、より見やすく、分かりやすく。</p>
+  <p id="fade4">進化したデータ体験を。</p>
 </div>
 
 <!-- =========================
-     スライダー
-========================= -->
-
-<div class="section slider-container">
-  <div id="slider">
-    <div class="slide"><div class="card">試合カード1</div></div>
-    <div class="slide"><div class="card">試合カード2</div></div>
-  </div>
-</div>
-
-<!-- =========================
-     ランキング
+     試合スライダー（そのまま）
 ========================= -->
 
 <div class="section">
-  <div class="cards">
-    <div class="card">打率ランキング</div>
-    <div class="card">本塁打ランキング</div>
+
+  <div style="overflow: hidden; position: relative;">
+    <div id="slider" style="display: flex; transition: transform 0.5s ease;">
+
+      <div class="slide" style="flex: 0 0 100%;">
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 16px;">
+          試合カード
+        </div>
+      </div>
+
+      <div class="slide" style="flex: 0 0 100%;">
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 16px;">
+          試合カード
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- =========================
+     TOP3ランキング（そのまま）
+========================= -->
+
+<div class="section">
+  <h2 style="margin-bottom: 20px;">TOP3ランキング</h2>
+  <div style="display:flex; gap:20px; overflow-x:auto;">
+    <div style="background:#1e293b; padding:20px; border-radius:14px;">打率</div>
+    <div style="background:#1e293b; padding:20px; border-radius:14px;">本塁打</div>
   </div>
 </div>
 
 <!-- =========================
-     特集
+     MLBセクション（そのまま）
 ========================= -->
 
-<div class="feature">
-  <div class="feature-inner">
-    <div>
-      <h2>夢のMLBへ羽ばたいた選手たち</h2>
-      <a href="#">軌跡を見る</a>
-    </div>
-    <img src="https://lions-crown.homep.jp/img/1758706454218.webp">
+<div style="background:#900123; margin-top:70px; padding:60px 20px;">
+  <div style="max-width:1100px; margin:0 auto; text-align:center;">
+    <h2 style="margin-bottom:25px;">夢のMLBへ</h2>
+    <a href="#" style="background:white; color:#900123; padding:14px 36px; border-radius:999px; text-decoration:none;">
+      軌跡を見る
+    </a>
   </div>
 </div>
+
+<script>
+
+/* =========================
+   フェード演出
+========================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  const fades = ["fade1","fade2","fade3","fade4"];
+
+  fades.forEach((id, index) => {
+    const el = document.getElementById(id);
+    el.style.opacity = 0;
+    el.style.transform = "translateY(20px)";
+    el.style.transition = "1s";
+
+    setTimeout(() => {
+      el.style.opacity = 1;
+      el.style.transform = "translateY(0)";
+    }, index * 400);
+  });
+
+});
+
+/* =========================
+   スライダー
+========================= */
+
+const slider = document.getElementById('slider');
+const slides = document.querySelectorAll('.slide').length;
+let index = 0;
+
+setInterval(() => {
+  index = (index + 1) % slides;
+  slider.style.transform = `translateX(-${index * 100}%)`;
+}, 3000);
+
+</script>
 
 </body>
 </html>
