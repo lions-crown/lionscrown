@@ -24,6 +24,8 @@ body {
   line-height: 1.6;
 }
 
+
+
 /* =========================
    ナビゲーション
 ========================= */
@@ -173,33 +175,6 @@ body {
   font-weight: bold;
 }
 
-.live-area {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-}
-
-.outs span { opacity: 0.25; }
-.outs .on { opacity: 1; }
-
-.bases {
-  display: flex;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.base {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.2);
-}
-
-.base.on {
-  background: #00d4ff;
-  box-shadow: 0 0 10px rgba(0,212,255,0.6);
-}
-
 .status {
   text-align: center;
   margin-top: 12px;
@@ -252,8 +227,31 @@ button.slide-btn {
   background: #263449;
 }
 
+.news-source {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-bottom: 6px;
+}
+
+.news-card a {
+  text-decoration: none;
+  color: white;
+}
+
+.news-headline {
+  font-size: 15px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.news-time {
+  font-size: 12px;
+  opacity: 0.4;
+}
+
+
 /* =========================
-   MLBセクション（改修）
+   MLB
 ========================= */
 
 .mlb {
@@ -317,6 +315,51 @@ button.slide-btn {
   text-decoration: none;
 }
 
+/* =========================
+   お知らせ（追加）
+========================= */
+
+.notice {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 60px;
+  padding: 40px 0 10px;
+}
+
+.notice-title {
+  font-size: 20px;
+  margin-bottom: 18px;
+  color: #6eb9ff;
+}
+
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.notice-item {
+  opacity: 0.75;
+}
+
+/* お知らせ内のリンク専用スタイル（既存の a スタイルの上書き） */
+.notice-item a {
+  color: #a5c8ff;              /* 明るい青白で目立つ */
+  text-decoration: underline;  /* 下線でリンクだとわかる */
+  transition: color 0.2s;
+}
+
+.notice-item a:hover {
+  color: #ffffff;              /* ホバーで純白 */
+  text-decoration: none;       /* または下線消す */
+}   
+
+.notice-time {
+  font-size: 12px;
+  opacity: 0.45;
+  margin-left: 8px;
+}
+
 </style>
 </head>
 
@@ -324,7 +367,7 @@ button.slide-btn {
 
 <nav class="navbar">
   <div class="nav-container">
-    <a href="/" class="logo">L-crown</a>
+    <a href="/lionscrown/" class="logo">L-crown</a>
     <ul class="nav-menu">
       <li><a href="/lionscrown/">ホーム</a></li>
       <li><a href="/lionscrown/news">お知らせ</a></li>
@@ -388,28 +431,44 @@ button.slide-btn {
         </div>
       </div>
     </div>
-
     <button id="prevBtn" class="slide-btn">◀</button>
     <button id="nextBtn" class="slide-btn">▶</button>
   </div>
 </div>
 
 <div class="section">
+
   <h2 class="news-title">最新ニュース</h2>
+
   <div class="news-grid">
+
     <div class="news-card">
-       ニュースコンテンツ
+      <div class="news-source">公式</div>
+      <a href="#">
+        <div class="news-headline">今井達也、開幕投手へ順調調整「状態はかなり良い」</div>
+        <div class="news-time">2時間前</div>
+      </a>
     </div>
+
     <div class="news-card">
-       ニュースコンテンツ②
+      <div class="news-source">報道</div>
+      <a href="#">
+        <div class="news-headline">若手外野手が猛アピール　首脳陣「競争が激しい」</div>
+        <div class="news-time">4時間前</div>
+      </a>
     </div>
+
     <div class="news-card">
-       ニュースコンテンツ３
+      <div class="news-source">公式</div>
+      <a href="#">
+        <div class="news-headline">新外国人が実戦初本塁打「完璧なスイングだった」</div>
+        <div class="news-time">昨日</div>
+      </a>
     </div>
+
   </div>
 </div>
 
-<!-- ✅ 改修MLB -->
 <div class="mlb">
 
   <div class="mlb-container">
@@ -453,6 +512,14 @@ button.slide-btn {
 
 </div>
 
+<!-- ✅ 最下部お知らせ -->
+<div class="section notice">
+  <h2 class="notice-title">L-crown 最新のお知らせ</h2>
+  <div id="noticeList" class="notice-list">
+    <div class="notice-item">読み込み中...</div>
+  </div>
+</div>
+
 <script>
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -460,8 +527,12 @@ document.addEventListener("DOMContentLoaded", () => {
   fades.forEach((el, i) => {
     setTimeout(() => el.classList.add("visible"), i * 400);
   });
+
+  loadNotices();
+  setInterval(loadNotices, 60000); // 60秒ごと更新
 });
 
+/* スライダー */
 const slider = document.getElementById("slider");
 const slides = document.querySelectorAll(".slide").length;
 let index = 0;
@@ -475,6 +546,48 @@ prevBtn.onclick = () => moveSlide(-1);
 nextBtn.onclick = () => moveSlide(1);
 
 setInterval(()=>moveSlide(1), 4500);
+
+/* ✅ お知らせ自動更新 */
+async function loadNotices() {
+  try {
+    const res = await fetch("/notices.json"); 
+    const data = await res.json();
+
+    const list = document.getElementById("noticeList");
+    list.innerHTML = "";
+
+    // 最新順にソート（任意ですがおすすめ）
+    data.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+    data.forEach(item => {
+      const el = document.createElement("div");
+      el.className = "notice-item";
+
+      // リンクがある場合 → <a> で囲む
+      if (item.url && item.url.trim() !== "") {
+        el.innerHTML = `
+          <a href="${item.url}" target="_blank" rel="noopener noreferrer">
+            ${item.text}
+          </a>
+          <span class="notice-time">${item.time}</span>
+        `;
+      } else {
+        // リンクなし → 普通のテキスト
+        el.innerHTML = `
+          ${item.text}
+          <span class="notice-time">${item.time}</span>
+        `;
+      }
+
+      list.appendChild(el);
+    });
+
+  } catch (e) {
+    console.error("お知らせ取得エラー:", e);
+    document.getElementById("noticeList").innerHTML =
+      '<div class="notice-item">お知らせを取得できませんでした</div>';
+  }
+}
 
 </script>
 
