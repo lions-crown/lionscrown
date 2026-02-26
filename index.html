@@ -97,31 +97,123 @@ body {
 ========================= */
 
 .hero {
-  background: linear-gradient(to bottom, #092048, #0d2b5e);
+  position: relative;
+  overflow: hidden;
   text-align: center;
-  padding: 90px 20px;
+  padding: 80px 20px 60px;           /* さらにコンパクトに */
+  background: linear-gradient(
+    135deg,
+    #001f3f 0%,
+    #0a2a5a 35%,
+    #1a0033 70%,
+    #001f3f 100%
+  );
+  isolation: isolate;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(0, 180, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(200, 0, 255, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: -2;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 10, 40, 0.40);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .fade-in {
   opacity: 0;
-  transform: translateY(25px);
-  transition: opacity 1s ease, transform 1s ease;
+  transform: translateY(40px) scale(0.97);          /* 移動量をさらに抑える */
+  transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
 }
+
+.fade-in:nth-child(1) { transition-delay: 0.1s; }
+.fade-in:nth-child(2) { transition-delay: 0.25s; }
+.fade-in:nth-child(3) { transition-delay: 0.4s; }
+.fade-in:nth-child(4) { transition-delay: 0.55s; }
+.fade-in:nth-child(5) { transition-delay: 0.7s; }
+.fade-in:nth-child(6) { transition-delay: 0.85s; }
+.fade-in:nth-child(7) { transition-delay: 1.0s; }
 
 .fade-in.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .hero h1 {
-  font-size: 30px;
-  margin-bottom: 14px;
+  font-size: clamp(1.9rem, 5.5vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+
+  /* 改行を完全に禁止し、1行で全文表示するための最重要設定 */
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
+  
+  /* 日本語の自動改行を防ぐための追加設定 */
+  word-break: normal;           /* keep-all ではなく normal に戻す（nowrap優先） */
+  overflow-wrap: normal;
+  hyphens: none;
+
+  /* 狭い画面でテキストが溢れた場合の扱い */
+  overflow: hidden;             /* 親要素からはみ出さない */
+  text-overflow: ellipsis;      /* 溢れたら…で省略（好みで削除可） */
+
+  max-width: 100%;
+  margin: 0 auto 20px;
+  padding: 0 3%;
+
+  background: linear-gradient(90deg, #00c0ff, #ffffff, #ff4080, #00c0ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  text-shadow:
+    0 0 15px rgba(0, 192, 255, 0.4),
+    0 0 30px rgba(255, 64, 128, 0.2);
+
+  display: inline-block;        /* これで親の中央寄せが効きやすくなる */
+}
+
+@media (min-width: 1800px) {
+  .hero h1 {
+    font-size: 3.8rem;                             /* 超ワイドでも控えめ */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: clamp(1.8rem, 7.5vw, 2.8rem);
+  }
+  .hero {
+    padding: 60px 15px 50px;                       /* モバイルでさらにコンパクト */
+  }
 }
 
 .hero p {
-  font-size: 16px;
-  opacity: 0.75;
-  margin-top: 6px;
+  font-size: clamp(1.0rem, 2.6vw, 1.15rem);        /* 全体的に小さく統一 */
+  max-width: 640px;
+  margin: 0 auto 12px;                             /* 行間をさらに詰める */
+  opacity: 0.94;
+  background: linear-gradient(90deg, #a0e0ff, #e0c0ff, #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
 }
 
 /* =========================
@@ -145,7 +237,7 @@ body {
 }
 
 .game-card {
-  background: linear-gradient(135deg, #0d2b5e, #092048);
+  background: linear-gradient(135deg, #092048, #092048);
   border-radius: 22px;
   padding: 24px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.45);
@@ -163,13 +255,47 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 90px;          /* 高さの最低値を確保してバラつき防止 */
   margin-bottom: 20px;
+  padding: 0 10px;
 }
 
 .team {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;                 /* ロゴとテキストの間隔 */
+  font-size: 18px;
+  font-weight: bold;
 }
 
+.team.right {
+  flex-direction: row-reverse;  /* 右チームはテキスト→ロゴの順に */
+  text-align: right;
+}
+
+.team-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;       /* ロゴが歪まないように */
+}
+
+/* スマホ対応（高さ・サイズ調整） */
+@media (max-width: 600px) {
+  .scoreboard {
+    min-height: 80px;
+  }
+  .team-logo {
+    width: 48px;
+    height: 48px;
+    gap: 8px;
+  }
+  .team {
+    font-size: 16px;
+  }
+  .score {
+    font-size: 28px;
+  }
+}
 .score {
   font-size: 34px;
   font-weight: bold;
@@ -360,6 +486,103 @@ button.slide-btn {
   margin-left: 8px;
 }
 
+/* =========================
+   フッター
+========================= */
+.footer {
+  background: linear-gradient(to bottom, #0d2b5e, #092048);
+  padding: 60px 20px 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-brand .footer-logo {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.footer-brand p {
+  margin: 0;
+  max-width: 400px;
+  opacity: 0.8;
+}
+
+.footer-social a {
+  color: #6eb9ff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+
+.footer-social a:hover {
+  color: white;
+}
+
+.social-icon {
+  font-size: 20px;
+}
+
+.footer-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-nav ul {
+    justify-content: center;
+  }
+}
+
 </style>
 </head>
 
@@ -382,58 +605,86 @@ button.slide-btn {
 </div>
 
 <div class="hero">
-  <h1 class="fade-in">Lions Data を更に深化。</h1>
+  <h1 class="fade-in">「ライオンズで〜た」を更に深化。</h1>
   <p class="fade-in">データも、機能も、体験も。</p>
   <p class="fade-in">ひとつ上のレベルへ。</p>
+  <p class="fade-in">埼玉西武ライオンズの成績や記録を、</p>
+  <p class="fade-in">より速く、より見やすく、分かりやすく設計した新データ情報サイトです。</p>
+  <p class="fade-in">ファンの皆さまにとって「データを身近なものにする」ために、</p>
+  <p class="fade-in">これまで以上に進化したコンテンツを発信していきます。</p>
 </div>
 
-<div class="section">
-  <div class="games-wrapper">
-    <div id="slider">
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月1日</span>
-            <span>7回表</span>
-          </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">2 – 1</div>
-            <div class="team">ソフトバンク</div>
-          </div>
-          <div class="status">14:52 更新</div>
+<div class="games-wrapper">
+  <div id="slider">
+    <!-- スライド1: 西武 vs ソフトバンク -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【球春みやざき】26年2月28日 対千葉ロッテ1回戦 13:00~ @都城</span>
+          <span>終了</span>
         </div>
-      </div>
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月2日</span>
-            <span>試合中</span>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>埼玉西武</span>
           </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">0 – 0</div>
-            <div class="team">楽天</div>
+          <div class="score"> – </div>
+          <div class="team right">
+            <span>千葉ロッテ</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Chiba_Lotte_Marines_insignia.svg" alt="千葉ロッテ" class="team-logo">
           </div>
         </div>
-      </div>
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月3日</span>
-            <span>FINAL</span>
-          </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">5 – 3</div>
-            <div class="team">ロッテ</div>
-          </div>
-        </div>
+        <div class="status">26.02.28 16:52 更新</div>
       </div>
     </div>
-    <button id="prevBtn" class="slide-btn">◀</button>
-    <button id="nextBtn" class="slide-btn">▶</button>
+
+    <!-- スライド2: 西武 vs ソフトバンク -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【オープン戦】26年3月1日 対ソフトバンク1回戦　13:00~ @アイビー</span>
+          <span>1回表</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>西武</span>
+          </div>
+          <div class="score">0 - 0</div>
+          <div class="team right">
+            <span>ソフトバンク</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Fukuoka_SoftBank_Hawks_insignia.svg" alt="ソフトバンク" class="team-logo">
+          </div>
+        </div>
+        <!-- statusがないので空でもOK、または追加 -->
+        <div class="status">26.03.01 13:00 更新</div>
+      </div>
+    </div>
+
+    <!-- スライド3: 西武 vs ロッテ -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【オープン戦】3月4日 対日本ハム1回戦 18:00~ @エスコンF</span>
+          <span>試合前</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>西武</span>
+          </div>
+          <div class="score">試合前</div>
+          <div class="team right">
+            <span>日本ハム</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Hokkaido_Nippon-Ham_Fighters_insignia.png" alt="日本ハム" class="team-logo">
+          </div>
+        </div>
+        <div class="status">26.03.01 00:00 更新</div>
+      </div>
+    </div>
   </div>
+  <button id="prevBtn" class="slide-btn">◀</button>
+  <button id="nextBtn" class="slide-btn">▶</button>
 </div>
 
 <div class="section">
@@ -593,3 +844,41 @@ async function loadNotices() {
 
 </body>
 </html>
+
+
+
+<footer class="footer">
+  <div class="footer-container">
+    <!-- 上段: ロゴ + 説明 + SNS -->
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/lionscrown/" class="footer-logo">L-crown</a>
+        <p>データをより身近なものへ。そして埼玉西武ライオンズの王座奪還への道のりを追いかけます。</p>
+      </div>
+      
+      <div class="footer-social">
+        <a href="https://x.com/Lcrown_official" target="_blank" aria-label="X (Twitter)">
+          <span class="social-icon">𝕏</span> @Lcrown_official
+        </a>
+        <!-- 他のSNSがあればここに追加 -->
+      </div>
+    </div>
+
+    <!-- 中段: ナビゲーション -->
+    <div class="footer-nav">
+      <ul>
+        <li><a href="/lionscrown/">ホーム</a></li>
+        <li><a href="/lionscrown/news">お知らせ</a></li>
+        <li><a href="#mlb-section">MLBデータ</a></li>
+        <li><a href="/lionscrown/contact">お問い合わせ</a></li>
+        <li><a href="/lionscrown/privacypolicy">プライバシーポリシー</a></li>
+        <li><a href="/lionscrown/organization">運営委員会</a></li>
+      </ul>
+    </div>
+
+    <!-- 下段: コピーライト -->
+    <div class="footer-bottom">
+      <p>© 2026 L-crown. All Rights Reserved. Powered by Lions fans.</p>
+    </div>
+  </div>
+</footer>
