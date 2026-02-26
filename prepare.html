@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L-crown</title>
+
+<style>
+
+/* =========================
+   リセット
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+  background: #0f172a;
+  color: white;
+  line-height: 1.6;
+}
+
+/* =========================
+   ナビゲーション
+========================= */
+
+.navbar {
+  background-color: #24292e;
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+
+.nav-menu a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* =========================
+   共通セクション
+========================= */
+
+.section {
+  max-width: 1100px;
+  width: 94%;
+  margin: 50px auto;
+}
+
+/* =========================
+   YouTube
+========================= */
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================
+   ヒーロー
+========================= */
+
+.hero {
+  background: linear-gradient(to bottom, #092048, #0d2b5e);
+  text-align: center;
+  padding: 90px 20px;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero h1 {
+  font-size: 30px;
+  margin-bottom: 14px;
+}
+
+.hero p {
+  font-size: 16px;
+  opacity: 0.75;
+  margin-top: 6px;
+}
+
+/* =========================
+   試合速報
+========================= */
+
+.games-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+#slider {
+  display: flex;
+  transition: transform 0.45s ease;
+}
+
+.slide {
+  min-width: 100%;
+  padding: 10px;
+}
+
+.game-card {
+  background: linear-gradient(135deg, #0d2b5e, #092048);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.team {
+  font-size: 16px;
+}
+
+.score {
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.status {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+button.slide-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#prevBtn { left: 10px; }
+#nextBtn { right: 10px; }
+
+/* =========================
+   ニュース
+========================= */
+
+.news-title {
+  font-size: 22px;
+  margin-bottom: 24px;
+  color: #6eb9ff;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.news-card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 18px;
+  transition: 0.25s;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  background: #263449;
+}
+
+/* =========================
+   MLB
+========================= */
+
+.mlb {
+  background: linear-gradient(135deg, #7a0019, #900123);
+  padding: 70px 20px;
+}
+
+.mlb-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.mlb-title {
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.mlb-description {
+  text-align: center;
+  opacity: 0.7;
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+
+.mlb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.mlb-card {
+  background: rgba(0,0,0,0.25);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* =========================
+   お知らせ（追加）
+========================= */
+
+.notice {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 60px;
+  padding: 40px 0 10px;
+}
+
+.notice-title {
+  font-size: 20px;
+  margin-bottom: 18px;
+  color: #6eb9ff;
+}
+
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.notice-item {
+  opacity: 0.75;
+}
+
+.notice-time {
+  font-size: 12px;
+  opacity: 0.45;
+  margin-left: 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="logo">L-crown</a>
+    <ul class="nav-menu">
+      <li><a href="/lionscrown/">ホーム</a></li>
+      <li><a href="/lionscrown/news">お知らせ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="section">
+  <div class="video-wrapper">
+    <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
+  </div>
+</div>
+
+<div class="hero">
+  <h1 class="fade-in">Lions Data を更に深化。</h1>
+  <p class="fade-in">データも、機能も、体験も。</p>
+  <p class="fade-in">ひとつ上のレベルへ。</p>
+</div>
+
+<div class="section">
+  <div class="games-wrapper">
+    <div id="slider">
+      <div class="slide"><div class="game-card">試合①</div></div>
+      <div class="slide"><div class="game-card">試合②</div></div>
+      <div class="slide"><div class="game-card">試合③</div></div>
+    </div>
+    <button id="prevBtn" class="slide-btn">◀</button>
+    <button id="nextBtn" class="slide-btn">▶</button>
+  </div>
+</div>
+
+<div class="section">
+  <h2 class="news-title">最新ニュース</h2>
+  <div class="news-grid">
+    <div class="news-card">ニュース①</div>
+    <div class="news-card">ニュース②</div>
+    <div class="news-card">ニュース③</div>
+  </div>
+</div>
+
+<div class="mlb">
+  <div class="mlb-container">
+    <h2 class="mlb-title">夢のMLBへ ― 海外挑戦データ</h2>
+    <p class="mlb-description">MLBデータ</p>
+    <div class="mlb-grid">
+      <div class="mlb-card">菊池雄星</div>
+      <div class="mlb-card">今井達也</div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ 最下部お知らせ -->
+<div class="section notice">
+  <h2 class="notice-title">L-crown 最新のお知らせ</h2>
+  <div id="noticeList" class="notice-list">
+    <div class="notice-item">読み込み中...</div>
+  </div>
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const fades = document.querySelectorAll(".fade-in");
+  fades.forEach((el, i) => {
+    setTimeout(() => el.classList.add("visible"), i * 400);
+  });
+
+  loadNotices();
+  setInterval(loadNotices, 60000); // 60秒ごと更新
+});
+
+/* スライダー */
+const slider = document.getElementById("slider");
+const slides = document.querySelectorAll(".slide").length;
+let index = 0;
+
+function moveSlide(step){
+  index = (index + step + slides) % slides;
+  slider.style.transform = `translateX(-${index * 100}%)`;
+}
+
+prevBtn.onclick = () => moveSlide(-1);
+nextBtn.onclick = () => moveSlide(1);
+
+setInterval(()=>moveSlide(1), 4500);
+
+/* ✅ お知らせ自動更新 */
+async function loadNotices() {
+  try {
+    const res = await fetch("/notices.json"); 
+    const data = await res.json();
+
+    const list = document.getElementById("noticeList");
+    list.innerHTML = "";
+
+    data.forEach(item => {
+      const el = document.createElement("div");
+      el.className = "notice-item";
+      el.innerHTML = `${item.text}<span class="notice-time">${item.time}</span>`;
+      list.appendChild(el);
+    });
+
+  } catch (e) {
+    document.getElementById("noticeList").innerHTML =
+      '<div class="notice-item">お知らせを取得できませんでした</div>';
+  }
+}
+
+</script>
+
+</body>
+</html>
