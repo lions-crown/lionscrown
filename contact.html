@@ -1,16 +1,298 @@
----
-layout: default
-title: contact
----
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<h1 class="page-title">CONTACT/INQUIRY</h1>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #092048;          /* ← ご指定の背景色に変更 */
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
 
-<iframe 
-  src="https://docs.google.com/forms/d/e/1FAIpQLSdkF7ux7JjvJMFFNe86-SXt4uwLcqq-I6O8sB6VS17-9Bm_mA/viewform?embedded=true" 
-  width="100%" 
-  height="1000" 
-  frameborder="0" 
-  marginheight="0" 
-  marginwidth="0">
-  読み込んでいます…
-</iframe>
+    /* ナビゲーション（背景を少し明るくして浮かせる） */
+    .navbar {
+      background: rgba(22, 27, 34, 0.92);  /* 少し透明感を加えて深みを */
+      border-bottom: 1px solid #1f2a3d;
+      padding: 1rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #58a6ff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-menu a {
+      color: #c9d1d9;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      padding-bottom: 0.25rem;
+      position: relative;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:focus-visible {
+      color: #ffffff;
+    }
+
+    .nav-menu a.active {
+      color: #ffffff;
+      border-bottom: 2px solid #58a6ff;
+    }
+
+    /* ハンバーガー */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #c9d1d9;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* メインコンテンツ */
+    main {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      min-height: calc(100vh - 180px);
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: -0.5px;
+    }
+
+    /* iframeの調整（Google Forms） */
+    iframe {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      background: #0d1117;  /* フォーム背景が白っぽい場合の保険 */
+    }
+
+    /* フッター（背景を少し暗めに調和） */
+    footer {
+      background: #0a1a38;  /* #092048に近いトーン */
+      border-top: 1px solid #1f2a3d;
+      padding: 3rem 1.5rem 1.5rem;
+      color: #8b949e;
+      font-size: 0.95rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer-brand p {
+      margin-top: 0.75rem;
+      max-width: 280px;
+    }
+
+    .footer-links h4 {
+      color: #c9d1d9;
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .footer-links a {
+      color: #8b949e;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #58a6ff;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .social-icons a {
+      color: #8b949e;
+      font-size: 1.4rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .social-icons a:hover {
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #1f2a3d;
+      font-size: 0.9rem;
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #0a1a38;
+        flex-direction: column;
+        padding: 1.5rem;
+        border-top: 1px solid #1f2a3d;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+      }
+      .nav-menu.active { display: flex; }
+      .nav-menu li { margin: 1rem 0; }
+      .nav-menu a { font-size: 1.15rem; }
+
+      .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .footer-brand p { margin: 1rem auto; }
+      .social-icons { justify-content: center; }
+    }
+
+    a:focus-visible {
+      outline: 2px solid #58a6ff;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ナビゲーション -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="{{ '/' | relative_url }}" class="logo">L-crown</a>
+
+      <button class="menu-toggle" aria-label="メニューを開く">☰</button>
+
+      <ul class="nav-menu">
+        <li><a href="{{ '/' | relative_url }}"        {% if page.url == '/'        %}class="active"{% endif %}>ホーム</a></li>
+        <li><a href="{{ '/about.html' | relative_url }}"   {% if page.url == '/about.html'   %}class="active"{% endif %}>About</a></li>
+        <li><a href="{{ '/news/' | relative_url }}"        {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
+        <li><a href="{{ '/blog.html' | relative_url }}"    {% if page.url == '/blog.html'    %}class="active"{% endif %}>ブログ</a></li>
+        <li><a href="{{ '/contact.html' | relative_url }}" {% if page.url == '/contact.html' %}class="active"{% endif %}>お問い合わせ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main>
+    <h1 class="page-title">CONTACT / INQUIRY</h1>
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSdkF7ux7JjvJMFFNe86-SXt4uwLcqq-I6O8sB6VS17-9Bm_mA/viewform?embedded=true"
+      width="100%"
+      height="1000"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0">
+      読み込んでいます…
+    </iframe>
+  </main>
+
+  <!-- フッター -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h3 style="color:#58a6ff; font-size:1.4rem;">L-crown</h3>
+        <p>未来を形作るための小さな一歩を、今日から。</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>リンク</h4>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">ホーム</a></li>
+          <li><a href="{{ '/about.html' | relative_url }}">About</a></li>
+          <li><a href="{{ '/blog.html' | relative_url }}">ブログ</a></li>
+          <li><a href="{{ '/contact.html' | relative_url }}">お問い合わせ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>サポート</h4>
+        <ul>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="#">利用規約</a></li>
+          <li><a href="#">お知らせ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>フォロー</h4>
+        <div class="social-icons">
+          <a href="https://x.com/Lcrown_official" target="_blank" aria-label="X (Twitter)">𝕏</a>
+          <a href="#" target="_blank" aria-label="Instagram">Instagram</a>
+          <a href="#" target="_blank" aria-label="GitHub">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © {{ 'now' | date: "%Y" }} L-crown. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.nav-menu').classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      const menu = document.querySelector('.nav-menu');
+      const toggle = document.querySelector('.menu-toggle');
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        menu.classList.remove('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
