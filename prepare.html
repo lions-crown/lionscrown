@@ -4,32 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L-crown</title>
-
 <style>
-
 /* =========================
    リセット
 ========================= */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: "Segoe UI", "Noto Sans JP", sans-serif;
   background: #0f172a;
   color: white;
   line-height: 1.6;
 }
-
-
-
 /* =========================
    ナビゲーション
 ========================= */
-
 .navbar {
   background-color: #24292e;
   padding: 16px 24px;
@@ -37,7 +29,6 @@ body {
   top: 0;
   z-index: 1000;
 }
-
 .nav-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -45,39 +36,32 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-
 .logo {
   color: white;
   font-size: 20px;
   text-decoration: none;
 }
-
 .nav-menu {
   list-style: none;
   display: flex;
   gap: 24px;
 }
-
 .nav-menu a {
   color: rgba(255,255,255,0.75);
   text-decoration: none;
   font-size: 14px;
 }
-
 /* =========================
    共通セクション
 ========================= */
-
 .section {
   max-width: 1100px;
   width: 94%;
   margin: 50px auto;
 }
-
 /* =========================
    YouTube
 ========================= */
-
 .video-wrapper {
   position: relative;
   padding-bottom: 56.25%;
@@ -85,22 +69,19 @@ body {
   border-radius: 16px;
   overflow: hidden;
 }
-
 .video-wrapper iframe {
   position: absolute;
   width: 100%;
   height: 100%;
 }
-
 /* =========================
    ヒーロー
 ========================= */
-
 .hero {
   position: relative;
   overflow: hidden;
   text-align: center;
-  padding: 80px 20px 60px;           /* さらにコンパクトに */
+  padding: 80px 20px 60px; /* さらにコンパクトに */
   background: linear-gradient(
     135deg,
     #001f3f 0%,
@@ -110,7 +91,6 @@ body {
   );
   isolation: isolate;
 }
-
 .hero::before {
   content: '';
   position: absolute;
@@ -121,7 +101,6 @@ body {
   pointer-events: none;
   z-index: -2;
 }
-
 .hero::after {
   content: '';
   position: absolute;
@@ -133,14 +112,12 @@ body {
   z-index: -1;
   pointer-events: none;
 }
-
 .fade-in {
   opacity: 0;
-  transform: translateY(40px) scale(0.97);          /* 移動量をさらに抑える */
+  transform: translateY(40px) scale(0.97); /* 移動量をさらに抑える */
   transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform, opacity;
 }
-
 .fade-in:nth-child(1) { transition-delay: 0.1s; }
 .fade-in:nth-child(2) { transition-delay: 0.25s; }
 .fade-in:nth-child(3) { transition-delay: 0.4s; }
@@ -148,66 +125,55 @@ body {
 .fade-in:nth-child(5) { transition-delay: 0.7s; }
 .fade-in:nth-child(6) { transition-delay: 0.85s; }
 .fade-in:nth-child(7) { transition-delay: 1.0s; }
-
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-
 .hero h1 {
   font-size: clamp(1.9rem, 5.5vw, 3.4rem);
   font-weight: 900;
   letter-spacing: -0.01em;
   line-height: 1.15;
-
   /* 改行を完全に禁止し、1行で全文表示するための最重要設定 */
   white-space: nowrap !important;
   text-wrap: nowrap !important;
-  
+ 
   /* 日本語の自動改行を防ぐための追加設定 */
-  word-break: normal;           /* keep-all ではなく normal に戻す（nowrap優先） */
+  word-break: normal; /* keep-all ではなく normal に戻す（nowrap優先） */
   overflow-wrap: normal;
   hyphens: none;
-
   /* 狭い画面でテキストが溢れた場合の扱い */
-  overflow: hidden;             /* 親要素からはみ出さない */
-  text-overflow: ellipsis;      /* 溢れたら…で省略（好みで削除可） */
-
+  overflow: hidden; /* 親要素からはみ出さない */
+  text-overflow: ellipsis; /* 溢れたら…で省略（好みで削除可） */
   max-width: 100%;
   margin: 0 auto 20px;
   padding: 0 3%;
-
   background: linear-gradient(90deg, #00c0ff, #ffffff, #ff4080, #00c0ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-
   text-shadow:
     0 0 15px rgba(0, 192, 255, 0.4),
     0 0 30px rgba(255, 64, 128, 0.2);
-
-  display: inline-block;        /* これで親の中央寄せが効きやすくなる */
+  display: inline-block; /* これで親の中央寄せが効きやすくなる */
 }
-
 @media (min-width: 1800px) {
   .hero h1 {
-    font-size: 3.8rem;                             /* 超ワイドでも控えめ */
+    font-size: 3.8rem; /* 超ワイドでも控えめ */
   }
 }
-
 @media (max-width: 480px) {
   .hero h1 {
     font-size: clamp(1.8rem, 7.5vw, 2.8rem);
   }
   .hero {
-    padding: 60px 15px 50px;                       /* モバイルでさらにコンパクト */
+    padding: 60px 15px 50px; /* モバイルでさらにコンパクト */
   }
 }
-
 .hero p {
-  font-size: clamp(1.0rem, 2.6vw, 1.15rem);        /* 全体的に小さく統一 */
+  font-size: clamp(1.0rem, 2.6vw, 1.15rem); /* 全体的に小さく統一 */
   max-width: 640px;
-  margin: 0 auto 12px;                             /* 行間をさらに詰める */
+  margin: 0 auto 12px; /* 行間をさらに詰める */
   opacity: 0.94;
   background: linear-gradient(90deg, #a0e0ff, #e0c0ff, #ffffff);
   -webkit-background-clip: text;
@@ -215,34 +181,81 @@ body {
   color: transparent;
   text-shadow: 0 1px 6px rgba(0,0,0,0.5);
 }
-
+/* =========================
+   GAME INFO (新規追加)
+========================= */
+.game-info {
+  background: linear-gradient(135deg, #092048, #1a365e);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+.game-info-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #6eb9ff;
+  text-align: center;
+}
+.game-info-content {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.game-info-text {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.game-info-text p {
+  margin-bottom: 10px;
+}
+.game-info-note {
+  font-size: 13px;
+  opacity: 0.7;
+}
+.game-info-image {
+  flex: 0 0 300px;
+}
+.game-info-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  object-fit: cover;
+}
+@media (max-width: 768px) {
+  .game-info-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .game-info-image {
+    margin-top: 20px;
+    flex: 0 0 auto;
+    width: 80%;
+  }
+}
 /* =========================
    試合速報
 ========================= */
-
 .games-wrapper {
   position: relative;
   width: 100%;
   overflow: hidden;
 }
-
 #slider {
   display: flex;
   transition: transform 0.45s ease;
 }
-
 .slide {
   min-width: 100%;
   padding: 10px;
 }
-
 .game-card {
   background: linear-gradient(135deg, #092048, #092048);
   border-radius: 22px;
   padding: 24px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.45);
 }
-
 .game-header {
   display: flex;
   justify-content: space-between;
@@ -250,35 +263,30 @@ body {
   font-size: 14px;
   opacity: 0.7;
 }
-
 .scoreboard {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 90px;          /* 高さの最低値を確保してバラつき防止 */
+  min-height: 90px; /* 高さの最低値を確保してバラつき防止 */
   margin-bottom: 20px;
   padding: 0 10px;
 }
-
 .team {
   display: flex;
   align-items: center;
-  gap: 12px;                 /* ロゴとテキストの間隔 */
+  gap: 12px; /* ロゴとテキストの間隔 */
   font-size: 18px;
   font-weight: bold;
 }
-
 .team.right {
-  flex-direction: row-reverse;  /* 右チームはテキスト→ロゴの順に */
+  flex-direction: row-reverse; /* 右チームはテキスト→ロゴの順に */
   text-align: right;
 }
-
 .team-logo {
   width: 56px;
   height: 56px;
-  object-fit: contain;       /* ロゴが歪まないように */
+  object-fit: contain; /* ロゴが歪まないように */
 }
-
 /* スマホ対応（高さ・サイズ調整） */
 @media (max-width: 600px) {
   .scoreboard {
@@ -300,14 +308,12 @@ body {
   font-size: 34px;
   font-weight: bold;
 }
-
 .status {
   text-align: center;
   margin-top: 12px;
   font-size: 13px;
   opacity: 0.6;
 }
-
 button.slide-btn {
   position: absolute;
   top: 50%;
@@ -320,26 +326,21 @@ button.slide-btn {
   border-radius: 50%;
   cursor: pointer;
 }
-
 #prevBtn { left: 10px; }
 #nextBtn { right: 10px; }
-
 /* =========================
    ニュース
 ========================= */
-
 .news-title {
   font-size: 22px;
   margin-bottom: 24px;
   color: #6eb9ff;
 }
-
 .news-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 18px;
 }
-
 .news-card {
   background: #1e293b;
   border-radius: 16px;
@@ -347,68 +348,55 @@ button.slide-btn {
   transition: 0.25s;
   border: 1px solid rgba(255,255,255,0.08);
 }
-
 .news-card:hover {
   transform: translateY(-4px);
   background: #263449;
 }
-
 .news-source {
   font-size: 12px;
   opacity: 0.5;
   margin-bottom: 6px;
 }
-
 .news-card a {
   text-decoration: none;
   color: white;
 }
-
 .news-headline {
   font-size: 15px;
   margin-bottom: 8px;
   line-height: 1.4;
 }
-
 .news-time {
   font-size: 12px;
   opacity: 0.4;
 }
-
-
 /* =========================
    MLB
 ========================= */
-
 .mlb {
   background: linear-gradient(135deg, #7a0019, #900123);
   padding: 70px 20px;
 }
-
 .mlb-container {
   max-width: 1100px;
   margin: 0 auto;
 }
-
 .mlb-title {
   font-size: 24px;
   margin-bottom: 30px;
   text-align: center;
 }
-
 .mlb-description {
   text-align: center;
   opacity: 0.7;
   margin-bottom: 40px;
   font-size: 15px;
 }
-
 .mlb-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
-
 .mlb-card {
   background: rgba(0,0,0,0.25);
   border-radius: 18px;
@@ -416,23 +404,19 @@ button.slide-btn {
   border: 1px solid rgba(255,255,255,0.1);
   transition: 0.25s;
 }
-
 .mlb-card:hover {
   transform: translateY(-5px);
   background: rgba(0,0,0,0.35);
 }
-
 .mlb-player {
   font-size: 18px;
   margin-bottom: 10px;
 }
-
 .mlb-stats {
   font-size: 13px;
   opacity: 0.75;
   line-height: 1.7;
 }
-
 .mlb-link {
   margin-top: 12px;
   display: inline-block;
@@ -440,52 +424,43 @@ button.slide-btn {
   color: #6eb9ff;
   text-decoration: none;
 }
-
 /* =========================
    お知らせ（追加）
 ========================= */
-
 .notice {
   border-top: 1px solid rgba(255,255,255,0.08);
   margin-top: 60px;
   padding: 40px 0 10px;
 }
-
 .notice-title {
   font-size: 20px;
   margin-bottom: 18px;
   color: #6eb9ff;
 }
-
 .notice-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
   font-size: 14px;
 }
-
 .notice-item {
   opacity: 0.75;
 }
-
 /* お知らせ内のリンク専用スタイル（既存の a スタイルの上書き） */
 .notice-item a {
-  color: #a5c8ff;              /* 明るい青白で目立つ */
-  text-decoration: underline;  /* 下線でリンクだとわかる */
+  color: #a5c8ff; /* 明るい青白で目立つ */
+  text-decoration: underline; /* 下線でリンクだとわかる */
   transition: color 0.2s;
 }
-
 .notice-item a:hover {
-  color: #ffffff;              /* ホバーで純白 */
-  text-decoration: none;       /* または下線消す */
-}   
-
+  color: #ffffff; /* ホバーで純白 */
+  text-decoration: none; /* または下線消す */
+}
 .notice-time {
   font-size: 12px;
   opacity: 0.45;
   margin-left: 8px;
 }
-
 /* =========================
    フッター
 ========================= */
@@ -496,12 +471,10 @@ button.slide-btn {
   color: rgba(255,255,255,0.8);
   font-size: 14px;
 }
-
 .footer-container {
   max-width: 1100px;
   margin: 0 auto;
 }
-
 .footer-top {
   display: flex;
   justify-content: space-between;
@@ -510,7 +483,6 @@ button.slide-btn {
   gap: 40px;
   margin-bottom: 40px;
 }
-
 .footer-brand .footer-logo {
   color: white;
   font-size: 28px;
@@ -519,13 +491,11 @@ button.slide-btn {
   display: block;
   margin-bottom: 12px;
 }
-
 .footer-brand p {
   margin: 0;
   max-width: 400px;
   opacity: 0.8;
 }
-
 .footer-social a {
   color: #6eb9ff;
   text-decoration: none;
@@ -534,15 +504,12 @@ button.slide-btn {
   gap: 8px;
   transition: color 0.3s;
 }
-
 .footer-social a:hover {
   color: white;
 }
-
 .social-icon {
   font-size: 20px;
 }
-
 .footer-nav ul {
   list-style: none;
   display: flex;
@@ -552,17 +519,14 @@ button.slide-btn {
   margin: 0;
   padding: 0;
 }
-
 .footer-nav a {
   color: rgba(255,255,255,0.75);
   text-decoration: none;
   transition: color 0.3s;
 }
-
 .footer-nav a:hover {
   color: white;
 }
-
 .footer-bottom {
   text-align: center;
   margin-top: 40px;
@@ -571,7 +535,6 @@ button.slide-btn {
   font-size: 13px;
   opacity: 0.6;
 }
-
 /* スマホ対応 */
 @media (max-width: 768px) {
   .footer-top {
@@ -582,12 +545,9 @@ button.slide-btn {
     justify-content: center;
   }
 }
-
 </style>
 </head>
-
 <body>
-
 <nav class="navbar">
   <div class="nav-container">
     <a href="/lionscrown/" class="logo">L-crown</a>
@@ -597,13 +557,11 @@ button.slide-btn {
     </ul>
   </div>
 </nav>
-
 <div class="section">
   <div class="video-wrapper">
     <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
   </div>
 </div>
-
 <div class="hero">
   <h1 class="fade-in">「ライオンズで〜た」を更に深化。</h1>
   <p class="fade-in">データも、機能も、体験も。</p>
@@ -613,7 +571,18 @@ button.slide-btn {
   <p class="fade-in">ファンの皆さまにとって「データを身近なものにする」ために、</p>
   <p class="fade-in">これまで以上に進化したコンテンツを発信していきます。</p>
 </div>
-
+<div class="section game-info">
+  <h2 class="game-info-title">GAME INFO</h2>
+  <div class="game-info-content">
+    <div class="game-info-text">
+      <p>間もなく始まるオープン戦もLクラでは全試合データを速報で公開。<br>レギュラーシーズンへ向けた選手たちの競争をお伝えします。</p>
+      <p class="game-info-note">※データの公開は3月27日からを予定しています</p>
+    </div>
+    <div class="game-info-image">
+      <img src="https://via.placeholder.com/300x200/092048/ffffff?text=Game+Info+Image" alt="Game Info Placeholder">
+    </div>
+  </div>
+</div>
 <div class="games-wrapper">
   <div id="slider">
     <!-- スライド1: 西武 vs ソフトバンク -->
@@ -637,7 +606,6 @@ button.slide-btn {
         <div class="status">26.02.28 16:52 更新</div>
       </div>
     </div>
-
     <!-- スライド2: 西武 vs ソフトバンク -->
     <div class="slide">
       <div class="game-card">
@@ -660,7 +628,6 @@ button.slide-btn {
         <div class="status">26.03.01 13:00 更新</div>
       </div>
     </div>
-
     <!-- スライド3: 西武 vs ロッテ -->
     <div class="slide">
       <div class="game-card">
@@ -686,13 +653,9 @@ button.slide-btn {
   <button id="prevBtn" class="slide-btn">◀</button>
   <button id="nextBtn" class="slide-btn">▶</button>
 </div>
-
 <div class="section">
-
   <h2 class="news-title">最新ニュース</h2>
-
   <div class="news-grid">
-
     <div class="news-card">
       <div class="news-source">公式</div>
       <a href="#">
@@ -700,7 +663,6 @@ button.slide-btn {
         <div class="news-time">2時間前</div>
       </a>
     </div>
-
     <div class="news-card">
       <div class="news-source">報道</div>
       <a href="#">
@@ -708,7 +670,6 @@ button.slide-btn {
         <div class="news-time">4時間前</div>
       </a>
     </div>
-
     <div class="news-card">
       <div class="news-source">公式</div>
       <a href="#">
@@ -716,23 +677,16 @@ button.slide-btn {
         <div class="news-time">昨日</div>
       </a>
     </div>
-
   </div>
 </div>
-
 <div class="mlb">
-
   <div class="mlb-container">
-
     <h2 class="mlb-title">夢のMLBへ ― 海外挑戦データ</h2>
-
     <p class="mlb-description">
       L-crownでは、MLBで戦うライオンズ戦士の成績・指標・推移データも追跡。
       NPB時代との比較分析や詳細スタッツを公開。
     </p>
-
     <div class="mlb-grid">
-
       <div class="mlb-card">
         <div class="mlb-player">菊池 雄星</div>
         <div class="mlb-stats">
@@ -744,7 +698,6 @@ button.slide-btn {
         </div>
         <a href="#" class="mlb-link">MLBデータを見る →</a>
       </div>
-
       <div class="mlb-card">
         <div class="mlb-player">今井 達也</div>
         <div class="mlb-stats">
@@ -756,13 +709,9 @@ button.slide-btn {
         </div>
         <a href="#" class="mlb-link">MLB分析ページ →</a>
       </div>
-
     </div>
-
   </div>
-
 </div>
-
 <!-- ✅ 最下部お知らせ -->
 <div class="section notice">
   <h2 class="notice-title">L-crown 最新のお知らせ</h2>
@@ -770,50 +719,38 @@ button.slide-btn {
     <div class="notice-item">読み込み中...</div>
   </div>
 </div>
-
 <script>
-
 document.addEventListener("DOMContentLoaded", () => {
   const fades = document.querySelectorAll(".fade-in");
   fades.forEach((el, i) => {
     setTimeout(() => el.classList.add("visible"), i * 400);
   });
-
   loadNotices();
   setInterval(loadNotices, 60000); // 60秒ごと更新
 });
-
 /* スライダー */
 const slider = document.getElementById("slider");
 const slides = document.querySelectorAll(".slide").length;
 let index = 0;
-
 function moveSlide(step){
   index = (index + step + slides) % slides;
   slider.style.transform = `translateX(-${index * 100}%)`;
 }
-
 prevBtn.onclick = () => moveSlide(-1);
 nextBtn.onclick = () => moveSlide(1);
-
 setInterval(()=>moveSlide(1), 4500);
-
 /* ✅ お知らせ自動更新 */
 async function loadNotices() {
   try {
-    const res = await fetch("/lionscrown/notices.json"); 
+    const res = await fetch("/lionscrown/notices.json");
     const data = await res.json();
-
     const list = document.getElementById("noticeList");
     list.innerHTML = "";
-
     // 最新順にソート（任意ですがおすすめ）
     data.sort((a, b) => new Date(b.time) - new Date(a.time));
-
     data.forEach(item => {
       const el = document.createElement("div");
       el.className = "notice-item";
-
       // リンクがある場合 → <a> で囲む
       if (item.url && item.url.trim() !== "") {
         el.innerHTML = `
@@ -829,24 +766,17 @@ async function loadNotices() {
           <span class="notice-time">${item.time}</span>
         `;
       }
-
       list.appendChild(el);
     });
-
   } catch (e) {
     console.error("お知らせ取得エラー:", e);
     document.getElementById("noticeList").innerHTML =
       '<div class="notice-item">お知らせを取得できませんでした</div>';
   }
 }
-
 </script>
-
 </body>
 </html>
-
-
-
 <footer class="footer">
   <div class="footer-container">
     <!-- 上段: ロゴ + 説明 + SNS -->
@@ -855,7 +785,7 @@ async function loadNotices() {
         <a href="/lionscrown/" class="footer-logo">L-crown</a>
         <p>データをより身近なものへ。そして埼玉西武ライオンズの王座奪還への道のりを追いかけます。</p>
       </div>
-      
+     
       <div class="footer-social">
         <a href="https://x.com/Lcrown_official" target="_blank" aria-label="X (Twitter)">
           <span class="social-icon">𝕏</span> @Lcrown_official
@@ -863,7 +793,6 @@ async function loadNotices() {
         <!-- 他のSNSがあればここに追加 -->
       </div>
     </div>
-
     <!-- 中段: ナビゲーション -->
     <div class="footer-nav">
       <ul>
@@ -875,7 +804,6 @@ async function loadNotices() {
         <li><a href="/lionscrown/organization">運営委員会</a></li>
       </ul>
     </div>
-
     <!-- 下段: コピーライト -->
     <div class="footer-bottom">
       <p>© 2026 L-crown. All Rights Reserved. Powered by Lions fans.</p>
