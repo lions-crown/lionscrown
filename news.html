@@ -34,7 +34,8 @@ title: news
   <article class="post"
            data-title="{{ post.title | downcase }}"
            data-date="{{ post.date | date: "%Y-%m-%d" }}"
-           data-tags="{{ post.tags | join: ',' | downcase }}">
+           data-tags="{{ post.tags | join: ',' | downcase }}"
+           data-description="{{ post.description | downcase }}">
 
     <div class="post-inner">
 
@@ -61,6 +62,10 @@ title: news
   </article>
 {% endfor %}
 
+</div>
+
+<div id="empty-state">
+  該当する記事がありません
 </div>
 
 <style>
@@ -148,6 +153,13 @@ body {
   color: #cbd5f5;
 }
 
+#empty-state {
+  display: none;
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
 </style>
 
 <script>
@@ -156,6 +168,7 @@ const tagFilter = document.getElementById('tag-filter');
 const dateFrom = document.getElementById('date-from');
 const dateTo = document.getElementById('date-to');
 const sortSelect = document.getElementById('sort');
+const emptyState = document.getElementById('empty-state');
 
 const posts = Array.from(document.querySelectorAll('.post'));
 
@@ -166,21 +179,38 @@ function filterPosts() {
   const from = dateFrom.value;
   const to = dateTo.value;
 
+  let visibleCount = 0;
+
   posts.forEach(post => {
 
-    const title = post.dataset.title;
-    const date = post.dataset.date;
-    const tags = post.dataset.tags;
+    const title = post.dataset.title || "";
+    const date = post.dataset.date || "";
+    const tags = post.dataset.tags || "";
+    const description = post.dataset.description || "";
 
     let visible = true;
 
-    if (search && !title.includes(search)) visible = false;
-    if (selectedTag && !tags.includes(selectedTag)) visible = false;
+    // 🔎 検索（タイトル＋説明）
+    if (search && !(title.includes(search) || description.includes(search))) {
+      visible = false;
+    }
+
+    // 🏷 タグ（完全一致判定）
+    if (selectedTag) {
+      const tagArray = tags.split(',');
+      if (!tagArray.includes(selectedTag)) visible = false;
+    }
+
+    // 📅 日付範囲
     if (from && date < from) visible = false;
     if (to && date > to) visible = false;
 
     post.style.display = visible ? "block" : "none";
+
+    if (visible) visibleCount++;
   });
+
+  emptyState.style.display = visibleCount ? "none" : "block";
 
   sortPosts();
 }
@@ -198,10 +228,14 @@ function sortPosts() {
     if (mode === "old") return a.dataset.date.localeCompare(b.dataset.date);
     if (mode === "title") return a.dataset.title.localeCompare(b.dataset.title);
 
+    return 0;
   });
 
   visiblePosts.forEach(p => container.appendChild(p));
 }
+
+// ✅ 初期表示ソート保証
+sortPosts();
 
 searchInput.addEventListener('input', filterPosts);
 tagFilter.addEventListener('change', filterPosts);
