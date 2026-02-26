@@ -163,13 +163,47 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 90px;          /* 高さの最低値を確保してバラつき防止 */
   margin-bottom: 20px;
+  padding: 0 10px;
 }
 
 .team {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;                 /* ロゴとテキストの間隔 */
+  font-size: 18px;
+  font-weight: bold;
 }
 
+.team.right {
+  flex-direction: row-reverse;  /* 右チームはテキスト→ロゴの順に */
+  text-align: right;
+}
+
+.team-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;       /* ロゴが歪まないように */
+}
+
+/* スマホ対応（高さ・サイズ調整） */
+@media (max-width: 600px) {
+  .scoreboard {
+    min-height: 80px;
+  }
+  .team-logo {
+    width: 48px;
+    height: 48px;
+    gap: 8px;
+  }
+  .team {
+    font-size: 16px;
+  }
+  .score {
+    font-size: 28px;
+  }
+}
 .score {
   font-size: 34px;
   font-weight: bold;
@@ -387,53 +421,77 @@ button.slide-btn {
   <p class="fade-in">ひとつ上のレベルへ。</p>
 </div>
 
-<div class="section">
-  <div class="games-wrapper">
-    <div id="slider">
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月1日</span>
-            <span>7回表</span>
-          </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">2 – 1</div>
-            <div class="team">ソフトバンク</div>
-          </div>
-          <div class="status">14:52 更新</div>
+<div class="games-wrapper">
+  <div id="slider">
+    <!-- スライド1: 西武 vs ソフトバンク -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【オープン戦】3月1日</span>
+          <span>7回表</span>
         </div>
-      </div>
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月2日</span>
-            <span>試合中</span>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>西武</span>
           </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">0 – 0</div>
-            <div class="team">楽天</div>
+          <div class="score">2 – 1</div>
+          <div class="team right">
+            <span>ソフトバンク</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Fukuoka_SoftBank_Hawks_insignia.png" alt="ソフトバンク" class="team-logo">
           </div>
         </div>
-      </div>
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月3日</span>
-            <span>FINAL</span>
-          </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">5 – 3</div>
-            <div class="team">ロッテ</div>
-          </div>
-        </div>
+        <div class="status">14:52 更新</div>
       </div>
     </div>
-    <button id="prevBtn" class="slide-btn">◀</button>
-    <button id="nextBtn" class="slide-btn">▶</button>
+
+    <!-- スライド2: 西武 vs 楽天 -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【オープン戦】3月2日</span>
+          <span>試合中</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>西武</span>
+          </div>
+          <div class="score">0 – 0</div>
+          <div class="team right">
+            <span>楽天</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Rakuten_eagles_insignia.png" alt="楽天" class="team-logo">
+          </div>
+        </div>
+        <!-- statusがないので空でもOK、または追加 -->
+        <div class="status">更新中</div>
+      </div>
+    </div>
+
+    <!-- スライド3: 西武 vs ロッテ -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【オープン戦】3月3日</span>
+          <span>FINAL</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>西武</span>
+          </div>
+          <div class="score">5 – 3</div>
+          <div class="team right">
+            <span>ロッテ</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Chiba_Lotte_Marines_insignia.svg" alt="ロッテ" class="team-logo">
+          </div>
+        </div>
+        <div class="status">FINAL 更新</div>
+      </div>
+    </div>
   </div>
+  <button id="prevBtn" class="slide-btn">◀</button>
+  <button id="nextBtn" class="slide-btn">▶</button>
 </div>
 
 <div class="section">
