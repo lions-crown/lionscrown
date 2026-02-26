@@ -550,7 +550,7 @@ setInterval(()=>moveSlide(1), 4500);
 /* ✅ お知らせ自動更新 */
 async function loadNotices() {
   try {
-    const res = await fetch("/notices.json"); 
+    const res = await fetch("/lionscrown/notices.json"); 
     const data = await res.json();
 
     const list = document.getElementById("noticeList");
