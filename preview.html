@@ -1,287 +1,260 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L-crown</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>L-crown - プライバシーポリシー / 利用規約</title>
 
 <style>
 
-/* =========================
-   リセット
-========================= */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* ===== 背景（質感強化） ===== */
 body {
+  margin: 0;
   font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background: #0f172a;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(77,163,255,0.15), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(126,203,255,0.12), transparent 45%),
+    linear-gradient(135deg, #08152f, #0d2b5e, #123a78);
+  background-size: 200% 200%;
+  animation: bgMove 14s ease infinite;
   color: white;
-  line-height: 1.6;
 }
 
-/* =========================
-   ナビゲーション
-========================= */
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-.navbar {
-  background-color: #24292e;
-  padding: 16px 24px;
+/* ===== ヘッダー（高級感UP） ===== */
+header {
   position: sticky;
   top: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(8, 18, 40, 0.65);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   z-index: 1000;
 }
 
 .nav-container {
   max-width: 1100px;
-  margin: 0 auto;
+  margin: auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
 }
 
 .logo {
-  color: white;
-  font-size: 20px;
-  text-decoration: none;
-}
-
-.nav-menu {
-  list-style: none;
-  display: flex;
-  gap: 24px;
-}
-
-.nav-menu a {
-  color: rgba(255,255,255,0.75);
-  text-decoration: none;
-  font-size: 14px;
-}
-
-/* =========================
-   共通セクション
-========================= */
-
-.section {
-  max-width: 1100px;
-  width: 94%;
-  margin: 50px auto;
-}
-
-/* =========================
-   YouTube
-========================= */
-
-.video-wrapper {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.video-wrapper iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-/* =========================
-   ヒーロー
-========================= */
-
-.hero {
-  background: linear-gradient(to bottom, #092048, #0d2b5e);
-  text-align: center;
-  padding: 90px 20px;
-}
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(25px);
-  transition: opacity 1s ease, transform 1s ease;
-}
-
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero h1 {
-  font-size: 30px;
-  margin-bottom: 14px;
-}
-
-.hero p {
-  font-size: 16px;
-  opacity: 0.75;
-  margin-top: 6px;
-}
-
-/* =========================
-   試合速報
-========================= */
-
-.games-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-#slider {
-  display: flex;
-  transition: transform 0.45s ease;
-}
-
-.slide {
-  min-width: 100%;
-  padding: 10px;
-}
-
-.game-card {
-  background: linear-gradient(135deg, #0d2b5e, #092048);
-  border-radius: 22px;
-  padding: 24px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.45);
-}
-
-.game-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
-  font-size: 14px;
-  opacity: 0.7;
-}
-
-.scoreboard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.team {
-  font-size: 16px;
-}
-
-.score {
-  font-size: 34px;
   font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #4da3ff, #9ad7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.live-area {
+/* メニュー */
+nav ul {
   display: flex;
-  justify-content: space-between;
-  font-size: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 26px;
 }
 
-.outs span { opacity: 0.25; }
-.outs .on { opacity: 1; }
-
-.bases {
-  display: flex;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.base {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.2);
-}
-
-.base.on {
-  background: #00d4ff;
-  box-shadow: 0 0 10px rgba(0,212,255,0.6);
-}
-
-.status {
-  text-align: center;
-  margin-top: 12px;
-  font-size: 13px;
-  opacity: 0.6;
-}
-
-button.slide-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-#prevBtn { left: 10px; }
-#nextBtn { right: 10px; }
-
-/* =========================
-   ニュースセクション
-========================= */
-
-.news-title {
-  font-size: 22px;
-  margin-bottom: 24px;
-  color: #6eb9ff;
-}
-
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 18px;
-}
-
-.news-card {
-  background: #1e293b;
-  border-radius: 16px;
-  padding: 18px;
-  transition: 0.25s;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.news-card:hover {
-  transform: translateY(-4px);
-  background: #263449;
-}
-
-.news-source {
-  font-size: 12px;
-  opacity: 0.5;
-  margin-bottom: 6px;
-}
-
-.news-card a {
+nav a {
+  color: rgba(255,255,255,0.65);
   text-decoration: none;
+  font-size: 13px;
+  position: relative;
+  transition: 0.35s;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  transition: 0.35s;
+  box-shadow: 0 0 12px rgba(77,163,255,0.6);
+}
+
+nav a:hover {
   color: white;
 }
 
-.news-headline {
-  font-size: 15px;
-  margin-bottom: 8px;
-  line-height: 1.4;
+nav a:hover::after {
+  width: 100%;
 }
 
-.news-time {
+/* ===== メイン ===== */
+main {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+/* カード（立体感UP） */
+.content-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 22px;
+  padding: 36px;
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 光の筋 */
+.content-card::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(77,163,255,0.18), transparent 60%);
+  pointer-events: none;
+}
+
+/* 見出し */
+h1 {
+  text-align: center;
+  margin-top: 0;
+  font-size: 26px;
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  margin-top: 46px;
+  font-size: 18px;
+  border-left: 3px solid #4da3ff;
+  padding-left: 12px;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 60px;
+  height: 1px;
+  background: rgba(77,163,255,0.6);
+}
+
+h3 {
+  font-size: 14px;
+  margin-top: 26px;
+  color: rgba(255,255,255,0.9);
+}
+
+p, li {
+  font-size: 13px;
+  color: rgba(255,255,255,0.68);
+  line-height: 1.9;
+}
+
+/* リストの視認性改善 */
+ul {
+  padding-left: 18px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* お問い合わせボックス（高級感寄せ） */
+.contact {
+  background: linear-gradient(135deg, rgba(77,163,255,0.08), rgba(126,203,255,0.03));
+  padding: 18px;
+  border-radius: 12px;
+  margin: 20px 0;
   font-size: 12px;
-  opacity: 0.4;
+  border: 1px solid rgba(77,163,255,0.15);
 }
 
-/* =========================
-   MLB
-========================= */
+/* ===== フッター（深み追加） ===== */
+footer {
+  margin-top: 100px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
 
-.mlb {
-  background:#900123;
-  padding:60px 20px;
-  text-align:center;
+.footer-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 46px 20px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 0.6fr;
+  gap: 50px;
+}
+
+.footer-logo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #4da3ff, #9ad7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.7;
+}
+
+.footer-title {
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+footer a {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+footer a:hover {
+  color: white;
+  transform: translateX(4px);
+}
+
+.footer-links,
+.footer-follow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 18px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+
+  .content-card {
+    padding: 26px;
+  }
 }
 
 </style>
@@ -289,164 +262,143 @@ button.slide-btn {
 
 <body>
 
-<nav class="navbar">
+<header>
   <div class="nav-container">
-    <a href="/" class="logo">L-crown</a>
-    <ul class="nav-menu">
-      <li><a href="/lionscrown/">ホーム</a></li>
-      <li><a href="/lionscrown/news">お知らせ</a></li>
+    <div class="logo">L-crown</div>
+    <nav>
+      <ul>
+        <li><a href="/lionscrown/">ホーム</a></li>
+        <li><a href="/lionscrown/news">お知らせ</a></li>
+        <li><a href="/lionscrown/contact">お問い合わせ</a></li>
+        <li><a href="/lionscrown/privacypolicy">利用規約</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="content-card">
+
+    <h1>プライバシーポリシー / 利用規約</h1>
+
+    <h2>プライバシーポリシー</h2>
+    <p>
+      L-crown（以下「当サービス」）は、ユーザーの個人情報を適切に保護することを重要な責務と考え、以下の通りプライバシーポリシーを定めます。
+    </p>
+
+    <h3>1. 収集する情報</h3>
+    <ul>
+      <li>アカウント情報（メールアドレス、ユーザー名、プロフィール画像など）</li>
+      <li>サービス利用時に送信されるコンテンツ（投稿、コメント、DMなど）</li>
+      <li>デバイス情報（IPアドレス、ブラウザ種類、OS、アクセス時間など）</li>
+      <li>Cookieおよび類似技術により取得される行動履歴</li>
+      <li>お問い合わせ時に任意でご提供いただいた情報</li>
     </ul>
+
+    <h3>2. 利用目的</h3>
+    <ul>
+      <li>サービス提供・維持・改善のため</li>
+      <li>本人確認、不正利用防止のため</li>
+      <li>お問い合わせ対応、アンケート実施のため</li>
+      <li>利用状況の分析、マーケティング施策のため（個人を特定しない形）</li>
+    </ul>
+
+    <h3>3. 第三者への提供</h3>
+    <p>以下の場合を除き、個人情報を第三者に提供することはありません。</p>
+    <ul>
+      <li>ユーザーの同意がある場合</li>
+      <li>法令に基づく場合</li>
+      <li>人の生命・身体・財産を保護するために必要で同意を得ることが困難な場合</li>
+      <li>業務委託先へ委託する場合（適切な監督を行います）</li>
+    </ul>
+
+    <h3>4. Cookie・類似技術について</h3>
+    <p>
+      当サービスでは利便性向上・利用状況把握のためにCookieを使用しています。
+      ブラウザ設定で無効化できますが、一部機能が利用できなくなる場合があります。
+    </p>
+
+    <h3>5. お問い合わせ窓口</h3>
+    <div class="contact">
+      Email: privacy@lcrown-official.com
+    </div>
+
+    <h2>利用規約</h2>
+    <p>
+      本規約は、L-crown（以下「当サービス」）を利用する全ての方（以下「ユーザー」）に適用されます。
+      サービスを利用した時点で本規約に同意したものとみなします。
+    </p>
+
+    <h3>第1条（禁止行為）</h3>
+    <ul>
+      <li>法令・公序良俗に違反する行為</li>
+      <li>権利侵害行為</li>
+      <li>虚偽登録・なりすまし</li>
+      <li>スパム・ボット利用</li>
+      <li>不適切な表現・嫌がらせ</li>
+      <li>運営妨害行為</li>
+      <li>その他不適切と判断する行為</li>
+    </ul>
+
+    <h3>第2条（アカウントの管理）</h3>
+    <p>
+      ユーザーは自己の責任においてアカウントおよびパスワードを管理するものとします。
+    </p>
+
+    <h3>第3条（投稿コンテンツの権利）</h3>
+    <p>
+      著作権は投稿者に帰属しますが、当サービスへの利用許諾を行うものとします。
+    </p>
+
+    <h3>第4条（サービスの中断・終了）</h3>
+    <ul>
+      <li>システム保守・障害対応</li>
+      <li>不可抗力</li>
+      <li>その他必要と判断した場合</li>
+    </ul>
+
+    <h3>第5条（免責事項）</h3>
+    <p>当サービスは一切の責任を負いません。</p>
+
+    <h3>第6条（規約の変更）</h3>
+    <p>掲載時点から効力を生じます。</p>
+
+    <h3>第7条（準拠法・管轄）</h3>
+    <p>大阪地方裁判所を専属管轄裁判所とします。</p>
+
+
   </div>
-</nav>
+</main>
 
-<div class="section">
-  <div class="video-wrapper">
-    <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
-  </div>
-</div>
-
-<div class="hero">
-  <h1 class="fade-in">Lions Data を更に深化。</h1>
-  <p class="fade-in">データも、機能も、体験も。</p>
-  <p class="fade-in">ひとつ上のレベルへ。</p>
-</div>
-
-<!-- 試合速報 -->
-<div class="section">
-  <div class="games-wrapper">
-
-    <div id="slider">
-
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月1日</span>
-            <span>7回表</span>
-          </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">2 – 1</div>
-            <div class="team">ソフトバンク</div>
-          </div>
-          <div class="live-area">
-            <div>
-              <div class="outs">
-                <span class="on">●</span><span>●</span><span>●</span>
-              </div>
-              <div class="bases">
-                <div class="base on"></div>
-                <div class="base"></div>
-                <div class="base"></div>
-              </div>
-            </div>
-            <div>打者：源田 / 投手：有原</div>
-          </div>
-          <div class="status">14:52 更新</div>
-        </div>
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        そして埼玉西武ライオンズの王座奪還への道のりを追いかけます。
       </div>
-
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月2日</span>
-            <span>3回裏</span>
-          </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">0 – 0</div>
-            <div class="team">楽天</div>
-          </div>
-          <div class="status">試合中</div>
-        </div>
-      </div>
-
-      <div class="slide">
-        <div class="game-card">
-          <div class="game-header">
-            <span>【オープン戦】3月3日</span>
-            <span>試合終了</span>
-          </div>
-          <div class="scoreboard">
-            <div class="team">西武</div>
-            <div class="score">5 – 3</div>
-            <div class="team">ロッテ</div>
-          </div>
-          <div class="status">FINAL</div>
-        </div>
-      </div>
-
     </div>
 
-    <button id="prevBtn" class="slide-btn">◀</button>
-    <button id="nextBtn" class="slide-btn">▶</button>
+    <div class="footer-links">
+      <div class="footer-title">リンク</div>
+      <a href="#">ホーム</a>
+      <a href="#">お知らせ</a>
+      <a href="#">利用規約</a>
+      <a href="#">お問い合わせ</a>
+      <a href="#">サポート</a>
+    </div>
 
+    <div class="footer-follow">
+      <div class="footer-title">フォロー</div>
+      <a href="#">𝕏</a>
+    </div>
   </div>
-</div>
 
-<!-- ✅ ニュース -->
-<div class="section">
-
-  <h2 class="news-title">最新ニュース</h2>
-
-  <div class="news-grid">
-
-    <div class="news-card">
-      <div class="news-source">公式</div>
-      <a href="#">
-        <div class="news-headline">今井達也、開幕投手へ順調調整「状態はかなり良い」</div>
-        <div class="news-time">2時間前</div>
-      </a>
-    </div>
-
-    <div class="news-card">
-      <div class="news-source">報道</div>
-      <a href="#">
-        <div class="news-headline">若手外野手が猛アピール　首脳陣「競争が激しい」</div>
-        <div class="news-time">4時間前</div>
-      </a>
-    </div>
-
-    <div class="news-card">
-      <div class="news-source">公式</div>
-      <a href="#">
-        <div class="news-headline">新外国人が実戦初本塁打「完璧なスイングだった」</div>
-        <div class="news-time">昨日</div>
-      </a>
-    </div>
-
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
   </div>
-</div>
-
-<div class="mlb">
-  <h2>夢のMLBへ</h2>
-</div>
-
-<script>
-
-/* ヒーローフェード */
-document.addEventListener("DOMContentLoaded", () => {
-  const fades = document.querySelectorAll(".fade-in");
-  fades.forEach((el, i) => {
-    setTimeout(() => el.classList.add("visible"), i * 400);
-  });
-});
-
-/* スライダー */
-const slider = document.getElementById("slider");
-const slides = document.querySelectorAll(".slide").length;
-let index = 0;
-
-function moveSlide(step){
-  index = (index + step + slides) % slides;
-  slider.style.transform = `translateX(-${index * 100}%)`;
-}
-
-prevBtn.onclick = () => moveSlide(-1);
-nextBtn.onclick = () => moveSlide(1);
-
-setInterval(()=>moveSlide(1), 4500);
-
-</script>
+</footer>
 
 </body>
 </html>
