@@ -1,14 +1,8 @@
 title: L-crown - 埼玉西武ライオンズデータサイト
 description: 西武ライオンズの成績・契約・ニュースをお届け #Lクラ
-theme: minima          # シンプルなデフォルトテーマ（後で変えられる）
+theme: minima
 
-# お知らせページのURLをきれいに
 permalink: /news/:year/:month/:day/:title/
 
-# 日本語対応
 timezone: Asia/Tokyo
 lang: ja
-
-# 必須ではないが便利
-plugins:
-  - jekyll-feed
