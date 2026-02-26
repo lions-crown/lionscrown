@@ -962,8 +962,45 @@ async function loadNotices() {
     data.sort((a, b) => new Date(b.time) - new Date(a.time));
 
     data.forEach(item => {
-      const el = document.createElement("div");
-      el.className = "notice-item";
+  const el = document.createElement("div");
+  el.className = "notice-item";
+
+  // カテゴリクラス自動決定
+  let badgeClass = "";
+  switch(item.category){
+    case "公式":
+      badgeClass = "badge-official";
+      break;
+    case "報道":
+      badgeClass = "badge-media";
+      break;
+    case "更新":
+      badgeClass = "badge-update";
+      break;
+    case "重要":
+      badgeClass = "badge-important";
+      break;
+    default:
+      badgeClass = "badge-media";
+  }
+
+  const contentHTML = `
+    <div class="notice-content">
+      <span class="notice-badge ${badgeClass}">
+        ${item.category || "INFO"}
+      </span>
+      ${
+        item.url && item.url.trim() !== ""
+        ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
+        : `<span>${item.text}</span>`
+      }
+    </div>
+    <span class="notice-time">${item.time}</span>
+  `;
+
+  el.innerHTML = contentHTML;
+  list.appendChild(el);
+});
 
       // リンクがある場合 → <a> で囲む
       if (item.url && item.url.trim() !== "") {
