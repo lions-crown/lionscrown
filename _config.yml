@@ -1,14 +1,14 @@
-title: L-crown Official
-description: L-crown公式サイト
+title: L-crown - 埼玉西武ライオンズデータサイト
+description: 西武ライオンズの成績・契約・ニュースをお届け #Lクラ
+theme: minima          # シンプルなデフォルトテーマ（後で変えられる）
 
-theme: minima  # シンプルでおすすめ。変更したいならremote_theme: jekyll/minima など
-
+# お知らせページのURLをきれいに
 permalink: /news/:year/:month/:day/:title/
 
-# お知らせを新しい順に並べるため、デフォルトでreverseされる
-paginate: 10  # 一覧ページの1ページあたり件数（必要なら）
-plugins:
-  - jekyll-paginate  # 必要なら（GitHub Pagesでサポート済み）
-
-# 日本語対応（オプション）
+# 日本語対応
 timezone: Asia/Tokyo
+lang: ja
+
+# 必須ではないが便利
+plugins:
+  - jekyll-feed
