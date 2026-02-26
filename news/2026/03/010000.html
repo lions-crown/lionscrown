@@ -1,6 +1,94 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>L-crown</title>
+  
+  <style>
+    /* シンプルなメニューバー CSS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    /* メニューバー全体 */
+    .navbar {
+      background-color: #24292e;    /* GitHubっぽいダークカラー */
+      padding: 1rem 2rem;
+      position: sticky;             /* 上に固定したい場合は fixed でもOK */
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-menu li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+
+    .nav-menu li a:hover {
+      color: #f0f0f0;
+      border-bottom: 2px solid #0366d6;  /* 青い下線 */
+      padding-bottom: 4px;
+    }
+
+    /* スマホ対応（ハンバーガーメニューは今回は省略） */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;  /* 必要ならここにハンバーガーメニュー実装 */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ここがメニューバー -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">L-crown</a>
+
+      <ul class="nav-menu">
+        <li><a href="/lionscrown/">ホーム</a></li>
+        <li><a href="/lionscrown/about.html">About</a></li>
+        <li><a href="/lionscrown/news.html">お知らせ</a></li>
+        <li><a href="/lionscrown/blog.html">ブログ</a></li>
+        <li><a href="/lionscrown/contact.html">お問い合わせ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>L-crown 一般公開のお知らせ - L-crown Official</title>
