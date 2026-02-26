@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L-crown</title>
+
+<style>
+
+/* =========================
+   共通設定
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+  line-height: 1.6;
+}
+
+/* =========================
+   ナビゲーション
+========================= */
+
+.navbar {
+  background-color: #24292e;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 2.2rem;
+}
+
+.nav-menu li a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: 0.25s;
+}
+
+.nav-menu li a:hover {
+  border-bottom: 2px solid #0366d6;
+}
+
+/* =========================
+   共通セクション
+========================= */
+
+.section {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+/* =========================
+   YouTube
+========================= */
+
+.video-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  background: #000;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.video-wrap iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================
+   ヒーローテキスト
+========================= */
+
+.hero {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  color: #6eb9ff;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+  color: #cbd5f5;
+}
+
+/* =========================
+   スライダー
+========================= */
+
+.slider-container {
+  position: relative;
+  overflow: hidden;
+}
+
+#slider {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slide {
+  flex: 0 0 100%;
+}
+
+/* =========================
+   ランキングカード
+========================= */
+
+.cards {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.card {
+  min-width: 230px;
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+/* =========================
+   特集セクション
+========================= */
+
+.feature {
+  background: #900123;
+  padding: 50px 20px;
+  margin-top: 70px;
+}
+
+.feature-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.feature img {
+  max-width: 280px;
+  border-radius: 16px;
+}
+
+.feature a {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 34px;
+  background: white;
+  color: #900123;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     ナビ
+========================= -->
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/lionscrown/" class="logo">L-crown</a>
+    <ul class="nav-menu">
+      <li><a href="/lionscrown/">ホーム</a></li>
+      <li><a href="/lionscrown/news/">お知らせ</a></li>
+      <li><a href="/lionscrown/stats/">Stats</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- =========================
+     動画
+========================= -->
+
+<div class="section">
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
+  </div>
+</div>
+
+<!-- =========================
+     ヒーロー
+========================= -->
+
+<div class="section hero">
+  <h1>「L-crown Data」を更に深化。</h1>
+  <p>データも、機能も、体験も “ひとつ上のレベルへ”。</p>
+  <p>より速く、より見やすく、分かりやすく。</p>
+</div>
+
+<!-- =========================
+     スライダー
+========================= -->
+
+<div class="section slider-container">
+  <div id="slider">
+    <div class="slide"><div class="card">試合カード1</div></div>
+    <div class="slide"><div class="card">試合カード2</div></div>
+  </div>
+</div>
+
+<!-- =========================
+     ランキング
+========================= -->
+
+<div class="section">
+  <div class="cards">
+    <div class="card">打率ランキング</div>
+    <div class="card">本塁打ランキング</div>
+  </div>
+</div>
+
+<!-- =========================
+     特集
+========================= -->
+
+<div class="feature">
+  <div class="feature-inner">
+    <div>
+      <h2>夢のMLBへ羽ばたいた選手たち</h2>
+      <a href="#">軌跡を見る</a>
+    </div>
+    <img src="https://lions-crown.homep.jp/img/1758706454218.webp">
+  </div>
+</div>
+
+</body>
+</html>
