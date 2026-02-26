@@ -160,16 +160,18 @@ body {
   letter-spacing: -0.01em;
   line-height: 1.15;
 
-  /* ── ここを強化 ── */
-  white-space: nowrap;                  /* これが核心：改行を完全に禁止 */
-  text-wrap: nowrap;                    /* 最新ブラウザ向けの補完（text-wrap shorthand） */
-  overflow: hidden;                     /* 溢れ防止（必要に応じて） */
-  text-overflow: ellipsis;              /* 溢れたら…で省略（オプション） */
+  /* 改行を完全に禁止し、1行で全文表示するための最重要設定 */
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
+  
+  /* 日本語の自動改行を防ぐための追加設定 */
+  word-break: normal;           /* keep-all ではなく normal に戻す（nowrap優先） */
+  overflow-wrap: normal;
+  hyphens: none;
 
-  /* 既存のもの（word-break系はnowrapと競合するので削除or無効化推奨） */
-  /* word-break: keep-all;             ← これを削除またはコメントアウト */
-  /* hyphens: none;                    ← 不要になる */
-  /* overflow-wrap: anywhere;          ← 不要になる */
+  /* 狭い画面でテキストが溢れた場合の扱い */
+  overflow: hidden;             /* 親要素からはみ出さない */
+  text-overflow: ellipsis;      /* 溢れたら…で省略（好みで削除可） */
 
   max-width: 100%;
   margin: 0 auto 20px;
@@ -183,6 +185,8 @@ body {
   text-shadow:
     0 0 15px rgba(0, 192, 255, 0.4),
     0 0 30px rgba(255, 64, 128, 0.2);
+
+  display: inline-block;        /* これで親の中央寄せが効きやすくなる */
 }
 
 @media (min-width: 1800px) {
