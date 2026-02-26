@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>お知らせ一覧（絞り込み）</title>
+  <style>
+    :root{
+      --bg:#f6f8fa; --card:#fff; --muted:#6b7280; --accent:#0ea5a4;
+      --radius:12px; --gap:12px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN",Meiryo, sans-serif; background:var(--bg); margin:0; padding:28px; color:#0f172a}
+    .container{max-width:1100px; margin:0 auto}
+    header{display:flex; gap:16px; align-items:center; margin-bottom:18px}
+    h1{font-size:1.25rem; margin:0}
+
+    .controls{display:flex; gap:12px; flex-wrap:wrap; background:var(--card); padding:12px; border-radius:var(--radius); box-shadow:0 1px 3px rgba(15,23,42,0.06)}
+    .control{display:flex; gap:8px; align-items:center}
+    label{font-size:0.85rem; color:var(--muted)}
+    input[type=text], input[type=date], select{padding:8px 10px; border:1px solid #e6e9ee; border-radius:8px; font-size:0.95rem}
+    button{background:var(--accent); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer}
+    button.ghost{background:transparent; color:var(--accent); border:1px solid #d7f0ef}
+
+    .layout{display:grid; grid-template-columns: 1fr 360px; gap:18px; margin-top:18px}
+    .list{background:var(--card); border-radius:var(--radius); padding:14px; box-shadow:0 1px 3px rgba(15,23,42,0.04)}
+    .side{background:var(--card); border-radius:var(--radius); padding:14px; box-shadow:0 1px 3px rgba(15,23,42,0.04)}
+
+    .notice{display:flex; gap:12px; padding:12px; border-radius:10px; border:1px solid #f0f2f5; margin-bottom:10px; align-items:flex-start}
+    .notice .meta{min-width:120px; text-align:center}
+    .notice .meta time{display:block; font-weight:600}
+    .notice .meta .type{font-size:0.8rem; color:var(--muted)}
+    .notice .content{flex:1}
+    .notice .content h3{margin:0 0 6px 0; font-size:1rem}
+    .notice .content p{margin:0 0 8px 0; color:var(--muted)}
+    .tags{display:flex; gap:6px; flex-wrap:wrap}
+    .tag{font-size:0.75rem; padding:4px 8px; border-radius:999px; background:#eef7f7; color:#096b66}
+    .link-btn{font-size:0.85rem; text-decoration:none; padding:6px 8px; border-radius:8px; border:1px solid #e6eef0; display:inline-block}
+
+    .no-results{padding:36px; text-align:center; color:var(--muted)}
+
+    /* small screens */
+    @media (max-width:880px){
+      .layout{grid-template-columns:1fr;}
+      .side{order:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>お知らせ</h1>
+      <div style="margin-left:auto; font-size:0.9rem; color:var(--muted)">全件: <span id="total-count">0</span></div>
+    </header>
+
+    <div class="controls" role="region" aria-label="お知らせ絞り込み">
+      <div class="control">
+        <label for="q">キーワード</label>
+        <input id="q" type="text" placeholder="件名や本文を検索" />
+      </div>
+
+      <div class="control">
+        <label for="start">開始日</label>
+        <input id="start" type="date" />
+      </div>
+
+      <div class="control">
+        <label for="end">終了日</label>
+        <input id="end" type="date" />
+      </div>
+
+      <div class="control">
+        <label for="tag-select">タグ</label>
+        <select id="tag-select">
+          <option value="">-- タグを選択 --</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label for="sort">並び順</label>
+        <select id="sort">
+          <option value="new">新着順（降順）</option>
+          <option value="old">古い順（昇順）</option>
+        </select>
+      </div>
+
+      <div style="margin-left:auto; display:flex; gap:8px; align-items:center">
+        <button id="clear">クリア</button>
+        <button id="apply" class="ghost">絞り込む</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <main class="list" id="list" aria-live="polite">
+        <!-- お知らせカードがここに入る -->
+      </main>
+
+      <aside class="side">
+        <h3 style="margin-top:0">タグ一覧</h3>
+        <div id="tag-cloud" class="tags" style="margin-bottom:12px"></div>
+
+        <h4 style="margin-bottom:6px">期間クイック</h4>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px">
+          <button class="ghost" data-range="7">過去7日</button>
+          <button class="ghost" data-range="30">過去30日</button>
+          <button class="ghost" data-range="365">過去1年</button>
+        </div>
+
+        <h4 style="margin-bottom:6px">タイプで絞る</h4>
+        <div style="display:flex; gap:8px; flex-wrap:wrap">
+          <button class="ghost" data-type="info">お知らせ</button>
+          <button class="ghost" data-type="Questionnaire">アンケート</button>
+          <button class="ghost" data-type="SNS">SNS</button>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // サンプルデータ（実際はAPIやサーバのJSONを読み込んでください）
+    const rawNotices = [
+      {id:1, date:'2026-03-01', type:'info', title:'L-crown一般公開', body:'L-crownを公開しました。', tags:['重要','サイト'], url:'https://sites.google.com/view/lionscrown/'},
+      {id:2, date:'2026-03-01', type:'Questionnaire', title:'アンケート締め切りのお知らせ', body:'アンケートの回答を締め切りました。', tags:['参加型','アンケート'], url:'https://example.com/events/autumn-exchange'},
+      {id:3, date:'2026-03-01', type:'SNS', title:'公式Xアイコンの変更について', body:'公式Xのアイコンを新しいものに変更しました。', tags:['SNS'], url:'https://example.com/maintenance/2025-09-10'},
+      {id:4, date:'2026-03-01', type:'info', title:'L-crown製作委員会 会員募集のお知らせ', body:'L-crown製作委員会の会員を募集しました。', tags:['募集','サイト','製作委員会'], url:'https://example.com/recruit'},
+      {id:5, date:'2025-09-14', type:'Questionnaire', title:'データ意識度調査アンケート実施のお知らせ', body:'アンケートの回答の受付を開始しました。', tags:['参加型','アンケート'], url:''},
+      {id:6, date:'2025-07-20', type:'info', title:'L-crownティザームービー公開', body:'L-crownの告知用ティザームービーを公開しました。', tags:['サイト','SNS'], url:''},
+      {id:7, date:'2025-07-12', type:'info', title:'L-crown製作委員会発足におけるお知らせ', body:'L-crownの製作を開始しました。', tags:['サイト','製作委員会'], url:''}
+    ];
+
+    // state
+    let notices = [...rawNotices];
+
+    // elements
+    const listEl = document.getElementById('list');
+    const qEl = document.getElementById('q');
+    const startEl = document.getElementById('start');
+    const endEl = document.getElementById('end');
+    const tagSelect = document.getElementById('tag-select');
+    const tagCloud = document.getElementById('tag-cloud');
+    const sortEl = document.getElementById('sort');
+    const totalCount = document.getElementById('total-count');
+
+    // helpers
+    function formatDate(d){
+      const dt = new Date(d + 'T00:00:00');
+      return dt.toLocaleDateString('ja-JP');
+    }
+
+    function uniqueTags(list){
+      const s = new Set();
+      list.forEach(n=> n.tags.forEach(t=>s.add(t)));
+      return [...s].sort((a,b)=> a.localeCompare(b,'ja'));
+    }
+
+    function renderTagOptions(){
+      const tags = uniqueTags(notices);
+      tagSelect.innerHTML = '<option value="">-- タグを選択 --</option>' + tags.map(t=>`<option value="${t}">${t}</option>`).join('');
+      tagCloud.innerHTML = tags.map(t=>`<span class="tag" data-tag="${t}">${t}</span>`).join('');
+    }
+
+    function renderList(filtered){
+      totalCount.textContent = filtered.length;
+      if(filtered.length === 0){
+        listEl.innerHTML = '<div class="no-results">条件に一致するお知らせがありません。</div>';
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(n=>{
+        const bodyShort = n.body.length>120 ? n.body.slice(0,116)+'…' : n.body;
+        const tagsHtml = n.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+        const hasLink = n.url && n.url.trim().length > 0;
+        const titleHtml = hasLink ? `<a href="${n.url}" class="link-btn" target="_blank" rel="noopener noreferrer">${n.title}</a>` : `<span>${n.title}</span>`;
+        const moreHtml = hasLink ? ` <a href="${n.url}" target="_blank" rel="noopener noreferrer" style="margin-left:8px; font-size:0.85rem; color:var(--accent);">詳細</a>` : '';
+        return `
+          <article class="notice" data-id="${n.id}">
+            <div class="meta">
+              <time datetime="${n.date}">${formatDate(n.date)}</time>
+              <div class="type">${n.type}</div>
+            </div>
+            <div class="content">
+              <h3>${titleHtml}${moreHtml}</h3>
+              <p>${bodyShort}</p>
+              <div class="tags">${tagsHtml}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // make whole row clickable if it has a link (UX enhancement)
+      document.querySelectorAll('.notice').forEach(el=>{
+        const id = Number(el.dataset.id);
+        const n = notices.find(x=> x.id === id);
+        if(n && n.url){
+          el.style.cursor = 'pointer';
+          el.addEventListener('click', (e)=>{
+            // ignore clicks on inner links (so they still open normally)
+            if(e.target.closest('a')) return;
+            window.open(n.url, '_blank', 'noopener');
+          });
+        }
+      });
+    }
+
+    function applyFilters(){
+      const q = qEl.value.trim().toLowerCase();
+      const start = startEl.value ? new Date(startEl.value+'T00:00:00') : null;
+      const end = endEl.value ? new Date(endEl.value+'T23:59:59') : null;
+      const tag = tagSelect.value;
+      const sort = sortEl.value;
+
+      let filtered = notices.filter(n=>{
+        // keyword
+        if(q){
+          const inTitle = n.title.toLowerCase().includes(q);
+          const inBody = n.body.toLowerCase().includes(q);
+          if(!inTitle && !inBody) return false;
+        }
+        // date
+        const nd = new Date(n.date+'T12:00:00');
+        if(start && nd < start) return false;
+        if(end && nd > end) return false;
+        // tag
+        if(tag && !n.tags.includes(tag)) return false;
+        return true;
+      });
+
+      // sort
+      filtered.sort((a,b)=>{
+        if(sort === 'new') return new Date(b.date) - new Date(a.date);
+        return new Date(a.date) - new Date(b.date);
+      });
+
+      renderList(filtered);
+    }
+
+    // init
+    function init(){
+      renderTagOptions();
+      applyFilters();
+    }
+
+    // events
+    document.getElementById('apply').addEventListener('click', ()=> applyFilters());
+    document.getElementById('clear').addEventListener('click', ()=>{
+      qEl.value = '';
+      startEl.value = '';
+      endEl.value = '';
+      tagSelect.value = '';
+      sortEl.value = 'new';
+      applyFilters();
+    });
+
+    // quick tag click from tag cloud
+    tagCloud.addEventListener('click', (e)=>{
+      const t = e.target.closest('[data-tag]');
+      if(!t) return;
+      tagSelect.value = t.dataset.tag;
+      applyFilters();
+    });
+
+    // quick range
+    document.querySelectorAll('[data-range]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const days = Number(btn.dataset.range);
+        const end = new Date();
+        const start = new Date();
+        start.setDate(end.getDate() - days + 1);
+        startEl.value = start.toISOString().slice(0,10);
+        endEl.value = end.toISOString().slice(0,10);
+        applyFilters();
+      });
+    });
+
+    // type quick
+    document.querySelectorAll('[data-type]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const t = btn.dataset.type;
+        qEl.value = '';
+        tagSelect.value = '';
+        const filtered = notices.filter(n=>n.type === t);
+        renderTagOptions();
+        renderList(filtered.sort((a,b)=> new Date(b.date)-new Date(a.date)));
+      });
+    });
+
+    // live search (enterで確定でも良いがリアルタイムで動かす)
+    let typingTimer = null;
+    qEl.addEventListener('input', ()=>{
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(()=> applyFilters(), 300);
+    });
+
+    // initial render
+    init();
+  </script>
+</body>
+</html>
