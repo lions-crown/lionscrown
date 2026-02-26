@@ -111,13 +111,12 @@ body {
 }
 
 /* =========================
-   試合スライダー
+   試合速報スライダー
 ========================= */
 
 .games-wrapper {
   position: relative;
-  max-width: 420px;
-  margin: 0 auto;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -132,46 +131,96 @@ body {
 }
 
 .game-card {
-  background: rgba(255,255,255,0.08);
-  border-radius: 18px;
-  padding: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  background: linear-gradient(135deg, #0d2b5e, #092048);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-size: 14px;
+  opacity: 0.7;
 }
 
 .scoreboard {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.team img {
+  width: 46px;
+  height: 46px;
 }
 
 .score {
-  font-size: 22px;
+  font-size: 34px;
   font-weight: bold;
+}
+
+.live-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.outs span {
+  opacity: 0.25;
+}
+
+.outs .on {
+  opacity: 1;
+}
+
+.bases {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.base {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.2);
+}
+
+.base.on {
+  background: #00d4ff;
 }
 
 .status {
   text-align: center;
-  font-size: 12px;
+  margin-top: 12px;
+  font-size: 13px;
   opacity: 0.6;
-  margin-top: 10px;
 }
 
 button.slide-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.5);
   color: white;
   border: none;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   cursor: pointer;
 }
 
-#prevBtn { left: 6px; }
-#nextBtn { right: 6px; }
+#prevBtn { left: 10px; }
+#nextBtn { right: 10px; }
 
 /* =========================
    ランキングUI
@@ -198,7 +247,6 @@ button.slide-btn {
   padding: 8px 22px;
   border-radius: 30px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 .toggle-buttons button.active {
@@ -206,51 +254,25 @@ button.slide-btn {
   color: #092048;
 }
 
-.section-ranking {
-  display: none;
-}
-
-.section-ranking.active {
-  display: block;
-}
+.section-ranking { display: none; }
+.section-ranking.active { display: block; }
 
 .scroll-container {
   display: flex;
-  overflow-x: auto;
   gap: 20px;
-  padding: 10px 0 20px;
 }
 
 .card {
-  flex: 0 0 230px;
+  width: 230px;
   background: rgba(255,255,255,0.1);
   border-radius: 16px;
   padding: 16px;
 }
 
-.title {
-  text-align: center;
-  color: #6eb9ff;
-  margin-bottom: 12px;
-  font-weight: bold;
-}
-
 .player {
   display: flex;
-  align-items: center;
   gap: 10px;
   margin: 10px 0;
-}
-
-.player img {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-}
-
-.player.top img {
-  width: 60px;
-  height: 60px;
 }
 
 .rank {
@@ -295,23 +317,42 @@ button.slide-btn {
   <p id="fade3">ひとつ上のレベルへ。</p>
 </div>
 
+<!-- 試合速報 -->
 <div class="section">
   <div class="games-wrapper">
+
     <div id="slider">
+
       <div class="slide">
         <div class="game-card">
-          <div>3月1日 vs ソフトバンク</div>
-          <div class="scoreboard">
-            <div>西武</div>
-            <div class="score">2 – 1</div>
-            <div>SB</div>
+          <div class="game-header">
+            <span>【オープン戦】3月1日</span>
+            <span>7回表</span>
           </div>
-          <div class="status">試合中</div>
+          <div class="scoreboard">
+            <div class="team">西武</div>
+            <div class="score">2 – 1</div>
+            <div class="team">ソフトバンク</div>
+          </div>
+          <div class="live-area">
+            <div>
+              <div class="outs">
+                <span class="on">●</span><span>●</span><span>●</span>
+              </div>
+              <div class="bases">
+                <div class="base on"></div>
+                <div class="base"></div>
+                <div class="base"></div>
+              </div>
+            </div>
+            <div>打者：源田 / 投手：有原</div>
+          </div>
+          <div class="status">14:52 更新</div>
         </div>
       </div>
+
       <div class="slide">
         <div class="game-card">
-          <div>3月2日 vs 楽天</div>
           <div class="scoreboard">
             <div>西武</div>
             <div class="score">0 – 0</div>
@@ -320,19 +361,17 @@ button.slide-btn {
           <div class="status">試合中</div>
         </div>
       </div>
+
     </div>
 
     <button id="prevBtn" class="slide-btn">◀</button>
     <button id="nextBtn" class="slide-btn">▶</button>
+
   </div>
 </div>
 
-<!-- =========================
-     ランキング
-========================= -->
-
+<!-- ランキング -->
 <div class="section">
-
   <div class="ranking-title">チームTOP3ランキング2025</div>
 
   <div class="toggle-buttons">
@@ -340,61 +379,13 @@ button.slide-btn {
     <button id="pitchingBtn">投球成績</button>
   </div>
 
-  <!-- 打撃 -->
   <div id="batting" class="section-ranking active">
-    <div class="scroll-container">
-
-      <div class="card">
-        <div class="title">打率</div>
-
-        <div class="player top">
-          <img src="https://via.placeholder.com/100">
-          <div>
-            <div>ネビン</div>
-            <div class="rank">.277</div>
-          </div>
-        </div>
-
-        <div class="player">
-          <img src="https://via.placeholder.com/100">
-          <div>
-            <div>西川 愛也</div>
-            <div class="rank">.264</div>
-          </div>
-        </div>
-
-        <div class="player">
-          <img src="https://via.placeholder.com/100">
-          <div>
-            <div>渡部 聖弥</div>
-            <div class="rank">.259</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    打撃ランキング
   </div>
 
-  <!-- 投球 -->
   <div id="pitching" class="section-ranking">
-    <div class="scroll-container">
-
-      <div class="card">
-        <div class="title">防御率</div>
-
-        <div class="player top">
-          <img src="https://via.placeholder.com/100">
-          <div>
-            <div>今井 達也</div>
-            <div class="rank">1.92</div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
+    投球ランキング
   </div>
-
 </div>
 
 <div class="mlb">
