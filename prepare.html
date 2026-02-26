@@ -24,6 +24,36 @@ body {
   line-height: 1.6;
 }
 
+/* デフォルトの青を強制リセット */
+a,
+a:link,
+a:visited {
+  color: #ffffff !important;          /* 純白にしたい場合 */
+  /* または少し柔らかくしたいなら */
+  /* color: #f0f4ff !important; */
+  text-decoration: none !important;
+}
+
+/* ホバーしたときだけ色を変える */
+a:hover {
+  color: #a5c8ff !important;          /* 優しい水色系 */
+  /* 青を完全に避けたいなら */
+  /* color: #e0e0ff !important;  ← 薄い紫寄り白 */
+  text-decoration: underline !important;  /* 必要なら下線を出す */
+}
+
+/* クリック中 */
+a:active {
+  color: #84b0ff !important;
+}
+
+/* フォーカス（キーボード操作時）も青枠が出ないように */
+a:focus {
+  outline: none !important;
+  /* アクセシビリティ重視なら代わりに */
+  /* box-shadow: 0 0 0 3px rgba(165, 200, 255, 0.5) !important; */
+}
+
 /* =========================
    ナビゲーション
 ========================= */
