@@ -155,17 +155,24 @@ body {
 }
 
 .hero h1 {
-  font-size: clamp(1.9rem, 5.5vw, 3.4rem);         /* 最大3.4remでかなり抑えめ */
+  font-size: clamp(1.9rem, 5.5vw, 3.4rem);
   font-weight: 900;
   letter-spacing: -0.01em;
   line-height: 1.15;
-  text-wrap: balance;
-  hyphens: none;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
+
+  /* ── ここを強化 ── */
+  white-space: nowrap;                  /* これが核心：改行を完全に禁止 */
+  text-wrap: nowrap;                    /* 最新ブラウザ向けの補完（text-wrap shorthand） */
+  overflow: hidden;                     /* 溢れ防止（必要に応じて） */
+  text-overflow: ellipsis;              /* 溢れたら…で省略（オプション） */
+
+  /* 既存のもの（word-break系はnowrapと競合するので削除or無効化推奨） */
+  /* word-break: keep-all;             ← これを削除またはコメントアウト */
+  /* hyphens: none;                    ← 不要になる */
+  /* overflow-wrap: anywhere;          ← 不要になる */
 
   max-width: 100%;
-  margin: 0 auto 20px;                             /* 余白をさらに減らす */
+  margin: 0 auto 20px;
   padding: 0 3%;
 
   background: linear-gradient(90deg, #00c0ff, #ffffff, #ff4080, #00c0ff);
