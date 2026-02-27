@@ -12,8 +12,14 @@
   box-sizing:border-box;
 }
 
+:root{
+  --container:1320px;
+  --content:820px;
+}
+
+/* ===== 背景 ===== */
 body{
-  font-family: "Segoe UI","Noto Sans JP",sans-serif;
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background:
     radial-gradient(circle at 20% -10%, rgba(80,140,255,0.25), transparent 40%),
     radial-gradient(circle at 90% 0%, rgba(120,180,255,0.15), transparent 35%),
@@ -21,9 +27,10 @@ body{
   color:#e6edf3;
   min-height:100vh;
   overflow-x:hidden;
+  line-height:1.75;
 }
 
-/* ===== 右上発光オーブ ===== */
+/* 発光オーブ */
 body::after{
   content:"";
   position:fixed;
@@ -36,7 +43,15 @@ body::after{
   z-index:-1;
 }
 
-/* ===== ガラスヘッダー ===== */
+/* ===== 共通横幅 ===== */
+.container{
+  width:100%;
+  max-width:var(--container);
+  margin:auto;
+  padding:0 28px;
+}
+
+/* ===== ヘッダー ===== */
 .navbar{
   position:sticky;
   top:0;
@@ -46,16 +61,13 @@ body::after{
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
-.nav-container{
-  max-width:1200px;
-  margin:auto;
-  padding:16px 24px;
+.nav-inner{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  height:72px;
 }
 
-/* ===== グラデーションロゴ ===== */
 .logo{
   font-size:1.6rem;
   font-weight:700;
@@ -63,14 +75,12 @@ body::after{
   background:linear-gradient(90deg,#6eb9ff,#9ed0ff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  letter-spacing:1px;
 }
 
-/* ===== メニュー ===== */
 .nav-menu{
   list-style:none;
   display:flex;
-  gap:2rem;
+  gap:2.2rem;
 }
 
 .nav-menu a{
@@ -94,7 +104,7 @@ body::after{
 }
 
 .nav-menu a:hover{
-  color:#ffffff;
+  color:#fff;
 }
 
 .nav-menu a:hover::after,
@@ -102,7 +112,6 @@ body::after{
   width:100%;
 }
 
-/* ===== ハンバーガー ===== */
 .menu-toggle{
   display:none;
   background:none;
@@ -114,10 +123,36 @@ body::after{
 
 /* ===== メイン ===== */
 main{
-  max-width:1200px;
-  margin:70px auto;
-  padding:0 24px;
-  min-height:60vh;
+  padding:80px 0;
+}
+
+.content-wrap{
+  max-width:var(--content);
+  margin:auto;
+}
+
+/* ガラスカード */
+.glass-card{
+  backdrop-filter:blur(16px);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;
+  padding:40px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+}
+
+/* 見出し */
+h1,h2,h3{
+  margin-bottom:20px;
+  line-height:1.3;
+}
+
+h1{
+  font-size:2.2rem;
+}
+
+p{
+  margin-bottom:1.4em;
 }
 
 /* ===== フッター ===== */
@@ -126,12 +161,10 @@ footer{
   backdrop-filter:blur(14px);
   background:rgba(10,25,60,0.55);
   border-top:1px solid rgba(255,255,255,0.08);
-  padding:60px 24px 30px;
+  padding:80px 0 40px;
 }
 
-.footer-container{
-  max-width:1200px;
-  margin:auto;
+.footer-grid{
   display:grid;
   grid-template-columns:2fr 1fr 1fr;
   gap:3rem;
@@ -147,7 +180,6 @@ footer{
 .footer-brand p{
   margin-top:15px;
   opacity:0.8;
-  line-height:1.7;
 }
 
 .footer-links h4{
@@ -170,13 +202,12 @@ footer{
 
 .footer-links a:hover{
   color:#6eb9ff;
-  text-shadow:0 0 8px rgba(110,185,255,0.6);
   transform:translateX(4px);
 }
 
 .footer-bottom{
   text-align:center;
-  margin-top:40px;
+  margin-top:50px;
   padding-top:20px;
   border-top:1px solid rgba(255,255,255,0.08);
   font-size:0.9rem;
@@ -193,7 +224,7 @@ footer{
   .nav-menu{
     display:none;
     position:absolute;
-    top:100%;
+    top:72px;
     left:0;
     right:0;
     background:rgba(10,25,60,0.95);
@@ -205,29 +236,29 @@ footer{
     display:flex;
   }
 
-  .footer-container{
+  .footer-grid{
     grid-template-columns:1fr;
     text-align:center;
   }
+
+  .glass-card{
+    padding:28px;
+  }
 }
 
-/* ===== フォーカス ===== */
 a:focus-visible{
   outline:2px solid #6eb9ff;
   outline-offset:3px;
 }
-
 </style>
 </head>
 
 <body>
 
 <nav class="navbar">
-  <div class="nav-container">
+  <div class="container nav-inner">
     <a href="{{ '/' | relative_url }}" class="logo">L-crown</a>
-
     <button class="menu-toggle">☰</button>
-
     <ul class="nav-menu">
       <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>ホーム</a></li>
       <li><a href="{{ '/news' | relative_url }}" {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
@@ -238,12 +269,17 @@ a:focus-visible{
 </nav>
 
 <main>
-  {{ content }}
+  <div class="container">
+    <div class="content-wrap">
+      <div class="glass-card">
+        {{ content }}
+      </div>
+    </div>
+  </div>
 </main>
 
 <footer>
-  <div class="footer-container">
-
+  <div class="container footer-grid">
     <div class="footer-brand">
       <h3>L-crown</h3>
       <p>
@@ -265,10 +301,9 @@ a:focus-visible{
     <div class="footer-links">
       <h4>フォロー</h4>
       <ul>
-        <li><a href="https://x.com/Lcrown_official" target="_blank">X (Twitter)</a></li>
+        <li><a href="https://x.com/Lcrown_official" target="_blank">X</a></li>
       </ul>
     </div>
-
   </div>
 
   <div class="footer-bottom">
