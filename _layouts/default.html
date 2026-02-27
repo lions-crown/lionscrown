@@ -13,8 +13,9 @@
 }
 
 :root{
-  --container:1320px;
-  --content:820px;
+  --container:1500px;
+  --content:980px;
+  --nav-height:76px;
 }
 
 /* ===== 背景 ===== */
@@ -30,7 +31,6 @@ body{
   line-height:1.75;
 }
 
-/* 発光オーブ */
 body::after{
   content:"";
   position:fixed;
@@ -48,24 +48,25 @@ body::after{
   width:100%;
   max-width:var(--container);
   margin:auto;
-  padding:0 28px;
+  padding:0 32px;
 }
 
-/* ===== ヘッダー ===== */
+/* ===== ナビバー ===== */
 .navbar{
   position:sticky;
   top:0;
   z-index:1000;
-  backdrop-filter:blur(14px);
-  background:rgba(10,25,60,0.55);
+  height:var(--nav-height);
+  backdrop-filter:blur(16px);
+  background:rgba(10,25,60,0.65);
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .nav-inner{
+  height:100%;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  height:72px;
+  justify-content:space-between;
 }
 
 .logo{
@@ -75,6 +76,16 @@ body::after{
   background:linear-gradient(90deg,#6eb9ff,#9ed0ff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+  display:flex;
+  align-items:center;
+  height:100%;
+}
+
+/* ===== ナビ右側 ===== */
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:2.2rem;
 }
 
 .nav-menu{
@@ -112,18 +123,48 @@ body::after{
   width:100%;
 }
 
-.menu-toggle{
-  display:none;
+/* ===== 検索フォーム ===== */
+.nav-search{
+  position:relative;
+}
+
+.nav-search input{
+  height:38px;
+  width:220px;
+  padding:0 40px 0 14px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.06);
+  color:#fff;
+  font-size:0.9rem;
+  outline:none;
+  transition:0.3s;
+}
+
+.nav-search input::placeholder{
+  color:rgba(255,255,255,0.6);
+}
+
+.nav-search input:focus{
+  border-color:#6eb9ff;
+  background:rgba(255,255,255,0.12);
+}
+
+.nav-search button{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
   background:none;
   border:none;
-  color:#fff;
-  font-size:1.8rem;
+  color:#9ed0ff;
   cursor:pointer;
+  font-size:1rem;
 }
 
 /* ===== メイン ===== */
 main{
-  padding:80px 0;
+  padding:100px 0;
 }
 
 .content-wrap{
@@ -131,37 +172,36 @@ main{
   margin:auto;
 }
 
-/* ガラスカード */
 .glass-card{
   backdrop-filter:blur(16px);
-  background:rgba(255,255,255,0.04);
+  background:rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.08);
-  border-radius:20px;
-  padding:40px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  border-radius:22px;
+  padding:50px;
+  box-shadow:0 25px 70px rgba(0,0,0,0.35);
 }
 
-/* 見出し */
+/* ===== タイポ ===== */
 h1,h2,h3{
   margin-bottom:20px;
   line-height:1.3;
 }
 
 h1{
-  font-size:2.2rem;
+  font-size:2.4rem;
 }
 
 p{
-  margin-bottom:1.4em;
+  margin-bottom:1.5em;
 }
 
 /* ===== フッター ===== */
 footer{
-  margin-top:100px;
+  margin-top:120px;
   backdrop-filter:blur(14px);
   background:rgba(10,25,60,0.55);
   border-top:1px solid rgba(255,255,255,0.08);
-  padding:80px 0 40px;
+  padding:90px 0 40px;
 }
 
 .footer-grid{
@@ -207,7 +247,7 @@ footer{
 
 .footer-bottom{
   text-align:center;
-  margin-top:50px;
+  margin-top:60px;
   padding-top:20px;
   border-top:1px solid rgba(255,255,255,0.08);
   font-size:0.9rem;
@@ -215,25 +255,14 @@ footer{
 }
 
 /* ===== レスポンシブ ===== */
-@media(max-width:768px){
-
-  .menu-toggle{
-    display:block;
-  }
+@media(max-width:900px){
 
   .nav-menu{
     display:none;
-    position:absolute;
-    top:72px;
-    left:0;
-    right:0;
-    background:rgba(10,25,60,0.95);
-    flex-direction:column;
-    padding:20px;
   }
 
-  .nav-menu.active{
-    display:flex;
+  .nav-search input{
+    width:160px;
   }
 
   .footer-grid{
@@ -242,7 +271,7 @@ footer{
   }
 
   .glass-card{
-    padding:28px;
+    padding:32px;
   }
 }
 
@@ -257,14 +286,25 @@ a:focus-visible{
 
 <nav class="navbar">
   <div class="container nav-inner">
+
     <a href="{{ '/' | relative_url }}" class="logo">L-crown</a>
-    <button class="menu-toggle">☰</button>
-    <ul class="nav-menu">
-      <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>ホーム</a></li>
-      <li><a href="{{ '/news' | relative_url }}" {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
-      <li><a href="{{ '/privacypolicy' | relative_url }}">利用規約</a></li>
-      <li><a href="{{ '/contact' | relative_url }}">お問い合わせ</a></li>
-    </ul>
+
+    <div class="nav-right">
+
+      <ul class="nav-menu">
+        <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>ホーム</a></li>
+        <li><a href="{{ '/news' | relative_url }}" {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
+        <li><a href="{{ '/privacypolicy' | relative_url }}">利用規約</a></li>
+        <li><a href="{{ '/contact' | relative_url }}">お問い合わせ</a></li>
+      </ul>
+
+      <form class="nav-search" action="{{ '/search' | relative_url }}" method="get">
+        <input type="text" name="q" placeholder="ページ検索..." />
+        <button type="submit">🔍</button>
+      </form>
+
+    </div>
+
   </div>
 </nav>
 
@@ -310,12 +350,6 @@ a:focus-visible{
     © {{ 'now' | date: "%Y" }} L-crown. All rights reserved.
   </div>
 </footer>
-
-<script>
-document.querySelector('.menu-toggle').addEventListener('click',()=>{
-  document.querySelector('.nav-menu').classList.toggle('active');
-});
-</script>
 
 </body>
 </html>
