@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L-crown</title>
 
+<!-- サイトアイコン -->
+<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<meta name="theme-color" content="#0f172a">
+   
 <style>
 
 /* =========================
@@ -490,48 +495,140 @@ button.slide-btn {
 }
 
 /* =========================
-   お知らせ（追加）
+   お知らせ（モダンカード化）
 ========================= */
 
 .notice {
   border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: 60px;
-  padding: 40px 0 10px;
+  margin-top: 80px;
+  padding: 60px 0 20px;
 }
 
 .notice-title {
-  font-size: 20px;
-  margin-bottom: 18px;
+  font-size: 22px;
+  margin-bottom: 30px;
   color: #6eb9ff;
 }
 
 .notice-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  font-size: 14px;
+  gap: 16px;
 }
 
+/* 1件ずつカード化 */
 .notice-item {
-  opacity: 0.75;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.25s ease;
 }
 
-/* お知らせ内のリンク専用スタイル（既存の a スタイルの上書き） */
+.notice-item:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(110,185,255,0.4);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
+
+/* リンク */
 .notice-item a {
-  color: #a5c8ff;              /* 明るい青白で目立つ */
-  text-decoration: underline;  /* 下線でリンクだとわかる */
-  transition: color 0.2s;
+  color: #cfe6ff;
+  text-decoration: none;
+  font-weight: 500;
+  flex: 1;
 }
 
 .notice-item a:hover {
-  color: #ffffff;              /* ホバーで純白 */
-  text-decoration: none;       /* または下線消す */
-}   
+  color: #ffffff;
+}
 
+/* 日付 */
 .notice-time {
   font-size: 12px;
-  opacity: 0.45;
-  margin-left: 8px;
+  opacity: 0.5;
+  margin-left: 20px;
+  white-space: nowrap;
+}
+
+/* モバイル */
+@media (max-width: 600px) {
+  .notice-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .notice-time {
+    margin-left: 0;
+  }
+}
+
+/* =========================
+   お知らせカテゴリバッジ
+========================= */
+
+.notice-item {
+  position: relative;
+}
+
+/* 左側コンテンツをまとめる */
+.notice-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+/* バッジ共通 */
+.notice-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  letter-spacing: .05em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* カテゴリ別カラー */
+.badge-official {
+  background: rgba(0,180,255,0.15);
+  color: #6ecbff;
+  border-color: rgba(0,180,255,0.4);
+}
+
+.badge-media {
+  background: rgba(255,255,255,0.08);
+  color: #e2e8f0;
+  border-color: rgba(255,255,255,0.2);
+}
+
+.badge-update {
+  background: rgba(0,255,180,0.12);
+  color: #2ef0c8;
+  border-color: rgba(0,255,180,0.3);
+}
+
+.badge-important {
+  background: rgba(255,70,70,0.15);
+  color: #ff6b6b;
+  border-color: rgba(255,70,70,0.4);
+}
+
+/* モバイル */
+@media (max-width: 600px) {
+  .notice-content {
+    flex-wrap: wrap;
+  }
 }
 
 /* =========================
@@ -839,7 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   loadNotices();
-  setInterval(loadNotices, 60000); // 60秒ごと更新
+  setInterval(loadNotices, 60000);
 });
 
 /* スライダー */
@@ -857,37 +954,39 @@ nextBtn.onclick = () => moveSlide(1);
 
 setInterval(()=>moveSlide(1), 4500);
 
-/* ✅ お知らせ自動更新 */
+/* お知らせ読み込み */
 async function loadNotices() {
   try {
-    const res = await fetch("/lionscrown/notices.json"); 
+    const res = await fetch("/lionscrown/notices.json");
     const data = await res.json();
 
     const list = document.getElementById("noticeList");
     list.innerHTML = "";
 
-    // 最新順にソート（任意ですがおすすめ）
     data.sort((a, b) => new Date(b.time) - new Date(a.time));
 
     data.forEach(item => {
       const el = document.createElement("div");
       el.className = "notice-item";
 
-      // リンクがある場合 → <a> で囲む
-      if (item.url && item.url.trim() !== "") {
-        el.innerHTML = `
-          <a href="${item.url}" target="_blank" rel="noopener noreferrer">
-            ${item.text}
-          </a>
-          <span class="notice-time">${item.time}</span>
-        `;
-      } else {
-        // リンクなし → 普通のテキスト
-        el.innerHTML = `
-          ${item.text}
-          <span class="notice-time">${item.time}</span>
-        `;
-      }
+      let badgeClass = "badge-media";
+      if(item.category === "公式") badgeClass = "badge-official";
+      if(item.category === "更新") badgeClass = "badge-update";
+      if(item.category === "重要") badgeClass = "badge-important";
+
+      el.innerHTML = `
+        <div class="notice-content">
+          <span class="notice-badge ${badgeClass}">
+            ${item.category || "INFO"}
+          </span>
+          ${
+            item.url && item.url.trim() !== ""
+              ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
+              : `<span>${item.text}</span>`
+          }
+        </div>
+        <span class="notice-time">${item.time}</span>
+      `;
 
       list.appendChild(el);
     });
@@ -900,7 +999,6 @@ async function loadNotices() {
 }
 
 </script>
-
 </body>
 </html>
 
