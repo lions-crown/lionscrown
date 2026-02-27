@@ -5,112 +5,240 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>プライバシーポリシー / 利用規約 | L-crown</title>
 
-<!-- サイトアイコン -->
 <link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <meta name="theme-color" content="#0f172a">
-  
+
 <style>
 
-/* ===== 背景 ===== */
-body{
-  margin:0;
-  font-family:"Segoe UI","Noto Sans JP",sans-serif;
-  background:radial-gradient(circle at 20% 20%, #163b80 0%, #050c1f 70%);
-  color:#fff;
-  line-height:1.9;
-  overflow-x:hidden;
+/* ===== 背景（統一版） ===== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
+  color: white;
+  overflow-x: hidden;
 }
 
-/* ブルーオーブ */
-body::before{
-  content:"";
-  position:fixed;
-  top:-200px;
-  right:-200px;
-  width:600px;
-  height:600px;
-  background:radial-gradient(circle, rgba(110,185,255,0.35), transparent 70%);
-  filter:blur(80px);
-  z-index:0;
+/* 光のオーブ */
+body::before {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top: -120px;
+  right: -120px;
+  filter: blur(40px);
+  z-index: -1;
 }
 
-/* レイアウト */
-.wrapper{
-  max-width:1100px;
-  margin:auto;
-  padding:80px 20px;
-  position:relative;
-  z-index:1;
+/* ===== ヘッダー ===== */
+header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(14px);
+  background: rgba(10, 25, 60, 0.55);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  z-index: 1000;
 }
 
-/* ガラスカード */
-.card{
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(16px);
-  border-radius:22px;
-  padding:50px;
+nav {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+/* ロゴ */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.logo span {
+  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  border-radius: 6px;
+  filter: drop-shadow(0 0 6px rgba(77,163,255,0.6));
+  transition: 0.3s;
+}
+
+.logo:hover img {
+  transform: scale(1.08);
+}
+
+.logo:hover span {
+  text-shadow: 0 0 12px rgba(77,163,255,0.7);
+}
+
+/* メニュー */
+.menu {
+  display: flex;
+  gap: 26px;
+}
+
+.menu a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 13px;
+  position: relative;
+  transition: 0.25s;
+}
+
+.menu a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4da3ff, #7ecbff);
+  transition: 0.25s;
+}
+
+.menu a:hover {
+  color: white;
+  text-shadow: 0 0 10px rgba(77,163,255,0.6);
+}
+
+.menu a:hover::after {
+  width: 100%;
+}
+
+/* ===== メイン ===== */
+main {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.policy-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 22px;
+  padding: 40px;
+  backdrop-filter: blur(16px);
   box-shadow:
-    0 10px 40px rgba(0,0,0,0.5),
-    inset 0 0 0 1px rgba(255,255,255,0.08);
-  transition:0.4s ease;
+    0 20px 60px rgba(0,0,0,0.55),
+    inset 0 0 0 1px rgba(255,255,255,0.1);
 }
 
-.card:hover{
-  transform:translateY(-4px);
+.policy-card h1 {
+  font-size: 30px;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* 見出し */
-h1{
-  font-size:34px;
-  margin-bottom:40px;
-  background:linear-gradient(90deg,#6eb9ff,#9ed0ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.policy-card h2 {
+  margin-top: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding-bottom: 6px;
 }
 
-h2{
-  margin-top:50px;
-  padding-bottom:8px;
-  border-bottom:1px solid rgba(255,255,255,0.15);
+.policy-card h3 {
+  margin-top: 25px;
+  color: #9ad0ff;
 }
 
-h3{
-  margin-top:30px;
-  color:#9ed0ff;
+.policy-card ul {
+  padding-left: 20px;
 }
 
-/* リスト */
-ul{
-  padding-left:22px;
+.contact-box {
+  background: rgba(77,163,255,0.1);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(77,163,255,0.25);
+  margin: 20px 0;
 }
 
-/* 問い合わせボックス */
-.contact-box{
-  background:rgba(110,185,255,0.08);
-  padding:18px;
-  border-radius:14px;
-  border:1px solid rgba(110,185,255,0.25);
-  margin:20px 0;
+/* ===== フッター（統一版） ===== */
+footer {
+  margin-top: 100px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-/* リンク */
-a{
-  color:#6eb9ff;
-  text-decoration:none;
+.footer-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 50px 20px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 0.6fr;
+  gap: 50px;
 }
 
-a:hover{
-  text-decoration:underline;
+.footer-logo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* レスポンシブ */
-@media(max-width:768px){
-  .card{
-    padding:30px 20px;
-  }
-  h1{
-    font-size:26px;
+.footer-text {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+}
+
+.footer-title {
+  font-size: 12px;
+  margin-bottom: 14px;
+  color: rgba(255,255,255,0.9);
+}
+
+.footer-links,
+.footer-follow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+footer a {
+  text-decoration: none;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  transition: 0.25s;
+}
+
+footer a:hover {
+  color: white;
+  transform: translateX(4px);
+  text-shadow: 0 0 8px rgba(77,163,255,0.5);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 16px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
 }
 
@@ -119,98 +247,61 @@ a:hover{
 
 <body>
 
-<div class="wrapper">
-  <div class="card">
+<header>
+  <nav>
+    <a href="/lionscrown" class="logo">
+      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
+      <span>L-crown</span>
+    </a>
 
-<h1>プライバシーポリシー / 利用規約</h1>
+    <div class="menu">
+      <a href="/lionscrown">TOP</a>
+      <a href="#">試合</a>
+      <a href="#">データ</a>
+      <a href="/lionscrown/contact">お問い合わせ</a>
+    </div>
+  </nav>
+</header>
 
-<h2>プライバシーポリシー</h2>
-<p>
-L-crown（以下「当サービス」）は、ユーザーの個人情報を適切に保護することを重要な責務と考え、以下の通りプライバシーポリシーを定めます。
-</p>
+<main>
+  <div class="policy-card">
 
-<h3>1. 収集する情報</h3>
-<ul>
-<li>アカウント情報（メールアドレス、ユーザー名、プロフィール画像など）</li>
-<li>サービス利用時に送信されるコンテンツ（投稿、コメント、DMなど）</li>
-<li>デバイス情報（IPアドレス、ブラウザ種類、OS、アクセス時間など）</li>
-<li>Cookieおよび類似技術により取得される行動履歴</li>
-<li>お問い合わせ時に任意でご提供いただいた情報</li>
-</ul>
-
-<h3>2. 利用目的</h3>
-<ul>
-<li>サービス提供・維持・改善のため</li>
-<li>本人確認、不正利用防止のため</li>
-<li>お問い合わせ対応、アンケート実施のため</li>
-<li>利用状況の分析、マーケティング施策のため（個人を特定しない形）</li>
-</ul>
-
-<h3>3. 第三者への提供</h3>
-<p>以下の場合を除き、個人情報を第三者に提供することはありません。</p>
-<ul>
-<li>ユーザーの同意がある場合</li>
-<li>法令に基づく場合</li>
-<li>人の生命・身体・財産を保護するために必要で同意を得ることが困難な場合</li>
-<li>業務委託先へ委託する場合（適切な監督を行います）</li>
-</ul>
-
-<h3>4. Cookie・類似技術について</h3>
-<p>
-当サービスでは利便性向上・利用状況把握のためにCookieを使用しています。
-ブラウザ設定で無効化できますが、一部機能が利用できなくなる場合があります。
-</p>
-
-<h3>5. お問い合わせ窓口</h3>
-<div class="contact-box">
-Email: lionscrown.inquiry@gmail.com
-</div>
-
-<h2>利用規約</h2>
-
-<p>
-本規約は、L-crown（以下「当サービス」）を利用する全ての方（以下「ユーザー」）に適用されます。
-サービスを利用した時点で本規約に同意したものとみなします。
-</p>
-
-<h3>第1条（禁止行為）</h3>
-<ul>
-<li>法令・公序良俗に違反する行為</li>
-<li>権利侵害行為</li>
-<li>虚偽登録・なりすまし</li>
-<li>スパム・ボット利用</li>
-<li>不適切な表現・嫌がらせ</li>
-<li>運営妨害行為</li>
-<li>その他不適切と判断する行為</li>
-</ul>
-
-<h3>第2条（アカウントの管理）</h3>
-<p>ユーザーは自己の責任においてアカウントおよびパスワードを管理するものとします。</p>
-
-<h3>第3条（投稿コンテンツの権利）</h3>
-<p>著作権は投稿者に帰属しますが、当サービスへの利用許諾を行うものとします。</p>
-
-<h3>第4条（サービスの中断・終了）</h3>
-<ul>
-<li>システム保守・障害対応</li>
-<li>不可抗力</li>
-<li>その他必要と判断した場合</li>
-</ul>
-
-<h3>第5条（免責事項）</h3>
-<p>当サービスは一切の責任を負いません。</p>
-
-<h3>第6条（規約の変更）</h3>
-<p>掲載時点から効力を生じます。</p>
-
-<h3>第7条（準拠法・管轄）</h3>
-<p>
-本規約は日本法を準拠法とし、本サービスに関して生じる一切の紛争については
-東京地方裁判所を専属的合意管轄裁判所とします。
-</p>
+    <h1>プライバシーポリシー / 利用規約</h1>
+    <!-- 既存本文ここにそのまま入れてください -->
 
   </div>
-</div>
+</main>
+
+<footer>
+  <div class="footer-container">
+
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        そして埼玉西武ライオンズの王座奪還への道のりを追いかけます。
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-title">リンク</div>
+      <a href="/lionscrown">ホーム</a>
+      <a href="/lionscrown/news">お知らせ</a>
+      <a href="/lionscrown/privacypolicy">利用規約</a>
+      <a href="/lionscrown/contact">お問い合わせ</a>
+    </div>
+
+    <div class="footer-follow">
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official">𝕏</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
+  </div>
+</footer>
 
 </body>
 </html>
