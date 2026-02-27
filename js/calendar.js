@@ -7,7 +7,7 @@ window.onload = () => {
   let currentMonth = today.getMonth();
   const weekdays = ["月", "火", "水", "木", "金", "土", "日"];
 
-  fetch("data/games.json")
+  fetch("lionscrown/data/games.json")
     .then(res => res.json())
     .then(data => {
       games = data;
