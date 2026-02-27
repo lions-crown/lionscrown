@@ -1,4 +1,4 @@
 <form action="https://www.google.com/search" method="get">
-  <input type="hidden" name="sitesearch" value="lions-crown.github.io">
+  <input type="hidden" name="sitesearch" value="lions-crown.github.io/lionscrown">
   <input type="text" name="q">
 </form>
