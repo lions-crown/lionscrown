@@ -6,47 +6,90 @@
 <title>プライバシーポリシー / 利用規約 | L-crown</title>
 
 <style>
+
+/* ===== 背景 ===== */
 body{
-  font-family:"Segoe UI","Noto Sans JP",sans-serif;
-  background:linear-gradient(135deg,#091b3d,#0d2b5e);
-  color:#fff;
   margin:0;
-  padding:40px 20px;
-  line-height:1.8;
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
+  background:radial-gradient(circle at 20% 20%, #163b80 0%, #050c1f 70%);
+  color:#fff;
+  line-height:1.9;
+  overflow-x:hidden;
 }
 
-.container{
-  max-width:900px;
+/* ブルーオーブ */
+body::before{
+  content:"";
+  position:fixed;
+  top:-200px;
+  right:-200px;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(110,185,255,0.35), transparent 70%);
+  filter:blur(80px);
+  z-index:0;
+}
+
+/* レイアウト */
+.wrapper{
+  max-width:1100px;
   margin:auto;
+  padding:80px 20px;
+  position:relative;
+  z-index:1;
 }
 
+/* ガラスカード */
+.card{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(16px);
+  border-radius:22px;
+  padding:50px;
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.5),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+  transition:0.4s ease;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+/* 見出し */
 h1{
-  font-size:32px;
-  margin-bottom:30px;
+  font-size:34px;
+  margin-bottom:40px;
+  background:linear-gradient(90deg,#6eb9ff,#9ed0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 h2{
-  margin-top:40px;
-  border-bottom:1px solid rgba(255,255,255,0.2);
-  padding-bottom:6px;
+  margin-top:50px;
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,0.15);
 }
 
 h3{
-  margin-top:25px;
+  margin-top:30px;
+  color:#9ed0ff;
 }
 
+/* リスト */
 ul{
-  padding-left:20px;
+  padding-left:22px;
 }
 
+/* 問い合わせボックス */
 .contact-box{
   background:rgba(110,185,255,0.08);
-  padding:16px;
-  border-radius:12px;
-  border:1px solid rgba(110,185,255,0.2);
+  padding:18px;
+  border-radius:14px;
+  border:1px solid rgba(110,185,255,0.25);
   margin:20px 0;
 }
 
+/* リンク */
 a{
   color:#6eb9ff;
   text-decoration:none;
@@ -55,11 +98,24 @@ a{
 a:hover{
   text-decoration:underline;
 }
+
+/* レスポンシブ */
+@media(max-width:768px){
+  .card{
+    padding:30px 20px;
+  }
+  h1{
+    font-size:26px;
+  }
+}
+
 </style>
 </head>
 
 <body>
-<div class="container">
+
+<div class="wrapper">
+  <div class="card">
 
 <h1>プライバシーポリシー / 利用規約</h1>
 
@@ -148,6 +204,8 @@ Email: lionscrown.inquiry@gmail.com
 東京地方裁判所を専属的合意管轄裁判所とします。
 </p>
 
+  </div>
 </div>
+
 </body>
 </html>
