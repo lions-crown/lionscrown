@@ -1,6 +1,6 @@
 ---
 layout: default
-title: news
+title: News
 ---
 
 <h1 class="page-title">News</h1>
@@ -70,176 +70,95 @@ title: news
 
 <style>
 
-body {
-  background: #0f172a;
-  color: #e5e7eb;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
+/* ページタイトル */
 .page-title {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-size: 26px;
 }
 
+/* コントロール */
 .controls {
-  position: sticky;
-  top: 0;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(10px);
-  padding: 12px 0;
+  margin-bottom: 30px;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  z-index: 10;
 }
 
 .controls input,
 .controls select {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #e5e7eb;
-  padding: 8px 10px;
-  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
 }
 
+/* 投稿一覧 */
 #post-container {
   display: grid;
-  gap: 14px;
+  gap: 18px;
 }
 
+/* ガラスカード */
 .post-inner {
-  background: linear-gradient(145deg, #1e293b, #0f172a);
-  border: 1px solid #334155;
-  border-radius: 14px;
-  padding: 18px;
-  transition: 0.25s;
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 20px;
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+  transition: 0.3s;
 }
 
 .post-inner:hover {
   transform: translateY(-4px);
-  border-color: #64748b;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.55),
+    inset 0 0 0 1px rgba(255,255,255,0.15);
 }
 
 .post-date {
-  font-size: 0.8em;
-  color: #94a3b8;
-  margin-bottom: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
 }
 
 .post h2 {
-  margin: 4px 0;
+  margin: 6px 0;
 }
 
 .post a {
   text-decoration: none;
-  color: #f1f5f9;
+  color: white;
 }
 
 .post p {
-  color: #cbd5f5;
-  font-size: 0.9em;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
 }
 
+/* タグ */
 .tags {
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .tag {
-  font-size: 0.7em;
-  background: #334155;
-  padding: 4px 8px;
+  font-size: 11px;
+  background: rgba(77,163,255,0.15);
+  border: 1px solid rgba(77,163,255,0.3);
+  padding: 4px 10px;
   border-radius: 999px;
   margin-right: 6px;
-  color: #cbd5f5;
+  color: #9ad0ff;
 }
 
 #empty-state {
   display: none;
   text-align: center;
   padding: 40px;
-  color: #94a3b8;
+  color: rgba(255,255,255,0.5);
 }
 
 </style>
-
-<script>
-const searchInput = document.getElementById('search');
-const tagFilter = document.getElementById('tag-filter');
-const dateFrom = document.getElementById('date-from');
-const dateTo = document.getElementById('date-to');
-const sortSelect = document.getElementById('sort');
-const emptyState = document.getElementById('empty-state');
-
-const posts = Array.from(document.querySelectorAll('.post'));
-
-function filterPosts() {
-
-  const search = searchInput.value.toLowerCase();
-  const selectedTag = tagFilter.value.toLowerCase();
-  const from = dateFrom.value;
-  const to = dateTo.value;
-
-  let visibleCount = 0;
-
-  posts.forEach(post => {
-
-    const title = post.dataset.title || "";
-    const date = post.dataset.date || "";
-    const tags = post.dataset.tags || "";
-    const description = post.dataset.description || "";
-
-    let visible = true;
-
-    // 🔎 検索（タイトル＋説明）
-    if (search && !(title.includes(search) || description.includes(search))) {
-      visible = false;
-    }
-
-    // 🏷 タグ（完全一致判定）
-    if (selectedTag) {
-      const tagArray = tags.split(',');
-      if (!tagArray.includes(selectedTag)) visible = false;
-    }
-
-    // 📅 日付範囲
-    if (from && date < from) visible = false;
-    if (to && date > to) visible = false;
-
-    post.style.display = visible ? "block" : "none";
-
-    if (visible) visibleCount++;
-  });
-
-  emptyState.style.display = visibleCount ? "none" : "block";
-
-  sortPosts();
-}
-
-function sortPosts() {
-
-  const container = document.getElementById('post-container');
-  const mode = sortSelect.value;
-
-  const visiblePosts = posts.filter(p => p.style.display !== "none");
-
-  visiblePosts.sort((a, b) => {
-
-    if (mode === "new") return b.dataset.date.localeCompare(a.dataset.date);
-    if (mode === "old") return a.dataset.date.localeCompare(b.dataset.date);
-    if (mode === "title") return a.dataset.title.localeCompare(b.dataset.title);
-
-    return 0;
-  });
-
-  visiblePosts.forEach(p => container.appendChild(p));
-}
-
-// ✅ 初期表示ソート保証
-sortPosts();
-
-searchInput.addEventListener('input', filterPosts);
-tagFilter.addEventListener('change', filterPosts);
-dateFrom.addEventListener('change', filterPosts);
-dateTo.addEventListener('change', filterPosts);
-sortSelect.addEventListener('change', filterPosts);
-</script>
