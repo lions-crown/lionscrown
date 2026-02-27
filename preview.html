@@ -931,7 +931,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   loadNotices();
-  setInterval(loadNotices, 60000); // 60秒ごと更新
+  setInterval(loadNotices, 60000);
 });
 
 /* スライダー */
@@ -949,7 +949,7 @@ nextBtn.onclick = () => moveSlide(1);
 
 setInterval(()=>moveSlide(1), 4500);
 
-/* ✅ お知らせ自動更新 */
+/* お知らせ読み込み */
 async function loadNotices() {
   try {
     const res = await fetch("/lionscrown/notices.json");
@@ -958,31 +958,16 @@ async function loadNotices() {
     const list = document.getElementById("noticeList");
     list.innerHTML = "";
 
-    // 最新順にソート
     data.sort((a, b) => new Date(b.time) - new Date(a.time));
 
     data.forEach(item => {
       const el = document.createElement("div");
       el.className = "notice-item";
 
-      // カテゴリクラス決定
-      let badgeClass = "";
-      switch(item.category){
-        case "公式":
-          badgeClass = "badge-official";
-          break;
-        case "報道":
-          badgeClass = "badge-media";
-          break;
-        case "更新":
-          badgeClass = "badge-update";
-          break;
-        case "重要":
-          badgeClass = "badge-important";
-          break;
-        default:
-          badgeClass = "badge-media";
-      }
+      let badgeClass = "badge-media";
+      if(item.category === "公式") badgeClass = "badge-official";
+      if(item.category === "更新") badgeClass = "badge-update";
+      if(item.category === "重要") badgeClass = "badge-important";
 
       el.innerHTML = `
         <div class="notice-content">
@@ -991,8 +976,8 @@ async function loadNotices() {
           </span>
           ${
             item.url && item.url.trim() !== ""
-            ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
-            : `<span>${item.text}</span>`
+              ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
+              : `<span>${item.text}</span>`
           }
         </div>
         <span class="notice-time">${item.time}</span>
@@ -1008,52 +993,7 @@ async function loadNotices() {
   }
 }
 
-  const contentHTML = `
-    <div class="notice-content">
-      <span class="notice-badge ${badgeClass}">
-        ${item.category || "INFO"}
-      </span>
-      ${
-        item.url && item.url.trim() !== ""
-        ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
-        : `<span>${item.text}</span>`
-      }
-    </div>
-    <span class="notice-time">${item.time}</span>
-  `;
-
-  el.innerHTML = contentHTML;
-  list.appendChild(el);
-});
-
-      // リンクがある場合 → <a> で囲む
-      if (item.url && item.url.trim() !== "") {
-        el.innerHTML = `
-          <a href="${item.url}" target="_blank" rel="noopener noreferrer">
-            ${item.text}
-          </a>
-          <span class="notice-time">${item.time}</span>
-        `;
-      } else {
-        // リンクなし → 普通のテキスト
-        el.innerHTML = `
-          ${item.text}
-          <span class="notice-time">${item.time}</span>
-        `;
-      }
-
-      list.appendChild(el);
-    });
-
-  } catch (e) {
-    console.error("お知らせ取得エラー:", e);
-    document.getElementById("noticeList").innerHTML =
-      '<div class="notice-item">お知らせを取得できませんでした</div>';
-  }
-}
-
 </script>
-
 </body>
 </html>
 
