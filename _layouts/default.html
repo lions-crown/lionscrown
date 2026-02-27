@@ -1,296 +1,286 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} | {{ site.title }}</title>
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
-      line-height: 1.6;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    /* ナビゲーション */
-    .navbar {
-      background: #161b22;
-      border-bottom: 1px solid #30363d;
-      padding: 1rem 1.5rem;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(8px);
-    }
+body{
+  font-family: "Segoe UI","Noto Sans JP",sans-serif;
+  background:
+    radial-gradient(circle at 20% -10%, rgba(80,140,255,0.25), transparent 40%),
+    radial-gradient(circle at 90% 0%, rgba(120,180,255,0.15), transparent 35%),
+    linear-gradient(160deg,#071a3a 0%,#0b2c5c 50%,#0e356e 100%);
+  color:#e6edf3;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+/* ===== 右上発光オーブ ===== */
+body::after{
+  content:"";
+  position:fixed;
+  top:-120px;
+  right:-120px;
+  width:420px;
+  height:420px;
+  background:radial-gradient(circle, rgba(120,180,255,0.35), transparent 70%);
+  filter:blur(60px);
+  z-index:-1;
+}
 
-    .logo {
-      color: #58a6ff;
-      font-size: 1.5rem;
-      font-weight: 700;
-      text-decoration: none;
-      letter-spacing: -0.5px;
-    }
+/* ===== ガラスヘッダー ===== */
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
 
-    .nav-menu {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
+.nav-container{
+  max-width:1200px;
+  margin:auto;
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .nav-menu a {
-      color: #c9d1d9;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 500;
-      transition: color 0.2s ease, border-bottom 0.2s ease;
-      padding-bottom: 0.25rem;
-      position: relative;
-    }
+/* ===== グラデーションロゴ ===== */
+.logo{
+  font-size:1.6rem;
+  font-weight:700;
+  text-decoration:none;
+  background:linear-gradient(90deg,#6eb9ff,#9ed0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  letter-spacing:1px;
+}
 
-    .nav-menu a:hover,
-    .nav-menu a:focus-visible {
-      color: #ffffff;
-    }
+/* ===== メニュー ===== */
+.nav-menu{
+  list-style:none;
+  display:flex;
+  gap:2rem;
+}
 
-    .nav-menu a.active,
-    .nav-menu a.active:hover {
-      color: #ffffff;
-      border-bottom: 2px solid #58a6ff;
-    }
+.nav-menu a{
+  position:relative;
+  text-decoration:none;
+  color:rgba(255,255,255,0.85);
+  font-weight:500;
+  padding-bottom:4px;
+  transition:0.3s;
+}
 
-    /* ハンバーガーメニュー */
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: #c9d1d9;
-      font-size: 1.8rem;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
+.nav-menu a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0%;
+  height:2px;
+  background:linear-gradient(90deg,#6eb9ff,#9ed0ff);
+  transition:0.3s ease;
+}
 
-    /* メインコンテンツ */
-    main {
-      max-width: 1200px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
-      min-height: calc(100vh - 180px);
-    }
+.nav-menu a:hover{
+  color:#ffffff;
+}
 
-    /* フッター */
-    footer {
-      background: #161b22;
-      border-top: 1px solid #30363d;
-      padding: 3rem 1.5rem 1.5rem;
-      color: #8b949e;
-      font-size: 0.95rem;
-    }
+.nav-menu a:hover::after,
+.nav-menu a.active::after{
+  width:100%;
+}
 
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 2rem;
-    }
+/* ===== ハンバーガー ===== */
+.menu-toggle{
+  display:none;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.8rem;
+  cursor:pointer;
+}
 
-    .footer-brand p {
-      margin-top: 0.75rem;
-      max-width: 280px;
-    }
+/* ===== メイン ===== */
+main{
+  max-width:1200px;
+  margin:70px auto;
+  padding:0 24px;
+  min-height:60vh;
+}
 
-    .footer-links h4 {
-      color: #c9d1d9;
-      margin-bottom: 1rem;
-      font-size: 1.05rem;
-    }
+/* ===== フッター ===== */
+footer{
+  margin-top:100px;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding:60px 24px 30px;
+}
 
-    .footer-links ul {
-      list-style: none;
-    }
+.footer-container{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:3rem;
+}
 
-    .footer-links a {
-      color: #8b949e;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 0.5rem;
-      transition: color 0.2s;
-    }
+.footer-brand h3{
+  font-size:1.4rem;
+  background:linear-gradient(90deg,#6eb9ff,#9ed0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    .footer-links a:hover {
-      color: #58a6ff;
-    }
+.footer-brand p{
+  margin-top:15px;
+  opacity:0.8;
+  line-height:1.7;
+}
 
-    .social-icons {
-      display: flex;
-      gap: 1.2rem;
-      margin-top: 1rem;
-    }
+.footer-links h4{
+  margin-bottom:15px;
+  font-size:1rem;
+  color:#c9dfff;
+}
 
-    .social-icons a {
-      color: #8b949e;
-      font-size: 1.4rem;
-      transition: color 0.2s, transform 0.2s;
-    }
+.footer-links ul{
+  list-style:none;
+}
 
-    .social-icons a:hover {
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
+.footer-links a{
+  text-decoration:none;
+  color:rgba(255,255,255,0.75);
+  display:block;
+  margin-bottom:8px;
+  transition:0.3s;
+}
 
-    .footer-bottom {
-      text-align: center;
-      margin-top: 2.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #30363d;
-      font-size: 0.9rem;
-    }
+.footer-links a:hover{
+  color:#6eb9ff;
+  text-shadow:0 0 8px rgba(110,185,255,0.6);
+  transform:translateX(4px);
+}
 
-    /* レスポンシブ */
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
+.footer-bottom{
+  text-align:center;
+  margin-top:40px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  font-size:0.9rem;
+  opacity:0.6;
+}
 
-      .nav-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #161b22;
-        flex-direction: column;
-        padding: 1.5rem;
-        border-top: 1px solid #30363d;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-      }
+/* ===== レスポンシブ ===== */
+@media(max-width:768px){
 
-      .nav-menu.active {
-        display: flex;
-      }
+  .menu-toggle{
+    display:block;
+  }
 
-      .nav-menu li {
-        margin: 1rem 0;
-      }
+  .nav-menu{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:rgba(10,25,60,0.95);
+    flex-direction:column;
+    padding:20px;
+  }
 
-      .nav-menu a {
-        font-size: 1.15rem;
-      }
+  .nav-menu.active{
+    display:flex;
+  }
 
-      .footer-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
+  .footer-container{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+}
 
-      .footer-brand p {
-        margin: 1rem auto;
-        max-width: 100%;
-      }
+/* ===== フォーカス ===== */
+a:focus-visible{
+  outline:2px solid #6eb9ff;
+  outline-offset:3px;
+}
 
-      .social-icons {
-        justify-content: center;
-      }
-    }
-
-    /* アクセシビリティ強化 */
-    a:focus-visible {
-      outline: 2px solid #58a6ff;
-      outline-offset: 2px;
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <!-- ナビゲーション -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="{{ '/' | relative_url }}" class="logo">L-crown</a>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="{{ '/' | relative_url }}" class="logo">L-crown</a>
 
-      <button class="menu-toggle" aria-label="メニューを開く">☰</button>
+    <button class="menu-toggle">☰</button>
 
-      <ul class="nav-menu">
-        <li><a href="{{ '/' | relative_url }}"        {% if page.url == '/'        %}class="active"{% endif %}>ホーム</a></li>
-        <li><a href="{{ '/news' | relative_url }}"        {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
-        <li><a href="{{ '/privacypolicy' | relative_url }}"    {% if page.url == '/blog.html'    %}class="active"{% endif %}>利用規約</a></li>
-        <li><a href="{{ '/contact' | relative_url }}" {% if page.url == '/contact.html' %}class="active"{% endif %}>お問い合わせ</a></li>
+    <ul class="nav-menu">
+      <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>ホーム</a></li>
+      <li><a href="{{ '/news' | relative_url }}" {% if page.url contains '/news/' %}class="active"{% endif %}>お知らせ</a></li>
+      <li><a href="{{ '/privacypolicy' | relative_url }}">利用規約</a></li>
+      <li><a href="{{ '/contact' | relative_url }}">お問い合わせ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  {{ content }}
+</main>
+
+<footer>
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <h3>L-crown</h3>
+      <p>
+        データをより身近なものへ。<br>
+        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>リンク</h4>
+      <ul>
+        <li><a href="{{ '/' | relative_url }}">ホーム</a></li>
+        <li><a href="{{ '/news' | relative_url }}">お知らせ</a></li>
+        <li><a href="{{ '/privacypolicy' | relative_url }}">利用規約</a></li>
+        <li><a href="{{ '/contact' | relative_url }}">お問い合わせ</a></li>
       </ul>
     </div>
-  </nav>
 
-  <!-- メインコンテンツ -->
-  <main>
-    {{ content }}
-  </main>
-
-  <!-- フッター -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-brand">
-        <h3 style="color:#58a6ff; font-size:1.4rem;">L-crown</h3>
-        <p>データをより身近なものへ。そして埼玉西武ライオンズの王座奪還への道のりを追いかけます。</p>
-      </div>
-
-      <div class="footer-links">
-        <h4>リンク</h4>
-        <ul>
-          <li><a href="{{ '/' | relative_url }}">ホーム</a></li>
-          <li><a href="{{ '/news.html' | relative_url }}">お知らせ</a></li>
-          <li><a href="{{ '/privacypolicy.html' | relative_url }}">利用規約</a></li>
-          <li><a href="{{ '/contact.html' | relative_url }}">お問い合わせ</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-links">
-        <h4>サポート</h4>
-        <ul>
-          <li><a href="/lionscrown/news">お知らせ</a></li>
-          <li><a href="/lionscrown/privacypolicy">利用規約</a></li>
-          <li><a href="/lionscrown/contact">お問い合わせ</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-links">
-        <h4>フォロー</h4>
-        <div class="social-icons">
-          <a href="https://x.com/Lcrown_official" target="_blank" aria-label="X (Twitter)">𝕏</a>
-        </div>
-      </div>
+    <div class="footer-links">
+      <h4>フォロー</h4>
+      <ul>
+        <li><a href="https://x.com/Lcrown_official" target="_blank">X (Twitter)</a></li>
+      </ul>
     </div>
 
-    <div class="footer-bottom">
-      © {{ 'now' | date: "%Y" }} L-crown. All rights reserved.
-    </div>
-  </footer>
+  </div>
 
-  <script>
-    // ハンバーガーメニュー制御
-    document.querySelector('.menu-toggle').addEventListener('click', () => {
-      document.querySelector('.nav-menu').classList.toggle('active');
-    });
+  <div class="footer-bottom">
+    © {{ 'now' | date: "%Y" }} L-crown. All rights reserved.
+  </div>
+</footer>
 
-    // メニュー外クリックで閉じる（オプション）
-    document.addEventListener('click', (e) => {
-      const menu = document.querySelector('.nav-menu');
-      const toggle = document.querySelector('.menu-toggle');
-      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-        menu.classList.remove('active');
-      }
-    });
-  </script>
+<script>
+document.querySelector('.menu-toggle').addEventListener('click',()=>{
+  document.querySelector('.nav-menu').classList.toggle('active');
+});
+</script>
 
 </body>
 </html>
