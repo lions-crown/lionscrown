@@ -46,6 +46,26 @@ body {
   font-size:12px;
 }
 
+/* 土日色 */
+.saturday { color:#4ea8ff; }
+.sunday { color:#ff6b6b; }
+
+/* 今日ハイライト */
+.today {
+  border:2px solid #ffd60a;
+}
+
+/* 空白セル */
+.empty {
+  background:#0f1a2b;
+}
+
+/* 結果表示 */
+.result {
+  font-weight:bold;
+  margin-top:4px;
+}
+
 .game-card {
   background:#243b55;
   margin-top:4px;
