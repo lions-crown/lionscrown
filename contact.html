@@ -56,12 +56,39 @@ nav {
 
 /* ロゴ */
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-weight: bold;
   font-size: 18px;
   letter-spacing: 1px;
+  text-decoration: none;
+}
+
+/* テキスト部分 */
+.logo span {
   background: linear-gradient(90deg, #4da3ff, #9ad0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* アイコン */
+.logo img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  border-radius: 6px; /* 少し丸み */
+  filter: drop-shadow(0 0 6px rgba(77,163,255,0.6));
+  transition: 0.3s;
+}
+
+/* ホバー時 */
+.logo:hover img {
+  transform: scale(1.08);
+}
+
+.logo:hover span {
+  text-shadow: 0 0 12px rgba(77,163,255,0.7);
 }
 
 /* メニュー */
@@ -240,7 +267,11 @@ footer a:hover {
 
 <header>
   <nav>
-    <div class="logo">L-crown</div>
+    <a href="/lionscrown" class="logo">
+     <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
+     <span>L-crown</span>
+    </a>
+    
     <div class="menu">
       <a href="/lionscrown">TOP</a>
       <a href="#">試合</a>
