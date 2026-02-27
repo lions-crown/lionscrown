@@ -1,30 +1,28 @@
-
 let games = [];
 
 const today = new Date();
 let currentYear = today.getFullYear();
 let currentMonth = today.getMonth();
-
 const weekdays = ["月", "火", "水", "木", "金", "土", "日"];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  renderWeekdays(); // ← まず曜日は必ず出す
+  renderWeekdays();              // 曜日は必ず描画
+  renderCalendar(currentYear, currentMonth); // JSON前に初期カレンダー描画
 
-  fetch("/lionscrown/data/games.json")
+  // JSON読み込み
+  fetch("data/games.json")
     .then(res => {
-      if (!res.ok) throw new Error("JSON読み込み失敗");
+      if (!res.ok) throw new Error("games.json 読み込み失敗");
       return res.json();
     })
     .then(data => {
       games = data;
-      renderCalendar(currentYear, currentMonth);
+      renderCalendar(currentYear, currentMonth); // JSON取得後に再描画
     })
-    .catch(err => {
-      console.error(err);
-      renderCalendar(currentYear, currentMonth); // JSON失敗しても描画
-    });
+    .catch(err => console.error(err));
 
+  // 月切り替え
   document.getElementById("prevMonth").onclick = () => {
     currentMonth--;
     if (currentMonth < 0) {
@@ -42,13 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     renderCalendar(currentYear, currentMonth);
   };
-
 });
 
 function renderWeekdays() {
   const top = document.getElementById("calendarTopDays");
   const bottom = document.getElementById("calendarBottomDays");
-
   if (!top || !bottom) return;
 
   top.innerHTML = "";
@@ -65,15 +61,14 @@ function renderWeekdays() {
 }
 
 function renderCalendar(year, month) {
-
   const calendar = document.getElementById("calendar");
   if (!calendar) return;
 
   calendar.innerHTML = "";
-
   document.getElementById("currentMonth").textContent =
     `${year}年 ${month + 1}月`;
 
+  // 月曜始まり
   let firstDay = new Date(year, month, 1).getDay();
   firstDay = (firstDay + 6) % 7;
 
@@ -92,15 +87,12 @@ function renderCalendar(year, month) {
       `${year}-${String(month + 1).padStart(2, "0")}-${String(dayCounter).padStart(2, "0")}`;
 
     const dayGames = games.filter(g => g.date === dateStr);
-
     let gameHTML = "";
 
     dayGames.forEach(game => {
-
-      const resultHTML =
-        game.status === "finished"
-          ? `<div class="result">結果: ${game.result}</div>`
-          : "";
+      const resultHTML = game.status === "finished"
+        ? `<div class="result">結果: ${game.result}</div>`
+        : "";
 
       gameHTML += `
         <div class="game-card">
