@@ -2,15 +2,145 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>{{ page.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+
+  <style>
+    /* ===== 背景 ===== */
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+      background: linear-gradient(135deg, #091b3d, #0d2b5e, #123a7a);
+      color: #fff;
+    }
+
+    /* ===== 上部メニュー ===== */
+    header {
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      margin-left: 20px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #6eb9ff;
+    }
+
+    /* ===== 記事エリア ===== */
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    .meta {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 30px;
+    }
+
+    /* ===== フッター ===== */
+    footer {
+      margin-top: 80px;
+      padding: 30px 20px;
+      text-align: center;
+      background: rgba(0,0,0,0.4);
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    footer a {
+      color: #6eb9ff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 768px) {
+      .container {
+        margin: 30px 15px;
+        padding: 25px;
+      }
+
+      nav a {
+        margin-left: 12px;
+      }
+    }
+
+  </style>
 </head>
+
 <body>
 
-<h1>{{ page.title }}</h1>
+  <!-- ===== ヘッダー ===== -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        {{ site.title }}
+      </div>
+      <nav>
+        <a href="/">TOP</a>
+        <a href="/news/">お知らせ</a>
+        <a href="/schedule/">試合日程</a>
+        <a href="/about/">サイトについて</a>
+      </nav>
+    </div>
+  </header>
 
-<p>{{ page.date | date: "%Y-%m-%d" }}</p>
+  <!-- ===== 記事本体 ===== -->
+  <div class="container">
+    <h1>{{ page.title }}</h1>
+    <div class="meta">
+      {{ page.date | date: "%Y.%m.%d" }}
+      {% if page.tags %}
+        ｜{% for tag in page.tags %} #{{ tag }} {% endfor %}
+      {% endif %}
+    </div>
 
-{{ content }}
+    {{ content }}
+  </div>
+
+  <!-- ===== フッター ===== -->
+  <footer>
+    © {{ site.time | date: "%Y" }} {{ site.title }}<br>
+    Powered by Jekyll & GitHub Pages
+  </footer>
 
 </body>
 </html>
