@@ -1,20 +1,20 @@
 [
   {
-    "category": "公式",
-    "text": "サイトをリニューアルしました",
-    "time": "2026-02-27 18:00",
-    "url": ""
-  },
-  {
-    "category": "更新",
-    "text": "MLBデータページを追加しました",
-    "time": "2026-02-27 15:30",
-    "url": ""
+    "category": "重要",
+    "text": "サイトを公開しました",
+    "time": "2026-03-01 18:00",
+    "url": "https://lions-crown.github.io/lionscrown/news/2026/03/01/1800/"
   },
   {
     "category": "重要",
-    "text": "一部機能で不具合が発生しています",
+    "text": "データ関連ページの公開延期について",
+    "time": "2026-02-22 13:00",
+    "url": "https://lions-crown.github.io/lionscrown/news/2026/02/22/1300/"
+  },
+  {
+    "category": "更新",
+    "text": "テストす",
     "time": "2026-02-26 21:00",
-    "url": ""
+    "url": "https://lions-crown.github.io/lionscrown/news/2026/02/19/0000/"
   }
 ]
