@@ -18,6 +18,26 @@ body {
   gap:6px;
 }
 
+.calendar-days {
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align:center;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.calendar-days div {
+  padding:6px 0;
+  background:#243b55;
+  border-radius:6px;
+}
+
+.calendar-grid {
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:6px;
+}
+
 .day-cell {
   background:#1b263b;
   min-height:120px;
