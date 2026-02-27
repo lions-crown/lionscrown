@@ -1,0 +1,41 @@
+---
+layout: default
+title: 検索結果
+permalink: /search/
+---
+
+<div id="search-results"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const query = params.get("q");
+
+if(query){
+  fetch("{{ '/search.json' | relative_url }}")
+    .then(res => res.json())
+    .then(data => {
+
+      const results = data.filter(post =>
+        post.title.includes(query) ||
+        post.content.includes(query)
+      );
+
+      const container = document.getElementById("search-results");
+
+      if(results.length === 0){
+        container.innerHTML = "<p>該当するページが見つかりませんでした。</p>";
+        return;
+      }
+
+      results.forEach(post=>{
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <h3><a href="${post.url}">${post.title}</a></h3>
+          <p>${post.excerpt}</p>
+          <hr>
+        `;
+        container.appendChild(div);
+      });
+    });
+}
+</script>
