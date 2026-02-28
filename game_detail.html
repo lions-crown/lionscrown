@@ -6,7 +6,6 @@
 <title>Game Hub | L-crown</title>
 
 <link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
-<meta name="theme-color" content="#0f172a">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -15,303 +14,248 @@ body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
   color:white;
-  min-height:100vh;
-  line-height:1.75;
-  overflow-x:hidden;
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  width:500px;
-  height:500px;
-  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
-  top:-120px;
-  right:-120px;
-  filter:blur(40px);
-  z-index:-1;
-}
-
-/* ===== Header ===== */
-header{
-  position:sticky;
-  top:0;
-  backdrop-filter:blur(14px);
-  background:rgba(10,25,60,0.55);
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  z-index:1000;
-}
-
-nav{
-  max-width:1100px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 20px;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:bold;
-  text-decoration:none;
-  font-size:18px;
-}
-
-.logo span{
-  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.logo img{
-  width:26px;
-  height:26px;
-  border-radius:6px;
-  filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
-}
-
-.menu{
-  display:flex;
-  gap:26px;
-}
-
-.menu a{
-  color:rgba(255,255,255,0.7);
-  text-decoration:none;
-  font-size:13px;
-  transition:.25s;
-}
-
-.menu a:hover{
-  color:white;
-}
-
-/* ===== Main ===== */
-main{
-  max-width:1100px;
-  margin:60px auto;
-  padding:0 20px;
-}
+main{max-width:1200px;margin:40px auto;padding:20px;}
 
 .glass{
-  background:rgba(255,255,255,0.06);
-  border-radius:22px;
-  padding:32px;
-  backdrop-filter:blur(16px);
-  box-shadow:0 20px 60px rgba(0,0,0,.55);
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(18px);
+  border-radius:24px;
+  padding:30px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
-/* ===== Hub Styles ===== */
-.section{margin-bottom:40px;}
-
-.scoreboard{
-  width:100%;
-  border-collapse:collapse;
-}
-
+/* ===== Scoreboard ===== */
+.scoreboard{width:100%;border-collapse:collapse;margin-bottom:25px;}
 .scoreboard th,.scoreboard td{
   border:1px solid rgba(255,255,255,.15);
   padding:6px;
   text-align:center;
   font-size:13px;
 }
+.current{background:#4da3ff;color:black;font-weight:bold;}
 
-.live-box{
-  background:rgba(255,255,255,.05);
-  padding:20px;
-  border-radius:18px;
-}
-
-.bases{
+/* ===== Count ===== */
+.count{
   display:flex;
-  gap:14px;
-  margin-top:10px;
+  gap:8px;
+  margin:10px 0;
 }
+.dot{
+  width:14px;height:14px;border-radius:50%;
+  border:1px solid white;
+}
+.b{background:#4da3ff;}
+.s{background:#ffd700;}
+.o{background:#ff4d4d;}
 
+/* ===== Bases ===== */
+.diamond{
+  position:relative;
+  width:120px;height:120px;
+  margin-top:15px;
+}
 .base{
-  width:22px;
-  height:22px;
+  width:26px;height:26px;
   border:2px solid white;
   transform:rotate(45deg);
+  position:absolute;
 }
-
+.b1{bottom:0;left:50%;transform:translateX(-50%) rotate(45deg);}
+.b2{top:0;left:50%;transform:translateX(-50%) rotate(45deg);}
+.b3{left:0;top:50%;transform:translateY(-50%) rotate(45deg);}
 .active{background:#ffd700;}
 
+/* ===== Strike Zone ===== */
 .zone{
-  width:150px;
-  height:150px;
+  width:180px;height:180px;
   border:2px solid white;
   display:grid;
   grid-template-columns:repeat(3,1fr);
   grid-template-rows:repeat(3,1fr);
-  margin-top:15px;
+  margin-top:20px;
+  position:relative;
+}
+.zone div{border:1px solid rgba(255,255,255,.2);}
+.pitch-dot{
+  width:14px;height:14px;border-radius:50%;
+  position:absolute;
+  transform:translate(-50%,-50%);
+  background:#ff4d4d;
 }
 
-.zone div{
-  border:1px solid rgba(255,255,255,.25);
+/* ===== AtBat Nav ===== */
+.atbat-nav{
+  display:flex;justify-content:center;align-items:center;
+  gap:20px;margin:20px 0;
+}
+.nav-btn{
+  background:#1f2d55;padding:6px 14px;border-radius:10px;
+  cursor:pointer;font-size:13px;
+}
+.nav-btn:hover{background:#4da3ff;color:black;}
+
+/* ===== Defense Map ===== */
+.field{
+  position:relative;
+  width:300px;height:260px;
+  margin:30px auto;
+  background:radial-gradient(circle at center,#0a3c2f,#08251f);
+  border-radius:50% 50% 0 0;
+}
+.pos{
+  position:absolute;font-size:11px;text-align:center;
 }
 
-.winprob-bar{
-  height:18px;
-  background:#1f2d55;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:10px;
+/* ===== Lineup ===== */
+.lineup{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:30px;}
+.lineup-card{
+  background:rgba(255,255,255,.06);
+  padding:15px;border-radius:18px;
 }
-
-.winprob-fill{
-  height:100%;
-  background:linear-gradient(90deg,#4da3ff,#7ecbff);
-}
-
-.lineup{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
-}
-
-.analysis{
-  background:rgba(255,255,255,.05);
-  padding:20px;
-  border-radius:18px;
-}
-
-footer{
-  margin-top:100px;
-  text-align:center;
-  padding:20px;
-  font-size:12px;
-  color:rgba(255,255,255,.4);
-}
-
-@media(max-width:768px){
-  .lineup{grid-template-columns:1fr;}
+.player-row{
+  display:flex;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  padding:4px 0;font-size:13px;
 }
 </style>
 </head>
 
 <body>
-
-<header>
-  <nav>
-    <a href="/lionscrown/" class="logo">
-      <img src="https://lions-crown.homep.jp/img/1766145327164.webp">
-      <span>L-crown</span>
-    </a>
-    <div class="menu">
-      <a href="/lionscrown/">ホーム</a>
-      <a href="/lionscrown/news/">お知らせ</a>
-      <a href="/lionscrown/contact/">お問い合わせ</a>
-    </div>
-  </nav>
-</header>
-
 <main>
 <div class="glass">
 
-<h1>Game Hub</h1>
-<div id="hub"></div>
+<h1 id="title"></h1>
+<div id="scoreboard"></div>
+<div id="liveArea"></div>
+<div id="atbatNav"></div>
+<div id="defenseMap"></div>
+<div id="lineupArea"></div>
 
 </div>
 </main>
 
-<footer>
-© 2026 L-crown
-</footer>
-
 <script>
-document.addEventListener("DOMContentLoaded", async ()=>{
+let gameData;
+let currentAtBat=0;
 
-  const params=new URLSearchParams(location.search);
-  const date=params.get("date");
-  const team=params.get("team");
-
-  if(!date||!team){
-    document.getElementById("hub").innerHTML="試合指定がありません";
-    return;
-  }
-
-  try{
-    const res=await fetch(`/lionscrown/live/${date}_${team}.json`);
-    const data=await res.json();
-    renderHub(data);
-  }catch{
-    document.getElementById("hub").innerHTML="データ未登録";
-  }
+document.addEventListener("DOMContentLoaded",async()=>{
+  const p=new URLSearchParams(location.search);
+  const date=p.get("date");
+  const team=p.get("team");
+  const res=await fetch(`/lionscrown/live/${date}_${team}.json`);
+  gameData=await res.json();
+  renderGame();
 });
 
-function renderHub(data){
+function renderGame(){
+  document.getElementById("title").innerText=
+    `${gameData.meta.card} ｜ ${gameData.meta.stadium}`;
 
-  const sumL=data.score.lions.reduce((a,b)=>a+b,0);
-  const sumO=data.score.opp.reduce((a,b)=>a+b,0);
+  renderScoreboard();
+  renderAtBat(currentAtBat);
+  renderDefense();
+  renderLineup();
+}
 
-  let innings=data.score.lions.length;
+function renderScoreboard(){
+  const s=gameData.score;
   let sb="<table class='scoreboard'><tr><th></th>";
-  for(let i=1;i<=innings;i++) sb+=`<th>${i}</th>`;
-  sb+="<th>R</th></tr>";
+  for(let i=1;i<=9;i++){
+    sb+=`<th>${i}</th>`;
+  }
+  sb+="<th>R</th><th>H</th><th>E</th></tr>";
 
-  sb+="<tr><td>L</td>";
-  data.score.lions.forEach(i=>sb+=`<td>${i}</td>`);
-  sb+=`<td>${sumL}</td></tr>`;
+  const sumL=s.lions.reduce((a,b)=>a+b,0);
+  const sumO=s.opp.reduce((a,b)=>a+b,0);
 
-  sb+="<tr><td>O</td>";
-  data.score.opp.forEach(i=>sb+=`<td>${i}</td>`);
-  sb+=`<td>${sumO}</td></tr></table>`;
+  sb+=`<tr><td>L</td>${s.lions.map(i=>`<td>${i||""}</td>`).join("")}
+        <td>${sumL}</td><td>${s.hits?.lions||0}</td><td>${s.errors?.lions||0}</td></tr>`;
 
-  const bases=`
-    <div class="bases">
-      <div class="base ${data.situation.bases[0]?"active":""}"></div>
-      <div class="base ${data.situation.bases[1]?"active":""}"></div>
-      <div class="base ${data.situation.bases[2]?"active":""}"></div>
-    </div>
+  sb+=`<tr><td>O</td>${s.opp.map(i=>`<td>${i||""}</td>`).join("")}
+        <td>${sumO}</td><td>${s.hits?.opp||0}</td><td>${s.errors?.opp||0}</td></tr>`;
+
+  sb+="</table>";
+  document.getElementById("scoreboard").innerHTML=sb;
+}
+
+function renderAtBat(index){
+  const ab=gameData.atBats?.[index];
+  if(!ab)return;
+
+  let countHTML="<div class='count'>";
+  for(let i=0;i<ab.count.balls;i++) countHTML+="<div class='dot b'></div>";
+  for(let i=0;i<ab.count.strikes;i++) countHTML+="<div class='dot s'></div>";
+  for(let i=0;i<ab.count.outs;i++) countHTML+="<div class='dot o'></div>";
+  countHTML+="</div>";
+
+  let zone="<div class='zone'>";
+  for(let i=0;i<9;i++) zone+="<div></div>";
+  zone+=ab.pitches.map(p=>{
+    return `<div class="pitch-dot" style="left:${p.x}%;top:${p.y}%"></div>`;
+  }).join("");
+  zone+="</div>";
+
+  document.getElementById("liveArea").innerHTML=`
+    <h2>${ab.inning}</h2>
+    <p>打者：${ab.batter} ｜ 投手：${ab.pitcher}</p>
+    ${countHTML}
+    ${zone}
+    <p>結果：${ab.result}</p>
   `;
 
-  const zone="<div class='zone'>"+Array(9).fill("<div></div>").join("")+"</div>";
-
-  document.getElementById("hub").innerHTML=`
-    <div class="section">
-      <h2>${data.meta.card}</h2>
-      <p>${data.meta.date} ｜ ${data.meta.stadium} ｜ ${data.meta.time}</p>
-    </div>
-
-    <div class="section">${sb}</div>
-
-    <div class="section live-box">
-      <p><strong>${data.situation.inning}</strong> ｜ ${data.situation.outs}アウト</p>
-      <p>打者：${data.situation.batter}</p>
-      <p>投手：${data.situation.pitcher}</p>
-      <p>最新球：${data.lastPitch.type} ${data.lastPitch.speed}km/h（${data.lastPitch.course}）</p>
-      ${bases}
-      ${zone}
-      <div class="winprob-bar">
-        <div class="winprob-fill" style="width:${data.winProbability.lions}%"></div>
-      </div>
-      <p>Lions ${data.winProbability.lions}% - ${data.winProbability.opp}% Opp</p>
-    </div>
-
-    <div class="section lineup">
-      <div>
-        <h3>ライオンズ</h3>
-        ${data.lineup.lions.map(p=>`<p>${p}</p>`).join("")}
-      </div>
-      <div>
-        <h3>相手</h3>
-        ${data.lineup.opp.map(p=>`<p>${p}</p>`).join("")}
-      </div>
-    </div>
-
-    <div class="section analysis">
-      <h3>対戦成績</h3>
-      <p>${data.analysis.vsTeam}</p>
-      <h3>相性</h3>
-      <p>${data.analysis.matchup}</p>
-      <h3>直近成績</h3>
-      <p>${data.analysis.recent}</p>
+  document.getElementById("atbatNav").innerHTML=`
+    <div class="atbat-nav">
+      <div class="nav-btn" onclick="changeAtBat(-1)">◀ 前の打席</div>
+      <div>${index+1} / ${gameData.atBats.length}</div>
+      <div class="nav-btn" onclick="changeAtBat(1)">次の打席 ▶</div>
     </div>
   `;
+}
+
+function changeAtBat(dir){
+  currentAtBat+=dir;
+  if(currentAtBat<0) currentAtBat=0;
+  if(currentAtBat>=gameData.atBats.length)
+    currentAtBat=gameData.atBats.length-1;
+  renderAtBat(currentAtBat);
+}
+
+function renderDefense(){
+  const d=gameData.defense;
+  if(!d)return;
+
+  document.getElementById("defenseMap").innerHTML=`
+    <div class="field">
+      <div class="pos" style="top:20px;left:50%">${d.CF}</div>
+      <div class="pos" style="top:60px;left:20%">${d.LF}</div>
+      <div class="pos" style="top:60px;right:20%">${d.RF}</div>
+      <div class="pos" style="top:120px;left:50%">${d.SS}</div>
+      <div class="pos" style="top:140px;left:20%">${d.3B}</div>
+      <div class="pos" style="top:140px;right:20%">${d.1B}</div>
+      <div class="pos" style="top:180px;left:50%">${d.P}</div>
+      <div class="pos" style="top:210px;left:50%">${d.C}</div>
+    </div>
+  `;
+}
+
+function renderLineup(){
+  const l=gameData.lineup;
+  let lions="<div class='lineup-card'><h3>ライオンズ</h3>";
+  l.lions.forEach(p=>{
+    lions+=`<div class="player-row">
+      <span>${p.order} ${p.pos} ${p.name}</span>
+      <span>${p.avg}</span>
+    </div>`;
+  });
+  lions+=`<div class="player-row">
+      <span>投 ${l.pitcher.name}</span>
+      <span>ERA ${l.pitcher.era}</span>
+    </div></div>`;
+
+  document.getElementById("lineupArea").innerHTML=
+    `<div class="lineup">${lions}</div>`;
 }
 </script>
 
