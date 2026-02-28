@@ -1,14 +1,13 @@
 let games = [];
-
 const today = new Date();
 let currentYear = today.getFullYear();
 let currentMonth = today.getMonth();
-const weekdays = ["月", "火", "水", "木", "金", "土", "日"];
-let currentTeam = "1軍"; // 初期は1軍
+const weekdays = ["月","火","水","木","金","土","日"];
+let currentTeam = "1軍";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  renderWeekdays();              // 曜日描画
+  renderWeekdays();               // 曜日描画
   renderCalendar(currentYear, currentMonth); // 初期描画
 
   // 軍切り替えボタン
@@ -22,9 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // JSON読み込み
-  fetch("/lionscrown/data/games.json")  // GitHub Pages のルートに合わせる
+  fetch("data/games.json")  // schedule.html から見て相対パス
     .then(res => {
-      if (!res.ok) throw new Error("games.json 読み込み失敗");
+      if(!res.ok) throw new Error("games.json 読み込み失敗");
       return res.json();
     })
     .then(data => {
@@ -36,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 月切り替え
   document.getElementById("prevMonth").onclick = () => {
     currentMonth--;
-    if (currentMonth < 0) {
+    if(currentMonth < 0){
       currentMonth = 11;
       currentYear--;
     }
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("nextMonth").onclick = () => {
     currentMonth++;
-    if (currentMonth > 11) {
+    if(currentMonth > 11){
       currentMonth = 0;
       currentYear++;
     }
@@ -54,59 +53,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// 曜日描画
 function renderWeekdays() {
   const top = document.getElementById("calendarTopDays");
   const bottom = document.getElementById("calendarBottomDays");
-  if (!top || !bottom) return;
+  if(!top || !bottom) return;
 
   top.innerHTML = "";
   bottom.innerHTML = "";
 
-  weekdays.forEach((day, index) => {
+  weekdays.forEach((day,index)=>{
     let className = "";
-    if (index === 5) className = "saturday";
-    if (index === 6) className = "sunday";
-
+    if(index===5) className="saturday";
+    if(index===6) className="sunday";
     top.innerHTML += `<div class="${className}">${day}</div>`;
     bottom.innerHTML += `<div class="${className}">${day}</div>`;
   });
 }
 
-function renderCalendar(year, month) {
+// カレンダー描画
+function renderCalendar(year, month){
   const calendar = document.getElementById("calendar");
-  if (!calendar) return;
-
+  if(!calendar) return;
   calendar.innerHTML = "";
+
   document.getElementById("currentMonth").textContent =
-    `${year}年 ${month + 1}月`;
+    `${year}年 ${month+1}月`;
 
   let firstDay = new Date(year, month, 1).getDay();
-  firstDay = (firstDay + 6) % 7; // 月曜始まり
-  const lastDate = new Date(year, month + 1, 0).getDate();
+  firstDay = (firstDay+6)%7; // 月曜始まり
+  const lastDate = new Date(year, month+1,0).getDate();
   const totalCells = 42;
   let dayCounter = 1;
 
-  for (let i = 0; i < totalCells; i++) {
-
-    if (i < firstDay || dayCounter > lastDate) {
+  for(let i=0;i<totalCells;i++){
+    if(i<firstDay || dayCounter>lastDate){
       calendar.innerHTML += `<div class="day-cell empty"></div>`;
       continue;
     }
 
-    const dateStr =
-      `${year}-${String(month + 1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
+    const dateStr = `${year}-${String(month+1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
 
-    // 現在選択中の軍だけフィルタ
-    const dayGames = games
-      .filter(g => g.date === dateStr && g.team === currentTeam);
-
+    // 選択中の軍だけ
+    const dayGames = games.filter(g => g.date===dateStr && g.team===currentTeam);
     let gameHTML = "";
 
-    dayGames.forEach(game => {
-      const resultHTML = game.status === "finished"
-        ? `<div class="result">結果: ${game.result}</div>`
-        : "";
-
+    dayGames.forEach(game=>{
+      const resultHTML = game.status==="finished"? `<div class="result">結果: ${game.result}</div>` : "";
       gameHTML += `
         <div class="game-card">
           <img src="${game.opponent_logo}" alt="">
@@ -119,12 +112,8 @@ function renderCalendar(year, month) {
     });
 
     let todayClass = "";
-    if (
-      year === today.getFullYear() &&
-      month === today.getMonth() &&
-      dayCounter === today.getDate()
-    ) {
-      todayClass = "today";
+    if(year===today.getFullYear() && month===today.getMonth() && dayCounter===today.getDate()){
+      todayClass="today";
     }
 
     calendar.innerHTML += `
