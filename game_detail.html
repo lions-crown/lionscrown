@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>試合詳細</title>
+<link rel="stylesheet" href="css/style.css">
+<script defer>
+let games = [];
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  // URLからクエリ取得
+  const params = new URLSearchParams(window.location.search);
+  const date = params.get("date");
+  const team = params.get("team");
+
+  fetch("/lionscrown/data/games.json")
+    .then(res => res.json())
+    .then(data => {
+      games = data;
+      const game = games.find(g => g.date===date && g.team===team);
+      const container = document.getElementById("gameDetail");
+      if(!game){
+        container.innerHTML="<p>試合情報が見つかりません</p>";
+        return;
+      }
+      container.innerHTML = `
+        <h2>${game.date} ${game.team}</h2>
+        <img src="${game.opponent_logo}" alt="${game.opponent}">
+        <p>対戦相手: ${game.opponent}</p>
+        <p>球場: ${game.stadium}</p>
+        <p>試合開始: ${game.time} ${game.home_away}</p>
+        <p>結果: ${game.status==="finished"?game.result:"未試合"}</p>
+        <a href="schedule.html">カレンダーに戻る</a>
+      `;
+    })
+    .catch(err => console.error(err));
+});
+</script>
+</head>
+<body>
+
+<h1>試合詳細</h1>
+<div id="gameDetail"></div>
+
+</body>
+</html>
