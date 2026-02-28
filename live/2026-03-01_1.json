@@ -1,52 +1,76 @@
 {
-  "game": { "date":"2026-03-01", "stadium":"ベルーナドーム" },
+  "gameId": "2026-03-01_L_H",
+  "season": 2026,
+  "date": "2026-03-01",
+  "home": "H",
+  "away": "L",
+  "focusTeam": "L",
 
   "teams": {
-    "L": {"name":"埼玉西武ライオンズ"},
-    "H": {"name":"福岡ソフトバンクホークス"}
-  },
-
-  "scoreboard": {
-    "L":[0,1,0,0,0,0,2,0,0],
-    "H":[0,0,2,0,0,0,1,0,0]
+    "L": "Saitama Seibu Lions",
+    "H": "Opponent"
   },
 
   "lineups": {
-    "L":[
-      {"order":1,"name":"鈴木 将平","pos":"中"},
-      {"order":2,"name":"外崎 修汰","pos":"二"}
+    "L": [
+      {"id":"L_1","name":"源田","pos":"SS","hand":"L"},
+      {"id":"L_2","name":"外崎","pos":"2B","hand":"R"}
     ],
-    "H":[
-      {"order":1,"name":"周東 佑京","pos":"右"}
+    "H": [
+      {"id":"H_1","name":"1番打者","pos":"CF","hand":"L"}
     ]
   },
 
-  "defense":{
-    "P":"今井 達也",
-    "C":"古賀 悠斗",
-    "1B":"山川 穂高",
-    "2B":"外崎 修汰",
-    "3B":"佐藤 龍世",
-    "SS":"源田 壮亮",
-    "LF":"岸 潤一郎",
-    "CF":"鈴木 将平",
-    "RF":"蛭間 拓哉"
-  },
-
-  "events":[
+  "events": [
     {
-      "inning":7,
-      "half":"top",
-      "offense":"L",
-      "stateStart":{"outs":2,"bases":[1,0,0],"score":{"L":1,"H":3}},
-      "batter":"外崎 修汰",
-      "pitcher":"山本 由伸",
-      "pitches":[
-        {"type":"FF","speed":148,"zone":{"x":65,"y":25},"call":"strike"},
-        {"type":"SL","speed":143,"zone":{"x":72,"y":80},"call":"ball"}
+      "eventId": 1,
+      "inning": 1,
+      "half": "top",
+      "offense": "H",
+      "defense": "L",
+
+      "batter": "H_1",
+      "pitcher": "L_51",
+
+      "stateStart": {
+        "outs": 0,
+        "bases": [0,0,0],
+        "score": {"L":0,"H":0}
+      },
+
+      "pitches": [
+        {
+          "no":1,
+          "type":"FF",
+          "velocity":151,
+          "result":"strike",
+          "zone":{"x":0.2,"y":0.7},
+          "swing":false,
+          "contact":false
+        },
+        {
+          "no":2,
+          "type":"SL",
+          "velocity":135,
+          "result":"inplay",
+          "zone":{"x":-0.3,"y":0.4},
+          "swing":true,
+          "contact":true,
+          "exitVelocity":142,
+          "launchAngle":12
+        }
       ],
-      "result":{"type":"single"},
-      "stateEnd":{"outs":2,"bases":[1,0,1],"score":{"L":3,"H":3}}
+
+      "result":{
+        "type":"single",
+        "rbi":0
+      },
+
+      "stateEnd":{
+        "outs":0,
+        "bases":[1,0,0],
+        "score":{"L":0,"H":0}
+      }
     }
   ]
 }
