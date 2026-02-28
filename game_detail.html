@@ -1,50 +1,146 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>試合ハブ</title>
-<link rel="stylesheet" href="css/style.css">
+---
+layout: default
+title: 試合詳細
+---
+
+<h1>Game Hub</h1>
+
+<div id="gameHub">
+
+  <!-- 試合ヘッダー -->
+  <section class="hub-section" id="meta"></section>
+
+  <!-- スコアボード -->
+  <section class="hub-section" id="scoreboard"></section>
+
+  <!-- ライブ状況 -->
+  <section class="hub-section live-box" id="live"></section>
+
+  <!-- ラインナップ -->
+  <section class="hub-section lineup" id="lineup"></section>
+
+  <!-- 分析 -->
+  <section class="hub-section analysis-box" id="analysis"></section>
+
+</div>
 
 <style>
-body{font-family:"Segoe UI","Noto Sans JP",sans-serif;background:#0b1f44;color:#fff;margin:0;padding:20px}
-.section{margin-bottom:30px}
-.scoreboard{width:100%;border-collapse:collapse;margin:15px 0}
-.scoreboard th,.scoreboard td{border:1px solid #2d4d8a;padding:6px;text-align:center}
-.live-box{background:#132c63;padding:15px;border-radius:12px}
-.bases{display:flex;gap:12px;margin-top:10px}
-.base{width:20px;height:20px;border:2px solid #fff;transform:rotate(45deg)}
-.active{background:#ffd700}
-.zone{width:150px;height:150px;border:2px solid #fff;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);margin-top:10px}
-.zone div{border:1px solid rgba(255,255,255,0.3)}
-.winprob-bar{height:20px;background:#333;border-radius:10px;overflow:hidden;margin-top:10px}
-.winprob-fill{height:100%;background:#6eb9ff}
-.lineup{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.analysis-box{background:#111c3b;padding:15px;border-radius:12px}
+.hub-section{
+  margin-bottom:40px;
+}
+
+.scoreboard{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.scoreboard th,.scoreboard td{
+  border:1px solid rgba(255,255,255,0.15);
+  padding:6px;
+  text-align:center;
+  font-size:13px;
+}
+
+.live-box{
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:18px;
+}
+
+.bases{
+  display:flex;
+  gap:14px;
+  margin-top:10px;
+}
+
+.base{
+  width:22px;
+  height:22px;
+  border:2px solid white;
+  transform:rotate(45deg);
+}
+
+.active{
+  background:#ffd700;
+}
+
+.zone{
+  width:150px;
+  height:150px;
+  border:2px solid white;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
+  margin-top:15px;
+}
+
+.zone div{
+  border:1px solid rgba(255,255,255,0.25);
+}
+
+.winprob-bar{
+  height:18px;
+  background:#1f2d55;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.winprob-fill{
+  height:100%;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+}
+
+.lineup{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+}
+
+.analysis-box{
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:18px;
+}
+
+@media(max-width:768px){
+  .lineup{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 
-<script defer>
+<script>
 document.addEventListener("DOMContentLoaded", async ()=>{
 
-  const params=new URLSearchParams(window.location.search);
+  const params=new URLSearchParams(location.search);
   const date=params.get("date");
   const team=params.get("team");
 
-  const container=document.getElementById("hub");
+  if(!date || !team){
+    document.getElementById("gameHub").innerHTML="<p>試合情報が指定されていません。</p>";
+    return;
+  }
 
   try{
-    const liveRes=await fetch(`/lionscrown/live/${date}_${team}.json`);
-    const live=await liveRes.json();
-    renderHub(live);
+    const res=await fetch(`/lionscrown/live/${date}_${team}.json`);
+    const data=await res.json();
+    renderHub(data);
   }catch{
-    container.innerHTML="<p>データ未登録</p>";
+    document.getElementById("gameHub").innerHTML="<p>データ未登録</p>";
   }
 
 });
 
 function renderHub(data){
 
-  // スコアボード
+  // ===== メタ情報 =====
+  document.getElementById("meta").innerHTML=`
+    <h2>${data.meta.card}</h2>
+    <p>${data.meta.date} ｜ ${data.meta.stadium} ｜ ${data.meta.time}</p>
+  `;
+
+  // ===== スコアボード =====
   let innings=data.score.lions.length;
   let sb="<table class='scoreboard'><tr><th></th>";
   for(let i=1;i<=innings;i++) sb+=`<th>${i}</th>`;
@@ -61,7 +157,9 @@ function renderHub(data){
   data.score.opp.forEach(i=>sb+=`<td>${i}</td>`);
   sb+=`<td>${sumO}</td></tr></table>`;
 
-  // 塁状況
+  document.getElementById("scoreboard").innerHTML=sb;
+
+  // ===== ライブ状況 =====
   const bases=`
     <div class="bases">
       <div class="base ${data.situation.bases[0]?"active":""}"></div>
@@ -70,7 +168,8 @@ function renderHub(data){
     </div>
   `;
 
-  // 勝利確率
+  const zone="<div class='zone'>"+Array(9).fill("<div></div>").join("")+"</div>";
+
   const winprob=`
     <div class="winprob-bar">
       <div class="winprob-fill" style="width:${data.winProbability.lions}%"></div>
@@ -78,68 +177,38 @@ function renderHub(data){
     <p>Lions ${data.winProbability.lions}% - ${data.winProbability.opp}% Opp</p>
   `;
 
-  // ストライクゾーン
-  let zone="<div class='zone'>";
-  for(let i=0;i<9;i++) zone+="<div></div>";
-  zone+="</div>";
+  document.getElementById("live").innerHTML=`
+    <p><strong>${data.situation.inning}</strong> ｜ ${data.situation.outs}アウト</p>
+    <p>打者：${data.situation.batter}</p>
+    <p>投手：${data.situation.pitcher}</p>
+    <p>最新球：${data.lastPitch.type} ${data.lastPitch.speed}km/h（${data.lastPitch.course}）</p>
+    ${bases}
+    ${zone}
+    ${winprob}
+  `;
 
-  document.getElementById("hub").innerHTML=`
-    <div class="section">
-      <h2>${data.meta.date} ${data.meta.card}</h2>
-      <p>${data.meta.stadium} / ${data.meta.time}</p>
+  // ===== ラインナップ =====
+  document.getElementById("lineup").innerHTML=`
+    <div>
+      <h3>ライオンズ</h3>
+      ${data.lineup.lions.map(p=>`<p>${p}</p>`).join("")}
     </div>
-
-    <div class="section">${sb}</div>
-
-    <div class="section live-box">
-      <p>${data.situation.inning} / ${data.situation.outs}アウト</p>
-      <p>打者: ${data.situation.batter}</p>
-      <p>投手: ${data.situation.pitcher}</p>
-      <p>球種: ${data.lastPitch.type} ${data.lastPitch.speed}km/h (${data.lastPitch.course})</p>
-      ${bases}
-      ${zone}
-      ${winprob}
+    <div>
+      <h3>相手</h3>
+      ${data.lineup.opp.map(p=>`<p>${p}</p>`).join("")}
     </div>
+  `;
 
-    <div class="section lineup">
-      <div>
-        <h3>ライオンズ</h3>
-        ${data.lineup.lions.map(p=>`<p>${p}</p>`).join("")}
-      </div>
-      <div>
-        <h3>相手</h3>
-        ${data.lineup.opp.map(p=>`<p>${p}</p>`).join("")}
-      </div>
-    </div>
+  // ===== 分析 =====
+  document.getElementById("analysis").innerHTML=`
+    <h3>対戦成績</h3>
+    <p>${data.analysis.vsTeam}</p>
 
-    <div class="section analysis-box">
-      <h3>対戦成績</h3>
-      <p>${data.analysis.vsTeam}</p>
+    <h3>相性</h3>
+    <p>${data.analysis.matchup}</p>
 
-      <h3>相性</h3>
-      <p>${data.analysis.matchup}</p>
-
-      <h3>直近成績</h3>
-      <p>${data.analysis.recent}</p>
-    </div>
+    <h3>直近成績</h3>
+    <p>${data.analysis.recent}</p>
   `;
 }
 </script>
-</head>
-
-<body>
-<h1>Game Hub</h1>
-<div id="hub"></div>
-<script>
-const params=new URLSearchParams(location.search);
-const date=params.get("date");
-const team=params.get("team");
-
-fetch(`/lionscrown/live/${date}_${team}.json`)
-  .then(res=>res.json())
-  .then(data=>{
-    document.getElementById("gameDetail").textContent=JSON.stringify(data);
-  });
-</script>
-</body>
-</html>
