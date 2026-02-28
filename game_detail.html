@@ -3,234 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Live | L-crown</title>
+<title>Game Detail</title>
 
 <style>
 body{
+  margin:0;
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
-  background: radial-gradient(circle at top,#163b80 0%,#091b3d 40%,#050c1f 100%);
-  color:white;margin:0;
-}
-main{max-width:1300px;margin:40px auto;padding:20px;}
-.glass{
-  background:rgba(255,255,255,.06);
-  padding:30px;border-radius:24px;
-  backdrop-filter:blur(18px);
-  margin-bottom:25px;
+  background:#0b1d3a;
+  color:#fff;
 }
 
-/* Scoreboard */
-table{width:100%;border-collapse:collapse;}
-th,td{
-  border:1px solid rgba(255,255,255,.2);
-  padding:6px;text-align:center;font-size:13px;
+/* ===== レイアウト ===== */
+.container{
+  display:grid;
+  grid-template-columns: 320px 1fr 360px;
+  gap:20px;
+  padding:20px;
 }
 
-/* Count */
-.count{display:flex;gap:6px;margin:10px 0;}
-.dot{width:14px;height:14px;border-radius:50%;}
-.ball{background:#4da3ff;}
-.strike{background:#ffd700;}
-.out{background:#ff4d4d;}
-
-/* Bases */
-.bases{display:flex;gap:8px;margin:10px 0;}
-.base{
-  width:18px;height:18px;
-  transform:rotate(45deg);
-  border:2px solid white;
-}
-.base.on{background:#ffd700;}
-
-/* Zone */
-.zone{
-  width:200px;height:200px;
-  border:2px solid white;
-  position:relative;margin-top:15px;
-}
-.pitch-dot{
-  width:10px;height:10px;
-  border-radius:50%;
-  position:absolute;
-  transform:translate(-50%,-50%);
+.panel{
+  background:rgba(255,255,255,0.05);
+  padding:15px;
+  border-radius:16px;
 }
 
-/* Lineup */
-.lineup{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
-.lineup-card{
-  background:rgba(255,255,255,.05);
-  padding:15px;border-radius:16px;
-}
-.player-row{
-  display:flex;justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.1);
-  padding:4px 0;font-size:13px;
+/* ===== スコアボード ===== */
+.scoreboard{
+  padding:15px;
+  background:rgba(255,255,255,0.08);
+  border-radius:20px;
+  margin:20px;
+  display:flex;
+  justify-content:space-between;
 }
 
-/* Defense */
-.field{
-  position:relative;width:280px;height:220px;
-  margin:20px auto;
-  background:radial-gradient(circle,#0a3c2f,#08251f);
-  border-radius:50% 50% 0 0;
+/* ===== 打席一覧 ===== */
+.atbat-item{
+  padding:8px;
+  margin-bottom:6px;
+  background:rgba(255,255,255,0.05);
+  border-radius:10px;
+  cursor:pointer;
 }
-.pos{position:absolute;font-size:11px;text-align:center;}
+
+.atbat-item:hover{
+  background:rgba(255,255,255,0.15);
+}
+
+/* ===== ゾーン ===== */
+#zoneCanvas{
+  background:#111;
+  border:2px solid #fff;
+}
+
+/* ===== 結果カード ===== */
+.result-card{
+  background:rgba(255,255,255,0.06);
+  padding:10px;
+  margin-bottom:8px;
+  border-radius:12px;
+}
+
+/* ===== ボタン ===== */
+button{
+  background:#1f6feb;
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  color:#fff;
+  cursor:pointer;
+}
+button:hover{
+  background:#3b82f6;
+}
+input,select{
+  width:100%;
+  margin-bottom:6px;
+}
 </style>
 </head>
 <body>
-<main>
 
-<div class="glass">
-<h2 id="title"></h2>
-<div id="scoreboardArea"></div>
+<div class="scoreboard" id="scoreboard"></div>
+
+<div class="container">
+
+<!-- 左：打席ログ -->
+<div class="panel">
+  <h3>打席一覧</h3>
+  <div id="atbatList"></div>
 </div>
 
-<div class="glass">
-<h3>現在の打席</h3>
-<div id="liveArea"></div>
+<!-- 中央：打席詳細 -->
+<div class="panel">
+  <h3>打席詳細</h3>
+  <div id="atbatDetail"></div>
+  <canvas id="zoneCanvas" width="250" height="250"></canvas>
+  <div style="margin-top:10px;">
+    <button onclick="prevAtBat()">前へ</button>
+    <button onclick="nextAtBat()">次へ</button>
+  </div>
 </div>
 
-<div class="glass">
-<h3>ラインナップ</h3>
-<div id="lineupArea"></div>
+<!-- 右：統計 -->
+<div class="panel">
+  <h3>統計</h3>
+  <div id="statsPanel"></div>
 </div>
 
-<div class="glass">
-<h3>守備位置</h3>
-<div id="defenseArea"></div>
 </div>
 
-</main>
+<!-- 検索 -->
+<div class="panel" style="margin:20px;">
+  <h3>検索</h3>
+  <select id="teamFilter">
+    <option value="">チーム</option>
+    <option value="L">L</option>
+    <option value="H">H</option>
+  </select>
+  <input id="playerFilter" placeholder="選手ID">
+  <select id="resultFilter">
+    <option value="">結果</option>
+    <option value="single">single</option>
+    <option value="out">out</option>
+  </select>
+  <button onclick="searchEvents()">検索</button>
+  <div id="searchResults"></div>
+</div>
 
 <script>
-let gameData;
 
-const pitchColors={
-  "FF":"#ff4d4d",
-  "SL":"#4da3ff",
-  "CT":"#ffd700",
-  "CU":"#9c27b0",
-  "CH":"#00e676"
-};
+let gameData
+let currentIndex = 0
 
-document.addEventListener("DOMContentLoaded",async()=>{
-  const p=new URLSearchParams(location.search);
-  const date=p.get("date");
-  const team=p.get("team");
-
-  const res=await fetch(`live/${date}_${team}.json`);
-  gameData=await res.json();
-
-  renderAll();
-});
-
-function renderAll(){
-  renderTitle();
-  renderScoreboard();
-  renderLive();
-  renderLineup();
-  renderDefense();
-}
-
-function renderTitle(){
-  document.getElementById("title").innerText=
-  `${gameData.game.date} ${gameData.teams.L.name} vs ${gameData.teams.H.name} ｜ ${gameData.game.stadium}`;
-}
+fetch("live/2026-03-01_L_H.json")
+.then(res=>res.json())
+.then(data=>{
+  gameData = data
+  renderScoreboard()
+  renderAtBatList()
+  renderAtBat(0)
+})
 
 function renderScoreboard(){
-  const s=gameData.scoreboard;
-  let html="<table><tr><th></th>";
-  for(let i=1;i<=9;i++) html+=`<th>${i}</th>`;
-  html+="</tr>";
-
-  html+=`<tr><td>L</td>${s.L.map(i=>`<td>${i}</td>`).join("")}</tr>`;
-  html+=`<tr><td>H</td>${s.H.map(i=>`<td>${i}</td>`).join("")}</tr>`;
-  html+="</table>";
-
-  document.getElementById("scoreboardArea").innerHTML=html;
+  document.getElementById("scoreboard").innerHTML =
+    gameData.teams.L + " vs " + gameData.teams.H
 }
 
-function renderLive(){
-  const ev=gameData.events[gameData.events.length-1];
-  if(!ev) return;
+function renderAtBatList(){
+  const list = document.getElementById("atbatList")
+  list.innerHTML=""
+  gameData.events.forEach((ev,i)=>{
+    list.innerHTML+=`
+      <div class="atbat-item" onclick="renderAtBat(${i})">
+        ${ev.inning}回 ${ev.half} ${ev.batter} ${ev.result.type}
+      </div>
+    `
+  })
+}
 
-  let countHTML="<div class='count'>";
+function renderAtBat(i){
+  currentIndex=i
+  const ev = gameData.events[i]
+  document.getElementById("atbatDetail").innerHTML =
+    `打者:${ev.batter}<br>
+     投手:${ev.pitcher}<br>
+     結果:${ev.result.type}`
+  drawZone(ev)
+  calcStats(ev.pitcher)
+}
+
+function drawZone(ev){
+  const canvas=document.getElementById("zoneCanvas")
+  const ctx=canvas.getContext("2d")
+  ctx.clearRect(0,0,250,250)
+
+  ctx.strokeStyle="white"
+  ctx.strokeRect(75,50,100,150)
+
   ev.pitches.forEach(p=>{
-    if(p.call==="ball") countHTML+="<div class='dot ball'></div>";
-    if(p.call==="strike") countHTML+="<div class='dot strike'></div>";
-  });
-  for(let i=0;i<ev.stateStart.outs;i++)
-    countHTML+="<div class='dot out'></div>";
-  countHTML+="</div>";
+    ctx.fillStyle=getPitchColor(p.type)
+    ctx.beginPath()
+    ctx.arc(125+p.zone.x*80,125-p.zone.y*80,5,0,2*Math.PI)
+    ctx.fill()
+  })
+}
 
-  let basesHTML="<div class='bases'>";
-  ev.stateStart.bases.forEach(b=>{
-    basesHTML+=`<div class="base ${b? "on":""}"></div>`;
-  });
-  basesHTML+="</div>";
+function getPitchColor(type){
+  if(type==="FF") return "red"
+  if(type==="SL") return "blue"
+  return "white"
+}
 
-  let zone="<div class='zone'>";
-  ev.pitches.forEach(p=>{
-    if(p.zone){
-      zone+=`<div class="pitch-dot"
-      style="left:${p.zone.x}%;top:${p.zone.y};
-      background:${pitchColors[p.type]||'white'}"></div>`;
+function prevAtBat(){
+  if(currentIndex>0) renderAtBat(currentIndex-1)
+}
+function nextAtBat(){
+  if(currentIndex<gameData.events.length-1) renderAtBat(currentIndex+1)
+}
+
+function searchEvents(){
+  const team=document.getElementById("teamFilter").value
+  const player=document.getElementById("playerFilter").value
+  const result=document.getElementById("resultFilter").value
+
+  const results=gameData.events.filter(ev=>{
+    if(team && ev.offense!==team) return false
+    if(player && ev.batter!==player && ev.pitcher!==player) return false
+    if(result && ev.result.type!==result) return false
+    return true
+  })
+
+  const container=document.getElementById("searchResults")
+  container.innerHTML=""
+  results.forEach(ev=>{
+    container.innerHTML+=`
+      <div class="result-card">
+        ${ev.inning}回 ${ev.half} ${ev.batter} ${ev.result.type}
+      </div>
+    `
+  })
+}
+
+function calcStats(pitcherId){
+  const pitches=[]
+  gameData.events.forEach(ev=>{
+    if(ev.pitcher===pitcherId){
+      pitches.push(...ev.pitches)
     }
-  });
-  zone+="</div>";
-
-  document.getElementById("liveArea").innerHTML=`
-    ${ev.inning}回${ev.half==="top"?"表":"裏"}<br>
-    打者：${ev.batter} ｜ 投手：${ev.pitcher}
-    ${countHTML}
-    ${basesHTML}
-    ${zone}
-  `;
+  })
+  const avg = pitches.reduce((a,b)=>a+b.velocity,0)/pitches.length
+  document.getElementById("statsPanel").innerHTML=
+    `投球数:${pitches.length}<br>
+     平均球速:${avg.toFixed(1)}km`
 }
 
-function renderLineup(){
-  const l=gameData.lineups;
-  let html="<div class='lineup'>";
-
-  html+="<div class='lineup-card'><b>ライオンズ</b>";
-  l.L.forEach(p=>{
-    html+=`<div class="player-row">
-      <span>${p.order} ${p.pos} ${p.name}</span>
-    </div>`;
-  });
-  html+="</div>";
-
-  html+="<div class='lineup-card'><b>ホークス</b>";
-  l.H.forEach(p=>{
-    html+=`<div class="player-row">
-      <span>${p.order} ${p.pos} ${p.name}</span>
-    </div>`;
-  });
-  html+="</div>";
-
-  html+="</div>";
-
-  document.getElementById("lineupArea").innerHTML=html;
-}
-
-function renderDefense(){
-  const d=gameData.defense;
-  if(!d) return;
-
-  document.getElementById("defenseArea").innerHTML=`
-  <div class="field">
-    <div class="pos" style="top:20px;left:50%">${d.CF}</div>
-    <div class="pos" style="top:60px;left:20%">${d.LF}</div>
-    <div class="pos" style="top:60px;right:20%">${d.RF}</div>
-    <div class="pos" style="top:120px;left:50%">${d.SS}</div>
-    <div class="pos" style="top:140px;left:20%">${d["3B"]}</div>
-    <div class="pos" style="top:140px;right:20%">${d["1B"]}</div>
-    <div class="pos" style="top:180px;left:50%">${d.P}</div>
-    <div class="pos" style="top:210px;left:50%">${d.C}</div>
-  </div>
-  `;
-}
 </script>
-
 </body>
 </html>
