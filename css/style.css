@@ -70,6 +70,22 @@ body {
   color:#000;
 }
 
+/* 検索バー */
+.search-bar {
+  margin-bottom:12px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.search-bar input,
+.search-bar select,
+.search-bar button {
+  padding:4px 8px;
+  border-radius:6px;
+  border:none;
+}
+
 /* 空白セル */
 .empty {
   background:#0f1a2b;
