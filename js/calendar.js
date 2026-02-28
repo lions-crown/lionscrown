@@ -92,17 +92,36 @@ function renderCalendar(year,month){
     }
 
     const dateStr=`${year}-${String(month+1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
-    const dayGames=games.filter(g=>g.date===dateStr && matchFilter(g));
 
-    if(activeFilter && dayGames.length===0){
+    const dayGames=games.filter(g=>g.date===dateStr && g.team===currentTeam);
+    const matchedGames=dayGames.filter(matchFilter);
+
+    // 検索中で該当なし日は非表示
+    if(activeFilter && matchedGames.length===0){
       calendar.innerHTML+=`<div class="day-cell empty"></div>`;
       dayCounter++;
       continue;
     }
 
+    let gameHTML="";
+
+    matchedGames.forEach(game=>{
+      const resultText = game.status==="finished" ? game.result : "";
+      gameHTML+=`
+        <a href="game_detail.html?date=${game.date}&team=${encodeURIComponent(game.team)}" class="mini-game-card">
+          <img src="${game.opponent_logo}">
+          <div class="mini-opponent">${game.opponent}</div>
+          <div class="mini-stadium">${game.stadium}</div>
+          <div class="mini-time">${game.time} ${game.home_away}</div>
+          ${resultText ? `<div class="mini-result">${resultText}</div>` : ""}
+        </a>
+      `;
+    });
+
     calendar.innerHTML+=`
-      <div class="day-cell ${dayGames.length>0?"highlight":""}">
+      <div class="day-cell ${matchedGames.length>0?"highlight":""}">
         <strong>${dayCounter}</strong>
+        ${gameHTML}
       </div>
     `;
 
