@@ -37,14 +37,7 @@
 <div class="player-grid" id="playerGrid"></div>
 
 <script>
-// ----- サンプルデータ -----
-const players = {
-  "2026": [
-    { "id":1,"name":"山田 太郎","position":"投手","number":11,"birth_year":1995,"photo":"images/11_yamada.png","link":"players/11_yamada.html" },
-    { "id":2,"name":"佐藤 次郎","position":"捕手","number":2,"birth_year":1990,"photo":"images/2_sato.png","link":"players/2_sato.html" }
-  ],
-  "2025": [ /* 過去年度データ */ ]
-};
+const players = {}; // 年度ごとのデータを格納
 
 // ----- 年度プルダウン生成 -----
 const yearSelect = document.getElementById('yearSelect');
@@ -55,20 +48,34 @@ for (let y=2026; y>=2017; y--) {
   yearSelect.appendChild(option);
 }
 
+// ----- JSON 読み込み関数 -----
+async function loadPlayers(year) {
+  if(players[year]) return players[year]; // 既に読み込み済み
+  try {
+    const res = await fetch(`data/players${year}.json`); // dataフォルダに置く想定
+    const data = await res.json();
+    players[year] = data;
+    return data;
+  } catch (err) {
+    console.error(`選手データ ${year} の読み込みに失敗しました`, err);
+    return [];
+  }
+}
+
 // ----- プレイヤー表示関数 -----
-function renderPlayers() {
+async function renderPlayers() {
   const year = yearSelect.value;
   const pos = document.getElementById('positionFilter').value;
   const name = document.getElementById('nameSearch').value.trim();
   
-  let filtered = players[year] || [];
-  if(pos) filtered = filtered.filter(p=>p.position===pos);
-  if(name) filtered = filtered.filter(p=>p.name.includes(name));
-  filtered.sort((a,b)=>a.number - b.number);
+  let filtered = await loadPlayers(year);
+  if(pos) filtered = filtered.filter(p => p.position === pos);
+  if(name) filtered = filtered.filter(p => p.name.includes(name));
+  filtered.sort((a,b) => a.number - b.number);
   
   const grid = document.getElementById('playerGrid');
   grid.innerHTML = '';
-  filtered.forEach(p=>{
+  filtered.forEach(p => {
     const card = document.createElement('div');
     card.className = 'player-card';
     const age = year - p.birth_year;
