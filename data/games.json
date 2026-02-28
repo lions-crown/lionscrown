@@ -31,5 +31,60 @@
     "home_away": "V",
     "result": "",
     "status": "upcoming"
-  }
+  },
+  {
+    "date": "2026-03-05",
+    "team": "1軍",
+    "opponent": "日本ハム",
+    "opponent_logo": "/img/logos/marines.webp",
+    "stadium": "エスコンF",
+    "time": "18:00",
+    "home_away": "V",
+    "result": "",
+    "status": "upcoming"
+  },
+  {
+    "date": "2026-03-07",
+    "team": "1軍",
+    "opponent": "ヤクルト",
+    "opponent_logo": "/img/logos/marines.webp",
+    "stadium": "春野",
+    "time": "13:00",
+    "home_away": "H",
+    "result": "",
+    "status": "upcoming"
+  },
+  {
+    "date": "2026-03-08",
+    "team": "1軍",
+    "opponent": "ヤクルト",
+    "opponent_logo": "/img/logos/marines.webp",
+    "stadium": "春野",
+    "time": "13:00",
+    "home_away": "H",
+    "result": "",
+    "status": "upcoming"
+  }, 
+  {
+    "date": "2026-03-10",
+    "team": "1軍",
+    "opponent": "阪神",
+    "opponent_logo": "/img/logos/marines.webp",
+    "stadium": "甲子園",
+    "time": "13:00",
+    "home_away": "V",
+    "result": "",
+    "status": "upcoming"
+  },
+  {
+    "date": "2026-03-11",
+    "team": "1軍",
+    "opponent": "阪神",
+    "opponent_logo": "/img/logos/marines.webp",
+    "stadium": "甲子園",
+    "time": "13:00",
+    "home_away": "V",
+    "result": "",
+    "status": "upcoming"
+  },
 ]
