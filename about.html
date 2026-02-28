@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L-crown | About</title>
+
+<!-- SEO Meta -->
+<meta name="description" content="L-crownは埼玉西武ライオンズ専門のデータ分析サイト。試合速報、スタッツ、選手分析など、ファンのための情報を整理して提供します。">
+<meta name="keywords" content="L-crown, 埼玉西武ライオンズ, データ分析, 野球, スタッツ, 選手情報">
+
+<!-- OGP -->
+<meta property="og:title" content="L-crown | About">
+<meta property="og:description" content="埼玉西武ライオンズの試合データや選手情報を整理して提供するL-crownの公式Aboutページです。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lions-crown.github.io/lionscrown/about.html">
+<meta property="og:image" content="https://lions-crown.homep.jp/img/1766145327164.webp">
+
+<!-- Structured Data: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "L-crown",
+  "url": "https://lions-crown.github.io/lionscrown/",
+  "logo": "https://lions-crown.homep.jp/img/1766145327164.webp",
+  "sameAs": [
+    "https://x.com/Lcrown_official"
+  ],
+  "description": "埼玉西武ライオンズ専門のデータ分析サイト。試合速報、選手分析、スタッツ整理を行う非営利プロジェクト。"
+}
+</script>
+
+<style>
+/* ===== 背景 ===== */
+body {
+  margin: 0;
+  font-family: "Segoe UI","Noto Sans JP",sans-serif;
+  background: radial-gradient(circle at 50% 20%, #163b80, #091b3d 70%, #050c1f 100%);
+  color: #ffffff;
+}
+
+/* ===== ヘッダー ===== */
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(10,25,60,0.55);
+  backdrop-filter: blur(14px);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+header h1 {
+  font-size: 26px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #6eb9ff, #9ed0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px rgba(110,185,255,0.7);
+}
+
+/* ===== ナビ ===== */
+nav a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  margin-left: 24px;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #6eb9ff;
+  transition: width 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* ===== メインコンテナ ===== */
+main {
+  max-width: 1100px;
+  margin: 48px auto;
+  padding: 0 24px;
+  display: grid;
+  gap: 32px;
+}
+
+/* ===== ガラスカード ===== */
+.card {
+  background: rgba(10,25,60,0.45);
+  backdrop-filter: blur(16px);
+  border-radius: 22px;
+  padding: 32px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+/* ===== 見出し ===== */
+h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #6eb9ff33;
+  padding-bottom: 8px;
+}
+
+h3 {
+  font-size: 22px;
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+/* ===== 段落 ===== */
+p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width:768px){
+  main {
+    padding: 0 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>L-crown</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="https://x.com/Lcrown_official" target="_blank">SNS</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ヒーロー -->
+  <section class="card">
+    <h2>L-crownとは何か</h2>
+    <p>データをより身近なものへ。<br>埼玉西武ライオンズの王座奪還への道を、数字とともに追い続けます。</p>
+  </section>
+
+  <!-- L-crown説明 -->
+  <section class="card">
+    <h2>L-crown</h2>
+    <p>L-crownは、<strong>埼玉西武ライオンズに特化したデータ分析サイト</strong>です。</p>
+    <p>試合結果、個人成績、投打指標、チーム推移など、ライオンズに関わるデータを整理・可視化し、感覚だけでなく根拠に基づいて野球を楽しむ環境を提供します。</p>
+    <p>単なる速報サイトではなく、数字の裏にある意味を追い、ライオンズが強くなるためのヒントを探ります。</p>
+  </section>
+
+  <!-- Mission -->
+  <section class="card">
+    <h2>Mission</h2>
+    <h3>1. データを身近なものに</h3>
+    <p>専門的になりがちな野球データを、誰にでも理解できる形で提示します。</p>
+    <h3>2. 新しい視点の提供</h3>
+    <p>既存の数字だけでなく、切り口や比較方法を工夫し、新しい発見を生み出します。</p>
+    <h3>3. 利用者目線の徹底</h3>
+    <p>ファンが本当に知りたい情報は何か。常にユーザー視点で設計・改善を行います。</p>
+    <h3>4. 正確かつ迅速な発信</h3>
+    <p>データは正確であることが前提。信頼性とスピードを両立させます。</p>
+  </section>
+
+  <!-- Organization -->
+  <section class="card">
+    <h2>Organization</h2>
+    <p>L-crownは、<strong>L-crown製作委員会</strong>によって運営されています。</p>
+    <p>野球とデータを愛するメンバーによる非営利のプロジェクトで、利益追求を目的とせず、「ライオンズの未来をデータで支える」ことを目的としています。</p>
+    <p>2025年6月1日 発足。継続的な改善と拡張を前提に活動しています。</p>
+  </section>
+
+  <!-- Why -->
+  <section class="card">
+    <h2>Why L-crown?</h2>
+    <p>データは、野球をより深く理解するための武器です。</p>
+    <p>しかし、指標が難しい・情報が分散している・ライオンズ特化の分析が少ない、という課題があります。</p>
+    <p>L-crownはそれを解決します。「数字がわかると、野球はもっと面白い」その体験を提供することが私たちの使命です。</p>
+  </section>
+
+  <!-- Roadmap -->
+  <section class="card">
+    <h2>Roadmap</h2>
+    <ul>
+      <li>試合リアルタイムデータ強化</li>
+      <li>詳細スタッツの自動更新</li>
+      <li>選手分析ページの高度化</li>
+      <li>データ比較ツールの実装</li>
+      <li>ファン参加型コンテンツの拡充</li>
+    </ul>
+    <p>L-crownは完成形ではなく、常に進化し続けます。</p>
+  </section>
+
+  <!-- Message -->
+  <section class="card">
+    <h2>Message</h2>
+    <p>ライオンズが再び頂点に立つその日まで。</p>
+    <p>私たちは、データで支え、考え続け、発信し続けます。</p>
+  </section>
+</main>
+
+<footer class="card" style="text-align:center; margin:48px auto; max-width:1100px;">
+  <p>&copy; 2026 L-crown. All rights reserved.</p>
+</footer>
+</body>
+</html>
