@@ -4,12 +4,12 @@ const today = new Date();
 let currentYear = today.getFullYear();
 let currentMonth = today.getMonth();
 const weekdays = ["月", "火", "水", "木", "金", "土", "日"];
-let currentTeam = "1"; // 初期は1軍
+let currentTeam = "1軍"; // 初期は1軍
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  renderWeekdays();
-  renderCalendar(currentYear, currentMonth);
+  renderWeekdays();              // 曜日描画
+  renderCalendar(currentYear, currentMonth); // 初期描画
 
   // 軍切り替えボタン
   document.querySelectorAll(".filter-bar button").forEach(btn => {
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(data => {
       games = data;
-      renderCalendar(currentYear, currentMonth);
+      renderCalendar(currentYear, currentMonth); // JSON取得後再描画
     })
     .catch(err => console.error(err));
 
@@ -81,7 +81,7 @@ function renderCalendar(year, month) {
     `${year}年 ${month + 1}月`;
 
   let firstDay = new Date(year, month, 1).getDay();
-  firstDay = (firstDay + 6) % 7;
+  firstDay = (firstDay + 6) % 7; // 月曜始まり
   const lastDate = new Date(year, month + 1, 0).getDate();
   const totalCells = 42;
   let dayCounter = 1;
@@ -96,6 +96,7 @@ function renderCalendar(year, month) {
     const dateStr =
       `${year}-${String(month + 1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
 
+    // 現在選択中の軍だけフィルタ
     const dayGames = games
       .filter(g => g.date === dateStr && g.team === currentTeam);
 
