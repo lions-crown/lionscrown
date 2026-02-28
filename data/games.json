@@ -1,4 +1,4 @@
-let games = [
+let games = [ 
   {
     "date": "2026-04-03",
     "team": "1軍",
@@ -11,4 +11,5 @@ let games = [
     "status": "finished"
   }
 ];
+
 renderCalendar(currentYear, currentMonth);
