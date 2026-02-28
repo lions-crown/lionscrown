@@ -9,5 +9,15 @@
     "home_away": "H",
     "result": "4-2",
     "status": "finished"
+  },
+  {
+    "date": "2026-04-05",
+    "team": "2軍",
+    "opponent": "オリックス",
+    "opponent_logo": "/img/logos/buffaloes.webp",
+    "stadium": "ベルーナドーム",
+    "time": "13:00",
+    "home_away": "V",
+    "status": "scheduled"
   }
 ]
