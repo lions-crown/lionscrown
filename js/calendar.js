@@ -3,7 +3,7 @@ const today = new Date();
 let currentYear = today.getFullYear();
 let currentMonth = today.getMonth();
 const weekdays = ["月","火","水","木","金","土","日"];
-let currentTeam = "1軍";
+let currentTeam = "1";
 
 let filterDate="";
 let filterOpponent=[];
