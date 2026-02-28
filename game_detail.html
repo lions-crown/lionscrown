@@ -3,74 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Detail | L-crown</title>
+<title>Game Live | L-crown</title>
 
 <style>
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top,#163b80 0%,#091b3d 40%,#050c1f 100%);
-  color:white;
-  margin:0;
+  color:white;margin:0;
 }
 main{max-width:1300px;margin:40px auto;padding:20px;}
-.card{
+.glass{
   background:rgba(255,255,255,.06);
-  padding:20px;border-radius:20px;margin-bottom:20px;
+  padding:30px;border-radius:24px;
+  backdrop-filter:blur(18px);
+  margin-bottom:25px;
 }
-select{background:#13234f;color:white;padding:6px 8px;border-radius:6px;}
-button{background:#4da3ff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;}
-.result-item{padding:6px;border-bottom:1px solid rgba(255,255,255,.1);cursor:pointer;}
-.result-item:hover{background:rgba(77,163,255,.3);}
-.zone{width:200px;height:200px;border:2px solid white;position:relative;margin-top:10px;}
-.pitch-dot{width:10px;height:10px;border-radius:50%;position:absolute;transform:translate(-50%,-50%);}
+
+/* Scoreboard */
+table{width:100%;border-collapse:collapse;}
+th,td{
+  border:1px solid rgba(255,255,255,.2);
+  padding:6px;text-align:center;font-size:13px;
+}
+
+/* Count */
+.count{display:flex;gap:6px;margin:10px 0;}
+.dot{width:14px;height:14px;border-radius:50%;}
+.ball{background:#4da3ff;}
+.strike{background:#ffd700;}
+.out{background:#ff4d4d;}
+
+/* Bases */
+.bases{display:flex;gap:8px;margin:10px 0;}
+.base{
+  width:18px;height:18px;
+  transform:rotate(45deg);
+  border:2px solid white;
+}
+.base.on{background:#ffd700;}
+
+/* Zone */
+.zone{
+  width:200px;height:200px;
+  border:2px solid white;
+  position:relative;margin-top:15px;
+}
+.pitch-dot{
+  width:10px;height:10px;
+  border-radius:50%;
+  position:absolute;
+  transform:translate(-50%,-50%);
+}
+
+/* Lineup */
+.lineup{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+.lineup-card{
+  background:rgba(255,255,255,.05);
+  padding:15px;border-radius:16px;
+}
+.player-row{
+  display:flex;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  padding:4px 0;font-size:13px;
+}
+
+/* Defense */
+.field{
+  position:relative;width:280px;height:220px;
+  margin:20px auto;
+  background:radial-gradient(circle,#0a3c2f,#08251f);
+  border-radius:50% 50% 0 0;
+}
+.pos{position:absolute;font-size:11px;text-align:center;}
 </style>
 </head>
 <body>
 <main>
 
-<div class="card">
+<div class="glass">
 <h2 id="title"></h2>
-
-<select id="teamFilter">
-<option value="all">全打席</option>
-<option value="L">ライオンズ攻撃</option>
-<option value="H">ライオンズ守備</option>
-</select>
-
-<select id="playerFilter">
-<option value="">選手指定なし</option>
-</select>
-
-<button onclick="applyFilter()">検索</button>
-
+<div id="scoreboardArea"></div>
 </div>
 
-<div class="card">
-<h3>検索結果</h3>
-<div id="results"></div>
+<div class="glass">
+<h3>現在の打席</h3>
+<div id="liveArea"></div>
 </div>
 
-<div class="card">
-<h3>打席詳細</h3>
-<div id="detail"></div>
+<div class="glass">
+<h3>ラインナップ</h3>
+<div id="lineupArea"></div>
 </div>
 
-<div class="card">
-<h3>統計</h3>
-<div id="stats"></div>
+<div class="glass">
+<h3>守備位置</h3>
+<div id="defenseArea"></div>
 </div>
 
 </main>
 
 <script>
 let gameData;
-let allEvents=[];
-let filteredEvents=[];
 
 const pitchColors={
   "FF":"#ff4d4d",
   "SL":"#4da3ff",
-  "CT":"#ffd700"
+  "CT":"#ffd700",
+  "CU":"#9c27b0",
+  "CH":"#00e676"
 };
 
 document.addEventListener("DOMContentLoaded",async()=>{
@@ -81,94 +121,114 @@ document.addEventListener("DOMContentLoaded",async()=>{
   const res=await fetch(`live/${date}_${team}.json`);
   gameData=await res.json();
 
-  initGame();
+  renderAll();
 });
 
-function initGame(){
+function renderAll(){
+  renderTitle();
+  renderScoreboard();
+  renderLive();
+  renderLineup();
+  renderDefense();
+}
+
+function renderTitle(){
   document.getElementById("title").innerText=
-    `${gameData.game.date} ${gameData.teams.L.name} vs ${gameData.teams.H.name}`;
-
-  allEvents=gameData.events;
-  populatePlayers();
-  applyFilter();
+  `${gameData.game.date} ${gameData.teams.L.name} vs ${gameData.teams.H.name} ｜ ${gameData.game.stadium}`;
 }
 
-function populatePlayers(){
-  const pf=document.getElementById("playerFilter");
-  Object.entries(gameData.players).forEach(([id,p])=>{
-    pf.innerHTML+=`<option value="${id}">${p.name}</option>`;
-  });
+function renderScoreboard(){
+  const s=gameData.scoreboard;
+  let html="<table><tr><th></th>";
+  for(let i=1;i<=9;i++) html+=`<th>${i}</th>`;
+  html+="</tr>";
+
+  html+=`<tr><td>L</td>${s.L.map(i=>`<td>${i}</td>`).join("")}</tr>`;
+  html+=`<tr><td>H</td>${s.H.map(i=>`<td>${i}</td>`).join("")}</tr>`;
+  html+="</table>";
+
+  document.getElementById("scoreboardArea").innerHTML=html;
 }
 
-function applyFilter(){
-  const team=document.getElementById("teamFilter").value;
-  const player=document.getElementById("playerFilter").value;
-
-  filteredEvents=allEvents.filter(ev=>{
-    if(team!=="all" && ev.offense!==team) return false;
-    if(player && ev.batter!==player && ev.pitcher!==player) return false;
-    return true;
-  });
-
-  renderResults();
-  calcStats();
-}
-
-function renderResults(){
-  const area=document.getElementById("results");
-  area.innerHTML="";
-  filteredEvents.forEach((ev,i)=>{
-    area.innerHTML+=`
-    <div class="result-item" onclick="showDetail(${i})">
-      ${ev.inning}回${ev.half==="top"?"表":"裏"} ｜ 
-      ${gameData.players[ev.batter].name} ｜ 
-      ${ev.result.type}
-    </div>`;
-  });
-}
-
-function showDetail(i){
-  const ev=filteredEvents[i];
+function renderLive(){
+  const ev=gameData.events[gameData.events.length-1];
   if(!ev) return;
+
+  let countHTML="<div class='count'>";
+  ev.pitches.forEach(p=>{
+    if(p.call==="ball") countHTML+="<div class='dot ball'></div>";
+    if(p.call==="strike") countHTML+="<div class='dot strike'></div>";
+  });
+  for(let i=0;i<ev.stateStart.outs;i++)
+    countHTML+="<div class='dot out'></div>";
+  countHTML+="</div>";
+
+  let basesHTML="<div class='bases'>";
+  ev.stateStart.bases.forEach(b=>{
+    basesHTML+=`<div class="base ${b? "on":""}"></div>`;
+  });
+  basesHTML+="</div>";
 
   let zone="<div class='zone'>";
   ev.pitches.forEach(p=>{
     if(p.zone){
       zone+=`<div class="pitch-dot"
-      style="left:${p.zone.x}%;top:${p.zone.y}%;
+      style="left:${p.zone.x}%;top:${p.zone.y};
       background:${pitchColors[p.type]||'white'}"></div>`;
     }
   });
   zone+="</div>";
 
-  document.getElementById("detail").innerHTML=`
-    <div>
-    打者:${gameData.players[ev.batter].name}<br>
-    投手:${gameData.players[ev.pitcher].name}<br>
-    結果:${ev.result.type}<br>
+  document.getElementById("liveArea").innerHTML=`
+    ${ev.inning}回${ev.half==="top"?"表":"裏"}<br>
+    打者：${ev.batter} ｜ 投手：${ev.pitcher}
+    ${countHTML}
+    ${basesHTML}
     ${zone}
-    </div>
   `;
 }
 
-function calcStats(){
-  let mix={};
-  let sum=0,count=0;
+function renderLineup(){
+  const l=gameData.lineups;
+  let html="<div class='lineup'>";
 
-  filteredEvents.forEach(ev=>{
-    ev.pitches.forEach(p=>{
-      mix[p.type]=(mix[p.type]||0)+1;
-      if(p.speed){sum+=p.speed;count++;}
-    });
+  html+="<div class='lineup-card'><b>ライオンズ</b>";
+  l.L.forEach(p=>{
+    html+=`<div class="player-row">
+      <span>${p.order} ${p.pos} ${p.name}</span>
+    </div>`;
   });
+  html+="</div>";
 
-  let html="球種割合:<br>";
-  for(let k in mix){
-    html+=`${k} : ${mix[k]}球<br>`;
-  }
-  html+=`平均球速: ${count?(sum/count).toFixed(1):"-"} km/h`;
+  html+="<div class='lineup-card'><b>ホークス</b>";
+  l.H.forEach(p=>{
+    html+=`<div class="player-row">
+      <span>${p.order} ${p.pos} ${p.name}</span>
+    </div>`;
+  });
+  html+="</div>";
 
-  document.getElementById("stats").innerHTML=html;
+  html+="</div>";
+
+  document.getElementById("lineupArea").innerHTML=html;
+}
+
+function renderDefense(){
+  const d=gameData.defense;
+  if(!d) return;
+
+  document.getElementById("defenseArea").innerHTML=`
+  <div class="field">
+    <div class="pos" style="top:20px;left:50%">${d.CF}</div>
+    <div class="pos" style="top:60px;left:20%">${d.LF}</div>
+    <div class="pos" style="top:60px;right:20%">${d.RF}</div>
+    <div class="pos" style="top:120px;left:50%">${d.SS}</div>
+    <div class="pos" style="top:140px;left:20%">${d["3B"]}</div>
+    <div class="pos" style="top:140px;right:20%">${d["1B"]}</div>
+    <div class="pos" style="top:180px;left:50%">${d.P}</div>
+    <div class="pos" style="top:210px;left:50%">${d.C}</div>
+  </div>
+  `;
 }
 </script>
 
