@@ -130,5 +130,16 @@ function renderHub(data){
 <body>
 <h1>Game Hub</h1>
 <div id="hub"></div>
+<script>
+const params=new URLSearchParams(location.search);
+const date=params.get("date");
+const team=params.get("team");
+
+fetch(`/lionscrown/live/${date}_${team}.json`)
+  .then(res=>res.json())
+  .then(data=>{
+    document.getElementById("gameDetail").textContent=JSON.stringify(data);
+  });
+</script>
 </body>
 </html>
