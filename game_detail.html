@@ -6,238 +6,198 @@
 <title>Game Detail</title>
 
 <style>
-body{
-  margin:0;
-  font-family:"Segoe UI","Noto Sans JP",sans-serif;
-  background:#0b1d3a;
-  color:#fff;
-}
-
-/* ===== レイアウト ===== */
-.container{
-  display:grid;
-  grid-template-columns: 320px 1fr 360px;
-  gap:20px;
-  padding:20px;
-}
-
-.panel{
-  background:rgba(255,255,255,0.05);
-  padding:15px;
-  border-radius:16px;
-}
-
-/* ===== スコアボード ===== */
-.scoreboard{
-  padding:15px;
-  background:rgba(255,255,255,0.08);
-  border-radius:20px;
-  margin:20px;
-  display:flex;
-  justify-content:space-between;
-}
-
-/* ===== 打席一覧 ===== */
-.atbat-item{
-  padding:8px;
-  margin-bottom:6px;
-  background:rgba(255,255,255,0.05);
-  border-radius:10px;
-  cursor:pointer;
-}
-
-.atbat-item:hover{
-  background:rgba(255,255,255,0.15);
-}
-
-/* ===== ゾーン ===== */
-#zoneCanvas{
-  background:#111;
-  border:2px solid #fff;
-}
-
-/* ===== 結果カード ===== */
-.result-card{
-  background:rgba(255,255,255,0.06);
-  padding:10px;
-  margin-bottom:8px;
-  border-radius:12px;
-}
-
-/* ===== ボタン ===== */
-button{
-  background:#1f6feb;
-  border:none;
-  padding:6px 12px;
-  border-radius:8px;
-  color:#fff;
-  cursor:pointer;
-}
-button:hover{
-  background:#3b82f6;
-}
-input,select{
-  width:100%;
-  margin-bottom:6px;
-}
+body{margin:0;background:#0b1d3a;color:#fff;font-family:sans-serif;}
+.section{padding:20px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.flex{display:flex;gap:20px;flex-wrap:wrap;}
+.panel{background:rgba(255,255,255,0.06);padding:15px;border-radius:16px;}
+button{background:#1f6feb;border:none;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;}
+input,select{margin:4px 0;}
+canvas{background:#111;border-radius:12px;}
+.result-card{background:rgba(255,255,255,0.07);padding:8px;margin:6px 0;border-radius:10px;}
 </style>
 </head>
 <body>
 
-<div class="scoreboard" id="scoreboard"></div>
+<!-- 🔴 速報 -->
+<div class="section panel">
+<h2>一球速報</h2>
+<div id="scoreboard"></div>
+<div id="liveDetail"></div>
+<canvas id="zoneCanvas" width="250" height="250"></canvas>
+</div>
 
-<div class="container">
+<!-- 🔵 ナビ -->
+<div class="section panel">
+<button onclick="prevAtBat()">前へ</button>
+<button onclick="nextAtBat()">次へ</button>
+</div>
 
-<!-- 左：打席ログ -->
+<!-- 🟢 検索 -->
+<div class="section panel">
+<h3>状況別検索</h3>
+
+<select id="countFilter">
+<option value="">カウント</option>
+<option value="0-0">0-0</option>
+<option value="1-1">1-1</option>
+<option value="2-2">2-2</option>
+</select>
+
+<select id="baseFilter">
+<option value="">塁状況</option>
+<option value="100">一塁</option>
+<option value="110">一二塁</option>
+<option value="000">なし</option>
+</select>
+
+<select id="handFilter">
+<option value="">対左右</option>
+<option value="L">対左</option>
+<option value="R">対右</option>
+</select>
+
+<select id="pitchTypeFilter">
+<option value="">球種</option>
+<option value="FF">FF</option>
+<option value="SL">SL</option>
+</select>
+
+<button onclick="search()">検索</button>
+
+<div id="searchResults"></div>
+</div>
+
+<!-- 🟣 統計 -->
+<div class="section flex">
+
 <div class="panel">
-  <h3>打席一覧</h3>
-  <div id="atbatList"></div>
+<h3>球種割合</h3>
+<canvas id="pitchChart" width="250" height="250"></canvas>
 </div>
 
-<!-- 中央：打席詳細 -->
 <div class="panel">
-  <h3>打席詳細</h3>
-  <div id="atbatDetail"></div>
-  <canvas id="zoneCanvas" width="250" height="250"></canvas>
-  <div style="margin-top:10px;">
-    <button onclick="prevAtBat()">前へ</button>
-    <button onclick="nextAtBat()">次へ</button>
-  </div>
+<h3>打球ヒートマップ</h3>
+<canvas id="hitMap" width="300" height="300"></canvas>
 </div>
 
-<!-- 右：統計 -->
-<div class="panel">
-  <h3>統計</h3>
-  <div id="statsPanel"></div>
-</div>
-
-</div>
-
-<!-- 検索 -->
-<div class="panel" style="margin:20px;">
-  <h3>検索</h3>
-  <select id="teamFilter">
-    <option value="">チーム</option>
-    <option value="L">L</option>
-    <option value="H">H</option>
-  </select>
-  <input id="playerFilter" placeholder="選手ID">
-  <select id="resultFilter">
-    <option value="">結果</option>
-    <option value="single">single</option>
-    <option value="out">out</option>
-  </select>
-  <button onclick="searchEvents()">検索</button>
-  <div id="searchResults"></div>
 </div>
 
 <script>
-
-let gameData
-let currentIndex = 0
+let data
+let currentIndex=0
 
 fetch("live/2026-03-01_L_H.json")
-.then(res=>res.json())
-.then(data=>{
-  gameData = data
-  renderScoreboard()
-  renderAtBatList()
-  renderAtBat(0)
+.then(r=>r.json())
+.then(d=>{
+  data=d
+  renderLive()
+  renderCharts()
 })
 
-function renderScoreboard(){
-  document.getElementById("scoreboard").innerHTML =
-    gameData.teams.L + " vs " + gameData.teams.H
-}
+function renderLive(){
+  const ev=data.events[currentIndex]
+  document.getElementById("scoreboard").innerHTML=
+    `${ev.inning}回 ${ev.half} / ${ev.stateStart.score.L}-${ev.stateStart.score.H}`
 
-function renderAtBatList(){
-  const list = document.getElementById("atbatList")
-  list.innerHTML=""
-  gameData.events.forEach((ev,i)=>{
-    list.innerHTML+=`
-      <div class="atbat-item" onclick="renderAtBat(${i})">
-        ${ev.inning}回 ${ev.half} ${ev.batter} ${ev.result.type}
-      </div>
-    `
-  })
-}
-
-function renderAtBat(i){
-  currentIndex=i
-  const ev = gameData.events[i]
-  document.getElementById("atbatDetail").innerHTML =
-    `打者:${ev.batter}<br>
-     投手:${ev.pitcher}<br>
+  document.getElementById("liveDetail").innerHTML=
+    `打者:${ev.batter.name} vs 投手:${ev.pitcher.name}<br>
      結果:${ev.result.type}`
+
   drawZone(ev)
-  calcStats(ev.pitcher)
 }
 
 function drawZone(ev){
-  const canvas=document.getElementById("zoneCanvas")
-  const ctx=canvas.getContext("2d")
+  const c=document.getElementById("zoneCanvas")
+  const ctx=c.getContext("2d")
   ctx.clearRect(0,0,250,250)
-
   ctx.strokeStyle="white"
   ctx.strokeRect(75,50,100,150)
 
   ev.pitches.forEach(p=>{
-    ctx.fillStyle=getPitchColor(p.type)
+    ctx.fillStyle = p.type==="FF"?"red":"blue"
     ctx.beginPath()
     ctx.arc(125+p.zone.x*80,125-p.zone.y*80,5,0,2*Math.PI)
     ctx.fill()
   })
 }
 
-function getPitchColor(type){
-  if(type==="FF") return "red"
-  if(type==="SL") return "blue"
-  return "white"
-}
-
 function prevAtBat(){
-  if(currentIndex>0) renderAtBat(currentIndex-1)
+  if(currentIndex>0){currentIndex--;renderLive()}
 }
 function nextAtBat(){
-  if(currentIndex<gameData.events.length-1) renderAtBat(currentIndex+1)
+  if(currentIndex<data.events.length-1){currentIndex++;renderLive()}
 }
 
-function searchEvents(){
-  const team=document.getElementById("teamFilter").value
-  const player=document.getElementById("playerFilter").value
-  const result=document.getElementById("resultFilter").value
+function search(){
+  const count=document.getElementById("countFilter").value
+  const base=document.getElementById("baseFilter").value
+  const hand=document.getElementById("handFilter").value
+  const pitchType=document.getElementById("pitchTypeFilter").value
 
-  const results=gameData.events.filter(ev=>{
-    if(team && ev.offense!==team) return false
-    if(player && ev.batter!==player && ev.pitcher!==player) return false
-    if(result && ev.result.type!==result) return false
+  const results=data.events.filter(ev=>{
+    if(hand && ev.batter.hand!==hand) return false
+    if(base && ev.stateStart.bases.join("")!==base) return false
+    if(pitchType && !ev.pitches.some(p=>p.type===pitchType)) return false
+    if(count && !ev.pitches.some(p=>p.count===count)) return false
     return true
   })
 
-  const container=document.getElementById("searchResults")
-  container.innerHTML=""
+  const box=document.getElementById("searchResults")
+  box.innerHTML=""
   results.forEach(ev=>{
-    container.innerHTML+=`
+    box.innerHTML+=`
       <div class="result-card">
-        ${ev.inning}回 ${ev.half} ${ev.batter} ${ev.result.type}
-      </div>
-    `
+      ${ev.inning}回 ${ev.batter.name} ${ev.result.type}
+      </div>`
   })
 }
 
-function calcStats(pitcherId){
+function renderCharts(){
   const pitches=[]
-  gameData.events.forEach(ev=>{
-    if(ev.pitcher===pitcherId){
-      pitches.push(...ev.pitches)
-    }
+  data.events.forEach(ev=>pitches.push(...ev.pitches))
+
+  const typeCount={}
+  pitches.forEach(p=>{
+    typeCount[p.type]=(typeCount[p.type]||0)+1
   })
-  const avg = pitches.reduce((a,b)=>a+b.velocity,0)/pitches.length
-  document.getElementById("statsPanel").innerHTML=
-    `投球数:${pitches.length}<br>
-     平均球速:${avg.toFixed(1)}km`
+
+  const ctx=document.getElementById("pitchChart").getContext("2d")
+  const total=pitches.length
+  let start=0
+  Object.keys(typeCount).forEach((t,i)=>{
+    const slice=typeCount[t]/total*2*Math.PI
+    ctx.fillStyle=["red","blue","green","purple"][i%4]
+    ctx.beginPath()
+    ctx.moveTo(125,125)
+    ctx.arc(125,125,100,start,start+slice)
+    ctx.fill()
+    start+=slice
+  })
+
+  drawHitMap()
 }
 
+function drawHitMap(){
+  const c=document.getElementById("hitMap")
+  const ctx=c.getContext("2d")
+  ctx.clearRect(0,0,300,300)
+  ctx.fillStyle="white"
+  ctx.beginPath()
+  ctx.arc(150,150,100,0,Math.PI)
+  ctx.stroke()
+
+  data.events.forEach(ev=>{
+    ev.pitches.forEach(p=>{
+      if(p.exitVelocity){
+        ctx.fillStyle="yellow"
+        ctx.beginPath()
+        ctx.arc(150+p.sprayAngle,150-p.launchAngle,4,0,2*Math.PI)
+        ctx.fill()
+      }
+    })
+  })
+}
 </script>
+
 </body>
 </html>
