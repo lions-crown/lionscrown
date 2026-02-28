@@ -28,6 +28,19 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
   });
 
+  document.getElementById("searchBtn").addEventListener("click",()=>{
+    filterDate=document.getElementById("searchDate").value;
+    filterStadium=document.getElementById("searchStadium").value.trim();
+    filterHomeAway=document.getElementById("searchHomeAway").value;
+
+    filterOpponent = Array.from(
+      document.querySelectorAll(".opponent-box input:checked")
+    ).map(cb=>cb.value);
+
+    renderCalendar(currentYear,currentMonth);
+    renderSearchResults();
+  });
+
   document.getElementById("prevMonth").onclick=()=>{
     currentMonth--;
     if(currentMonth<0){currentMonth=11; currentYear--;}
@@ -39,37 +52,24 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(currentMonth>11){currentMonth=0; currentYear++;}
     renderCalendar(currentYear,currentMonth);
   };
-
-  document.getElementById("searchBtn").addEventListener("click",()=>{
-    filterDate=document.getElementById("searchDate").value;
-    filterOpponent=Array.from(document.getElementById("searchOpponent").selectedOptions).map(o=>o.value);
-    filterStadium=document.getElementById("searchStadium").value.trim();
-    filterHomeAway=document.getElementById("searchHomeAway").value;
-
-    renderCalendar(currentYear,currentMonth);
-    renderSearchResults();
-  });
 });
 
 function renderWeekdays(){
   const top=document.getElementById("calendarTopDays");
   const bottom=document.getElementById("calendarBottomDays");
   top.innerHTML=""; bottom.innerHTML="";
-  weekdays.forEach((day,index)=>{
-    let className="";
-    if(index===5) className="saturday";
-    if(index===6) className="sunday";
-    top.innerHTML+=`<div class="${className}">${day}</div>`;
-    bottom.innerHTML+=`<div class="${className}">${day}</div>`;
+  weekdays.forEach(day=>{
+    top.innerHTML+=`<div>${day}</div>`;
+    bottom.innerHTML+=`<div>${day}</div>`;
   });
 }
 
 function matchFilter(g){
+  if(g.team!==currentTeam) return false;
   if(filterDate && g.date!==filterDate) return false;
   if(filterOpponent.length>0 && !filterOpponent.includes(g.opponent)) return false;
   if(filterStadium && !g.stadium.includes(filterStadium)) return false;
   if(filterHomeAway && g.home_away!==filterHomeAway) return false;
-  if(g.team!==currentTeam) return false;
   return true;
 }
 
@@ -92,29 +92,17 @@ function renderCalendar(year,month){
     }
 
     const dateStr=`${year}-${String(month+1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
-    const dayGames=games.filter(g=>g.date===dateStr && g.team===currentTeam);
-    const matchedGames=dayGames.filter(matchFilter);
+    const dayGames=games.filter(g=>g.date===dateStr && matchFilter(g));
 
-    if(activeFilter && matchedGames.length===0){
+    if(activeFilter && dayGames.length===0){
       calendar.innerHTML+=`<div class="day-cell empty"></div>`;
       dayCounter++;
       continue;
     }
 
-    let gameHTML="";
-    matchedGames.forEach(game=>{
-      gameHTML+=`
-        <a href="game_detail.html?date=${game.date}&team=${encodeURIComponent(game.team)}" class="mini-game">
-          <img src="${game.opponent_logo}">
-        </a>
-      `;
-    });
-
-    const highlight = matchedGames.length>0 ? "highlight" : "";
     calendar.innerHTML+=`
-      <div class="day-cell ${highlight}">
+      <div class="day-cell ${dayGames.length>0?"highlight":""}">
         <strong>${dayCounter}</strong>
-        ${gameHTML}
       </div>
     `;
 
@@ -135,17 +123,16 @@ function renderSearchResults(){
 
   results.forEach(game=>{
     const resultHTML=game.status==="finished"?game.result:"未試合";
+
     container.innerHTML+=`
-      <a href="game_detail.html?date=${game.date}&team=${encodeURIComponent(game.team)}" class="result-card">
-        <div class="card-left">
-          <img src="${game.opponent_logo}">
-        </div>
-        <div class="card-right">
-          <div class="game-date">${game.date}</div>
-          <div class="game-opponent">${game.opponent} (${game.home_away})</div>
-          <div class="game-stadium">${game.stadium}</div>
-          <div class="game-result">${resultHTML}</div>
-        </div>
+      <a href="game_detail.html?date=${game.date}&team=${encodeURIComponent(game.team)}" class="result-row">
+        <img src="${game.opponent_logo}" class="row-logo">
+        <span>${game.date}</span>
+        <span>${game.team}</span>
+        <span>${game.opponent}</span>
+        <span>${game.stadium}</span>
+        <span>${game.home_away}</span>
+        <span class="result">${resultHTML}</span>
       </a>
     `;
   });
