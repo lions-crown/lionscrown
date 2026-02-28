@@ -5,43 +5,148 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>試合詳細</title>
 <link rel="stylesheet" href="css/style.css">
-<script defer>
-let games = [];
 
+<style>
+.scoreboard{
+  width:100%;
+  border-collapse:collapse;
+  margin:20px 0;
+}
+.scoreboard th,.scoreboard td{
+  border:1px solid #ccc;
+  padding:6px;
+  text-align:center;
+}
+
+.status-box{
+  background:#0d2b5e;
+  padding:15px;
+  margin:20px 0;
+  border-radius:10px;
+}
+
+.bases{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+.base{
+  width:20px;
+  height:20px;
+  border:2px solid #fff;
+  transform:rotate(45deg);
+}
+.active{
+  background:#ffd700;
+}
+
+.log{
+  background:#111;
+  padding:10px;
+  max-height:250px;
+  overflow-y:auto;
+}
+</style>
+
+<script defer>
 document.addEventListener("DOMContentLoaded", ()=>{
-  // URLからクエリ取得
+
   const params = new URLSearchParams(window.location.search);
   const date = params.get("date");
   const team = params.get("team");
 
   fetch("/lionscrown/data/games.json")
     .then(res => res.json())
-    .then(data => {
-      games = data;
+    .then(games => {
+
       const game = games.find(g => g.date===date && g.team===team);
       const container = document.getElementById("gameDetail");
+
       if(!game){
         container.innerHTML="<p>試合情報が見つかりません</p>";
         return;
       }
+
       container.innerHTML = `
         <h2>${game.date} ${game.team}</h2>
-        <img src="${game.opponent_logo}" alt="${game.opponent}">
-        <p>対戦相手: ${game.opponent}</p>
-        <p>球場: ${game.stadium}</p>
-        <p>試合開始: ${game.time} ${game.home_away}</p>
-        <p>結果: ${game.status==="finished"?game.result:"未試合"}</p>
+        <p>${game.stadium} / ${game.time}</p>
+        <div id="liveArea"></div>
         <a href="schedule.html">カレンダーに戻る</a>
       `;
-    })
-    .catch(err => console.error(err));
+
+      // 速報データ取得
+      fetch(`/lionscrown/live/${date}_${team}.json`)
+        .then(res => res.json())
+        .then(live => renderLive(live))
+        .catch(()=> {
+          document.getElementById("liveArea").innerHTML="<p>速報データはまだありません</p>";
+        });
+
+    });
 });
+
+
+function renderLive(live){
+
+  const liveArea = document.getElementById("liveArea");
+
+  // スコアボード生成
+  let innings = live.score.lions.length;
+
+  let scoreboard = `
+    <table class="scoreboard">
+      <tr><th></th>
+  `;
+  for(let i=1;i<=innings;i++){
+    scoreboard+=`<th>${i}</th>`;
+  }
+  scoreboard+=`<th>R</th></tr>`;
+
+  const sumL = live.score.lions.reduce((a,b)=>a+b,0);
+  const sumO = live.score.opp.reduce((a,b)=>a+b,0);
+
+  scoreboard+=`<tr><td>L</td>`;
+  live.score.lions.forEach(i=>scoreboard+=`<td>${i}</td>`);
+  scoreboard+=`<td>${sumL}</td></tr>`;
+
+  scoreboard+=`<tr><td>O</td>`;
+  live.score.opp.forEach(i=>scoreboard+=`<td>${i}</td>`);
+  scoreboard+=`<td>${sumO}</td></tr></table>`;
+
+
+  // 塁状況
+  const bases = `
+    <div class="bases">
+      <div class="base ${live.bases[0]?"active":""}"></div>
+      <div class="base ${live.bases[1]?"active":""}"></div>
+      <div class="base ${live.bases[2]?"active":""}"></div>
+    </div>
+  `;
+
+  // ログ
+  let logs = `<div class="log">`;
+  live.log.forEach(l=>{
+    logs+=`<p>${l}</p>`;
+  });
+  logs+=`</div>`;
+
+  liveArea.innerHTML = `
+    ${scoreboard}
+    <div class="status-box">
+      <p>${live.inning}</p>
+      <p>${live.outs}アウト</p>
+      <p>打者: ${live.batter}</p>
+      <p>投手: ${live.pitcher}</p>
+      ${bases}
+    </div>
+    ${logs}
+  `;
+}
 </script>
 </head>
-<body>
 
+<body>
 <h1>試合詳細</h1>
 <div id="gameDetail"></div>
-
 </body>
 </html>
