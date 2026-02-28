@@ -3,150 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>試合詳細</title>
+<title>試合ハブ</title>
 <link rel="stylesheet" href="css/style.css">
 
 <style>
-.scoreboard{
-  width:100%;
-  border-collapse:collapse;
-  margin:20px 0;
-}
-.scoreboard th,.scoreboard td{
-  border:1px solid #ccc;
-  padding:6px;
-  text-align:center;
-}
-
-.status-box{
-  background:#0d2b5e;
-  padding:15px;
-  margin:20px 0;
-  border-radius:10px;
-}
-
-.bases{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
-.base{
-  width:20px;
-  height:20px;
-  border:2px solid #fff;
-  transform:rotate(45deg);
-}
-.active{
-  background:#ffd700;
-}
-
-.log{
-  background:#111;
-  padding:10px;
-  max-height:250px;
-  overflow-y:auto;
-}
+body{font-family:"Segoe UI","Noto Sans JP",sans-serif;background:#0b1f44;color:#fff;margin:0;padding:20px}
+.section{margin-bottom:30px}
+.scoreboard{width:100%;border-collapse:collapse;margin:15px 0}
+.scoreboard th,.scoreboard td{border:1px solid #2d4d8a;padding:6px;text-align:center}
+.live-box{background:#132c63;padding:15px;border-radius:12px}
+.bases{display:flex;gap:12px;margin-top:10px}
+.base{width:20px;height:20px;border:2px solid #fff;transform:rotate(45deg)}
+.active{background:#ffd700}
+.zone{width:150px;height:150px;border:2px solid #fff;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);margin-top:10px}
+.zone div{border:1px solid rgba(255,255,255,0.3)}
+.winprob-bar{height:20px;background:#333;border-radius:10px;overflow:hidden;margin-top:10px}
+.winprob-fill{height:100%;background:#6eb9ff}
+.lineup{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.analysis-box{background:#111c3b;padding:15px;border-radius:12px}
 </style>
 
 <script defer>
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", async ()=>{
 
-  const params = new URLSearchParams(window.location.search);
-  const date = params.get("date");
-  const team = params.get("team");
+  const params=new URLSearchParams(window.location.search);
+  const date=params.get("date");
+  const team=params.get("team");
 
-  fetch("/lionscrown/data/games.json")
-    .then(res => res.json())
-    .then(games => {
+  const container=document.getElementById("hub");
 
-      const game = games.find(g => g.date===date && g.team===team);
-      const container = document.getElementById("gameDetail");
+  try{
+    const liveRes=await fetch(`/lionscrown/live/${date}_${team}.json`);
+    const live=await liveRes.json();
+    renderHub(live);
+  }catch{
+    container.innerHTML="<p>データ未登録</p>";
+  }
 
-      if(!game){
-        container.innerHTML="<p>試合情報が見つかりません</p>";
-        return;
-      }
-
-      container.innerHTML = `
-        <h2>${game.date} ${game.team}</h2>
-        <p>${game.stadium} / ${game.time}</p>
-        <div id="liveArea"></div>
-        <a href="schedule.html">カレンダーに戻る</a>
-      `;
-
-      // 速報データ取得
-      fetch(`/lionscrown/live/${date}_${team}.json`)
-        .then(res => res.json())
-        .then(live => renderLive(live))
-        .catch(()=> {
-          document.getElementById("liveArea").innerHTML="<p>速報データはまだありません</p>";
-        });
-
-    });
 });
 
+function renderHub(data){
 
-function renderLive(live){
+  // スコアボード
+  let innings=data.score.lions.length;
+  let sb="<table class='scoreboard'><tr><th></th>";
+  for(let i=1;i<=innings;i++) sb+=`<th>${i}</th>`;
+  sb+="<th>R</th></tr>";
 
-  const liveArea = document.getElementById("liveArea");
+  const sumL=data.score.lions.reduce((a,b)=>a+b,0);
+  const sumO=data.score.opp.reduce((a,b)=>a+b,0);
 
-  // スコアボード生成
-  let innings = live.score.lions.length;
+  sb+="<tr><td>L</td>";
+  data.score.lions.forEach(i=>sb+=`<td>${i}</td>`);
+  sb+=`<td>${sumL}</td></tr>`;
 
-  let scoreboard = `
-    <table class="scoreboard">
-      <tr><th></th>
-  `;
-  for(let i=1;i<=innings;i++){
-    scoreboard+=`<th>${i}</th>`;
-  }
-  scoreboard+=`<th>R</th></tr>`;
-
-  const sumL = live.score.lions.reduce((a,b)=>a+b,0);
-  const sumO = live.score.opp.reduce((a,b)=>a+b,0);
-
-  scoreboard+=`<tr><td>L</td>`;
-  live.score.lions.forEach(i=>scoreboard+=`<td>${i}</td>`);
-  scoreboard+=`<td>${sumL}</td></tr>`;
-
-  scoreboard+=`<tr><td>O</td>`;
-  live.score.opp.forEach(i=>scoreboard+=`<td>${i}</td>`);
-  scoreboard+=`<td>${sumO}</td></tr></table>`;
-
+  sb+="<tr><td>O</td>";
+  data.score.opp.forEach(i=>sb+=`<td>${i}</td>`);
+  sb+=`<td>${sumO}</td></tr></table>`;
 
   // 塁状況
-  const bases = `
+  const bases=`
     <div class="bases">
-      <div class="base ${live.bases[0]?"active":""}"></div>
-      <div class="base ${live.bases[1]?"active":""}"></div>
-      <div class="base ${live.bases[2]?"active":""}"></div>
+      <div class="base ${data.situation.bases[0]?"active":""}"></div>
+      <div class="base ${data.situation.bases[1]?"active":""}"></div>
+      <div class="base ${data.situation.bases[2]?"active":""}"></div>
     </div>
   `;
 
-  // ログ
-  let logs = `<div class="log">`;
-  live.log.forEach(l=>{
-    logs+=`<p>${l}</p>`;
-  });
-  logs+=`</div>`;
-
-  liveArea.innerHTML = `
-    ${scoreboard}
-    <div class="status-box">
-      <p>${live.inning}</p>
-      <p>${live.outs}アウト</p>
-      <p>打者: ${live.batter}</p>
-      <p>投手: ${live.pitcher}</p>
-      ${bases}
+  // 勝利確率
+  const winprob=`
+    <div class="winprob-bar">
+      <div class="winprob-fill" style="width:${data.winProbability.lions}%"></div>
     </div>
-    ${logs}
+    <p>Lions ${data.winProbability.lions}% - ${data.winProbability.opp}% Opp</p>
+  `;
+
+  // ストライクゾーン
+  let zone="<div class='zone'>";
+  for(let i=0;i<9;i++) zone+="<div></div>";
+  zone+="</div>";
+
+  document.getElementById("hub").innerHTML=`
+    <div class="section">
+      <h2>${data.meta.date} ${data.meta.card}</h2>
+      <p>${data.meta.stadium} / ${data.meta.time}</p>
+    </div>
+
+    <div class="section">${sb}</div>
+
+    <div class="section live-box">
+      <p>${data.situation.inning} / ${data.situation.outs}アウト</p>
+      <p>打者: ${data.situation.batter}</p>
+      <p>投手: ${data.situation.pitcher}</p>
+      <p>球種: ${data.lastPitch.type} ${data.lastPitch.speed}km/h (${data.lastPitch.course})</p>
+      ${bases}
+      ${zone}
+      ${winprob}
+    </div>
+
+    <div class="section lineup">
+      <div>
+        <h3>ライオンズ</h3>
+        ${data.lineup.lions.map(p=>`<p>${p}</p>`).join("")}
+      </div>
+      <div>
+        <h3>相手</h3>
+        ${data.lineup.opp.map(p=>`<p>${p}</p>`).join("")}
+      </div>
+    </div>
+
+    <div class="section analysis-box">
+      <h3>対戦成績</h3>
+      <p>${data.analysis.vsTeam}</p>
+
+      <h3>相性</h3>
+      <p>${data.analysis.matchup}</p>
+
+      <h3>直近成績</h3>
+      <p>${data.analysis.recent}</p>
+    </div>
   `;
 }
 </script>
 </head>
 
 <body>
-<h1>試合詳細</h1>
-<div id="gameDetail"></div>
+<h1>Game Hub</h1>
+<div id="hub"></div>
 </body>
 </html>
