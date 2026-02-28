@@ -1,114 +1,19 @@
-body {
-  font-family: sans-serif;
-  background:#0d1b2a;
-  color:white;
-  padding:20px;
-}
-
-.calendar-header {
-  display:flex;
-  align-items:center;
-  gap:20px;
-  margin-bottom:20px;
-}
-
-.calendar-grid {
-  display:grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap:6px;
-}
-
-.calendar-days {
-  display:grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align:center;
-  font-weight:bold;
-  margin:8px 0;
-}
-
-.calendar-days div {
-  padding:6px 0;
-  background:#243b55;
-  border-radius:6px;
-}
-
-.day-cell {
-  background:#1b263b;
-  min-height:120px;
-  padding:6px;
-  border-radius:8px;
-  font-size:12px;
-}
-
-/* 土日色 */
-.saturday { color:#4ea8ff; }
-.sunday { color:#ff6b6b; }
-
-/* 今日ハイライト */
-.today {
-  border:2px solid #ffd60a;
-}
-
-/* 軍切り替え */
-.filter-bar {
-  margin-bottom: 12px;
-  display: flex;
-  gap: 8px;
-}
-
-.filter-bar button {
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: none;
-  background:#4a6fa5;
-  color:white;
-  cursor:pointer;
-}
-
-.filter-bar button.active {
-  background:#ffd60a;
-  color:#000;
-}
-
-/* 検索バー */
-.search-bar {
-  margin-bottom:12px;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.search-bar input,
-.search-bar select,
-.search-bar button {
-  padding:4px 8px;
-  border-radius:6px;
-  border:none;
-}
-
-/* 空白セル */
-.empty {
-  background:#0f1a2b;
-}
-
-/* 結果表示 */
-.result {
-  font-weight:bold;
-  margin-top:4px;
-}
-
-.game-card {
-  background:#243b55;
-  margin-top:4px;
-  padding:4px;
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  gap:4px;
-}
-
-.game-card img {
-  width:24px;
-  height:24px;
-  object-fit:contain;
-}
+body{font-family:sans-serif;background:#0d1b2a;color:white;padding:20px;}
+.calendar-header{display:flex;align-items:center;gap:20px;margin-bottom:20px;}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.calendar-days{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-weight:bold;margin:8px 0;}
+.calendar-days div{padding:6px 0;background:#243b55;border-radius:6px;}
+.day-cell{background:#1b263b;min-height:120px;padding:6px;border-radius:8px;font-size:12px;}
+.saturday{color:#4ea8ff;}
+.sunday{color:#ff6b6b;}
+.today{border:2px solid #ffd60a;}
+.empty{background:#0f1a2b;}
+.result{font-weight:bold;margin-top:4px;}
+.game-card{background:#243b55;margin-top:4px;padding:4px;border-radius:6px;text-decoration:none;color:white;display:flex;flex-direction:column;align-items:center;}
+.game-card img{width:24px;height:24px;}
+.filter-bar{margin-bottom:12px;display:flex;gap:8px;}
+.filter-bar button{padding:4px 8px;border-radius:6px;border:none;background:#4a6fa5;color:white;cursor:pointer;}
+.filter-bar button.active{background:#ffd60a;color:#000;}
+.search-bar{display:flex;gap:4px;margin-bottom:12px;}
+.search-results{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
+.search-results a.game-card{display:flex;align-items:center;gap:4px;background:#243b55;padding:4px;border-radius:6px;text-decoration:none;color:white;}
