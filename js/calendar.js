@@ -5,6 +5,12 @@ let currentMonth = today.getMonth();
 const weekdays = ["月","火","水","木","金","土","日"];
 let currentTeam = "1軍";
 
+// 検索条件
+let filterOpponent = "";
+let filterStadium = "";
+let filterHomeAway = "";
+let filterDate = "";
+
 document.addEventListener("DOMContentLoaded", () => {
 
   renderWeekdays();
@@ -20,8 +26,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // 検索ボタン
+  document.getElementById("searchBtn").addEventListener("click",()=>{
+    filterOpponent = document.getElementById("searchOpponent").value.trim();
+    filterStadium = document.getElementById("searchStadium").value.trim();
+    filterHomeAway = document.getElementById("searchHomeAway").value;
+    filterDate = document.getElementById("searchDate").value;
+    renderCalendar(currentYear,currentMonth);
+  });
+
+  // クリアボタン
+  document.getElementById("clearBtn").addEventListener("click",()=>{
+    document.getElementById("searchOpponent").value="";
+    document.getElementById("searchStadium").value="";
+    document.getElementById("searchHomeAway").value="";
+    document.getElementById("searchDate").value="";
+
+    filterOpponent="";
+    filterStadium="";
+    filterHomeAway="";
+    filterDate="";
+
+    renderCalendar(currentYear,currentMonth);
+  });
+
   // JSON読み込み
-  fetch("/lionscrown/data/games.json") // GitHub Pages 用
+  fetch("/lionscrown/data/games.json")
     .then(res=>{
       if(!res.ok) throw new Error("games.json 読み込み失敗");
       return res.json();
@@ -90,7 +120,18 @@ function renderCalendar(year,month){
     }
 
     const dateStr=`${year}-${String(month+1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
-    const dayGames=games.filter(g=>g.date===dateStr && g.team===currentTeam);
+
+    // フィルタ適用
+    const dayGames=games
+      .filter(g=>g.team===currentTeam)
+      .filter(g=>{
+        if(filterDate && g.date!==filterDate) return false;
+        if(filterOpponent && !g.opponent.includes(filterOpponent)) return false;
+        if(filterStadium && !g.stadium.includes(filterStadium)) return false;
+        if(filterHomeAway && g.home_away!==filterHomeAway) return false;
+        return g.date===dateStr;
+      });
+
     let gameHTML="";
     dayGames.forEach(game=>{
       const resultHTML=game.status==="finished"?`<div class="result">結果: ${game.result}</div>`:"";
