@@ -1,4 +1,4 @@
-let games = [ 
+[
   {
     "date": "2026-04-03",
     "team": "1軍",
@@ -9,7 +9,16 @@ let games = [
     "home_away": "H",
     "result": "4-2",
     "status": "finished"
+  },
+  {
+    "date": "2026-04-04",
+    "team": "2軍",
+    "opponent": "ロッテ",
+    "opponent_logo": "/img/logos/marines.webp",
+    "stadium": "ZOZOマリン",
+    "time": "13:00",
+    "home_away": "V",
+    "result": "2-5",
+    "status": "finished"
   }
-];
-
-renderCalendar(currentYear, currentMonth);
+]
