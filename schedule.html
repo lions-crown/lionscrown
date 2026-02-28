@@ -22,20 +22,20 @@
 <div class="search-bar">
   <input type="date" id="searchDate">
 
-  <!-- 11球団複数選択 -->
-  <select id="searchOpponent" multiple size="6">
-    <option value="ソフトバンク">ソフトバンク</option>
-    <option value="日本ハム">日本ハム</option>
-    <option value="オリックス">オリックス</option>
-    <option value="東北楽天">東北楽天</option>
-    <option value="千葉ロッテ">千葉ロッテ</option>
-    <option value="阪神">阪神</option>
-    <option value="DeNA">DeNA</option>
-    <option value="読売巨人">読売巨人</option>
-    <option value="中日">中日</option>
-    <option value="広島東洋">広島東洋</option>
-    <option value="ヤクルト">ヤクルト</option>
-  </select>
+  <!-- チェックボックス方式 -->
+  <div class="opponent-box">
+    <label><input type="checkbox" value="福岡ソフトバンク">福岡ソフトバンク</label>
+    <label><input type="checkbox" value="北海道日本ハム">北海道日本ハム</label>
+    <label><input type="checkbox" value="東北楽天">東北楽天</label>
+    <label><input type="checkbox" value="千葉ロッテ">千葉ロッテ</label>
+    <label><input type="checkbox" value="オリックス">オリックス</label>
+    <label><input type="checkbox" value="読売ジャイアンツ">読売ジャイアンツ</label>
+    <label><input type="checkbox" value="阪神タイガース">阪神タイガース</label>
+    <label><input type="checkbox" value="広島カープ">広島カープ</label>
+    <label><input type="checkbox" value="横浜DeNA">横浜DeNA</label>
+    <label><input type="checkbox" value="中日ドラゴンズ">中日ドラゴンズ</label>
+    <label><input type="checkbox" value="東京ヤクルト">東京ヤクルト</label>
+  </div>
 
   <input type="text" id="searchStadium" placeholder="球場">
 
@@ -57,11 +57,9 @@
   <button id="nextMonth">▶</button>
 </div>
 
-<div id="calendarWrapper">
-  <div id="calendarTopDays" class="calendar-days"></div>
-  <div id="calendar" class="calendar-grid"></div>
-  <div id="calendarBottomDays" class="calendar-days"></div>
-</div>
+<div id="calendarTopDays" class="calendar-days"></div>
+<div id="calendar" class="calendar-grid"></div>
+<div id="calendarBottomDays" class="calendar-days"></div>
 
 </body>
 </html>
