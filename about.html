@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L-crown | About</title>
 
+<!-- サイトアイコン -->
+<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<meta name="theme-color" content="#0f172a">
+
 <!-- SEO Meta -->
 <meta name="description" content="L-crownは埼玉西武ライオンズ専門のデータ分析サイト。試合速報、スタッツ、選手分析など、ファンのための情報を整理して提供します。">
 <meta name="keywords" content="L-crown, 埼玉西武ライオンズ, データ分析, 野球, スタッツ, 選手情報">
@@ -24,147 +29,182 @@
   "name": "L-crown",
   "url": "https://lions-crown.github.io/lionscrown/",
   "logo": "https://lions-crown.homep.jp/img/1766145327164.webp",
-  "sameAs": [
-    "https://x.com/Lcrown_official"
-  ],
+  "sameAs": ["https://x.com/Lcrown_official"],
   "description": "埼玉西武ライオンズ専門のデータ分析サイト。試合速報、選手分析、スタッツ整理を行う非営利プロジェクト。"
 }
 </script>
 
 <style>
-/* ===== 背景 ===== */
-body {
-  margin: 0;
-  font-family: "Segoe UI","Noto Sans JP",sans-serif;
-  background: radial-gradient(circle at 50% 20%, #163b80, #091b3d 70%, #050c1f 100%);
-  color: #ffffff;
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
+  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
+  color:white;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.75;
 }
-
-/* ===== ヘッダー ===== */
-header {
-  position: sticky;
-  top: 0;
-  background: rgba(10,25,60,0.55);
-  backdrop-filter: blur(14px);
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 100;
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top:-120px;
+  right:-120px;
+  filter:blur(40px);
+  z-index:-1;
 }
-
-header h1 {
-  font-size: 26px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #6eb9ff, #9ed0ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 8px rgba(110,185,255,0.7);
+header{
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:1000;
 }
-
-/* ===== ナビ ===== */
-nav a {
-  color: rgba(255,255,255,0.85);
-  text-decoration: none;
-  margin-left: 24px;
-  position: relative;
+nav{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
 }
-
-nav a::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background-color: #6eb9ff;
-  transition: width 0.3s;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+  font-size:18px;
+  letter-spacing:1px;
+  text-decoration:none;
 }
-
-nav a:hover::after {
-  width: 100%;
+.logo span{
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-
-/* ===== メインコンテナ ===== */
-main {
-  max-width: 1100px;
-  margin: 48px auto;
-  padding: 0 24px;
-  display: grid;
-  gap: 32px;
+.logo img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+  border-radius:6px;
+  filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
+  transition:0.3s;
 }
-
-/* ===== ガラスカード ===== */
-.card {
-  background: rgba(10,25,60,0.45);
-  backdrop-filter: blur(16px);
-  border-radius: 22px;
-  padding: 32px;
-  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
-  transition: transform 0.3s, box-shadow 0.3s;
+.logo:hover img{transform:scale(1.08);}
+.logo:hover span{text-shadow:0 0 12px rgba(77,163,255,0.7);}
+.menu{
+  display:flex;
+  gap:26px;
 }
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+.menu a{
+  color:rgba(255,255,255,0.7);
+  text-decoration:none;
+  font-size:13px;
+  position:relative;
+  transition:0.25s;
 }
-
-/* ===== 見出し ===== */
-h2 {
-  font-size: 28px;
-  margin-bottom: 16px;
-  border-bottom: 2px solid #6eb9ff33;
-  padding-bottom: 8px;
+.menu a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+  transition:0.25s;
 }
-
-h3 {
-  font-size: 22px;
-  margin-top: 16px;
-  margin-bottom: 12px;
+.menu a:hover{
+  color:white;
+  text-shadow:0 0 10px rgba(77,163,255,0.6);
 }
-
-/* ===== 段落 ===== */
-p {
-  line-height: 1.6;
-  margin-bottom: 12px;
+.menu a:hover::after,.menu a.active::after{width:100%;}
+main{
+  max-width:1100px;
+  margin:50px auto;
+  padding:0 20px;
 }
-
-/* ===== レスポンシブ ===== */
-@media (max-width:768px){
-  main {
-    padding: 0 16px;
-  }
+.glass-card{
+  background:rgba(255,255,255,0.06);
+  border-radius:22px;
+  padding:32px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.1);
+  transition:0.35s;
+  margin-bottom:32px;
 }
+.glass-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 30px 80px rgba(0,0,0,0.65), inset 0 0 0 1px rgba(255,255,255,0.16);
+}
+h2{font-size:28px;margin-bottom:16px;border-bottom:2px solid #6eb9ff33;padding-bottom:8px;}
+h3{font-size:22px;margin-top:16px;margin-bottom:12px;}
+p, li{line-height:1.6;margin-bottom:12px;}
+ul{padding-left:20px;list-style:disc;}
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+.footer-container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 0.6fr;
+  gap:50px;
+}
+.footer-logo{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.footer-text{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;}
+.footer-title{font-size:12px;margin-bottom:14px;color:rgba(255,255,255,0.9);}
+footer a{text-decoration:none;font-size:12px;color:rgba(255,255,255,0.55);transition:0.25s;}
+footer a:hover{color:white;transform:translateX(4px);text-shadow:0 0 8px rgba(77,163,255,0.5);}
+.footer-bottom{text-align:center;padding:16px;font-size:11px;color:rgba(255,255,255,0.35);border-top:1px solid rgba(255,255,255,0.05);}
+@media(max-width:768px){.footer-container{grid-template-columns:1fr;gap:30px;}}
 </style>
 </head>
 
 <body>
 <header>
-  <h1>L-crown</h1>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="https://x.com/Lcrown_official" target="_blank">SNS</a>
+    <a href="index.html" class="logo">
+      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
+      <span>L-crown</span>
+    </a>
+    <div class="menu">
+      <a href="index.html">ホーム</a>
+      <a href="news.html">お知らせ</a>
+      <a href="privacypolicy.html">利用規約</a>
+      <a href="contact.html">お問い合わせ</a>
+    </div>
   </nav>
 </header>
 
 <main>
-  <!-- ヒーロー -->
-  <section class="card">
+  <!-- About セクション -->
+  <div class="glass-card">
     <h2>L-crownとは何か</h2>
     <p>データをより身近なものへ。<br>埼玉西武ライオンズの王座奪還への道を、数字とともに追い続けます。</p>
-  </section>
+  </div>
 
-  <!-- L-crown説明 -->
-  <section class="card">
+  <div class="glass-card">
     <h2>L-crown</h2>
     <p>L-crownは、<strong>埼玉西武ライオンズに特化したデータ分析サイト</strong>です。</p>
     <p>試合結果、個人成績、投打指標、チーム推移など、ライオンズに関わるデータを整理・可視化し、感覚だけでなく根拠に基づいて野球を楽しむ環境を提供します。</p>
     <p>単なる速報サイトではなく、数字の裏にある意味を追い、ライオンズが強くなるためのヒントを探ります。</p>
-  </section>
+  </div>
 
-  <!-- Mission -->
-  <section class="card">
+  <div class="glass-card">
     <h2>Mission</h2>
     <h3>1. データを身近なものに</h3>
     <p>専門的になりがちな野球データを、誰にでも理解できる形で提示します。</p>
@@ -174,26 +214,23 @@ p {
     <p>ファンが本当に知りたい情報は何か。常にユーザー視点で設計・改善を行います。</p>
     <h3>4. 正確かつ迅速な発信</h3>
     <p>データは正確であることが前提。信頼性とスピードを両立させます。</p>
-  </section>
+  </div>
 
-  <!-- Organization -->
-  <section class="card">
+  <div class="glass-card">
     <h2>Organization</h2>
     <p>L-crownは、<strong>L-crown製作委員会</strong>によって運営されています。</p>
     <p>野球とデータを愛するメンバーによる非営利のプロジェクトで、利益追求を目的とせず、「ライオンズの未来をデータで支える」ことを目的としています。</p>
     <p>2025年6月1日 発足。継続的な改善と拡張を前提に活動しています。</p>
-  </section>
+  </div>
 
-  <!-- Why -->
-  <section class="card">
+  <div class="glass-card">
     <h2>Why L-crown?</h2>
     <p>データは、野球をより深く理解するための武器です。</p>
     <p>しかし、指標が難しい・情報が分散している・ライオンズ特化の分析が少ない、という課題があります。</p>
     <p>L-crownはそれを解決します。「数字がわかると、野球はもっと面白い」その体験を提供することが私たちの使命です。</p>
-  </section>
+  </div>
 
-  <!-- Roadmap -->
-  <section class="card">
+  <div class="glass-card">
     <h2>Roadmap</h2>
     <ul>
       <li>試合リアルタイムデータ強化</li>
@@ -203,18 +240,40 @@ p {
       <li>ファン参加型コンテンツの拡充</li>
     </ul>
     <p>L-crownは完成形ではなく、常に進化し続けます。</p>
-  </section>
+  </div>
 
-  <!-- Message -->
-  <section class="card">
+  <div class="glass-card">
     <h2>Message</h2>
     <p>ライオンズが再び頂点に立つその日まで。</p>
     <p>私たちは、データで支え、考え続け、発信し続けます。</p>
-  </section>
+  </div>
 </main>
 
-<footer class="card" style="text-align:center; margin:48px auto; max-width:1100px;">
-  <p>&copy; 2026 L-crown. All rights reserved.</p>
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">リンク</div>
+      <a href="index.html">ホーム</a><br>
+      <a href="news.html">お知らせ</a><br>
+      <a href="privacypolicy.html">利用規約</a><br>
+      <a href="contact.html">お問い合わせ</a>
+    </div>
+    <div>
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
+  </div>
 </footer>
+
 </body>
 </html>
