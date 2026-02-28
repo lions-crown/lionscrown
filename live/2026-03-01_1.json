@@ -1,128 +1,84 @@
 {
-  "meta":{
-    "date":"2026-03-01",
-    "card":"埼玉西武 vs ソフトバンク",
-    "stadium":"ベルーナドーム",
-    "time":"18:00"
+  "game": {
+    "id": "2026-03-01-L-H",
+    "date": "2026-03-01",
+    "season": 2026,
+    "stadium": "ベルーナドーム"
   },
 
-  "score":{
-    "lions":[0,1,0,0,0,0,2,0,0],
-    "opp":[0,0,2,0,0,0,1,0,0],
-    "hits":{
-      "lions":8,
-      "opp":6
+  "teams": {
+    "L": {
+      "name": "埼玉西武ライオンズ",
+      "homeAway": "home"
     },
-    "errors":{
-      "lions":1,
-      "opp":0
+    "H": {
+      "name": "福岡ソフトバンクホークス",
+      "homeAway": "away"
     }
   },
 
-  "winProbability":{
-    "timeline":[
-      {"inning":"1回表","lions":50},
-      {"inning":"3回裏","lions":42},
-      {"inning":"7回表","lions":63}
-    ],
-    "lions":63,
-    "opp":37
+  "players": {
+    "L_9": {"name":"鈴木 将平","team":"L","hand":"L"},
+    "L_5": {"name":"外崎 修汰","team":"L","hand":"R"},
+    "L_51": {"name":"今井 達也","team":"L","hand":"R","role":"P"},
+    "H_18": {"name":"山本 由伸","team":"H","hand":"R","role":"P"}
   },
 
-  "pitchMix":{
-    "直球":42,
-    "スライダー":28,
-    "チェンジアップ":18,
-    "カーブ":12
-  },
-
-  "lineup":{
-    "lions":[
-      {"order":1,"pos":"中","name":"鈴木 将平","avg":".285"},
-      {"order":2,"pos":"二","name":"外崎 修汰","avg":".301"},
-      {"order":3,"pos":"指","name":"中村 剛也","avg":".248"},
-      {"order":4,"pos":"一","name":"山川 穂高","avg":".276"},
-      {"order":5,"pos":"左","name":"岸 潤一郎","avg":".265"},
-      {"order":6,"pos":"三","name":"佐藤 龍世","avg":".239"},
-      {"order":7,"pos":"右","name":"蛭間 拓哉","avg":".252"},
-      {"order":8,"pos":"捕","name":"古賀 悠斗","avg":".221"},
-      {"order":9,"pos":"遊","name":"源田 壮亮","avg":".278"}
-    ],
-    "pitcher":{
-      "name":"今井 達也",
-      "era":"2.85"
-    }
-  },
-
-  "defense":{
-    "P":"山本 由伸",
-    "C":"甲斐 拓也",
-    "1B":"中村 晃",
-    "2B":"三森 大貴",
-    "3B":"栗原 陵矢",
-    "SS":"今宮 健太",
-    "LF":"近藤 健介",
-    "CF":"柳田 悠岐",
-    "RF":"周東 佑京"
-  },
-
-  "innings":[
+  "events": [
     {
-      "number":7,
-      "half":"top",
-      "atBats":[
+      "eventId": 1,
+      "inning": 7,
+      "half": "top",
+      "offense": "L",
+      "defense": "H",
+
+      "stateStart": {
+        "outs": 2,
+        "bases": [1,0,0],
+        "score": {"L":1,"H":3}
+      },
+
+      "batter": "L_5",
+      "pitcher": "H_18",
+
+      "pitches": [
         {
-          "order":1,
-          "batter":"外崎 修汰",
-          "pitcher":"山本 由伸",
-          "startCount":{"balls":0,"strikes":0,"outs":2},
-          "result":"左前安打",
-          "rbi":0,
-          "pitches":[
-            {
-              "no":1,
-              "type":"ストレート",
-              "speed":148,
-              "course":"外角高め",
-              "zone":{"x":65,"y":25},
-              "result":"ストライク"
-            },
-            {
-              "no":2,
-              "type":"スライダー",
-              "speed":143,
-              "course":"外角低め",
-              "zone":{"x":72,"y":80},
-              "result":"ボール"
-            },
-            {
-              "no":3,
-              "type":"カットボール",
-              "speed":141,
-              "course":"真ん中低め",
-              "zone":{"x":50,"y":70},
-              "result":"安打"
-            }
-          ],
-          "basesAfter":[1,0,1],
-          "scoreAfter":{"lions":3,"opp":3}
+          "no":1,
+          "type":"FF",
+          "typeName":"ストレート",
+          "speed":148,
+          "zone":{"x":65,"y":25},
+          "call":"strike"
+        },
+        {
+          "no":2,
+          "type":"SL",
+          "typeName":"スライダー",
+          "speed":143,
+          "zone":{"x":72,"y":80},
+          "call":"ball"
+        },
+        {
+          "no":3,
+          "type":"CT",
+          "typeName":"カットボール",
+          "speed":141,
+          "zone":{"x":50,"y":70},
+          "call":"inplay"
         }
-      ]
+      ],
+
+      "result":{
+        "type":"single",
+        "rbi":1,
+        "outsOnPlay":0
+      },
+
+      "stateEnd":{
+        "outs":2,
+        "bases":[1,0,1],
+        "score":{"L":3,"H":3}
+      }
     }
-  ],
-
-  "situation":{
-    "inning":"7回表",
-    "outs":2,
-    "bases":[1,0,1],
-    "batter":"外崎 修汰",
-    "pitcher":"山本 由伸",
-    "currentAtBatIndex":0
-  },
-
-  "analysis":{
-    "vsTeam":"今季対戦成績 3勝2敗",
-    "matchup":"外崎 vs 山本 通算 .273 2HR",
-    "recent":"外崎 直近5試合 .333 OPS .920"
-  }
+  ]
 }
