@@ -55,6 +55,26 @@ body {
   border:2px solid #ffd60a;
 }
 
+.filter-bar {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.filter-bar button {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: none;
+  background:#4a6fa5;
+  color:white;
+  cursor:pointer;
+}
+
+.filter-bar button.active {
+  background:#ffd60a;
+  color:#000;
+}
+
 /* 空白セル */
 .empty {
   background:#0f1a2b;
