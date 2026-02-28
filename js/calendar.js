@@ -135,14 +135,14 @@ function renderCalendar(year,month){
     let gameHTML="";
     dayGames.forEach(game=>{
       const resultHTML=game.status==="finished"?`<div class="result">結果: ${game.result}</div>`:"";
-      gameHTML+=`
-        <div class="game-card">
-          <img src="${game.opponent_logo}" alt="${game.opponent}">
-          <div>${game.opponent}</div>
-          <div>${game.stadium}</div>
-          <div>${game.time} ${game.home_away}</div>
-          ${resultHTML}
-        </div>
+      gameHTML += `
+       <a href="game_detail.html?date=${game.date}&team=${encodeURIComponent(game.team)}" class="game-card">
+        <img src="${game.opponent_logo}" alt="${game.opponent}">
+        <div>${game.opponent}</div>
+        <div>${game.stadium}</div>
+        <div>${game.time} ${game.home_away}</div>
+        ${resultHTML}
+       </a>
       `;
     });
 
