@@ -5,176 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Game Detail | L-crown</title>
 
-<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top,#163b80 0%,#091b3d 40%,#050c1f 100%);
   color:white;
+  margin:0;
 }
-
-/* Layout */
 main{max-width:1300px;margin:40px auto;padding:20px;}
-.glass{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(18px);
-  border-radius:26px;
-  padding:30px;
-  box-shadow:0 20px 70px rgba(0,0,0,.6);
-}
-
-/* Header */
-h1{font-size:26px;margin-bottom:20px;}
-
-/* Scoreboard */
-.scoreboard{width:100%;border-collapse:collapse;margin-bottom:25px;}
-.scoreboard th,.scoreboard td{
-  border:1px solid rgba(255,255,255,.15);
-  padding:6px;text-align:center;font-size:13px;
-}
-
-/* Controls */
-.controls{
-  display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;
-}
-select,input{
-  background:#13234f;color:white;
-  border:1px solid rgba(255,255,255,.2);
-  padding:6px 10px;border-radius:8px;
-}
-button{
-  background:#4da3ff;border:none;
-  padding:6px 14px;border-radius:8px;
-  cursor:pointer;font-weight:bold;
-}
-button:hover{background:#7ec3ff;color:black;}
-
-/* AtBat */
-.atbat-card{
-  background:rgba(255,255,255,.07);
-  border-radius:18px;padding:20px;
-  margin-bottom:20px;
-}
-.meta{font-size:14px;margin-bottom:8px;}
-.result{margin-top:10px;font-weight:bold;}
-
-/* Count */
-.count{display:flex;gap:6px;margin:8px 0;}
-.dot{width:14px;height:14px;border-radius:50%;}
-.ball{background:#4da3ff;}
-.strike{background:#ffd700;}
-.out{background:#ff4d4d;}
-
-/* Zone */
-.zone{
-  width:200px;height:200px;
-  border:2px solid white;
-  position:relative;margin-top:15px;
-}
-.pitch-dot{
-  width:12px;height:12px;
-  border-radius:50%;
-  position:absolute;
-  transform:translate(-50%,-50%);
-}
-
-/* Results List */
-.results-list{
-  max-height:260px;overflow:auto;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:14px;padding:10px;
-}
-.result-item{
-  padding:6px 4px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  cursor:pointer;
-}
-.result-item:hover{
-  background:rgba(77,163,255,.2);
-}
-
-/* Stats */
-.stats-panel{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;margin-top:30px;
-}
-.stat-card{
+.card{
   background:rgba(255,255,255,.06);
-  padding:18px;border-radius:18px;
+  padding:20px;border-radius:20px;margin-bottom:20px;
 }
+select{background:#13234f;color:white;padding:6px 8px;border-radius:6px;}
+button{background:#4da3ff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;}
+.result-item{padding:6px;border-bottom:1px solid rgba(255,255,255,.1);cursor:pointer;}
+.result-item:hover{background:rgba(77,163,255,.3);}
+.zone{width:200px;height:200px;border:2px solid white;position:relative;margin-top:10px;}
+.pitch-dot{width:10px;height:10px;border-radius:50%;position:absolute;transform:translate(-50%,-50%);}
 </style>
 </head>
 <body>
 <main>
-<div class="glass">
 
-<h1 id="gameTitle"></h1>
+<div class="card">
+<h2 id="title"></h2>
 
-<div id="scoreboardArea"></div>
+<select id="teamFilter">
+<option value="all">全打席</option>
+<option value="L">ライオンズ攻撃</option>
+<option value="H">ライオンズ守備</option>
+</select>
 
-<!-- フィルタ -->
-<div class="controls">
-  <select id="teamFilter">
-    <option value="all">全打席</option>
-    <option value="lions">ライオンズ攻撃</option>
-    <option value="opp">ライオンズ守備</option>
-  </select>
+<select id="playerFilter">
+<option value="">選手指定なし</option>
+</select>
 
-  <select id="playerFilter">
-    <option value="">選手指定なし</option>
-  </select>
-
-  <select id="inningFilter">
-    <option value="">イニング指定なし</option>
-  </select>
-
-  <select id="outFilter">
-    <option value="">アウト指定なし</option>
-    <option value="0">0アウト</option>
-    <option value="1">1アウト</option>
-    <option value="2">2アウト</option>
-  </select>
-
-  <button onclick="applyFilter()">検索</button>
-</div>
-
-<!-- 検索結果 -->
-<div id="searchResults" class="results-list"></div>
-
-<!-- 打席表示 -->
-<div id="atbatArea"></div>
-
-<!-- 統計 -->
-<div class="stats-panel">
-  <div class="stat-card">
-    <h3>球種割合</h3>
-    <div id="pitchMix"></div>
-  </div>
-  <div class="stat-card">
-    <h3>平均球速</h3>
-    <div id="avgVelocity"></div>
-  </div>
-</div>
+<button onclick="applyFilter()">検索</button>
 
 </div>
+
+<div class="card">
+<h3>検索結果</h3>
+<div id="results"></div>
+</div>
+
+<div class="card">
+<h3>打席詳細</h3>
+<div id="detail"></div>
+</div>
+
+<div class="card">
+<h3>統計</h3>
+<div id="stats"></div>
+</div>
+
 </main>
 
 <script>
 let gameData;
-let allAtBats=[];
-let filteredAtBats=[];
-let currentIndex=0;
+let allEvents=[];
+let filteredEvents=[];
 
 const pitchColors={
-  "ストレート":"#ff4d4d",
-  "スライダー":"#4da3ff",
-  "カーブ":"#ffd700",
-  "チェンジアップ":"#00e676",
-  "フォーク":"#9c27b0"
+  "FF":"#ff4d4d",
+  "SL":"#4da3ff",
+  "CT":"#ffd700"
 };
 
 document.addEventListener("DOMContentLoaded",async()=>{
@@ -189,145 +85,90 @@ document.addEventListener("DOMContentLoaded",async()=>{
 });
 
 function initGame(){
-  document.getElementById("gameTitle").innerText=
-    `${gameData.meta.card} ｜ ${gameData.meta.stadium}`;
+  document.getElementById("title").innerText=
+    `${gameData.game.date} ${gameData.teams.L.name} vs ${gameData.teams.H.name}`;
 
-  renderScoreboard();
-  flattenAtBats();
-  populateFilters();
+  allEvents=gameData.events;
+  populatePlayers();
   applyFilter();
 }
 
-/* スコア */
-function renderScoreboard(){
-  const s=gameData.score;
-  let html="<table class='scoreboard'><tr><th></th>";
-  for(let i=1;i<=9;i++) html+=`<th>${i}</th>`;
-  html+="<th>R</th></tr>";
-
-  const sum=(arr)=>arr.reduce((a,b)=>a+b,0);
-  html+=`<tr><td>L</td>${s.lions.map(i=>`<td>${i}</td>`).join("")}<td>${sum(s.lions)}</td></tr>`;
-  html+=`<tr><td>O</td>${s.opp.map(i=>`<td>${i}</td>`).join("")}<td>${sum(s.opp)}</td></tr>`;
-  html+="</table>";
-  document.getElementById("scoreboardArea").innerHTML=html;
-}
-
-/* 打席フラット化 */
-function flattenAtBats(){
-  gameData.innings.forEach(inning=>{
-    inning.atBats.forEach(ab=>{
-      ab.inningText=`${inning.number}回${inning.half==="top"?"表":"裏"}`;
-      ab.offense=(inning.half==="top")?"lions":"opp";
-      allAtBats.push(ab);
-    });
-  });
-}
-
-/* フィルタ */
-function populateFilters(){
-  const players=new Set();
-  const innings=new Set();
-
-  allAtBats.forEach(ab=>{
-    players.add(ab.batter);
-    innings.add(ab.inningText);
-  });
-
+function populatePlayers(){
   const pf=document.getElementById("playerFilter");
-  players.forEach(p=>{
-    pf.innerHTML+=`<option value="${p}">${p}</option>`;
-  });
-
-  const inf=document.getElementById("inningFilter");
-  innings.forEach(i=>{
-    inf.innerHTML+=`<option value="${i}">${i}</option>`;
+  Object.entries(gameData.players).forEach(([id,p])=>{
+    pf.innerHTML+=`<option value="${id}">${p.name}</option>`;
   });
 }
 
 function applyFilter(){
   const team=document.getElementById("teamFilter").value;
   const player=document.getElementById("playerFilter").value;
-  const inning=document.getElementById("inningFilter").value;
-  const outs=document.getElementById("outFilter").value;
 
-  filteredAtBats=allAtBats.filter(ab=>{
-    if(team!=="all" && ab.offense!==team) return false;
-    if(player && ab.batter!==player) return false;
-    if(inning && ab.inningText!==inning) return false;
-    if(outs!=="" && ab.startCount.outs!=outs) return false;
+  filteredEvents=allEvents.filter(ev=>{
+    if(team!=="all" && ev.offense!==team) return false;
+    if(player && ev.batter!==player && ev.pitcher!==player) return false;
     return true;
   });
 
-  renderSearchResults();
+  renderResults();
   calcStats();
 }
 
-/* 検索結果 */
-function renderSearchResults(){
-  const area=document.getElementById("searchResults");
+function renderResults(){
+  const area=document.getElementById("results");
   area.innerHTML="";
-  filteredAtBats.forEach((ab,i)=>{
+  filteredEvents.forEach((ev,i)=>{
     area.innerHTML+=`
-      <div class="result-item" onclick="showAtBat(${i})">
-        ${ab.inningText} ｜ ${ab.batter} ｜ ${ab.result}
-      </div>`;
+    <div class="result-item" onclick="showDetail(${i})">
+      ${ev.inning}回${ev.half==="top"?"表":"裏"} ｜ 
+      ${gameData.players[ev.batter].name} ｜ 
+      ${ev.result.type}
+    </div>`;
   });
 }
 
-/* 打席表示 */
-function showAtBat(i){
-  currentIndex=i;
-  const ab=filteredAtBats[i];
-  if(!ab) return;
-
-  let countHTML="<div class='count'>";
-  for(let i=0;i<ab.startCount.balls;i++) countHTML+="<div class='dot ball'></div>";
-  for(let i=0;i<ab.startCount.strikes;i++) countHTML+="<div class='dot strike'></div>";
-  for(let i=0;i<ab.startCount.outs;i++) countHTML+="<div class='dot out'></div>";
-  countHTML+="</div>";
+function showDetail(i){
+  const ev=filteredEvents[i];
+  if(!ev) return;
 
   let zone="<div class='zone'>";
-  ab.pitches.forEach(p=>{
+  ev.pitches.forEach(p=>{
     if(p.zone){
-      zone+=`
-        <div class="pitch-dot"
-        style="left:${p.zone.x}%;top:${p.zone.y}%;
-        background:${pitchColors[p.type]||'white'}">
-        </div>`;
+      zone+=`<div class="pitch-dot"
+      style="left:${p.zone.x}%;top:${p.zone.y}%;
+      background:${pitchColors[p.type]||'white'}"></div>`;
     }
   });
   zone+="</div>";
 
-  document.getElementById("atbatArea").innerHTML=`
-    <div class="atbat-card">
-      <div class="meta">
-        ${ab.inningText} ｜ 打者:${ab.batter} ｜ 投手:${ab.pitcher}
-      </div>
-      ${countHTML}
-      ${zone}
-      <div class="result">結果：${ab.result}</div>
-    </div>`;
+  document.getElementById("detail").innerHTML=`
+    <div>
+    打者:${gameData.players[ev.batter].name}<br>
+    投手:${gameData.players[ev.pitcher].name}<br>
+    結果:${ev.result.type}<br>
+    ${zone}
+    </div>
+  `;
 }
 
-/* 統計 */
 function calcStats(){
   let mix={};
   let sum=0,count=0;
 
-  filteredAtBats.forEach(ab=>{
-    ab.pitches.forEach(p=>{
+  filteredEvents.forEach(ev=>{
+    ev.pitches.forEach(p=>{
       mix[p.type]=(mix[p.type]||0)+1;
-      if(p.speed){ sum+=p.speed; count++; }
+      if(p.speed){sum+=p.speed;count++;}
     });
   });
 
-  let mixHTML="";
+  let html="球種割合:<br>";
   for(let k in mix){
-    mixHTML+=`${k} : ${mix[k]}球<br>`;
+    html+=`${k} : ${mix[k]}球<br>`;
   }
-  document.getElementById("pitchMix").innerHTML=mixHTML;
-  document.getElementById("avgVelocity").innerText=
-    count? (sum/count).toFixed(1)+" km/h":"-";
+  html+=`平均球速: ${count?(sum/count).toFixed(1):"-"} km/h`;
+
+  document.getElementById("stats").innerHTML=html;
 }
 </script>
 
