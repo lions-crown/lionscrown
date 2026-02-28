@@ -83,6 +83,15 @@ function renderCalendar(year,month){
   const totalCells=42;
   let dayCounter=1;
 
+  // 検索フィルタで該当する日付だけ表示
+  const filteredDates = games.filter(g=>{
+    if(filterDate && g.date!==filterDate) return false;
+    if(filterOpponent && !g.opponent.includes(filterOpponent)) return false;
+    if(filterStadium && !g.stadium.includes(filterStadium)) return false;
+    if(filterHomeAway && g.home_away!==filterHomeAway) return false;
+    return g.team===currentTeam;
+  }).map(g=>g.date);
+
   for(let i=0;i<totalCells;i++){
     if(i<firstDay||dayCounter>lastDate){
       calendar.innerHTML+=`<div class="day-cell empty"></div>`;
@@ -90,6 +99,16 @@ function renderCalendar(year,month){
     }
 
     const dateStr=`${year}-${String(month+1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
+
+    // フィルタで絞られている場合、対象外の日は非表示
+    if(filterDate || filterOpponent || filterStadium || filterHomeAway){
+      if(!filteredDates.includes(dateStr)){
+        dayCounter++;
+        calendar.innerHTML+=`<div class="day-cell empty"></div>`;
+        continue;
+      }
+    }
+
     const dayGames=games.filter(g=>g.date===dateStr && g.team===currentTeam);
     let gameHTML="";
     dayGames.forEach(game=>{
@@ -124,7 +143,7 @@ function renderSearchResults(){
     if(filterOpponent && !g.opponent.includes(filterOpponent)) return false;
     if(filterStadium && !g.stadium.includes(filterStadium)) return false;
     if(filterHomeAway && g.home_away!==filterHomeAway) return false;
-    return true;
+    return g.team===currentTeam;
   });
 
   if(results.length===0){container.innerHTML="<p>該当する試合はありません</p>"; return;}
@@ -133,12 +152,16 @@ function renderSearchResults(){
     const resultHTML=game.status==="finished"?`結果:${game.result}`:"未試合";
     const link=`game_detail.html?date=${game.date}&team=${encodeURIComponent(game.team)}`;
     container.innerHTML+=`
-      <a href="${link}" class="game-card">
-        <img src="${game.opponent_logo}" alt="${game.opponent}">
-        <div>${game.date} ${game.team}</div>
-        <div>${game.opponent} (${game.home_away})</div>
-        <div>${game.stadium}</div>
-        <div>${resultHTML}</div>
+      <a href="${link}" class="game-card result-card">
+        <div class="card-left">
+          <img src="${game.opponent_logo}" alt="${game.opponent}">
+        </div>
+        <div class="card-right">
+          <div class="game-date">${game.date} ${game.team}</div>
+          <div class="game-opponent">${game.opponent} (${game.home_away})</div>
+          <div class="game-stadium">${game.stadium}</div>
+          <div class="game-result">${resultHTML}</div>
+        </div>
       </a>
     `;
   });
