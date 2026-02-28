@@ -1,24 +1,35 @@
 [
   {
-    "date": "2026-04-03",
+    "date": "2026-02-28",
     "team": "1軍",
-    "opponent": "ソフトバンク",
+    "opponent": "千葉ロッテ",
     "opponent_logo": "/img/logos/hawks.webp",
-    "stadium": "ベルーナドーム",
-    "time": "18:00",
-    "home_away": "H",
-    "result": "4-2",
+    "stadium": "都城",
+    "time": "13:00",
+    "home_away": "V",
+    "result": "4-1",
     "status": "finished"
   },
   {
-    "date": "2026-04-04",
-    "team": "2軍",
-    "opponent": "ロッテ",
-    "opponent_logo": "/img/logos/marines.webp",
-    "stadium": "ZOZOマリン",
+    "date": "2026-03-01",
+    "team": "1軍",
+    "opponent": "ソフトバンク",
+    "opponent_logo": "/img/logos/hawks.webp",
+    "stadium": "アイビー",
     "time": "13:00",
     "home_away": "V",
-    "result": "2-5",
-    "status": "finished"
+    "result": "",
+    "status": "upcoming"
+  },
+  {
+    "date": "2026-03-04",
+    "team": "1軍",
+    "opponent": "日本ハム",
+    "opponent_logo": "/img/logos/marines.webp",
+    "stadium": "エスコンF",
+    "time": "18:00",
+    "home_away": "V",
+    "result": "",
+    "status": "upcoming"
   }
 ]
