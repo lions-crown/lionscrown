@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>試合日程カレンダー</title>
+<title>埼玉西武ライオンズ 試合日程</title>
 <link rel="stylesheet" href="css/style.css">
 <script src="js/calendar.js" defer></script>
 </head>
@@ -18,24 +18,23 @@
   <button data-team="3軍">3軍</button>
 </div>
 
-<!-- 検索バー -->
-<div class="search-bar">
-  <input type="text" id="searchOpponent" placeholder="対戦相手">
-  <input type="text" id="searchStadium" placeholder="球場名">
-  <select id="searchHomeAway">
-    <option value="">H/V 全て</option>
-    <option value="H">H（ホーム）</option>
-    <option value="V">V（ビジター）</option>
-  </select>
-  <input type="date" id="searchDate">
-  <button id="searchBtn">検索</button>
-  <button id="clearBtn">クリア</button>
-</div>
-
 <div class="calendar-header">
   <button id="prevMonth">◀</button>
   <h2 id="currentMonth"></h2>
   <button id="nextMonth">▶</button>
+</div>
+
+<!-- 検索 -->
+<div class="search-bar">
+  <input type="date" id="searchDate" placeholder="日付">
+  <input type="text" id="searchOpponent" placeholder="対戦相手">
+  <input type="text" id="searchStadium" placeholder="球場">
+  <select id="searchHomeAway">
+    <option value="">H/V</option>
+    <option value="H">H</option>
+    <option value="V">V</option>
+  </select>
+  <button id="searchBtn">検索</button>
 </div>
 
 <div id="calendarWrapper">
@@ -44,6 +43,7 @@
   <div id="calendarBottomDays" class="calendar-days"></div>
 </div>
 
+<!-- 検索結果表示 -->
 <div id="searchResults" class="search-results"></div>
 
 </body>
