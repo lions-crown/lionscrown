@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // JSON読み込み
-  fetch("data/games.json")
+  fetch("/lionscrown/data/games.json")  // GitHub Pages のルートに合わせる
     .then(res => {
       if (!res.ok) throw new Error("games.json 読み込み失敗");
       return res.json();
