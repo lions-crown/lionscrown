@@ -95,10 +95,7 @@ nav{
 }
 .logo:hover img{transform:scale(1.08);}
 .logo:hover span{text-shadow:0 0 12px rgba(77,163,255,0.7);}
-.menu{
-  display:flex;
-  gap:26px;
-}
+.menu{display:flex;gap:26px;}
 .menu a{
   color:rgba(255,255,255,0.7);
   text-decoration:none;
@@ -116,16 +113,9 @@ nav{
   background:linear-gradient(90deg,#4da3ff,#7ecbff);
   transition:0.25s;
 }
-.menu a:hover{
-  color:white;
-  text-shadow:0 0 10px rgba(77,163,255,0.6);
-}
+.menu a:hover{color:white;text-shadow:0 0 10px rgba(77,163,255,0.6);}
 .menu a:hover::after,.menu a.active::after{width:100%;}
-main{
-  max-width:1100px;
-  margin:50px auto;
-  padding:0 20px;
-}
+main{max-width:1100px;margin:50px auto;padding:0 20px;}
 .glass-card{
   background:rgba(255,255,255,0.06);
   border-radius:22px;
@@ -143,6 +133,7 @@ h2{font-size:28px;margin-bottom:16px;border-bottom:2px solid #6eb9ff33;padding-b
 h3{font-size:22px;margin-top:16px;margin-bottom:12px;}
 p, li{line-height:1.6;margin-bottom:12px;}
 ul{padding-left:20px;list-style:disc;}
+.strong-highlight{color:#4da3ff;font-weight:bold;}
 footer{
   margin-top:100px;
   background:rgba(0,0,0,0.35);
@@ -191,45 +182,58 @@ footer a:hover{color:white;transform:translateX(4px);text-shadow:0 0 8px rgba(77
 </header>
 
 <main>
-  <!-- About セクション -->
-  <div class="glass-card">
+  <!-- ヒーロー -->
+  <div class="glass-card" style="text-align:center;">
     <h2>L-crownとは何か</h2>
-    <p>データをより身近なものへ。<br>埼玉西武ライオンズの王座奪還への道を、数字とともに追い続けます。</p>
+    <p>データをより身近なものへ。<br><span class="strong-highlight">埼玉西武ライオンズの王座奪還への道を数字で追い続けます。</span></p>
   </div>
 
+  <!-- L-crown紹介 -->
   <div class="glass-card">
     <h2>L-crown</h2>
-    <p>L-crownは、<strong>埼玉西武ライオンズに特化したデータ分析サイト</strong>です。</p>
-    <p>試合結果、個人成績、投打指標、チーム推移など、ライオンズに関わるデータを整理・可視化し、感覚だけでなく根拠に基づいて野球を楽しむ環境を提供します。</p>
-    <p>単なる速報サイトではなく、数字の裏にある意味を追い、ライオンズが強くなるためのヒントを探ります。</p>
+    <p>L-crownは、<span class="strong-highlight">埼玉西武ライオンズに特化したデータ分析サイト</span>です。</p>
+    <ul>
+      <li>試合結果、個人成績、投打指標、チーム推移の整理・可視化</li>
+      <li>数字に基づいた野球観戦のサポート</li>
+      <li>ライオンズが強くなるためのヒントを探す</li>
+    </ul>
   </div>
 
+  <!-- Mission -->
   <div class="glass-card">
     <h2>Mission</h2>
-    <h3>1. データを身近なものに</h3>
-    <p>専門的になりがちな野球データを、誰にでも理解できる形で提示します。</p>
-    <h3>2. 新しい視点の提供</h3>
-    <p>既存の数字だけでなく、切り口や比較方法を工夫し、新しい発見を生み出します。</p>
-    <h3>3. 利用者目線の徹底</h3>
-    <p>ファンが本当に知りたい情報は何か。常にユーザー視点で設計・改善を行います。</p>
-    <h3>4. 正確かつ迅速な発信</h3>
-    <p>データは正確であることが前提。信頼性とスピードを両立させます。</p>
+    <ul>
+      <li><span class="strong-highlight">データを身近に</span>：誰にでも理解できる形で提示</li>
+      <li><span class="strong-highlight">新しい視点</span>：切り口や比較方法を工夫</li>
+      <li><span class="strong-highlight">利用者目線</span>：ファンが知りたい情報を最優先</li>
+      <li><span class="strong-highlight">正確＆迅速</span>：データの信頼性とスピード両立</li>
+    </ul>
   </div>
 
+  <!-- Organization -->
   <div class="glass-card">
     <h2>Organization</h2>
-    <p>L-crownは、<strong>L-crown製作委員会</strong>によって運営されています。</p>
-    <p>野球とデータを愛するメンバーによる非営利のプロジェクトで、利益追求を目的とせず、「ライオンズの未来をデータで支える」ことを目的としています。</p>
-    <p>2025年6月1日 発足。継続的な改善と拡張を前提に活動しています。</p>
+    <p>L-crownは<span class="strong-highlight">L-crown製作委員会</span>によって運営されています。</p>
+    <ul>
+      <li>野球とデータを愛する非営利メンバーによるプロジェクト</li>
+      <li>利益追求ではなく「ライオンズの未来をデータで支える」ことを目的</li>
+      <li>2025年6月1日発足。継続的な改善・拡張を前提に活動</li>
+    </ul>
   </div>
 
+  <!-- Why -->
   <div class="glass-card">
     <h2>Why L-crown?</h2>
     <p>データは、野球をより深く理解するための武器です。</p>
-    <p>しかし、指標が難しい・情報が分散している・ライオンズ特化の分析が少ない、という課題があります。</p>
-    <p>L-crownはそれを解決します。「数字がわかると、野球はもっと面白い」その体験を提供することが私たちの使命です。</p>
+    <ul>
+      <li>指標が難しい</li>
+      <li>情報が分散している</li>
+      <li>ライオンズ特化の分析が少ない</li>
+    </ul>
+    <p>L-crownはこれらを解決し、<span class="strong-highlight">「数字がわかると野球はもっと面白い」</span>体験を提供します。</p>
   </div>
 
+  <!-- Roadmap -->
   <div class="glass-card">
     <h2>Roadmap</h2>
     <ul>
@@ -239,13 +243,14 @@ footer a:hover{color:white;transform:translateX(4px);text-shadow:0 0 8px rgba(77
       <li>データ比較ツールの実装</li>
       <li>ファン参加型コンテンツの拡充</li>
     </ul>
-    <p>L-crownは完成形ではなく、常に進化し続けます。</p>
+    <p>常に進化し続けるL-crown。</p>
   </div>
 
-  <div class="glass-card">
+  <!-- Message -->
+  <div class="glass-card" style="text-align:center;">
     <h2>Message</h2>
     <p>ライオンズが再び頂点に立つその日まで。</p>
-    <p>私たちは、データで支え、考え続け、発信し続けます。</p>
+    <p>私たちは、<span class="strong-highlight">データで支え、考え続け、発信し続けます</span>。</p>
   </div>
 </main>
 
@@ -274,6 +279,5 @@ footer a:hover{color:white;transform:translateX(4px);text-shadow:0 0 8px rgba(77
     © 2026 L-crown. All rights reserved.
   </div>
 </footer>
-
 </body>
 </html>
