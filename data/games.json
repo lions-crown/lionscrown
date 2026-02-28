@@ -1,7 +1,7 @@
 [
   {
     "date": "2026-02-28",
-    "team": "1軍",
+    "team": "1",
     "opponent": "千葉ロッテ",
     "opponent_logo": "/img/logos/hawks.webp",
     "stadium": "都城",
@@ -12,7 +12,7 @@
   },
   {
     "date": "2026-03-01",
-    "team": "1軍",
+    "team": "1",
     "opponent": "ソフトバンク",
     "opponent_logo": "/img/logos/hawks.webp",
     "stadium": "アイビー",
@@ -23,7 +23,7 @@
   },
   {
     "date": "2026-03-04",
-    "team": "1軍",
+    "team": "1",
     "opponent": "日本ハム",
     "opponent_logo": "/img/logos/marines.webp",
     "stadium": "エスコンF",
@@ -34,7 +34,7 @@
   },
   {
     "date": "2026-03-05",
-    "team": "1軍",
+    "team": "1",
     "opponent": "日本ハム",
     "opponent_logo": "/img/logos/marines.webp",
     "stadium": "エスコンF",
@@ -45,7 +45,7 @@
   },
   {
     "date": "2026-03-07",
-    "team": "1軍",
+    "team": "1",
     "opponent": "ヤクルト",
     "opponent_logo": "/img/logos/marines.webp",
     "stadium": "春野",
@@ -56,7 +56,7 @@
   },
   {
     "date": "2026-03-08",
-    "team": "1軍",
+    "team": "1",
     "opponent": "ヤクルト",
     "opponent_logo": "/img/logos/marines.webp",
     "stadium": "春野",
@@ -67,7 +67,7 @@
   }, 
   {
     "date": "2026-03-10",
-    "team": "1軍",
+    "team": "1",
     "opponent": "阪神",
     "opponent_logo": "/img/logos/marines.webp",
     "stadium": "甲子園",
@@ -78,7 +78,7 @@
   },
   {
     "date": "2026-03-11",
-    "team": "1軍",
+    "team": "1",
     "opponent": "阪神",
     "opponent_logo": "/img/logos/marines.webp",
     "stadium": "甲子園",
