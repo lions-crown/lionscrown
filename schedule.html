@@ -3,11 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>埼玉西武ライオンズ 試合日程</title>
+<title>試合日程 | L-crown</title>
+
+<!-- ファビコン -->
+<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<meta name="theme-color" content="#0f172a">
+
 <link rel="stylesheet" href="css/style.css">
 <script src="js/calendar.js" defer></script>
 </head>
+
 <body>
+
+<!-- =========================
+     ヘッダー
+========================= -->
+<header>
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
+      <span>L-crown</span>
+    </a>
+
+    <div class="menu">
+      <a href="index.html">ホーム</a>
+      <a href="news.html">お知らせ</a>
+      <a href="privacypolicy.html">利用規約</a>
+      <a href="contact.html">お問い合わせ</a>
+    </div>
+  </nav>
+</header>
+
+<!-- =========================
+     メイン
+========================= -->
+<main>
+<div class="glass-card">
 
 <h1>試合日程カレンダー</h1>
 
@@ -20,6 +52,7 @@
 
 <!-- 検索 -->
 <div class="search-bar">
+
   <input type="date" id="searchDate">
 
   <!-- チェックボックス方式 -->
@@ -60,6 +93,43 @@
 <div id="calendarTopDays" class="calendar-days"></div>
 <div id="calendar" class="calendar-grid"></div>
 <div id="calendarBottomDays" class="calendar-days"></div>
+
+</div>
+</main>
+
+<!-- =========================
+     フッター
+========================= -->
+<footer>
+  <div class="footer-container">
+
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-title">リンク</div>
+      <a href="index.html">ホーム</a><br>
+      <a href="news.html">お知らせ</a><br>
+      <a href="privacypolicy.html">利用規約</a><br>
+      <a href="contact.html">お問い合わせ</a>
+    </div>
+
+    <div>
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
+  </div>
+</footer>
 
 </body>
 </html>
