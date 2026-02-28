@@ -4,11 +4,22 @@ const today = new Date();
 let currentYear = today.getFullYear();
 let currentMonth = today.getMonth();
 const weekdays = ["月", "火", "水", "木", "金", "土", "日"];
+let currentTeam = "1"; // 初期は1軍
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  renderWeekdays();              // 曜日は必ず描画
-  renderCalendar(currentYear, currentMonth); // JSON前に初期カレンダー描画
+  renderWeekdays();
+  renderCalendar(currentYear, currentMonth);
+
+  // 軍切り替えボタン
+  document.querySelectorAll(".filter-bar button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter-bar button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentTeam = btn.dataset.team;
+      renderCalendar(currentYear, currentMonth);
+    });
+  });
 
   // JSON読み込み
   fetch("data/games.json")
@@ -18,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(data => {
       games = data;
-      renderCalendar(currentYear, currentMonth); // JSON取得後に再描画
+      renderCalendar(currentYear, currentMonth);
     })
     .catch(err => console.error(err));
 
@@ -40,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     renderCalendar(currentYear, currentMonth);
   };
+
 });
 
 function renderWeekdays() {
@@ -68,10 +80,8 @@ function renderCalendar(year, month) {
   document.getElementById("currentMonth").textContent =
     `${year}年 ${month + 1}月`;
 
-  // 月曜始まり
   let firstDay = new Date(year, month, 1).getDay();
   firstDay = (firstDay + 6) % 7;
-
   const lastDate = new Date(year, month + 1, 0).getDate();
   const totalCells = 42;
   let dayCounter = 1;
@@ -84,9 +94,11 @@ function renderCalendar(year, month) {
     }
 
     const dateStr =
-      `${year}-${String(month + 1).padStart(2, "0")}-${String(dayCounter).padStart(2, "0")}`;
+      `${year}-${String(month + 1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
 
-    const dayGames = games.filter(g => g.date === dateStr);
+    const dayGames = games
+      .filter(g => g.date === dateStr && g.team === currentTeam);
+
     let gameHTML = "";
 
     dayGames.forEach(game => {
