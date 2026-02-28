@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>埼玉西武ライオンズ 選手名鑑</title>
+<style>
+  body { font-family: "Segoe UI", "Noto Sans JP", sans-serif; background: #091b3d; color: #fff; margin: 0; padding: 20px; }
+  h1 { text-align: center; margin-bottom: 20px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
+  .controls select, .controls input { padding: 5px; font-size: 14px; }
+  .player-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 15px; }
+  .player-card { background: rgba(10,25,60,0.8); border-radius: 10px; padding: 10px; text-align: center; transition: transform 0.2s; }
+  .player-card:hover { transform: scale(1.05); }
+  .player-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 10px; }
+  .player-info { margin-top: 8px; }
+  .player-info a { color: #6eb9ff; text-decoration: none; }
+  .player-info a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
 
+<h1>埼玉西武ライオンズ 選手名鑑</h1>
+
+<div class="controls">
+  <select id="yearSelect"></select>
+  <select id="positionFilter">
+    <option value="">全てのポジション</option>
+    <option value="投手">投手</option>
+    <option value="捕手">捕手</option>
+    <option value="内野手">内野手</option>
+    <option value="外野手">外野手</option>
+  </select>
+  <input type="text" id="nameSearch" placeholder="名前で検索">
+</div>
+
+<div class="player-grid" id="playerGrid"></div>
+
+<script>
+// ----- サンプルデータ -----
+const players = {
+  "2026": [
+    { "id":1,"name":"山田 太郎","position":"投手","number":11,"birth_year":1995,"photo":"images/11_yamada.png","link":"players/11_yamada.html" },
+    { "id":2,"name":"佐藤 次郎","position":"捕手","number":2,"birth_year":1990,"photo":"images/2_sato.png","link":"players/2_sato.html" }
+  ],
+  "2025": [ /* 過去年度データ */ ]
+};
+
+// ----- 年度プルダウン生成 -----
+const yearSelect = document.getElementById('yearSelect');
+for (let y=2026; y>=2017; y--) {
+  const option = document.createElement('option');
+  option.value = y;
+  option.textContent = y + "年";
+  yearSelect.appendChild(option);
+}
+
+// ----- プレイヤー表示関数 -----
+function renderPlayers() {
+  const year = yearSelect.value;
+  const pos = document.getElementById('positionFilter').value;
+  const name = document.getElementById('nameSearch').value.trim();
+  
+  let filtered = players[year] || [];
+  if(pos) filtered = filtered.filter(p=>p.position===pos);
+  if(name) filtered = filtered.filter(p=>p.name.includes(name));
+  filtered.sort((a,b)=>a.number - b.number);
+  
+  const grid = document.getElementById('playerGrid');
+  grid.innerHTML = '';
+  filtered.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'player-card';
+    const age = year - p.birth_year;
+    card.innerHTML = `
+      <img src="${p.photo}" alt="${p.name}">
+      <div class="player-info">
+        <div>背番号: ${p.number}</div>
+        <div><a href="${p.link}">${p.name}</a></div>
+        <div>ポジション: ${p.position}</div>
+        <div>年齢: ${age}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ----- イベント登録 -----
+yearSelect.addEventListener('change', renderPlayers);
+document.getElementById('positionFilter').addEventListener('change', renderPlayers);
+document.getElementById('nameSearch').addEventListener('input', renderPlayers);
+
+// 初回表示
+yearSelect.value = "2026";
+renderPlayers();
+</script>
+
+</body>
+</html>
