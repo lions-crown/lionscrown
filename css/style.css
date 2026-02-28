@@ -9,11 +9,19 @@ body{font-family:sans-serif;background:#0d1b2a;color:white;padding:20px;}
 .today{border:2px solid #ffd60a;}
 .empty{background:#0f1a2b;}
 .result{font-weight:bold;margin-top:4px;}
-.game-card{background:#243b55;margin-top:4px;padding:4px;border-radius:6px;text-decoration:none;color:white;display:flex;flex-direction:column;align-items:center;}
+.game-card{background:#243b55;margin-top:4px;padding:4px;border-radius:6px;text-decoration:none;color:white;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s, box-shadow 0.2s;}
+.game-card:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.4);}
 .game-card img{width:24px;height:24px;}
 .filter-bar{margin-bottom:12px;display:flex;gap:8px;}
 .filter-bar button{padding:4px 8px;border-radius:6px;border:none;background:#4a6fa5;color:white;cursor:pointer;}
 .filter-bar button.active{background:#ffd60a;color:#000;}
 .search-bar{display:flex;gap:4px;margin-bottom:12px;}
 .search-results{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
-.search-results a.game-card{display:flex;align-items:center;gap:4px;background:#243b55;padding:4px;border-radius:6px;text-decoration:none;color:white;}
+.search-results a.result-card{display:flex;gap:12px;background:#1f2d4b;padding:8px;border-radius:8px;text-decoration:none;color:white;transition:transform 0.2s, box-shadow 0.2s;}
+.search-results a.result-card:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.5);}
+.card-left img{width:48px;height:48px;border-radius:6px;}
+.card-right{display:flex;flex-direction:column;justify-content:center;}
+.card-right .game-date{font-weight:bold;font-size:14px;margin-bottom:2px;}
+.card-right .game-opponent{font-size:13px;margin-bottom:2px;}
+.card-right .game-stadium{font-size:12px;margin-bottom:2px;color:#a0b0c0;}
+.card-right .game-result{font-weight:bold;color:#ffd60a;}
