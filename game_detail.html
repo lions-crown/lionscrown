@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
   }
 
   try{
-    const res=await fetch(`/lionscrown/live/${date}_${team}.json`);
+    const res=await fetch(`live/${date}_${team}.json`);
     gameData=await res.json();
 
     flattenAtBats();
