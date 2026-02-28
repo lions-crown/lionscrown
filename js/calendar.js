@@ -7,102 +7,96 @@ let currentTeam = "1軍";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  renderWeekdays();               // 曜日描画
-  renderCalendar(currentYear, currentMonth); // 初期描画
+  renderWeekdays();
+  renderCalendar(currentYear, currentMonth);
 
-  // 軍切り替えボタン
-  document.querySelectorAll(".filter-bar button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".filter-bar button").forEach(b => b.classList.remove("active"));
+  // 軍切り替え
+  document.querySelectorAll(".filter-bar button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      document.querySelectorAll(".filter-bar button").forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
       currentTeam = btn.dataset.team;
-      renderCalendar(currentYear, currentMonth);
+      renderCalendar(currentYear,currentMonth);
     });
   });
 
   // JSON読み込み
-  fetch("data/games.json")  // schedule.html から見て相対パス
-    .then(res => {
+  fetch("/lionscrown/data/games.json") // GitHub Pages 用
+    .then(res=>{
       if(!res.ok) throw new Error("games.json 読み込み失敗");
       return res.json();
     })
-    .then(data => {
+    .then(data=>{
       games = data;
-      renderCalendar(currentYear, currentMonth); // JSON取得後再描画
+      renderCalendar(currentYear,currentMonth);
     })
-    .catch(err => console.error(err));
+    .catch(err=>console.error(err));
 
   // 月切り替え
-  document.getElementById("prevMonth").onclick = () => {
+  document.getElementById("prevMonth").onclick = ()=>{
     currentMonth--;
-    if(currentMonth < 0){
-      currentMonth = 11;
+    if(currentMonth<0){
+      currentMonth=11;
       currentYear--;
     }
-    renderCalendar(currentYear, currentMonth);
+    renderCalendar(currentYear,currentMonth);
   };
 
-  document.getElementById("nextMonth").onclick = () => {
+  document.getElementById("nextMonth").onclick = ()=>{
     currentMonth++;
-    if(currentMonth > 11){
-      currentMonth = 0;
+    if(currentMonth>11){
+      currentMonth=0;
       currentYear++;
     }
-    renderCalendar(currentYear, currentMonth);
+    renderCalendar(currentYear,currentMonth);
   };
 
 });
 
 // 曜日描画
-function renderWeekdays() {
-  const top = document.getElementById("calendarTopDays");
-  const bottom = document.getElementById("calendarBottomDays");
-  if(!top || !bottom) return;
+function renderWeekdays(){
+  const top=document.getElementById("calendarTopDays");
+  const bottom=document.getElementById("calendarBottomDays");
+  if(!top||!bottom) return;
 
-  top.innerHTML = "";
-  bottom.innerHTML = "";
-
+  top.innerHTML="";
+  bottom.innerHTML="";
   weekdays.forEach((day,index)=>{
-    let className = "";
+    let className="";
     if(index===5) className="saturday";
     if(index===6) className="sunday";
-    top.innerHTML += `<div class="${className}">${day}</div>`;
-    bottom.innerHTML += `<div class="${className}">${day}</div>`;
+    top.innerHTML+=`<div class="${className}">${day}</div>`;
+    bottom.innerHTML+=`<div class="${className}">${day}</div>`;
   });
 }
 
 // カレンダー描画
-function renderCalendar(year, month){
-  const calendar = document.getElementById("calendar");
+function renderCalendar(year,month){
+  const calendar=document.getElementById("calendar");
   if(!calendar) return;
-  calendar.innerHTML = "";
+  calendar.innerHTML="";
+  document.getElementById("currentMonth").textContent=`${year}年 ${month+1}月`;
 
-  document.getElementById("currentMonth").textContent =
-    `${year}年 ${month+1}月`;
-
-  let firstDay = new Date(year, month, 1).getDay();
-  firstDay = (firstDay+6)%7; // 月曜始まり
-  const lastDate = new Date(year, month+1,0).getDate();
-  const totalCells = 42;
-  let dayCounter = 1;
+  let firstDay=new Date(year,month,1).getDay();
+  firstDay=(firstDay+6)%7;
+  const lastDate=new Date(year,month+1,0).getDate();
+  const totalCells=42;
+  let dayCounter=1;
 
   for(let i=0;i<totalCells;i++){
-    if(i<firstDay || dayCounter>lastDate){
-      calendar.innerHTML += `<div class="day-cell empty"></div>`;
+    if(i<firstDay||dayCounter>lastDate){
+      calendar.innerHTML+=`<div class="day-cell empty"></div>`;
       continue;
     }
 
-    const dateStr = `${year}-${String(month+1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
-
-    // 選択中の軍だけ
-    const dayGames = games.filter(g => g.date===dateStr && g.team===currentTeam);
-    let gameHTML = "";
-
+    const dateStr=`${year}-${String(month+1).padStart(2,"0")}-${String(dayCounter).padStart(2,"0")}`;
+    const dayGames=games.filter(g=>g.date===dateStr && g.team===currentTeam);
+    let gameHTML="";
     dayGames.forEach(game=>{
-      const resultHTML = game.status==="finished"? `<div class="result">結果: ${game.result}</div>` : "";
-      gameHTML += `
+      const resultHTML=game.status==="finished"?`<div class="result">結果: ${game.result}</div>`:"";
+      gameHTML+=`
         <div class="game-card">
-          <img src="${game.opponent_logo}" alt="">
+          <img src="${game.opponent_logo}" alt="${game.opponent}">
           <div>${game.opponent}</div>
           <div>${game.stadium}</div>
           <div>${game.time} ${game.home_away}</div>
@@ -111,12 +105,12 @@ function renderCalendar(year, month){
       `;
     });
 
-    let todayClass = "";
+    let todayClass="";
     if(year===today.getFullYear() && month===today.getMonth() && dayCounter===today.getDate()){
       todayClass="today";
     }
 
-    calendar.innerHTML += `
+    calendar.innerHTML+=`
       <div class="day-cell ${todayClass}">
         <strong>${dayCounter}</strong>
         ${gameHTML}
