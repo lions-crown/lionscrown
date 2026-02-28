@@ -32,12 +32,6 @@ body {
   border-radius:6px;
 }
 
-.calendar-grid {
-  display:grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap:6px;
-}
-
 .day-cell {
   background:#1b263b;
   min-height:120px;
@@ -55,6 +49,7 @@ body {
   border:2px solid #ffd60a;
 }
 
+/* 軍切り替え */
 .filter-bar {
   margin-bottom: 12px;
   display: flex;
@@ -91,9 +86,13 @@ body {
   margin-top:4px;
   padding:4px;
   border-radius:6px;
+  display:flex;
+  align-items:center;
+  gap:4px;
 }
 
 .game-card img {
   width:24px;
   height:24px;
+  object-fit:contain;
 }
