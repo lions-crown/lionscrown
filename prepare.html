@@ -331,6 +331,7 @@ createSlider("ageSlider", 17, 50, [17, 50], "ageRangeLabel", "ageStartInput", "a
 createSlider("draftSlider", 2010, 2026, [2010, 2026], "draftRangeLabel", "draftStartInput", "draftEndInput");
 
 // デバウンス関数（検索の快適さ向上）
+// ── 既存のdebounce関数（名前検索用にあったもの）を再利用 ──
 function debounce(fn, delay) {
   let timer;
   return function(...args) {
@@ -338,6 +339,73 @@ function debounce(fn, delay) {
     timer = setTimeout(() => fn(...args), delay);
   };
 }
+
+// スライダー移動中＆終了時の両方で反映（リアルタイム感を出す）
+const debouncedRender = debounce(renderPlayers, 150);  // 150msでかなり快適
+
+// スライダー作成関数を少し修正
+function createSlider(id, min, max, start, labelId, startInputId, endInputId) {
+  const slider = document.getElementById(id);
+  const startInput = document.getElementById(startInputId);
+  const endInput = document.getElementById(endInputId);
+  const label = document.getElementById(labelId);
+
+  noUiSlider.create(slider, {
+    start: start,
+    connect: true,
+    step: 1,
+    range: { min, max },
+    format: { to: v => Math.round(v), from: v => Number(v) }
+  });
+
+  const updateUI = (values, handle, unencoded, tap, positions) => {
+    const [s, e] = values.map(v => Math.round(v));
+    label.textContent = `${displayNumber(s)} – ${displayNumber(e)}`;
+    startInput.value = s;
+    endInput.value = e;
+  };
+
+  // slideイベント（ドラッグ中）で即反映
+  slider.noUiSlider.on("slide", (values) => {
+    updateUI(values);
+    debouncedRender();          // ← ここが重要！ドラッグ中に更新
+  });
+
+  // updateイベント（確定時）でも念のため
+  slider.noUiSlider.on("update", (values) => {
+    updateUI(values);
+    debouncedRender();
+  });
+
+  // 入力欄からの変更も即反映
+  const syncFromInputs = () => {
+    let s = parseInt(startInput.value) || min;
+    let e = parseInt(endInput.value) || max;
+    if (s > e) [s, e] = [e, s];
+    s = Math.max(min, Math.min(max, s));
+    e = Math.max(min, Math.min(max, e));
+    slider.noUiSlider.set([s, e]);
+    // set() → update → slideが発火するので、ここで別途呼ぶ必要は少ないが安全策で
+    debouncedRender();
+  };
+
+  startInput.addEventListener("input", syncFromInputs);
+  endInput.addEventListener("input", syncFromInputs);
+  // changeでも対応（Enterキーなど）
+  startInput.addEventListener("change", syncFromInputs);
+  endInput.addEventListener("change", syncFromInputs);
+}
+
+// ── 既存のcreateSlider呼び出しはそのまま ──
+createSlider("numSlider", 0, 145, [0, 145], "numRangeLabel", "numStartInput", "numEndInput");
+createSlider("ageSlider", 17, 50, [17, 50], "ageRangeLabel", "ageStartInput", "ageEndInput");
+createSlider("draftSlider", 2010, 2026, [2010, 2026], "draftRangeLabel", "draftStartInput", "draftEndInput");
+
+// 名前検索のinputイベントも同じdebounceを使う（統一感）
+nameInput.addEventListener("input", () => {
+  // ... オートコンプリートの処理はそのまま ...
+  debouncedRender();   // すでにあったものをdebounce版に
+});
 
 // オートコンプリート & 検索（デバウンス適用）
 const nameInput = document.getElementById("nameSearch");
