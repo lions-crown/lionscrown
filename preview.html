@@ -8,7 +8,7 @@
 <style>
 body { font-family:"Segoe UI","Noto Sans JP",sans-serif; background:linear-gradient(135deg,#091b3d,#0d2b5e); color:#fff; margin:0; padding:20px;}
 h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5px #000;}
-.controls { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:25px; position:relative;}
+.controls { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:20px; position:relative;}
 .controls select, .controls input { padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none; }
 .range-slider { min-width:220px; margin-bottom:15px; }
 .range-slider .slider-label { display:flex; justify-content:space-between; font-size:0.85em; margin-bottom:4px; }
@@ -34,8 +34,6 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
 .position-捕手{background:#FF4500;}
 .position-内野手{background:#32CD32;}
 .position-外野手{background:#FFD700;}
-
-/* オートコンプリート候補 */
 .autocomplete-items { position:absolute; top:40px; left:0; right:0; background:#0a193c; border:1px solid #1E90FF; z-index:99; max-height:200px; overflow-y:auto; border-radius:6px; }
 .autocomplete-items div { padding:5px 10px; cursor:pointer; }
 .autocomplete-items div:hover { background:#1E90FF; color:#fff; }
@@ -116,6 +114,7 @@ const players={
   ]
 };
 
+// 年度プルダウン生成
 const yearSelect=document.getElementById('yearSelect');
 for(let y=2026;y>=2017;y--){ const opt=document.createElement('option'); opt.value=y; opt.textContent=y+"年"; yearSelect.appendChild(opt); }
 yearSelect.options[0].selected=true;
@@ -126,26 +125,11 @@ function createSlider(sliderId,startInputId,endInputId,min,max,labelId){
   const startInput=document.getElementById(startInputId);
   const endInput=document.getElementById(endInputId);
   const label=document.getElementById(labelId);
-
-  noUiSlider.create(slider,{
-    start:[parseInt(startInput.value),parseInt(endInput.value)],
-    connect:true, step:1, range:{min:min,max:max}, format:{to:v=>parseInt(v), from:v=>parseInt(v)}
-  });
-
-  function updateLabel(){
-    const [s,e]=slider.noUiSlider.get().map(v=>parseInt(v));
-    label.textContent=s+' - '+e;
-    renderPlayers();
-  }
-  slider.noUiSlider.on('update', updateLabel);
-
-  function syncInputs(){
-    let s=parseInt(startInput.value), e=parseInt(endInput.value);
-    if(s>e) s=e; if(e<s) e=s; startInput.value=s; endInput.value=e;
-    slider.noUiSlider.set([s,e]); renderPlayers();
-  }
-  startInput.addEventListener('input', syncInputs);
-  endInput.addEventListener('input', syncInputs);
+  noUiSlider.create(slider,{ start:[parseInt(startInput.value),parseInt(endInput.value)], connect:true, step:1, range:{min:min,max:max}, format:{to:v=>parseInt(v), from:v=>parseInt(v)} });
+  function updateLabel(){ const [s,e]=slider.noUiSlider.get().map(v=>parseInt(v)); label.textContent=s+' - '+e; renderPlayers(); }
+  slider.noUiSlider.on('update',updateLabel);
+  function syncInputs(){ let s=parseInt(startInput.value), e=parseInt(endInput.value); if(s>e)s=e;if(e<s)e=s; startInput.value=s; endInput.value=e; slider.noUiSlider.set([s,e]); renderPlayers(); }
+  startInput.addEventListener('input',syncInputs); endInput.addEventListener('input',syncInputs);
 }
 
 createSlider('numSlider','numStartInput','numEndInput',0,146,'numRangeLabel');
@@ -167,24 +151,15 @@ nameInput.addEventListener('input', function(){
   selectedYears.forEach(y=>{ const yearData=players[y]||[]; yearData.forEach(p=>p.year=parseInt(y)); allPlayers=allPlayers.concat(yearData); });
   allPlayers=dedupe(allPlayers);
   const matches=allPlayers.filter(p=>p.name.includes(val)).slice(0,10);
-  matches.forEach(p=>{
-    const item=document.createElement('div'); item.textContent=p.name + ' (' + displayNumber(p.number) + ')'; 
-    item.addEventListener('click',()=>{ nameInput.value=p.name; autoList.innerHTML=''; renderPlayers(); });
-    autoList.appendChild(item);
-  });
+  matches.forEach(p=>{ const item=document.createElement('div'); item.textContent=p.name+' ('+displayNumber(p.number)+')'; item.addEventListener('click',()=>{ nameInput.value=p.name; autoList.innerHTML=''; renderPlayers(); }); autoList.appendChild(item); });
 });
+document.addEventListener('click',e=>{ if(e.target!==nameInput) autoList.innerHTML=''; });
 
-document.addEventListener('click', e=>{ if(e.target!==nameInput) autoList.innerHTML=''; });
-
-// 描画
+// 描画関数
 function renderPlayers(){
   const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
   let filtered=[];
-  selectedYears.forEach(y=>{
-    const yearData=players[y]||[];
-    yearData.forEach(p=>p.year=parseInt(y));
-    filtered=filtered.concat(yearData);
-  });
+  selectedYears.forEach(y=>{ const yearData=players[y]||[]; yearData.forEach(p=>p.year=parseInt(y)); filtered=filtered.concat(yearData); });
   filtered=dedupe(filtered);
 
   const pos=document.getElementById('positionFilter').value;
@@ -225,7 +200,7 @@ function renderPlayers(){
   filtered.forEach(p=>{
     const age=p.year-p.birth_year;
     const card=document.createElement('div'); card.className="player-card";
-    const displayNum = displayNumber(p.number);
+    const displayNum=displayNumber(p.number);
     card.innerHTML=`
       <div class="player-photo"><img src="${p.photo}" alt="${p.name}"></div>
       <div class="player-info">
