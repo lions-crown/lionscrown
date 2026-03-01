@@ -50,7 +50,7 @@ header{
   z-index:1000;
 }
 
-nav{
+header nav{
   max-width:1100px;
   margin:auto;
   display:flex;
@@ -127,95 +127,29 @@ nav{
 .menu a.active::after{
   width:100%;
 }
-
-/* ===== フッター ===== */
-footer{
-  margin-top:100px;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(16px);
-  border-top:1px solid rgba(255,255,255,0.08);
-}
-
-.footer-container{
-  max-width:1100px;
-  margin:auto;
-  padding:50px 20px;
-  display:grid;
-  grid-template-columns:1.6fr 1fr 0.6fr;
-  gap:50px;
-}
-
-.footer-logo{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:12px;
-  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.footer-text{
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-  line-height:1.7;
-}
-
-.footer-title{
-  font-size:12px;
-  margin-bottom:14px;
-  color:rgba(255,255,255,0.9);
-}
-
-footer a{
-  text-decoration:none;
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-  transition:0.25s;
-}
-
-footer a:hover{
-  color:white;
-  transform:translateX(4px);
-  text-shadow:0 0 8px rgba(77,163,255,0.5);
-}
-
-.footer-bottom{
-  text-align:center;
-  padding:16px;
-  font-size:11px;
-  color:rgba(255,255,255,0.35);
-  border-top:1px solid rgba(255,255,255,0.05);
-}
-
-/* ===== レスポンシブ ===== */
-@media(max-width:768px){
-  .footer-container{
-    grid-template-columns:1fr;
-    gap:30px;
-  }
-}
 </style>
 </head>
+
 <body>
 
-<!-- ===== ヘッダー ===== -->
 <header>
   <nav>
     <a href="/lionscrown/" class="logo">
       <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
       <span>L-crown</span>
     </a>
-
     <div class="menu">
       <a href="/lionscrown/">ホーム</a>
       <a href="/lionscrown/news">お知らせ</a>
       <a href="/lionscrown/privacypolicy">利用規約</a>
       <a href="/lionscrown/contact">お問い合わせ</a>
+      <a href="/lionscrown/organization">運営委員会</a>
     </div>
   </nav>
 </header>
 
-<!-- ===== 本文（既存内容そのまま） ===== -->
+<!-- ===== 既存コンテンツ（本文・ヒーロー・スライダー等） ===== -->
+
 <div class="section">
   <div class="video-wrapper">
     <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
@@ -232,7 +166,6 @@ footer a:hover{
   <p class="fade-in">これまで以上に進化したコンテンツを発信していきます。</p>
 </div>
 
-<!-- ✅ ビジュアルスライド（仮） -->
 <div class="visual-slider">
   <div class="visual-track">
     <img src="images/slide1.jpg" alt="">
@@ -243,7 +176,6 @@ footer a:hover{
 
 <div class="games-wrapper">
   <div id="slider">
-    <!-- スライド1: 西武 vs ソフトバンク -->
     <div class="slide">
       <div class="game-card">
         <div class="game-header">
@@ -264,8 +196,6 @@ footer a:hover{
         <div class="status">26.02.28 16:52 更新</div>
       </div>
     </div>
-
-    <!-- スライド2: 西武 vs ソフトバンク -->
     <div class="slide">
       <div class="game-card">
         <div class="game-header">
@@ -283,12 +213,9 @@ footer a:hover{
             <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Fukuoka_SoftBank_Hawks_insignia.svg" alt="ソフトバンク" class="team-logo">
           </div>
         </div>
-        <!-- statusがないので空でもOK、または追加 -->
         <div class="status">26.03.01 13:00 更新</div>
       </div>
     </div>
-
-    <!-- スライド3: 西武 vs ロッテ -->
     <div class="slide">
       <div class="game-card">
         <div class="game-header">
@@ -315,11 +242,8 @@ footer a:hover{
 </div>
 
 <div class="section">
-
   <h2 class="news-title">最新ニュース</h2>
-
   <div class="news-grid">
-
     <div class="news-card">
       <div class="news-source">公式</div>
       <a href="#">
@@ -327,7 +251,6 @@ footer a:hover{
         <div class="news-time">8時間前</div>
       </a>
     </div>
-
     <div class="news-card">
       <div class="news-source">報道</div>
       <a href="#">
@@ -335,7 +258,6 @@ footer a:hover{
         <div class="news-time">10分前</div>
       </a>
     </div>
-
     <div class="news-card">
       <div class="news-source">グッズ</div>
       <a href="#">
@@ -343,54 +265,42 @@ footer a:hover{
         <div class="news-time">4時間前</div>
       </a>
     </div>
-
   </div>
 </div>
 
 <div class="mlb">
-
   <div class="mlb-container">
-
     <h2 class="mlb-title">夢のMLBへ ― 海外挑戦データ</h2>
-
     <p class="mlb-description">
       L-crownでは、MLBで戦うライオンズ戦士の成績・指標・推移データも追跡。
       NPB時代との比較分析や詳細スタッツを公開。
     </p>
-
     <div class="mlb-grid">
-
       <div class="mlb-card">
         <div class="mlb-player">菊池 雄星</div>
         <div class="mlb-stats">
           1991年生まれ。投手／右投右打<br>
           2010年~2018年に埼玉西武ライオンズに在籍。<br>
-          2018年オフにポスティングシステムによるアメリカ移籍をする。<br>
+          2018オフにポスティングで米国移籍。<br>
           マリナーズ・ブルージェイズ・アストロズを経て現在はエンゼルス在籍。<br>
-          WBC2026の日本代表にも選出。
+          WBC2026日本代表選出。
         </div>
         <a href="#" class="mlb-link">MLBデータを見る →</a>
       </div>
-
       <div class="mlb-card">
         <div class="mlb-player">今井 達也</div>
         <div class="mlb-stats">
           1998年生まれ。投手／右投右打<br>
-          2017年~2025年に埼玉西武ライオンズに在籍。<br>
-          2025年オフにポスティングシステムによるアメリカ移籍を行う。<br>
-          26年1月2日にアストロズへの移籍が発表された。<br>
-          メジャーリーグ1年目の挑戦に注目。
+          2017~2025に西武在籍。<br>
+          2025オフにポスティングで米国移籍。<br>
+          26年1月2日アストロズ移籍発表。
         </div>
         <a href="#" class="mlb-link">MLB分析ページ →</a>
       </div>
-
     </div>
-
   </div>
-
 </div>
 
-<!-- ✅ 最下部お知らせ -->
 <div class="section notice">
   <h2 class="notice-title">L-crown 最新のお知らせ</h2>
   <div id="noticeList" class="notice-list">
@@ -399,18 +309,15 @@ footer a:hover{
 </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", () => {
   const fades = document.querySelectorAll(".fade-in");
   fades.forEach((el, i) => {
     setTimeout(() => el.classList.add("visible"), i * 400);
   });
-
   loadNotices();
   setInterval(loadNotices, 60000);
 });
 
-/* スライダー */
 const slider = document.getElementById("slider");
 const slides = document.querySelectorAll(".slide").length;
 let index = 0;
@@ -422,60 +329,42 @@ function moveSlide(step){
 
 prevBtn.onclick = () => moveSlide(-1);
 nextBtn.onclick = () => moveSlide(1);
-
 setInterval(()=>moveSlide(1), 4500);
 
-/* お知らせ読み込み */
 async function loadNotices() {
   try {
     const res = await fetch("/lionscrown/notices.json");
     const data = await res.json();
-
     const list = document.getElementById("noticeList");
     list.innerHTML = "";
-
     data.sort((a, b) => new Date(b.time) - new Date(a.time));
-
     data.forEach(item => {
       const el = document.createElement("div");
       el.className = "notice-item";
-
       let badgeClass = "badge-media";
       if(item.category === "公式") badgeClass = "badge-official";
       if(item.category === "更新") badgeClass = "badge-update";
       if(item.category === "重要") badgeClass = "badge-important";
-
       el.innerHTML = `
         <div class="notice-content">
-          <span class="notice-badge ${badgeClass}">
-            ${item.category || "INFO"}
-          </span>
-          ${
-            item.url && item.url.trim() !== ""
-              ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
-              : `<span>${item.text}</span>`
-          }
+          <span class="notice-badge ${badgeClass}">${item.category||"INFO"}</span>
+          ${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>` : `<span>${item.text}</span>`}
         </div>
         <span class="notice-time">${item.time}</span>
       `;
-
       list.appendChild(el);
     });
-
   } catch (e) {
     console.error("お知らせ取得エラー:", e);
-    document.getElementById("noticeList").innerHTML =
-      '<div class="notice-item">お知らせを取得できませんでした</div>';
+    document.getElementById("noticeList").innerHTML = '<div class="notice-item">お知らせを取得できませんでした</div>';
   }
 }
-
 </script>
-</body>
-</html>
 
 <!-- ===== フッター ===== -->
 <footer>
   <div class="footer-container">
+
     <div>
       <div class="footer-logo">L-crown</div>
       <div class="footer-text">
@@ -485,17 +374,19 @@ async function loadNotices() {
     </div>
 
     <div>
+      <div class="footer-title">SNS</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏 @Lcrown_official</a>
+    </div>
+
+    <div>
       <div class="footer-title">ナビゲーション</div>
       <a href="/lionscrown/">ホーム</a><br>
       <a href="/lionscrown/news">お知らせ</a><br>
       <a href="/lionscrown/privacypolicy">利用規約</a><br>
-      <a href="/lionscrown/contact">お問い合わせ</a>
+      <a href="/lionscrown/contact">お問い合わせ</a><br>
+      <a href="/lionscrown/organization">運営委員会</a>
     </div>
 
-    <div>
-      <div class="footer-title">SNS</div>
-      <a href="https://x.com/Lcrown_official" target="_blank">𝕏 @Lcrown_official</a>
-    </div>
   </div>
 
   <div class="footer-bottom">
