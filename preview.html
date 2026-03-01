@@ -6,37 +6,161 @@
 <title>埼玉西武ライオンズ 選手名鑑</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.css" rel="stylesheet">
 <style>
-body { font-family:"Segoe UI","Noto Sans JP",sans-serif; background:linear-gradient(135deg,#091b3d,#0d2b5e); color:#fff; margin:0; padding:20px;}
-h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5px #000;}
-.controls { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:20px; position:relative;}
-.controls select, .controls input { padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none; }
-.range-slider { min-width:220px; margin-bottom:15px; }
-.range-slider .slider-label { display:flex; justify-content:space-between; font-size:0.85em; margin-bottom:4px; }
-.range-slider .slider-inputs { display:flex; justify-content:space-between; margin-bottom:4px; }
-.range-slider .slider-inputs input { width:45%; padding:4px; border-radius:4px; border:none; font-size:0.85em; }
-.sort-controls { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:15px;}
-.player-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+body {
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
+  background:linear-gradient(135deg,#091b3d,#0d2b5e);
+  color:#fff;
+  margin:0;
+  padding:20px;
+}
+h1 {
+  text-align:center;
+  margin-bottom:20px;
+  font-size:2em;
+  text-shadow:1px 1px 5px #000;
+}
+.controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+  margin-bottom:20px;
+  position:relative;
+}
+.controls select,
+.controls input {
+  padding:6px 10px;
+  font-size:14px;
+  border-radius:6px;
+  border:none;
+  outline:none;
+}
+.range-slider {
+  min-width:220px;
+  margin-bottom:15px;
+}
+.range-slider .slider-label {
+  display:flex;
+  justify-content:space-between;
+  font-size:0.85em;
+  margin-bottom:4px;
+}
+.range-slider .slider-inputs {
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:4px;
+}
+.range-slider .slider-inputs input {
+  width:45%;
+  padding:4px;
+  border-radius:4px;
+  border:none;
+  font-size:0.85em;
+}
+.sort-controls {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:15px;
+}
+.player-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
 @media(max-width:1000px){ .player-grid { grid-template-columns:repeat(2,1fr); } }
 @media(max-width:600px){ .player-grid { grid-template-columns:1fr; } }
-.player-card { display:flex; background:rgba(10,25,60,0.85); border-radius:12px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s, box-shadow 0.2s; }
-.player-card:hover { transform:translateY(-5px); box-shadow:0 10px 25px rgba(0,0,0,0.7);}
-.player-photo { flex:1; min-width:120px; }
-.player-photo img { width:100%; aspect-ratio:1/1; object-fit:cover; }
-.player-info { flex:2; padding:10px 12px; display:flex; flex-direction:column; justify-content:space-between; }
-.player-info .top { display:flex; justify-content:space-between; font-weight:bold; }
-.player-info .top .number { color:#fff; font-family:"Impact","Segoe UI",sans-serif; font-size:1em; }
-.player-info .top .position { font-weight:bold; padding:2px 6px; border-radius:6px; font-size:0.9em; color:#fff;}
-.player-info .middle { text-align:center; font-size:1.2em; font-weight:bold; margin:5px 0; color:#fff; }
-.player-info .bottom { display:flex; justify-content:space-between; font-size:0.85em; color:#ccc; }
-.player-info a { color:#fff; text-decoration:none; }
-.player-info a:hover { text-decoration:underline; }
+.player-card {
+  display:flex;
+  background:rgba(10,25,60,0.85);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 5px 15px rgba(0,0,0,0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.player-card:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.7);
+}
+.player-photo {
+  flex:1;
+  min-width:120px;
+}
+.player-photo img {
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+}
+.player-info {
+  flex:2;
+  padding:10px 12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.player-info .top {
+  display:flex;
+  justify-content:space-between;
+  font-weight:bold;
+}
+.player-info .top .number {
+  color:#fff;
+  font-family:"Impact","Segoe UI",sans-serif;
+  font-size:1em;
+}
+.player-info .top .position {
+  font-weight:bold;
+  padding:2px 6px;
+  border-radius:6px;
+  font-size:0.9em;
+  color:#fff;
+}
+.player-info .middle {
+  text-align:center;
+  font-size:1.2em;
+  font-weight:bold;
+  margin:5px 0;
+  color:#fff;
+}
+.player-info .bottom {
+  display:flex;
+  justify-content:space-between;
+  font-size:0.85em;
+  color:#ccc;
+}
+.player-info a {
+  color:#fff;
+  text-decoration:none;
+}
+.player-info a:hover {
+  text-decoration:underline;
+}
 .position-投手{background:#1E90FF;}
 .position-捕手{background:#FF4500;}
 .position-内野手{background:#32CD32;}
 .position-外野手{background:#FFD700;}
-.autocomplete-items { position:absolute; top:40px; left:0; right:0; background:#0a193c; border:1px solid #1E90FF; z-index:99; max-height:200px; overflow-y:auto; border-radius:6px; }
-.autocomplete-items div { padding:5px 10px; cursor:pointer; }
-.autocomplete-items div:hover { background:#1E90FF; color:#fff; }
+.autocomplete-items {
+  position:absolute;
+  top:40px;
+  left:0;
+  right:0;
+  background:#0a193c;
+  border:1px solid #1E90FF;
+  z-index:99;
+  max-height:200px;
+  overflow-y:auto;
+  border-radius:6px;
+}
+.autocomplete-items div {
+  padding:5px 10px;
+  cursor:pointer;
+  border:none;
+}
+.autocomplete-items div:hover {
+  background:#1E90FF;
+  color:#fff;
+}
 </style>
 </head>
 <body>
@@ -102,10 +226,10 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.js"></script>
 <script>
-// 背番号表示関数
-function displayNumber(n){ if(n===0) return "00"; if(n===1) return "0"; return n; }
+// 背番号表示
+function displayNumber(n){ return n===0?"00":n; }
 
-// サンプルデータ（年度を複数入れる場合は配列で追加）
+// サンプルデータ
 const players={
   "2026":[
     { "number":11,"name":"上田 大河","position":"投手","birth_year":2002,"draft":2020,"photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" },
@@ -116,19 +240,27 @@ const players={
 
 // 年度プルダウン
 const yearSelect=document.getElementById('yearSelect');
-for(let y=2026;y>=2017;y--){ const opt=document.createElement('option'); opt.value=y; opt.textContent=y+"年"; yearSelect.appendChild(opt); }
+for(let y=2026;y>=2017;y--){
+  const opt=document.createElement('option'); opt.value=y; opt.textContent=y+"年"; yearSelect.appendChild(opt);
+}
 yearSelect.options[0].selected=true;
 
-// スライダー作成関数
+// スライダー作成
 function createSlider(sliderId,startInputId,endInputId,min,max,labelId){
   const slider=document.getElementById(sliderId);
   const startInput=document.getElementById(startInputId);
   const endInput=document.getElementById(endInputId);
   const label=document.getElementById(labelId);
-  noUiSlider.create(slider,{ start:[parseInt(startInput.value),parseInt(endInput.value)], connect:true, step:1, range:{min:min,max:max}, format:{to:v=>parseInt(v), from:v=>parseInt(v)} });
+  noUiSlider.create(slider,{
+    start:[parseInt(startInput.value),parseInt(endInput.value)],
+    connect:true,
+    step:1,
+    range:{min:min,max:max},
+    format:{to:v=>Math.round(v), from:v=>parseInt(v)}
+  });
   slider.noUiSlider.on('update',function(values){
-    let s=parseInt(values[0]), e=parseInt(values[1]);
-    if(s>e){ s=e; slider.noUiSlider.set([s,e]); }
+    let s=Math.round(values[0]), e=Math.round(values[1]);
+    if(s>e) s=e;
     label.textContent=s+" - "+e;
     startInput.value=s; endInput.value=e;
     renderPlayers();
@@ -149,22 +281,27 @@ createSlider('ageSlider','ageStartInput','ageEndInput',17,50,'ageRangeLabel');
 createSlider('draftSlider','draftStartInput','draftEndInput',2010,2026,'draftRangeLabel');
 
 // 重複除去
-function dedupe(playersArray){ const map=new Map(); playersArray.sort((a,b)=>b.year-a.year); playersArray.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); }); return Array.from(map.values()); }
+function dedupe(arr){
+  const map=new Map();
+  arr.sort((a,b)=>b.year-a.year);
+  arr.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); });
+  return Array.from(map.values());
+}
 
 // オートコンプリート
 const nameInput=document.getElementById('nameSearch');
 const autoList=document.getElementById('autocomplete-list');
-nameInput.addEventListener('input', function(){
+nameInput.addEventListener('input',function(){
   const val=this.value.trim();
   autoList.innerHTML='';
   if(!val) return;
-  const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
+  const years=[...yearSelect.selectedOptions].map(o=>o.value);
   let allPlayers=[];
-  selectedYears.forEach(y=>{ const yearData=players[y]||[]; yearData.forEach(p=>p.year=parseInt(y)); allPlayers=allPlayers.concat(yearData); });
+  years.forEach(y=>{ const yearData=players[y]||[]; yearData.forEach(p=>p.year=parseInt(y)); allPlayers=allPlayers.concat(yearData); });
   allPlayers=dedupe(allPlayers);
-  const matches=allPlayers.filter(p=>p.name.includes(val)).slice(0,10);
-  matches.forEach(p=>{
-    const item=document.createElement('div'); item.textContent=p.name+' ('+displayNumber(p.number)+')';
+  allPlayers.filter(p=>p.name.includes(val)).slice(0,10).forEach(p=>{
+    const item=document.createElement('div');
+    item.textContent=p.name+' ('+displayNumber(p.number)+')';
     item.addEventListener('click',()=>{ nameInput.value=p.name; autoList.innerHTML=''; renderPlayers(); });
     autoList.appendChild(item);
   });
@@ -173,20 +310,19 @@ document.addEventListener('click',e=>{ if(e.target!==nameInput) autoList.innerHT
 
 // 描画
 function renderPlayers(){
-  const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
+  const years=[...yearSelect.selectedOptions].map(o=>o.value);
   let filtered=[];
-  selectedYears.forEach(y=>{ const yearData=players[y]||[]; yearData.forEach(p=>p.year=parseInt(y)); filtered=filtered.concat(yearData); });
+  years.forEach(y=>{ const yearData=players[y]||[]; yearData.forEach(p=>p.year=parseInt(y)); filtered=filtered.concat(yearData); });
   filtered=dedupe(filtered);
 
   const pos=document.getElementById('positionFilter').value;
   if(pos) filtered=filtered.filter(p=>p.position===pos);
-
   const name=nameInput.value.trim();
   if(name) filtered=filtered.filter(p=>p.name.includes(name));
 
   const numStart=parseInt(document.getElementById('numStartInput').value);
   const numEnd=parseInt(document.getElementById('numEndInput').value);
-  filtered=filtered.filter(p=>{ let n=p.number; if(n===0 || n===1) n=n; return n>=numStart && n<=numEnd; });
+  filtered=filtered.filter(p=>p.number>=numStart && p.number<=numEnd);
 
   const ageStart=parseInt(document.getElementById('ageStartInput').value);
   const ageEnd=parseInt(document.getElementById('ageEndInput').value);
@@ -194,7 +330,7 @@ function renderPlayers(){
 
   const draftStart=parseInt(document.getElementById('draftStartInput').value);
   const draftEnd=parseInt(document.getElementById('draftEndInput').value);
-  filtered=filtered.filter(p=>{ return p.draft && p.draft!=='-' && parseInt(p.draft)>=draftStart && parseInt(p.draft)<=draftEnd; });
+  filtered=filtered.filter(p=>{ const d=parseInt(p.draft||0); return d>=draftStart && d<=draftEnd; });
 
   const sort=document.getElementById('sortSelect').value;
   filtered.sort((a,b)=>{
@@ -216,12 +352,11 @@ function renderPlayers(){
   filtered.forEach(p=>{
     const age=p.year-p.birth_year;
     const card=document.createElement('div'); card.className="player-card";
-    const displayNum=displayNumber(p.number);
     card.innerHTML=`
       <div class="player-photo"><img src="${p.photo}" alt="${p.name}"></div>
       <div class="player-info">
         <div class="top">
-          <div class="number">${displayNum}</div>
+          <div class="number">${displayNumber(p.number)}</div>
           <div class="position position-${p.position}">${p.position}</div>
         </div>
         <div class="middle"><a href="${p.link}">${p.name}</a></div>
