@@ -52,7 +52,7 @@ for (let y=2026; y>=2017; y--) {
 async function loadPlayers(year) {
   if(players[year]) return players[year]; // 既に読み込み済み
   try {
-    const res = await fetch(`data/players${year}.json`); // dataフォルダに置く想定
+    const res = await fetch(`lionscrown/data/players${year}.json`); // dataフォルダに置く想定
     const data = await res.json();
     players[year] = data;
     return data;
