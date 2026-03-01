@@ -5,48 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>埼玉西武ライオンズ 選手名鑑</title>
 <style>
-body {
-  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-  background: linear-gradient(135deg,#091b3d,#0d2b5e);
-  color: #fff;
-  margin: 0;
-  padding: 20px;
-}
-h1 { text-align: center; margin-bottom: 20px; font-size:2em; text-shadow:1px 1px 5px #000;}
-.controls {
-  display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:25px;
-  position:relative;
-}
-.controls select, .controls input {
-  padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none;
-}
+body { font-family:"Segoe UI","Noto Sans JP",sans-serif; background:linear-gradient(135deg,#091b3d,#0d2b5e); color:#fff; margin:0; padding:20px;}
+h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5px #000;}
+.controls { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:25px; position:relative;}
+.controls select, .controls input { padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none;}
 #nameSearchWrapper { position:relative; }
-#autocompleteList {
-  position:absolute; top:100%; left:0; right:0; background:#0d2b5e; border:1px solid #333;
-  max-height:150px; overflow-y:auto; z-index:10; border-radius:6px;
-}
-#autocompleteList div {
-  padding:5px 10px; cursor:pointer;
-}
+#autocompleteList { position:absolute; top:100%; left:0; right:0; background:#0d2b5e; border:1px solid #333; max-height:150px; overflow-y:auto; z-index:10; border-radius:6px;}
+#autocompleteList div { padding:5px 10px; cursor:pointer; }
 #autocompleteList div:hover { background:#1a3b6e; }
 
-.player-grid {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
-}
+.player-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
 @media(max-width:1000px){ .player-grid { grid-template-columns:repeat(2,1fr); } }
 @media(max-width:600px){ .player-grid { grid-template-columns:1fr; } }
 
-.player-card {
-  display:flex; background:rgba(10,25,60,0.85); border-radius:12px; overflow:hidden;
-  box-shadow:0 5px 15px rgba(0,0,0,0.5);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
+.player-card { display:flex; background:rgba(10,25,60,0.85); border-radius:12px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s, box-shadow 0.2s; }
 .player-card:hover { transform:translateY(-5px); box-shadow:0 10px 25px rgba(0,0,0,0.7);}
 .player-photo { flex:1; min-width:120px; }
 .player-photo img { width:100%; aspect-ratio:1/1; object-fit:cover; }
-.player-info {
-  flex:2; padding:10px 12px; display:flex; flex-direction:column; justify-content:space-between;
-}
+.player-info { flex:2; padding:10px 12px; display:flex; flex-direction:column; justify-content:space-between; }
 .player-info .top { display:flex; justify-content:space-between; font-weight:bold; }
 .player-info .top .number { color:#fff; font-family:"Impact","Segoe UI",sans-serif; font-size:1em; }
 .player-info .top .position { font-weight:bold; padding:2px 6px; border-radius:6px; font-size:0.9em; color:#fff;}
@@ -79,50 +55,37 @@ h1 { text-align: center; margin-bottom: 20px; font-size:2em; text-shadow:1px 1px
     <input type="text" id="nameSearch" placeholder="名前で検索">
     <div id="autocompleteList"></div>
   </div>
-  <input type="text" id="numberRange" placeholder="背番号範囲 例: 10-30">
-  <input type="text" id="draftRange" placeholder="ドラフト年範囲 例: 2015-2020">
-  <input type="text" id="ageRange" placeholder="年齢範囲 例: 20-30">
+  <input type="text" id="numberRange" placeholder="背番号範囲 例:10-30">
+  <input type="text" id="draftRange" placeholder="ドラフト年範囲 例:2015-2020">
+  <input type="text" id="ageRange" placeholder="年齢範囲 例:20-30">
 </div>
 
 <div class="player-grid" id="playerGrid"></div>
 
 <script>
-// ----- サンプルデータ -----
-const players = {
+// ----- サンプルデータ（年度追加可） -----
+const players={
   "2026":[
-    { "number":11, "name":"上田 大河","position":"投手","birth_year":2002,"draft":"2020","photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" },
-    { "number":65, "name":"古市 尊","position":"捕手","birth_year":2000,"draft":"2018","photo":"images/65_furuichi_takashi.png","link":"players/65_furuichi_takashi.html" }
+    { "number":11,"name":"上田 大河","position":"投手","birth_year":2002,"draft":"2020","photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" },
+    { "number":65,"name":"古市 尊","position":"捕手","birth_year":2000,"draft":"2018","photo":"images/65_furuichi_takashi.png","link":"players/65_furuichi_takashi.html" }
   ],
   "2025":[
-    { "number":11, "name":"上田 大河","position":"投手","birth_year":2002,"draft":"2020","photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" }
+    { "number":11,"name":"上田 大河","position":"投手","birth_year":2002,"draft":"2020","photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" }
   ]
 };
 
-// ----- 年度プルダウン生成 -----
+// 年度プルダウン
 const yearSelect=document.getElementById('yearSelect');
 for(let y=2026;y>=2017;y--){
   const opt=document.createElement('option'); opt.value=y; opt.textContent=y+"年";
   yearSelect.appendChild(opt);
 }
 
-// ----- ヘルパー関数 -----
-function parseRange(str){ 
-  if(!str) return null; 
-  const parts=str.split("-").map(s=>parseInt(s.trim())); 
-  if(parts.length!==2 || isNaN(parts[0]) || isNaN(parts[1])) return null; 
-  return parts; 
-}
+// ヘルパー
+function parseRange(str){ if(!str) return null; const parts=str.split("-").map(s=>parseInt(s.trim())); if(parts.length!==2 || isNaN(parts[0]) || isNaN(parts[1])) return null; return parts; }
+function dedupe(playersArray){ const map=new Map(); playersArray.sort((a,b)=>b.year-a.year); playersArray.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); }); return Array.from(map.values()); }
 
-function dedupe(playersArray){
-  const map=new Map();
-  playersArray.sort((a,b)=>b.year-a.year); // 新しい年度優先
-  playersArray.forEach(p=>{
-    if(!map.has(p.name)) map.set(p.name,p);
-  });
-  return Array.from(map.values());
-}
-
-// ----- 描画関数 -----
+// ----- 総合検索＆描画 -----
 function renderPlayers(){
   const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
   let filtered=[];
@@ -152,12 +115,13 @@ function renderPlayers(){
 
   const ageRange=parseRange(document.getElementById('ageRange').value);
   if(ageRange) filtered=filtered.filter(p=>{
-    const age=p.year - p.birth_year;
+    const age=p.year-p.birth_year;
     return age>=ageRange[0] && age<=ageRange[1];
   });
 
   filtered.sort((a,b)=>a.number-b.number);
 
+  // 描画
   const grid=document.getElementById('playerGrid');
   grid.innerHTML="";
   filtered.forEach(p=>{
@@ -186,8 +150,8 @@ function renderPlayers(){
 const autocompleteList=document.getElementById('autocompleteList');
 function updateAutocomplete(currentFiltered){
   autocompleteList.innerHTML="";
-  if(!document.getElementById('nameSearch').value.trim()) return;
-
+  const inputName=document.getElementById('nameSearch').value.trim();
+  if(!inputName) return;
   currentFiltered.slice(0,10).forEach(p=>{
     const div=document.createElement('div');
     div.textContent=p.name;
@@ -211,7 +175,7 @@ function updateAutocomplete(currentFiltered){
 });
 
 // 初回表示
-yearSelect.value="2026"; yearSelect.options[0].selected=true;
+yearSelect.options[0].selected=true;
 renderPlayers();
 </script>
 </body>
