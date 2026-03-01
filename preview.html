@@ -102,19 +102,19 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.js"></script>
 <script>
-// 背番号表示
-function displayNumber(val){ if(val===0) return "00"; if(val===1) return "0"; return (val-1).toString(); }
+// 背番号表示関数
+function displayNumber(n){ if(n===0) return "00"; if(n===1) return "0"; return n; }
 
-// サンプルデータ
+// サンプルデータ（年度を複数入れる場合は配列で追加）
 const players={
   "2026":[
-    { "number":11,"name":"上田 大河","position":"投手","birth_year":2002,"draft":"2020","photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" },
-    { "number":0,"name":"鈴木 太郎","position":"内野手","birth_year":2003,"draft":"2021","photo":"images/0_suzuki_taro.png","link":"players/0_suzuki_taro.html" },
-    { "number":65,"name":"古市 尊","position":"捕手","birth_year":2000,"draft":"2018","photo":"images/65_furuichi_takashi.png","link":"players/65_furuichi_takashi.html" }
+    { "number":11,"name":"上田 大河","position":"投手","birth_year":2002,"draft":2020,"photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" },
+    { "number":0,"name":"鈴木 太郎","position":"内野手","birth_year":2003,"draft":2021,"photo":"images/0_suzuki_taro.png","link":"players/0_suzuki_taro.html" },
+    { "number":65,"name":"古市 尊","position":"捕手","birth_year":2000,"draft":2018,"photo":"images/65_furuichi_takashi.png","link":"players/65_furuichi_takashi.html" }
   ]
 };
 
-// 年度プルダウン生成
+// 年度プルダウン
 const yearSelect=document.getElementById('yearSelect');
 for(let y=2026;y>=2017;y--){ const opt=document.createElement('option'); opt.value=y; opt.textContent=y+"年"; yearSelect.appendChild(opt); }
 yearSelect.options[0].selected=true;
@@ -126,17 +126,29 @@ function createSlider(sliderId,startInputId,endInputId,min,max,labelId){
   const endInput=document.getElementById(endInputId);
   const label=document.getElementById(labelId);
   noUiSlider.create(slider,{ start:[parseInt(startInput.value),parseInt(endInput.value)], connect:true, step:1, range:{min:min,max:max}, format:{to:v=>parseInt(v), from:v=>parseInt(v)} });
-  function updateLabel(){ const [s,e]=slider.noUiSlider.get().map(v=>parseInt(v)); label.textContent=s+' - '+e; renderPlayers(); }
-  slider.noUiSlider.on('update',updateLabel);
-  function syncInputs(){ let s=parseInt(startInput.value), e=parseInt(endInput.value); if(s>e)s=e;if(e<s)e=s; startInput.value=s; endInput.value=e; slider.noUiSlider.set([s,e]); renderPlayers(); }
-  startInput.addEventListener('input',syncInputs); endInput.addEventListener('input',syncInputs);
+  slider.noUiSlider.on('update',function(values){
+    let s=parseInt(values[0]), e=parseInt(values[1]);
+    if(s>e){ s=e; slider.noUiSlider.set([s,e]); }
+    label.textContent=s+" - "+e;
+    startInput.value=s; endInput.value=e;
+    renderPlayers();
+  });
+  function syncInputs(){
+    let s=parseInt(startInput.value), e=parseInt(endInput.value);
+    if(s>e) s=e;
+    if(e<s) e=s;
+    slider.noUiSlider.set([s,e]);
+    renderPlayers();
+  }
+  startInput.addEventListener('input',syncInputs);
+  endInput.addEventListener('input',syncInputs);
 }
 
-createSlider('numSlider','numStartInput','numEndInput',0,146,'numRangeLabel');
+createSlider('numSlider','numStartInput','numEndInput',0,145,'numRangeLabel');
 createSlider('ageSlider','ageStartInput','ageEndInput',17,50,'ageRangeLabel');
 createSlider('draftSlider','draftStartInput','draftEndInput',2010,2026,'draftRangeLabel');
 
-// 複数年度横断 & 重複除去
+// 重複除去
 function dedupe(playersArray){ const map=new Map(); playersArray.sort((a,b)=>b.year-a.year); playersArray.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); }); return Array.from(map.values()); }
 
 // オートコンプリート
@@ -151,11 +163,15 @@ nameInput.addEventListener('input', function(){
   selectedYears.forEach(y=>{ const yearData=players[y]||[]; yearData.forEach(p=>p.year=parseInt(y)); allPlayers=allPlayers.concat(yearData); });
   allPlayers=dedupe(allPlayers);
   const matches=allPlayers.filter(p=>p.name.includes(val)).slice(0,10);
-  matches.forEach(p=>{ const item=document.createElement('div'); item.textContent=p.name+' ('+displayNumber(p.number)+')'; item.addEventListener('click',()=>{ nameInput.value=p.name; autoList.innerHTML=''; renderPlayers(); }); autoList.appendChild(item); });
+  matches.forEach(p=>{
+    const item=document.createElement('div'); item.textContent=p.name+' ('+displayNumber(p.number)+')';
+    item.addEventListener('click',()=>{ nameInput.value=p.name; autoList.innerHTML=''; renderPlayers(); });
+    autoList.appendChild(item);
+  });
 });
 document.addEventListener('click',e=>{ if(e.target!==nameInput) autoList.innerHTML=''; });
 
-// 描画関数
+// 描画
 function renderPlayers(){
   const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
   let filtered=[];
@@ -170,7 +186,7 @@ function renderPlayers(){
 
   const numStart=parseInt(document.getElementById('numStartInput').value);
   const numEnd=parseInt(document.getElementById('numEndInput').value);
-  filtered=filtered.filter(p=>{ let n=p.number; if(n===0) n=0; else if(n===1) n=1; else n+=1; return n>=numStart && n<=numEnd; });
+  filtered=filtered.filter(p=>{ let n=p.number; if(n===0 || n===1) n=n; return n>=numStart && n<=numEnd; });
 
   const ageStart=parseInt(document.getElementById('ageStartInput').value);
   const ageEnd=parseInt(document.getElementById('ageEndInput').value);
@@ -178,7 +194,7 @@ function renderPlayers(){
 
   const draftStart=parseInt(document.getElementById('draftStartInput').value);
   const draftEnd=parseInt(document.getElementById('draftEndInput').value);
-  filtered=filtered.filter(p=>p.draft && p.draft!=='-' && parseInt(p.draft)>=draftStart && parseInt(p.draft)<=draftEnd);
+  filtered=filtered.filter(p=>{ return p.draft && p.draft!=='-' && parseInt(p.draft)>=draftStart && parseInt(p.draft)<=draftEnd; });
 
   const sort=document.getElementById('sortSelect').value;
   filtered.sort((a,b)=>{
