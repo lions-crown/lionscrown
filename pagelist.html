@@ -152,8 +152,45 @@ h1{
   display:inline-flex;
   align-items:center;
   gap:10px;
-  margin-bottom:36px;
+  margin-bottom:24px;
   backdrop-filter:blur(8px);
+}
+.search-container{
+  margin:32px 0 40px;
+  position:relative;
+  max-width:600px;
+}
+#searchInput{
+  width:100%;
+  padding:16px 20px 16px 48px;
+  font-size:1.05em;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(77,163,255,0.4);
+  border-radius:16px;
+  color:white;
+  backdrop-filter:blur(10px);
+  transition:0.3s;
+}
+#searchInput:focus{
+  outline:none;
+  border-color:#4da3ff;
+  box-shadow:0 0 0 3px rgba(77,163,255,0.25);
+}
+#searchInput::placeholder{
+  color:rgba(255,255,255,0.5);
+}
+.search-icon{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.3em;
+  color:rgba(77,163,255,0.7);
+}
+#resultCount{
+  margin-top:12px;
+  font-size:0.95em;
+  color:rgba(255,255,255,0.7);
 }
 .project-list{
   display:grid;
@@ -167,6 +204,9 @@ h1{
   border:1px solid rgba(255,255,255,0.08);
   transition:all 0.35s cubic-bezier(0.23,1,0.32,1);
   backdrop-filter:blur(10px);
+}
+.project-card.hidden{
+  display:none;
 }
 .project-card:hover{
   transform:translateY(-8px);
@@ -189,9 +229,22 @@ h1{
 }
 .description{
   color:rgba(255,255,255,0.75);
-  margin-bottom:18px;
+  margin-bottom:14px;
   line-height:1.65;
   font-size:0.97em;
+}
+.tags{
+  margin-bottom:16px;
+  font-size:0.88em;
+  color:#7ecbff;
+}
+.tag{
+  background:rgba(77,163,255,0.15);
+  padding:4px 10px;
+  border-radius:20px;
+  margin-right:8px;
+  margin-bottom:6px;
+  display:inline-block;
 }
 .project-url{
   font-family:ui-monospace, Consolas, monospace;
@@ -267,6 +320,9 @@ footer a:hover{
   .project-list{
     grid-template-columns:1fr;
   }
+  .search-container{
+    max-width:100%;
+  }
 }
 </style>
 </head>
@@ -294,48 +350,74 @@ footer a:hover{
       🕒 最終更新日時：2026年3月1日
     </div>
 
-    <div class="project-list">
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="タイトル・説明・ジャンルで検索…（例: clock, ツール, markdown）">
+      <div id="resultCount">全 件 表示中</div>
+    </div>
 
-      <div class="project-card">
+    <div class="project-list" id="projectList">
+
+      <div class="project-card" data-search="シンプル時計 時計 ツール utility clock timer">
         <div class="project-title">
           <a href="https://lcrown-official.github.io/clock/" target="_blank">シンプル時計</a>
         </div>
         <div class="description">
           フルスクリーンで使えるシンプルなデジタル時計。ダークモード対応・秒針アニメーション付き。
         </div>
+        <div class="tags">
+          <span class="tag">ツール</span>
+          <span class="tag">時計</span>
+          <span class="tag">utility</span>
+        </div>
         <div class="project-url">https://lcrown-official.github.io/clock/</div>
       </div>
 
-      <div class="project-card">
+      <div class="project-card" data-search="カラーパレットジェネレーター カラー 配色 color palette generator ツール">
         <div class="project-title">
           <a href="https://lcrown-official.github.io/color-tool/" target="_blank">カラーパレットジェネレーター</a>
         </div>
         <div class="description">
           ランダム生成・調和配色提案・アクセシビリティチェック・コピー機能完備。
         </div>
+        <div class="tags">
+          <span class="tag">ツール</span>
+          <span class="tag">カラー</span>
+          <span class="tag">デザイン</span>
+        </div>
         <div class="project-url">https://lcrown-official.github.io/color-tool/</div>
       </div>
 
-      <div class="project-card">
+      <div class="project-card" data-search="リアルタイムMarkdownプレビュー markdown エディタ editor preview ツール">
         <div class="project-title">
           <a href="https://lcrown-official.github.io/markdown-preview/" target="_blank">リアルタイムMarkdownプレビュー</a>
         </div>
         <div class="description">
           ブラウザだけで完結する軽量Markdownエディタ＋即時プレビュー。
         </div>
+        <div class="tags">
+          <span class="tag">ツール</span>
+          <span class="tag">Markdown</span>
+          <span class="tag">エディタ</span>
+        </div>
         <div class="project-url">https://lcrown-official.github.io/markdown-preview/</div>
       </div>
 
-      <!-- 新しいGitHub Pagesプロジェクトを追加する場合は以下をコピーして編集してください -->
+      <!-- 新規追加例（data-searchに検索対象の単語をスペース区切りで入れる） -->
       <!--
-      <div class="project-card">
+      <div class="project-card" data-search="新しいアプリ todo タスク task 管理 ツール">
         <div class="project-title">
-          <a href="https://lcrown-official.github.io/リポジトリ名/" target="_blank">プロジェクト名</a>
+          <a href="https://lcrown-official.github.io/todo-app/" target="_blank">シンプルToDoアプリ</a>
         </div>
         <div class="description">
-          ここに簡単な説明を1〜2行で書いてください。
+          ローカル保存対応の軽量ToDoリスト。ドラッグ＆ドロップ並び替え可能。
         </div>
-        <div class="project-url">https://lcrown-official.github.io/リポジトリ名/</div>
+        <div class="tags">
+          <span class="tag">ツール</span>
+          <span class="tag">ToDo</span>
+          <span class="tag">生産性</span>
+        </div>
+        <div class="project-url">https://lcrown-official.github.io/todo-app/</div>
       </div>
       -->
 
@@ -369,5 +451,37 @@ footer a:hover{
     © 2026 L-crown. All rights reserved.
   </div>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('searchInput');
+  const projectList = document.getElementById('projectList');
+  const resultCount = document.getElementById('resultCount');
+  const cards = projectList.querySelectorAll('.project-card');
+
+  function filterProjects() {
+    const query = searchInput.value.toLowerCase().trim();
+    let count = 0;
+
+    cards.forEach(card => {
+      const searchText = card.getAttribute('data-search')?.toLowerCase() || '';
+      if (query === '' || searchText.includes(query)) {
+        card.classList.remove('hidden');
+        count++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    resultCount.textContent = query === '' 
+      ? `全 ${cards.length} 件 表示中`
+      : `${count} 件 ヒット`;
+  }
+
+  searchInput.addEventListener('input', filterProjects);
+  // 初回表示
+  filterProjects();
+});
+</script>
 </body>
 </html>
