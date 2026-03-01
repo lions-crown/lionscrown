@@ -15,10 +15,21 @@ body {
 h1 { text-align: center; margin-bottom: 20px; font-size:2em; text-shadow:1px 1px 5px #000;}
 .controls {
   display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:25px;
+  position:relative;
 }
 .controls select, .controls input {
   padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none;
 }
+#nameSearchWrapper { position:relative; }
+#autocompleteList {
+  position:absolute; top:100%; left:0; right:0; background:#0d2b5e; border:1px solid #333;
+  max-height:150px; overflow-y:auto; z-index:10; border-radius:6px;
+}
+#autocompleteList div {
+  padding:5px 10px; cursor:pointer;
+}
+#autocompleteList div:hover { background:#1a3b6e; }
+
 .player-grid {
   display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
 }
@@ -45,10 +56,10 @@ h1 { text-align: center; margin-bottom: 20px; font-size:2em; text-shadow:1px 1px
 .player-info a:hover { text-decoration:underline; }
 
 /* ポジション別マーカー色 */
-.position-投手{background:#1E90FF;}    /* 青 */
-.position-捕手{background:#FF4500;}    /* 赤橙 */
-.position-内野手{background:#32CD32;}  /* 緑 */
-.position-外野手{background:#FFD700;}  /* 黄 */
+.position-投手{background:#1E90FF;}
+.position-捕手{background:#FF4500;}
+.position-内野手{background:#32CD32;}
+.position-外野手{background:#FFD700;}
 </style>
 </head>
 <body>
@@ -64,7 +75,10 @@ h1 { text-align: center; margin-bottom: 20px; font-size:2em; text-shadow:1px 1px
     <option value="内野手">内野手</option>
     <option value="外野手">外野手</option>
   </select>
-  <input type="text" id="nameSearch" placeholder="名前で検索">
+  <div id="nameSearchWrapper">
+    <input type="text" id="nameSearch" placeholder="名前で検索">
+    <div id="autocompleteList"></div>
+  </div>
   <input type="text" id="numberRange" placeholder="背番号範囲 例: 10-30">
   <input type="text" id="draftRange" placeholder="ドラフト年範囲 例: 2015-2020">
   <input type="text" id="ageRange" placeholder="年齢範囲 例: 20-30">
@@ -99,7 +113,6 @@ function parseRange(str){
   return parts; 
 }
 
-// ----- 重複排除（最新年度のみ） -----
 function dedupe(playersArray){
   const map=new Map();
   playersArray.sort((a,b)=>b.year-a.year); // 新しい年度優先
@@ -109,18 +122,18 @@ function dedupe(playersArray){
   return Array.from(map.values());
 }
 
-// ----- 描画 -----
+// ----- 描画関数 -----
 function renderPlayers(){
   const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
   let filtered=[];
 
   selectedYears.forEach(y=>{
     const yearData=players[y]||[];
-    yearData.forEach(p=>p.year=parseInt(y)); // 年度情報追加
+    yearData.forEach(p=>p.year=parseInt(y));
     filtered=filtered.concat(yearData);
   });
 
-  filtered=dedupe(filtered); // 最新年度のみ表示
+  filtered=dedupe(filtered);
 
   const pos=document.getElementById('positionFilter').value;
   if(pos) filtered=filtered.filter(p=>p.position===pos);
@@ -128,18 +141,15 @@ function renderPlayers(){
   const name=document.getElementById('nameSearch').value.trim();
   if(name) filtered=filtered.filter(p=>p.name.includes(name));
 
-  // 背番号範囲
   const numRange=parseRange(document.getElementById('numberRange').value);
   if(numRange) filtered=filtered.filter(p=>p.number>=numRange[0] && p.number<=numRange[1]);
 
-  // ドラフト範囲
   const draftRange=parseRange(document.getElementById('draftRange').value);
   if(draftRange) filtered=filtered.filter(p=>{
     if(!p.draft || p.draft==='-') return false;
     return p.draft>=draftRange[0] && p.draft<=draftRange[1];
   });
 
-  // 年齢範囲
   const ageRange=parseRange(document.getElementById('ageRange').value);
   if(ageRange) filtered=filtered.filter(p=>{
     const age=p.year - p.birth_year;
@@ -167,6 +177,26 @@ function renderPlayers(){
         </div>
       </div>`;
     grid.appendChild(card);
+  });
+
+  updateAutocomplete(filtered);
+}
+
+// ----- オートコンプリート -----
+const autocompleteList=document.getElementById('autocompleteList');
+function updateAutocomplete(currentFiltered){
+  autocompleteList.innerHTML="";
+  if(!document.getElementById('nameSearch').value.trim()) return;
+
+  currentFiltered.slice(0,10).forEach(p=>{
+    const div=document.createElement('div');
+    div.textContent=p.name;
+    div.addEventListener('click', ()=>{
+      document.getElementById('nameSearch').value=p.name;
+      renderPlayers();
+      autocompleteList.innerHTML="";
+    });
+    autocompleteList.appendChild(div);
   });
 }
 
