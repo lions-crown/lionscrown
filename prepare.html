@@ -3,384 +3,477 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>埼玉西武ライオンズ 選手名鑑 | L-crown</title>
+<title>L-crown</title>
+
+<!-- サイトアイコン -->
 <link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <meta name="theme-color" content="#0f172a">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.css" rel="stylesheet">
+
 <style>
-/* ====================== L-crown 全体デザイン ====================== */
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* ===== 背景 ===== */
+body{
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
-  color: white;
-  min-height: 100vh;
-  overflow-x: hidden;
-  line-height: 1.75;
+  color:white;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.75;
 }
-body::before {
-  content: "";
-  position: fixed;
-  width: 520px; height: 520px;
-  background: radial-gradient(circle, rgba(77,163,255,0.28), transparent 70%);
-  top: -140px; right: -140px;
-  filter: blur(50px);
-  z-index: -1;
-  pointer-events: none;
+
+/* 光のオーブ */
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top:-120px;
+  right:-120px;
+  filter:blur(40px);
+  z-index:-1;
 }
-/* ====================== ヘッダー ====================== */
-header {
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(14px);
-  background: rgba(10,25,60,0.65);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  z-index: 1000;
+
+/* ===== ヘッダー ===== */
+header{
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:1000;
 }
-nav {
-  max-width: 1180px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
+
+nav{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
 }
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: bold;
-  font-size: 19px;
-  letter-spacing: 1.2px;
-  text-decoration: none;
+
+/* ロゴ */
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+  font-size:18px;
+  letter-spacing:1px;
+  text-decoration:none;
 }
-.logo span {
-  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+
+.logo span{
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-.logo img {
-  width: 28px; height: 28px;
-  object-fit: contain;
-  border-radius: 6px;
-  filter: drop-shadow(0 0 8px rgba(77,163,255,0.7));
-  transition: 0.3s;
+
+.logo img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+  border-radius:6px;
+  filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
+  transition:0.3s;
 }
-.logo:hover img { transform: scale(1.12); }
-/* メニュー */
-.menu {
-  display: flex;
-  gap: 28px;
+
+.logo:hover img{
+  transform:scale(1.08);
 }
-.menu a {
-  color: rgba(255,255,255,0.75);
-  text-decoration: none;
-  font-size: 13.5px;
-  font-weight: 500;
-  position: relative;
-  transition: 0.25s;
+
+.logo:hover span{
+  text-shadow:0 0 12px rgba(77,163,255,0.7);
 }
-.menu a::after {
-  content: "";
-  position: absolute;
-  left: 0; bottom: -7px;
-  width: 0; height: 2px;
-  background: linear-gradient(90deg, #4da3ff, #7ecbff);
-  transition: 0.25s;
+
+/* ===== メニュー ===== */
+.menu{
+  display:flex;
+  gap:26px;
 }
-.menu a:hover, .menu a.active {
-  color: white;
+
+.menu a{
+  color:rgba(255,255,255,0.7);
+  text-decoration:none;
+  font-size:13px;
+  position:relative;
+  transition:0.25s;
 }
-.menu a:hover::after, .menu a.active::after { width: 100%; }
-/* ====================== メイン ====================== */
-main {
-  max-width: 1180px;
-  margin: 60px auto 80px;
-  padding: 0 24px;
+
+.menu a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+  transition:0.25s;
 }
-.glass-card {
-  background: rgba(255,255,255,0.055);
-  border-radius: 24px;
-  padding: 40px 36px;
-  backdrop-filter: blur(18px);
-  box-shadow: 0 25px 70px rgba(0,0,0,0.6),
-              inset 0 0 0 1px rgba(255,255,255,0.12);
-  transition: 0.4s;
+
+.menu a:hover{
+  color:white;
+  text-shadow:0 0 10px rgba(77,163,255,0.6);
 }
-.glass-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 35px 90px rgba(0,0,0,0.7),
-              inset 0 0 0 1px rgba(255,255,255,0.2);
+
+.menu a:hover::after,
+.menu a.active::after{
+  width:100%;
 }
-/* ====================== 選手カード ====================== */
-.player-grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+
+/* ===== フッター ===== */
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
 }
-.player-card {
-  background: linear-gradient(145deg, rgba(15,30,75,0.95), rgba(8,18,48,0.95));
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.7),
-              inset 0 0 0 1px rgba(77,163,255,0.25);
-  transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
-  position: relative;
+
+.footer-container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 0.6fr;
+  gap:50px;
 }
-.player-card:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 30px 70px rgba(77,163,255,0.35),
-              inset 0 0 0 1px rgba(77,163,255,0.6);
+
+.footer-logo{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-.player-photo {
-  position: relative;
-  height: 160px;
-  overflow: hidden;
+
+.footer-text{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  line-height:1.7;
 }
-.player-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: 0.4s;
+
+.footer-title{
+  font-size:12px;
+  margin-bottom:14px;
+  color:rgba(255,255,255,0.9);
 }
-.player-card:hover .player-photo img { transform: scale(1.08); }
-.number-badge {
-  position: absolute;
-  top: 12px; right: 12px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  font-size: 28px;
-  font-weight: 900;
-  width: 52px; height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 3px solid #4da3ff;
-  box-shadow: 0 0 20px rgba(77,163,255,0.8);
-  z-index: 2;
-  font-family: system-ui;
+
+footer a{
+  text-decoration:none;
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  transition:0.25s;
 }
-.position {
-  position: absolute;
-  top: 12px; left: 12px;
-  padding: 6px 14px;
-  border-radius: 30px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+
+footer a:hover{
+  color:white;
+  transform:translateX(4px);
+  text-shadow:0 0 8px rgba(77,163,255,0.5);
 }
-.position-投手 { background: #4da3ff; }
-.position-捕手 { background: #ff4d4d; }
-.position-内野手 { background: #32ff6a; }
-.position-外野手 { background: #ffd700; }
-.player-info {
-  padding: 18px 20px 22px;
+
+.footer-bottom{
+  text-align:center;
+  padding:16px;
+  font-size:11px;
+  color:rgba(255,255,255,0.35);
+  border-top:1px solid rgba(255,255,255,0.05);
 }
-.player-name {
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  background: linear-gradient(90deg, #fff, #a0d0ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.player-name a {
-  color: inherit;
-  text-decoration: none;
-}
-.player-name a:hover { text-shadow: 0 0 15px rgba(77,163,255,0.7); }
-.stats {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.93rem;
-  color: #b0d0ff;
-  margin-top: 12px;
-}
-.stats span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-/* ====================== コントロール ====================== */
-.controls, .range-sliders, .sort-controls {
-  margin-bottom: 28px;
-}
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  align-items: flex-end;
-}
-.controls select, .controls input {
-  padding: 11px 16px;
-  font-size: 15.5px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(15,30,70,0.9);
-  color: white;
-  backdrop-filter: blur(8px);
-}
-.controls select[multiple] { height: 148px; width: 170px; }
-.range-slider { flex: 1; min-width: 260px; }
-.search-container { position: relative; flex: 1; min-width: 260px; max-width: 420px; }
-.autocomplete-items {
-  position: absolute;
-  top: 100%;
-  left: 0; right: 0;
-  background: rgba(10,20,50,0.98);
-  border: 1px solid #4da3ff;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  max-height: 260px;
-  overflow-y: auto;
-  z-index: 1000;
-}
-.autocomplete-items div {
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.autocomplete-items div:hover {
-  background: #4da3ff;
-  color: #000;
-}
-/* ====================== フッター ====================== */
-footer {
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-.footer-container {
-  max-width: 1180px;
-  margin: auto;
-  padding: 60px 24px 40px;
-  display: grid;
-  grid-template-columns: 1.8fr 1fr 0.7fr;
-  gap: 60px;
-}
-.footer-logo {
-  font-size: 21px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #4da3ff, #9ad0ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 14px;
-}
-.footer-text { font-size: 13.5px; color: rgba(255,255,255,0.6); line-height: 1.8; }
-.footer-title { font-size: 13px; margin-bottom: 16px; color: #fff; opacity: 0.9; }
-footer a {
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-  font-size: 13px;
-  display: block;
-  margin-bottom: 8px;
-  transition: 0.25s;
-}
-footer a:hover {
-  color: #4da3ff;
-  transform: translateX(6px);
-}
-.footer-bottom {
-  text-align: center;
-  padding: 20px;
-  font-size: 11.5px;
-  color: rgba(255,255,255,0.35);
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-@media (max-width: 768px) {
-  .footer-container { grid-template-columns: 1fr; gap: 40px; }
-  .player-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+/* ===== レスポンシブ ===== */
+@media(max-width:768px){
+  .footer-container{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
 }
 </style>
 </head>
 <body>
 
+<!-- ===== ヘッダー ===== -->
 <header>
   <nav>
-    <a href="#" class="logo">
-      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown">
+    <a href="/lionscrown/" class="logo">
+      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
       <span>L-crown</span>
     </a>
+
     <div class="menu">
-      <a href="#">ホーム</a>
-      <a href="#" class="active">選手名鑑</a>
-      <a href="#">お知らせ</a>
-      <a href="#">利用規約</a>
-      <a href="#">お問い合わせ</a>
+      <a href="/lionscrown/">ホーム</a>
+      <a href="/lionscrown/news">お知らせ</a>
+      <a href="/lionscrown/privacypolicy">利用規約</a>
+      <a href="/lionscrown/contact">お問い合わせ</a>
     </div>
   </nav>
 </header>
 
-<main>
-  <div class="glass-card">
-    <h1 style="text-align:center; font-size:2.6rem; margin-bottom:36px; background:linear-gradient(90deg,#fff,#a0d0ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-      埼玉西武ライオンズ 選手名鑑
-    </h1>
-
-    <!-- コントロール -->
-    <div class="controls">
-      <select id="yearSelect" multiple size="6"></select>
-      <select id="positionFilter">
-        <option value="">全ポジション</option>
-        <option value="投手">投手</option>
-        <option value="捕手">捕手</option>
-        <option value="内野手">内野手</option>
-        <option value="外野手">外野手</option>
-      </select>
-      <div class="search-container">
-        <input type="text" id="nameSearch" placeholder="選手名で検索…" autocomplete="off">
-        <div id="autocomplete-list" class="autocomplete-items"></div>
-      </div>
-    </div>
-
-    <div class="range-sliders" style="display:flex; flex-wrap:wrap; gap:28px; justify-content:center; margin-bottom:32px;">
-      <div class="range-slider">
-        <div class="slider-label">背番号 <span id="numRangeLabel">00 – 145</span></div>
-        <div class="slider-inputs" style="display:flex; gap:10px;">
-          <input type="number" id="numStartInput" min="0" max="145" value="0">
-          <input type="number" id="numEndInput" min="0" max="145" value="145">
-        </div>
-        <div id="numSlider"></div>
-      </div>
-      <div class="range-slider">
-        <div class="slider-label">年齢 <span id="ageRangeLabel">17 – 50</span></div>
-        <div class="slider-inputs" style="display:flex; gap:10px;">
-          <input type="number" id="ageStartInput" min="17" max="50" value="17">
-          <input type="number" id="ageEndInput" min="17" max="50" value="50">
-        </div>
-        <div id="ageSlider"></div>
-      </div>
-      <div class="range-slider">
-        <div class="slider-label">ドラフト年 <span id="draftRangeLabel">2010 – 2026</span></div>
-        <div class="slider-inputs" style="display:flex; gap:10px;">
-          <input type="number" id="draftStartInput" min="2010" max="2026" value="2010">
-          <input type="number" id="draftEndInput" min="2010" max="2026" value="2026">
-        </div>
-        <div id="draftSlider"></div>
-      </div>
-    </div>
-
-    <div class="sort-controls" style="text-align:center; margin-bottom:32px;">
-      <select id="sortSelect">
-        <option value="number_asc">背番号 ↑</option>
-        <option value="number_desc">背番号 ↓</option>
-        <option value="age_asc">年齢 ↑</option>
-        <option value="age_desc">年齢 ↓</option>
-        <option value="draft_asc">ドラフト年 ↑</option>
-        <option value="draft_desc">ドラフト年 ↓</option>
-        <option value="name_asc">名前 五十音 ↑</option>
-        <option value="name_desc">名前 五十音 ↓</option>
-      </select>
-    </div>
-
-    <div class="player-grid" id="playerGrid"></div>
+<!-- ===== 本文（既存内容そのまま） ===== -->
+<div class="section">
+  <div class="video-wrapper">
+    <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
   </div>
-</main>
+</div>
 
+<div class="hero">
+  <h1 class="fade-in">「ライオンズで〜た」を更に深化。</h1>
+  <p class="fade-in">データも、機能も、体験も。</p>
+  <p class="fade-in">ひとつ上のレベルへ。</p>
+  <p class="fade-in">埼玉西武ライオンズの成績や記録を、</p>
+  <p class="fade-in">より速く、より見やすく、分かりやすく設計した新データ情報サイトです。</p>
+  <p class="fade-in">ファンの皆さまにとって「データを身近なものにする」ために、</p>
+  <p class="fade-in">これまで以上に進化したコンテンツを発信していきます。</p>
+</div>
+
+<!-- ✅ ビジュアルスライド（仮） -->
+<div class="visual-slider">
+  <div class="visual-track">
+    <img src="images/slide1.jpg" alt="">
+    <img src="images/slide2.jpg" alt="">
+    <img src="images/slide3.jpg" alt="">
+  </div>
+</div>
+
+<div class="games-wrapper">
+  <div id="slider">
+    <!-- スライド1: 西武 vs ソフトバンク -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【球春みやざき】26年2月28日 対千葉ロッテ1回戦 13:00~ @都城</span>
+          <span>終了</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>埼玉西武</span>
+          </div>
+          <div class="score"> 4–1 </div>
+          <div class="team right">
+            <span>千葉ロッテ</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Chiba_Lotte_Marines_insignia.svg" alt="千葉ロッテ" class="team-logo">
+          </div>
+        </div>
+        <div class="status">26.02.28 16:52 更新</div>
+      </div>
+    </div>
+
+    <!-- スライド2: 西武 vs ソフトバンク -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【オープン戦】26年3月1日 対ソフトバンク1回戦　13:00~ @アイビー</span>
+          <span>1回表</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>西武</span>
+          </div>
+          <div class="score">0 - 0</div>
+          <div class="team right">
+            <span>ソフトバンク</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Fukuoka_SoftBank_Hawks_insignia.svg" alt="ソフトバンク" class="team-logo">
+          </div>
+        </div>
+        <!-- statusがないので空でもOK、または追加 -->
+        <div class="status">26.03.01 13:00 更新</div>
+      </div>
+    </div>
+
+    <!-- スライド3: 西武 vs ロッテ -->
+    <div class="slide">
+      <div class="game-card">
+        <div class="game-header">
+          <span>【オープン戦】3月4日 対日本ハム1回戦 18:00~ @エスコンF</span>
+          <span>試合前</span>
+        </div>
+        <div class="scoreboard">
+          <div class="team">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
+            <span>西武</span>
+          </div>
+          <div class="score">試合前</div>
+          <div class="team right">
+            <span>日本ハム</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Hokkaido_Nippon-Ham_Fighters_insignia.png" alt="日本ハム" class="team-logo">
+          </div>
+        </div>
+        <div class="status">26.03.01 00:00 更新</div>
+      </div>
+    </div>
+  </div>
+  <button id="prevBtn" class="slide-btn">◀</button>
+  <button id="nextBtn" class="slide-btn">▶</button>
+</div>
+
+<div class="section">
+
+  <h2 class="news-title">最新ニュース</h2>
+
+  <div class="news-grid">
+
+    <div class="news-card">
+      <div class="news-source">公式</div>
+      <a href="#">
+        <div class="news-headline">本拠地ベルーナドームの暑さ対策を発表</div>
+        <div class="news-time">8時間前</div>
+      </a>
+    </div>
+
+    <div class="news-card">
+      <div class="news-source">報道</div>
+      <a href="#">
+        <div class="news-headline">ルーキー小島大河、右太もも違和感でファーム調整に</div>
+        <div class="news-time">10分前</div>
+      </a>
+    </div>
+
+    <div class="news-card">
+      <div class="news-source">グッズ</div>
+      <a href="#">
+        <div class="news-headline">光るビッグチェーンネックレスが新発売へ</div>
+        <div class="news-time">4時間前</div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<div class="mlb">
+
+  <div class="mlb-container">
+
+    <h2 class="mlb-title">夢のMLBへ ― 海外挑戦データ</h2>
+
+    <p class="mlb-description">
+      L-crownでは、MLBで戦うライオンズ戦士の成績・指標・推移データも追跡。
+      NPB時代との比較分析や詳細スタッツを公開。
+    </p>
+
+    <div class="mlb-grid">
+
+      <div class="mlb-card">
+        <div class="mlb-player">菊池 雄星</div>
+        <div class="mlb-stats">
+          1991年生まれ。投手／右投右打<br>
+          2010年~2018年に埼玉西武ライオンズに在籍。<br>
+          2018年オフにポスティングシステムによるアメリカ移籍をする。<br>
+          マリナーズ・ブルージェイズ・アストロズを経て現在はエンゼルス在籍。<br>
+          WBC2026の日本代表にも選出。
+        </div>
+        <a href="#" class="mlb-link">MLBデータを見る →</a>
+      </div>
+
+      <div class="mlb-card">
+        <div class="mlb-player">今井 達也</div>
+        <div class="mlb-stats">
+          1998年生まれ。投手／右投右打<br>
+          2017年~2025年に埼玉西武ライオンズに在籍。<br>
+          2025年オフにポスティングシステムによるアメリカ移籍を行う。<br>
+          26年1月2日にアストロズへの移籍が発表された。<br>
+          メジャーリーグ1年目の挑戦に注目。
+        </div>
+        <a href="#" class="mlb-link">MLB分析ページ →</a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ✅ 最下部お知らせ -->
+<div class="section notice">
+  <h2 class="notice-title">L-crown 最新のお知らせ</h2>
+  <div id="noticeList" class="notice-list">
+    <div class="notice-item">読み込み中...</div>
+  </div>
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const fades = document.querySelectorAll(".fade-in");
+  fades.forEach((el, i) => {
+    setTimeout(() => el.classList.add("visible"), i * 400);
+  });
+
+  loadNotices();
+  setInterval(loadNotices, 60000);
+});
+
+/* スライダー */
+const slider = document.getElementById("slider");
+const slides = document.querySelectorAll(".slide").length;
+let index = 0;
+
+function moveSlide(step){
+  index = (index + step + slides) % slides;
+  slider.style.transform = `translateX(-${index * 100}%)`;
+}
+
+prevBtn.onclick = () => moveSlide(-1);
+nextBtn.onclick = () => moveSlide(1);
+
+setInterval(()=>moveSlide(1), 4500);
+
+/* お知らせ読み込み */
+async function loadNotices() {
+  try {
+    const res = await fetch("/lionscrown/notices.json");
+    const data = await res.json();
+
+    const list = document.getElementById("noticeList");
+    list.innerHTML = "";
+
+    data.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+    data.forEach(item => {
+      const el = document.createElement("div");
+      el.className = "notice-item";
+
+      let badgeClass = "badge-media";
+      if(item.category === "公式") badgeClass = "badge-official";
+      if(item.category === "更新") badgeClass = "badge-update";
+      if(item.category === "重要") badgeClass = "badge-important";
+
+      el.innerHTML = `
+        <div class="notice-content">
+          <span class="notice-badge ${badgeClass}">
+            ${item.category || "INFO"}
+          </span>
+          ${
+            item.url && item.url.trim() !== ""
+              ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
+              : `<span>${item.text}</span>`
+          }
+        </div>
+        <span class="notice-time">${item.time}</span>
+      `;
+
+      list.appendChild(el);
+    });
+
+  } catch (e) {
+    console.error("お知らせ取得エラー:", e);
+    document.getElementById("noticeList").innerHTML =
+      '<div class="notice-item">お知らせを取得できませんでした</div>';
+  }
+}
+
+</script>
+</body>
+</html>
+
+<!-- ===== フッター ===== -->
 <footer>
   <div class="footer-container">
     <div>
@@ -390,219 +483,25 @@ footer a:hover {
         埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
       </div>
     </div>
+
     <div>
-      <div class="footer-title">リンク</div>
-      <a href="#">ホーム</a>
-      <a href="#">選手名鑑</a>
-      <a href="#">お知らせ</a>
-      <a href="#">利用規約</a>
-      <a href="#">お問い合わせ</a>
+      <div class="footer-title">ナビゲーション</div>
+      <a href="/lionscrown/">ホーム</a><br>
+      <a href="/lionscrown/news">お知らせ</a><br>
+      <a href="/lionscrown/privacypolicy">利用規約</a><br>
+      <a href="/lionscrown/contact">お問い合わせ</a>
     </div>
+
     <div>
-      <div class="footer-title">フォロー</div>
-      <a href="https://x.com/Lcrown_official" target="_blank">𝕏 (Twitter)</a>
+      <div class="footer-title">SNS</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏 @Lcrown_official</a>
     </div>
   </div>
+
   <div class="footer-bottom">
-    © 2026 L-crown. All rights reserved.
+    © 2026 L-crown. All Rights Reserved. Powered by Lions fans.
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-
-/* ==================== データ ==================== */
-const players = {
-  "2026": [
-    { number:"00", name:"仲田 慶介", position:"内野手", birth_year:1999, draft:2025, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=00", link:"#"},
-    { number:"0", name:"仮の0番選手", position:"投手", birth_year:2002, draft:2024, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=0", link:"#"},
-    { number:"11", name:"上田 大河", position:"投手", birth_year:2001, draft:2019, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=11", link:"#"},
-    { number:"16", name:"隅田 知一郎", position:"投手", birth_year:1999, draft:2020, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=16", link:"#"},
-    { number:"13", name:"高橋 光成", position:"投手", birth_year:1997, draft:2015, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=13", link:"#"},
-    { number:"61", name:"平良 海馬", position:"投手", birth_year:1999, draft:2018, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=61", link:"#"},
-    { number:"22", name:"古賀 悠斗", position:"捕手", birth_year:2000, draft:2018, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=22", link:"#"},
-    { number:"27", name:"炭谷 銀仁朗", position:"捕手", birth_year:1989, draft:2006, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=27", link:"#"},
-    { number:"6", name:"源田 壮亮", position:"内野手", birth_year:1994, draft:2016, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=6", link:"#"},
-    { number:"5", name:"外崎 修汰", position:"内野手", birth_year:1992, draft:2014, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=5", link:"#"},
-    { number:"1", name:"栗山 巧", position:"外野手", birth_year:1983, draft:2001, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=1", link:"#"},
-    { number:"9", name:"蛭間 拓哉", position:"外野手", birth_year:2000, draft:2022, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=9", link:"#"}
-  ],
-  "2025": [
-    { number:"00", name:"仲田 慶介", position:"内野手", birth_year:1999, draft:2025, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=00", link:"#"},
-    { number:"0", name:"仮の0番選手", position:"投手", birth_year:2002, draft:2024, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=0", link:"#"},
-    { number:"11", name:"上田 大河", position:"投手", birth_year:2001, draft:2019, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=11", link:"#"},
-    { number:"6", name:"源田 壮亮", position:"内野手", birth_year:1994, draft:2016, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=6", link:"#"}
-  ]
-};
-
-/* ==================== 共通処理 ==================== */
-
-function displayNumber(n){
-  if(n==="00") return "00";
-  if(n==="0") return "0";
-  const num=parseInt(n);
-  return num<10 ? "0"+num : num.toString();
-}
-
-function getSelectedYears(){
-  return [...document.getElementById("yearSelect").selectedOptions].map(o=>o.value);
-}
-
-function collectPlayers(){
-  const years=getSelectedYears();
-  if(!years.length) return [];
-  let all=[];
-  years.forEach(y=>{
-    if(players[y]){
-      players[y].forEach(p=>{
-        all.push({...p,ref_year:parseInt(y)});
-      });
-    }
-  });
-
-  const map=new Map();
-  all.sort((a,b)=>b.ref_year-a.ref_year);
-  all.forEach(p=>{
-    if(!map.has(p.name)) map.set(p.name,p);
-  });
-
-  return [...map.values()];
-}
-
-/* ==================== レンダリング ==================== */
-
-function renderPlayers(){
-
-  let arr=collectPlayers();
-
-  const pos=document.getElementById("positionFilter").value;
-  if(pos) arr=arr.filter(p=>p.position===pos);
-
-  const name=document.getElementById("nameSearch").value.trim();
-  if(name) arr=arr.filter(p=>p.name.includes(name));
-
-  const nS=parseInt(document.getElementById("numStartInput").value)||0;
-  const nE=parseInt(document.getElementById("numEndInput").value)||145;
-  arr=arr.filter(p=>{
-    const num=parseInt(p.number)||0;
-    return num>=nS && num<=nE;
-  });
-
-  const aS=parseInt(document.getElementById("ageStartInput").value)||17;
-  const aE=parseInt(document.getElementById("ageEndInput").value)||50;
-  arr=arr.filter(p=>{
-    const age=p.ref_year-p.birth_year;
-    return age>=aS && age<=aE;
-  });
-
-  const dS=parseInt(document.getElementById("draftStartInput").value)||2010;
-  const dE=parseInt(document.getElementById("draftEndInput").value)||2026;
-  arr=arr.filter(p=>p.draft>=dS && p.draft<=dE);
-
-  const sort=document.getElementById("sortSelect").value;
-  arr.sort((a,b)=>{
-    const ageA=a.ref_year-a.birth_year;
-    const ageB=b.ref_year-b.birth_year;
-    switch(sort){
-      case "number_asc": return parseInt(a.number)-parseInt(b.number);
-      case "number_desc": return parseInt(b.number)-parseInt(a.number);
-      case "age_asc": return ageA-ageB;
-      case "age_desc": return ageB-ageA;
-      case "draft_asc": return a.draft-b.draft;
-      case "draft_desc": return b.draft-a.draft;
-      case "name_asc": return a.name.localeCompare(b.name,"ja");
-      case "name_desc": return b.name.localeCompare(a.name,"ja");
-    }
-    return 0;
-  });
-
-  const grid=document.getElementById("playerGrid");
-  grid.innerHTML="";
-
-  if(!arr.length){
-    grid.innerHTML=`<p style="text-align:center;grid-column:1/-1;padding:80px;">該当選手が見つかりませんでした</p>`;
-    return;
-  }
-
-  arr.forEach(p=>{
-    const age=p.ref_year-p.birth_year;
-
-    const card=document.createElement("div");
-    card.className="player-card";
-
-    card.innerHTML=`
-      <div class="player-photo">
-        <img src="${p.photo}" alt="${p.name}">
-        <div class="number-badge">${displayNumber(p.number)}</div>
-        <span class="position position-${p.position}">${p.position}</span>
-      </div>
-      <div class="player-info">
-        <div class="player-name"><a href="${p.link}">${p.name}</a></div>
-        <div class="stats">
-          <span>🦁 ドラフト ${p.draft}</span>
-          <span>👤 ${age}歳</span>
-        </div>
-      </div>
-    `;
-
-    grid.appendChild(card);
-  });
-}
-
-/* ==================== スライダー（安全版） ==================== */
-
-function safeCreateSlider(id,min,max,start,labelId,sId,eId){
-
-  const slider=document.getElementById(id);
-  if(!slider || typeof noUiSlider==="undefined") return;
-
-  noUiSlider.create(slider,{
-    start:start,
-    connect:true,
-    step:1,
-    range:{min:min,max:max}
-  });
-
-  const sInput=document.getElementById(sId);
-  const eInput=document.getElementById(eId);
-  const label=document.getElementById(labelId);
-
-  slider.noUiSlider.on("update",function(values){
-    const s=Math.round(values[0]);
-    const e=Math.round(values[1]);
-    label.textContent=s+" – "+e;
-    sInput.value=s;
-    eInput.value=e;
-  });
-
-  slider.noUiSlider.on("change",renderPlayers);
-
-  sInput.addEventListener("input",()=>slider.noUiSlider.set([sInput.value,null]));
-  eInput.addEventListener("input",()=>slider.noUiSlider.set([null,eInput.value]));
-}
-
-/* ==================== 初期化 ==================== */
-
-for(let y=2026;y>=2015;y--){
-  const opt=document.createElement("option");
-  opt.value=y;
-  opt.textContent=y+"年";
-  if(y===2026||y===2025) opt.selected=true;
-  document.getElementById("yearSelect").appendChild(opt);
-}
-
-["yearSelect","positionFilter","sortSelect","nameSearch"].forEach(id=>{
-  document.getElementById(id).addEventListener("change",renderPlayers);
-});
-
-safeCreateSlider("numSlider",0,145,[0,145],"numRangeLabel","numStartInput","numEndInput");
-safeCreateSlider("ageSlider",17,50,[17,50],"ageRangeLabel","ageStartInput","ageEndInput");
-safeCreateSlider("draftSlider",2010,2026,[2010,2026],"draftRangeLabel","draftStartInput","draftEndInput");
-
-renderPlayers();
-
-});
-</script>
 </body>
 </html>
