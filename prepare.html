@@ -410,152 +410,103 @@ footer a:hover {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.js"></script>
 <script>
-// ==================== データ（00と0を完全に区別） ====================
+document.addEventListener("DOMContentLoaded", function(){
+
+/* ==================== データ ==================== */
 const players = {
   "2026": [
-    { number: "00", name: "仲田 慶介", position: "内野手", birth_year: 1999, draft: 2025, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=00", link: "#" },
-    { number: "0", name: "仮の0番選手", position: "投手", birth_year: 2002, draft: 2024, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=0", link: "#" },
-    { number: "11", name: "上田 大河", position: "投手", birth_year: 2001, draft: 2019, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=11", link: "#" },
-    { number: "16", name: "隅田 知一郎", position: "投手", birth_year: 1999, draft: 2020, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=16", link: "#" },
-    { number: "13", name: "高橋 光成", position: "投手", birth_year: 1997, draft: 2015, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=13", link: "#" },
-    { number: "61", name: "平良 海馬", position: "投手", birth_year: 1999, draft: 2018, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=61", link: "#" },
-    { number: "22", name: "古賀 悠斗", position: "捕手", birth_year: 2000, draft: 2018, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=22", link: "#" },
-    { number: "27", name: "炭谷 銀仁朗", position: "捕手", birth_year: 1989, draft: 2006, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=27", link: "#" },
-    { number: "6", name: "源田 壮亮", position: "内野手", birth_year: 1994, draft: 2016, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=源田", link: "#" },
-    { number: "5", name: "外崎 修汰", position: "内野手", birth_year: 1992, draft: 2014, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=5", link: "#" },
-    { number: "1", name: "栗山 巧", position: "外野手", birth_year: 1983, draft: 2001, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=1", link: "#" },
-    { number: "9", name: "蛭間 拓哉", position: "外野手", birth_year: 2000, draft: 2022, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=9", link: "#" }
+    { number:"00", name:"仲田 慶介", position:"内野手", birth_year:1999, draft:2025, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=00", link:"#"},
+    { number:"0", name:"仮の0番選手", position:"投手", birth_year:2002, draft:2024, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=0", link:"#"},
+    { number:"11", name:"上田 大河", position:"投手", birth_year:2001, draft:2019, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=11", link:"#"},
+    { number:"16", name:"隅田 知一郎", position:"投手", birth_year:1999, draft:2020, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=16", link:"#"},
+    { number:"13", name:"高橋 光成", position:"投手", birth_year:1997, draft:2015, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=13", link:"#"},
+    { number:"61", name:"平良 海馬", position:"投手", birth_year:1999, draft:2018, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=61", link:"#"},
+    { number:"22", name:"古賀 悠斗", position:"捕手", birth_year:2000, draft:2018, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=22", link:"#"},
+    { number:"27", name:"炭谷 銀仁朗", position:"捕手", birth_year:1989, draft:2006, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=27", link:"#"},
+    { number:"6", name:"源田 壮亮", position:"内野手", birth_year:1994, draft:2016, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=6", link:"#"},
+    { number:"5", name:"外崎 修汰", position:"内野手", birth_year:1992, draft:2014, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=5", link:"#"},
+    { number:"1", name:"栗山 巧", position:"外野手", birth_year:1983, draft:2001, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=1", link:"#"},
+    { number:"9", name:"蛭間 拓哉", position:"外野手", birth_year:2000, draft:2022, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=9", link:"#"}
   ],
   "2025": [
-    { number: "00", name: "仲田 慶介", position: "内野手", birth_year: 1999, draft: 2025, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=00", link: "#" },
-    { number: "0", name: "仮の0番選手", position: "投手", birth_year: 2002, draft: 2024, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=0", link: "#" },
-    { number: "11", name: "上田 大河", position: "投手", birth_year: 2001, draft: 2019, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=11", link: "#" },
-    { number: "6", name: "源田 壮亮", position: "内野手", birth_year: 1994, draft: 2016, photo: "https://via.placeholder.com/400x300/002b7f/ffffff?text=源田", link: "#" }
+    { number:"00", name:"仲田 慶介", position:"内野手", birth_year:1999, draft:2025, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=00", link:"#"},
+    { number:"0", name:"仮の0番選手", position:"投手", birth_year:2002, draft:2024, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=0", link:"#"},
+    { number:"11", name:"上田 大河", position:"投手", birth_year:2001, draft:2019, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=11", link:"#"},
+    { number:"6", name:"源田 壮亮", position:"内野手", birth_year:1994, draft:2016, photo:"https://via.placeholder.com/400x300/002b7f/ffffff?text=6", link:"#"}
   ]
 };
 
-function displayNumber(n) {
-  if (n === "00") return "00";
-  if (n === "0" || n === 0) return "0";
-  const num = parseInt(n);
-  return num < 10 ? "0" + num : num.toString();
+/* ==================== 共通処理 ==================== */
+
+function displayNumber(n){
+  if(n==="00") return "00";
+  if(n==="0") return "0";
+  const num=parseInt(n);
+  return num<10 ? "0"+num : num.toString();
 }
 
-function getSelectedYears() {
-  return [...document.getElementById("yearSelect").selectedOptions].map(o => o.value);
+function getSelectedYears(){
+  return [...document.getElementById("yearSelect").selectedOptions].map(o=>o.value);
 }
 
-function collectPlayers() {
-  const years = getSelectedYears();
-  if (!years.length) return [];
-  let all = [];
-  years.forEach(y => {
-    if (players[y]) players[y].forEach(p => all.push({...p, ref_year: parseInt(y)}));
-  });
-  const map = new Map();
-  all.sort((a,b) => b.ref_year - a.ref_year);
-  all.forEach(p => { if (!map.has(p.name)) map.set(p.name, p); });
-  return Array.from(map.values());
-}
-
-function debounce(fn, delay=140) {
-  let t;
-  return (...a) => { clearTimeout(t); t = setTimeout(()=>fn(...a), delay); };
-}
-const debouncedRender = debounce(renderPlayers);
-
-function createSlider(id, min, max, start, labelId, sId, eId) {
-  const slider = document.getElementById(id);
-  const sInput = document.getElementById(sId);
-  const eInput = document.getElementById(eId);
-  const label = document.getElementById(labelId);
-
-  noUiSlider.create(slider, { start, connect:true, step:1, range:{min,max}, format:{to:v=>Math.round(v)} });
-
-  const updateUI = (values) => {
-    const [s,e] = values.map(Math.round);
-    label.textContent = `${displayNumber(s)} – ${displayNumber(e)}`;
-    sInput.value = s;
-    eInput.value = e;
-  };
-
-  slider.noUiSlider.on("slide", values => { updateUI(values); debouncedRender(); });
-  slider.noUiSlider.on("update", values => { updateUI(values); debouncedRender(); });
-
-  const sync = () => {
-    let s = parseInt(sInput.value) || min;
-    let e = parseInt(eInput.value) || max;
-    if (s > e) [s,e] = [e,s];
-    slider.noUiSlider.set([Math.max(min,s), Math.min(max,e)]);
-    debouncedRender();
-  };
-  sInput.addEventListener("input", sync);
-  eInput.addEventListener("input", sync);
-}
-
-createSlider("numSlider",0,145,[0,145],"numRangeLabel","numStartInput","numEndInput");
-createSlider("ageSlider",17,50,[17,50],"ageRangeLabel","ageStartInput","ageEndInput");
-createSlider("draftSlider",2010,2026,[2010,2026],"draftRangeLabel","draftStartInput","draftEndInput");
-
-const nameInput = document.getElementById("nameSearch");
-const autoList = document.getElementById("autocomplete-list");
-
-nameInput.addEventListener("input", () => {
-  const val = nameInput.value.trim();
-  autoList.innerHTML = "";
-  if (val.length < 1) return debouncedRender();
-
-  collectPlayers().filter(p=>p.name.includes(val)).slice(0,12).forEach(p => {
-    const d = document.createElement("div");
-    d.textContent = `${p.name}  #${displayNumber(p.number)}`;
-    d.onclick = () => {
-      nameInput.value = p.name;
-      autoList.innerHTML = "";
-      renderPlayers();
-    };
-    autoList.appendChild(d);
-  });
-  debouncedRender();
-});
-
-document.addEventListener("click", e => {
-  if (!nameInput.contains(e.target) && !autoList.contains(e.target)) autoList.innerHTML="";
-});
-
-function renderPlayers() {
-  let arr = collectPlayers();
-
-  const pos = document.getElementById("positionFilter").value;
-  if (pos) arr = arr.filter(p => p.position === pos);
-
-  const name = nameInput.value.trim();
-  if (name) arr = arr.filter(p => p.name.includes(name));
-
-  const nS = parseInt(document.getElementById("numStartInput").value) || 0;
-  const nE = parseInt(document.getElementById("numEndInput").value) || 145;
-  arr = arr.filter(p => {
-    const num = parseInt(p.number) || 0;
-    return num >= nS && num <= nE;
+function collectPlayers(){
+  const years=getSelectedYears();
+  if(!years.length) return [];
+  let all=[];
+  years.forEach(y=>{
+    if(players[y]){
+      players[y].forEach(p=>{
+        all.push({...p,ref_year:parseInt(y)});
+      });
+    }
   });
 
-  const aS = parseInt(document.getElementById("ageStartInput").value)||17;
-  const aE = parseInt(document.getElementById("ageEndInput").value)||50;
-  arr = arr.filter(p => {
-    const age = p.ref_year - p.birth_year;
-    return age >= aS && age <= aE;
+  const map=new Map();
+  all.sort((a,b)=>b.ref_year-a.ref_year);
+  all.forEach(p=>{
+    if(!map.has(p.name)) map.set(p.name,p);
   });
 
-  const dS = parseInt(document.getElementById("draftStartInput").value)||2010;
-  const dE = parseInt(document.getElementById("draftEndInput").value)||2026;
-  arr = arr.filter(p => p.draft >= dS && p.draft <= dE);
+  return [...map.values()];
+}
 
-  const sort = document.getElementById("sortSelect").value;
-  arr.sort((a,b) => {
-    const ageA = a.ref_year - a.birth_year;
-    const ageB = b.ref_year - b.birth_year;
+/* ==================== レンダリング ==================== */
+
+function renderPlayers(){
+
+  let arr=collectPlayers();
+
+  const pos=document.getElementById("positionFilter").value;
+  if(pos) arr=arr.filter(p=>p.position===pos);
+
+  const name=document.getElementById("nameSearch").value.trim();
+  if(name) arr=arr.filter(p=>p.name.includes(name));
+
+  const nS=parseInt(document.getElementById("numStartInput").value)||0;
+  const nE=parseInt(document.getElementById("numEndInput").value)||145;
+  arr=arr.filter(p=>{
+    const num=parseInt(p.number)||0;
+    return num>=nS && num<=nE;
+  });
+
+  const aS=parseInt(document.getElementById("ageStartInput").value)||17;
+  const aE=parseInt(document.getElementById("ageEndInput").value)||50;
+  arr=arr.filter(p=>{
+    const age=p.ref_year-p.birth_year;
+    return age>=aS && age<=aE;
+  });
+
+  const dS=parseInt(document.getElementById("draftStartInput").value)||2010;
+  const dE=parseInt(document.getElementById("draftEndInput").value)||2026;
+  arr=arr.filter(p=>p.draft>=dS && p.draft<=dE);
+
+  const sort=document.getElementById("sortSelect").value;
+  arr.sort((a,b)=>{
+    const ageA=a.ref_year-a.birth_year;
+    const ageB=b.ref_year-b.birth_year;
     switch(sort){
-      case "number_asc": return parseInt(a.number) - parseInt(b.number);
-      case "number_desc": return parseInt(b.number) - parseInt(a.number);
+      case "number_asc": return parseInt(a.number)-parseInt(b.number);
+      case "number_desc": return parseInt(b.number)-parseInt(a.number);
       case "age_asc": return ageA-ageB;
       case "age_desc": return ageB-ageA;
       case "draft_asc": return a.draft-b.draft;
@@ -566,19 +517,21 @@ function renderPlayers() {
     return 0;
   });
 
-  const grid = document.getElementById("playerGrid");
-  grid.innerHTML = "";
+  const grid=document.getElementById("playerGrid");
+  grid.innerHTML="";
 
-  if (!arr.length) {
-    grid.innerHTML = `<p style="text-align:center; grid-column:1/-1; padding:100px 20px; font-size:1.3rem; opacity:0.7;">該当選手が見つかりませんでした</p>`;
+  if(!arr.length){
+    grid.innerHTML=`<p style="text-align:center;grid-column:1/-1;padding:80px;">該当選手が見つかりませんでした</p>`;
     return;
   }
 
-  arr.forEach(p => {
-    const age = p.ref_year - p.birth_year;
-    const card = document.createElement("div");
-    card.className = "player-card";
-    card.innerHTML = `
+  arr.forEach(p=>{
+    const age=p.ref_year-p.birth_year;
+
+    const card=document.createElement("div");
+    card.className="player-card";
+
+    card.innerHTML=`
       <div class="player-photo">
         <img src="${p.photo}" alt="${p.name}">
         <div class="number-badge">${displayNumber(p.number)}</div>
@@ -592,25 +545,64 @@ function renderPlayers() {
         </div>
       </div>
     `;
+
     grid.appendChild(card);
   });
 }
 
-// ==================== 初期化 ====================
-const yearSelect = document.getElementById("yearSelect");
-for (let y = 2026; y >= 2015; y--) {
-  const opt = document.createElement("option");
-  opt.value = y;
-  opt.textContent = y + "年";
-  if (y === 2026 || y === 2025) opt.selected = true;
-  yearSelect.appendChild(opt);
+/* ==================== スライダー（安全版） ==================== */
+
+function safeCreateSlider(id,min,max,start,labelId,sId,eId){
+
+  const slider=document.getElementById(id);
+  if(!slider || typeof noUiSlider==="undefined") return;
+
+  noUiSlider.create(slider,{
+    start:start,
+    connect:true,
+    step:1,
+    range:{min:min,max:max}
+  });
+
+  const sInput=document.getElementById(sId);
+  const eInput=document.getElementById(eId);
+  const label=document.getElementById(labelId);
+
+  slider.noUiSlider.on("update",function(values){
+    const s=Math.round(values[0]);
+    const e=Math.round(values[1]);
+    label.textContent=s+" – "+e;
+    sInput.value=s;
+    eInput.value=e;
+  });
+
+  slider.noUiSlider.on("change",renderPlayers);
+
+  sInput.addEventListener("input",()=>slider.noUiSlider.set([sInput.value,null]));
+  eInput.addEventListener("input",()=>slider.noUiSlider.set([null,eInput.value]));
 }
 
-["yearSelect", "positionFilter", "sortSelect"].forEach(id => {
-  document.getElementById(id).addEventListener("change", renderPlayers);
+/* ==================== 初期化 ==================== */
+
+for(let y=2026;y>=2015;y--){
+  const opt=document.createElement("option");
+  opt.value=y;
+  opt.textContent=y+"年";
+  if(y===2026||y===2025) opt.selected=true;
+  document.getElementById("yearSelect").appendChild(opt);
+}
+
+["yearSelect","positionFilter","sortSelect","nameSearch"].forEach(id=>{
+  document.getElementById(id).addEventListener("change",renderPlayers);
 });
 
-renderPlayers();   // ← 初回描画（ここで選手が表示される）
+safeCreateSlider("numSlider",0,145,[0,145],"numRangeLabel","numStartInput","numEndInput");
+safeCreateSlider("ageSlider",17,50,[17,50],"ageRangeLabel","ageStartInput","ageEndInput");
+safeCreateSlider("draftSlider",2010,2026,[2010,2026],"draftRangeLabel","draftStartInput","draftEndInput");
+
+renderPlayers();
+
+});
 </script>
 </body>
 </html>
