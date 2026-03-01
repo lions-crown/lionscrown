@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公開しているページ一覧 | L-crown</title>
+<!-- サイトアイコン -->
+<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<meta name="theme-color" content="#0f172a">
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+/* ===== 背景 ===== */
+body{
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
+  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
+  color:white;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.75;
+}
+/* 光のオーブ */
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top:-120px;
+  right:-120px;
+  filter:blur(40px);
+  z-index:-1;
+}
+/* ===== ヘッダー ===== */
+header{
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:1000;
+}
+nav{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+}
+/* ロゴ */
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+  font-size:18px;
+  letter-spacing:1px;
+  text-decoration:none;
+}
+.logo span{
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.logo img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+  border-radius:6px;
+  filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
+  transition:0.3s;
+}
+.logo:hover img{
+  transform:scale(1.08);
+}
+.logo:hover span{
+  text-shadow:0 0 12px rgba(77,163,255,0.7);
+}
+/* ===== メニュー ===== */
+.menu{
+  display:flex;
+  gap:26px;
+}
+.menu a{
+  color:rgba(255,255,255,0.7);
+  text-decoration:none;
+  font-size:13px;
+  position:relative;
+  transition:0.25s;
+}
+.menu a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+  transition:0.25s;
+}
+.menu a:hover{
+  color:white;
+  text-shadow:0 0 10px rgba(77,163,255,0.6);
+}
+.menu a:hover::after{
+  width:100%;
+}
+/* ===== メイン ===== */
+main{
+  max-width:1100px;
+  margin:50px auto;
+  padding:0 20px;
+}
+/* ガラスカード */
+.glass-card{
+  background:rgba(255,255,255,0.06);
+  border-radius:22px;
+  padding:32px;
+  backdrop-filter:blur(16px);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.55),
+    inset 0 0 0 1px rgba(255,255,255,0.1);
+  transition:0.35s;
+}
+.glass-card:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.65),
+    inset 0 0 0 1px rgba(255,255,255,0.16);
+}
+/* ===== ページ一覧専用スタイル ===== */
+h1{
+  color:#fff;
+  font-size:2.4em;
+  margin-bottom:0.4em;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.last-updated{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(77,163,255,0.25);
+  color:rgba(255,255,255,0.9);
+  padding:14px 22px;
+  border-radius:14px;
+  font-size:0.96em;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:36px;
+  backdrop-filter:blur(8px);
+}
+.project-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+  gap:24px;
+}
+.project-card{
+  background:rgba(255,255,255,0.05);
+  border-radius:18px;
+  padding:26px;
+  border:1px solid rgba(255,255,255,0.08);
+  transition:all 0.35s cubic-bezier(0.23,1,0.32,1);
+  backdrop-filter:blur(10px);
+}
+.project-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(77,163,255,0.5);
+  box-shadow:0 25px 50px rgba(0,0,0,0.5);
+}
+.project-title{
+  font-size:1.35em;
+  margin-bottom:12px;
+  font-weight:600;
+}
+.project-title a{
+  color:#fff;
+  text-decoration:none;
+  transition:0.25s;
+}
+.project-title a:hover{
+  color:#4da3ff;
+  text-shadow:0 0 15px rgba(77,163,255,0.7);
+}
+.description{
+  color:rgba(255,255,255,0.75);
+  margin-bottom:18px;
+  line-height:1.65;
+  font-size:0.97em;
+}
+.project-url{
+  font-family:ui-monospace, Consolas, monospace;
+  font-size:0.9em;
+  color:#7ecbff;
+  background:rgba(0,0,0,0.35);
+  padding:8px 12px;
+  border-radius:8px;
+  display:block;
+  word-break:break-all;
+  transition:0.25s;
+}
+.project-url:hover{
+  background:rgba(77,163,255,0.15);
+}
+/* ===== フッター ===== */
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+.footer-container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 0.6fr;
+  gap:50px;
+}
+.footer-logo{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.footer-text{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  line-height:1.7;
+}
+.footer-title{
+  font-size:12px;
+  margin-bottom:14px;
+  color:rgba(255,255,255,0.9);
+}
+footer a{
+  text-decoration:none;
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  transition:0.25s;
+}
+footer a:hover{
+  color:white;
+  transform:translateX(4px);
+  text-shadow:0 0 8px rgba(77,163,255,0.5);
+}
+.footer-bottom{
+  text-align:center;
+  padding:16px;
+  font-size:11px;
+  color:rgba(255,255,255,0.35);
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+/* ===== レスポンシブ ===== */
+@media(max-width:768px){
+  .footer-container{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
+  .project-list{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <nav>
+    <a href="/" class="logo">
+      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
+      <span>L-crown</span>
+    </a>
+    <div class="menu">
+      <a href="/">ホーム</a>
+      <a href="/news">お知らせ</a>
+      <a href="/privacypolicy">利用規約</a>
+      <a href="/contact">お問い合わせ</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="glass-card">
+    <h1>公開しているページ一覧</h1>
+    
+    <div class="last-updated">
+      🕒 最終更新日時：2026年3月1日
+    </div>
+
+    <div class="project-list">
+
+      <div class="project-card">
+        <div class="project-title">
+          <a href="https://lcrown-official.github.io/clock/" target="_blank">シンプル時計</a>
+        </div>
+        <div class="description">
+          フルスクリーンで使えるシンプルなデジタル時計。ダークモード対応・秒針アニメーション付き。
+        </div>
+        <div class="project-url">https://lcrown-official.github.io/clock/</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-title">
+          <a href="https://lcrown-official.github.io/color-tool/" target="_blank">カラーパレットジェネレーター</a>
+        </div>
+        <div class="description">
+          ランダム生成・調和配色提案・アクセシビリティチェック・コピー機能完備。
+        </div>
+        <div class="project-url">https://lcrown-official.github.io/color-tool/</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-title">
+          <a href="https://lcrown-official.github.io/markdown-preview/" target="_blank">リアルタイムMarkdownプレビュー</a>
+        </div>
+        <div class="description">
+          ブラウザだけで完結する軽量Markdownエディタ＋即時プレビュー。
+        </div>
+        <div class="project-url">https://lcrown-official.github.io/markdown-preview/</div>
+      </div>
+
+      <!-- 新しいGitHub Pagesプロジェクトを追加する場合は以下をコピーして編集してください -->
+      <!--
+      <div class="project-card">
+        <div class="project-title">
+          <a href="https://lcrown-official.github.io/リポジトリ名/" target="_blank">プロジェクト名</a>
+        </div>
+        <div class="description">
+          ここに簡単な説明を1〜2行で書いてください。
+        </div>
+        <div class="project-url">https://lcrown-official.github.io/リポジトリ名/</div>
+      </div>
+      -->
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">リンク</div>
+      <a href="/">ホーム</a><br>
+      <a href="/news">お知らせ</a><br>
+      <a href="/privacypolicy">利用規約</a><br>
+      <a href="/contact">お問い合わせ</a><br>
+      <a href="#">ページ一覧</a>
+    </div>
+    <div>
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
+  </div>
+</footer>
+</body>
+</html>
