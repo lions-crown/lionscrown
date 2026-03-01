@@ -8,11 +8,12 @@
 body { font-family:"Segoe UI","Noto Sans JP",sans-serif; background:linear-gradient(135deg,#091b3d,#0d2b5e); color:#fff; margin:0; padding:20px;}
 h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5px #000;}
 .controls { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:25px; }
-.controls select, .controls input[type=number] { padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none; width:80px; }
-.range-wrapper { display:flex; align-items:center; gap:6px; }
-.range-slider { display:flex; flex-direction:column; align-items:center; margin-bottom:10px;}
+.controls select, .controls input { padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none; }
+
+.range-slider { display:flex; flex-direction:column; align-items:center; margin-bottom:10px; min-width:200px; }
 .range-slider label { font-size:0.85em; margin-bottom:4px; }
-.range-slider input[type=range] { width:150px; margin:0; }
+.range-slider .slider-inputs { display:flex; justify-content:space-between; width:100%; margin-bottom:4px; }
+.range-slider input[type=range] { width:100%; }
 
 .player-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
 @media(max-width:1000px){ .player-grid { grid-template-columns:repeat(2,1fr); } }
@@ -31,7 +32,6 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
 .player-info a { color:#fff; text-decoration:none; }
 .player-info a:hover { text-decoration:underline; }
 
-/* ポジション別マーカー色 */
 .position-投手{background:#1E90FF;}
 .position-捕手{background:#FF4500;}
 .position-内野手{background:#32CD32;}
@@ -51,50 +51,43 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
     <option value="内野手">内野手</option>
     <option value="外野手">外野手</option>
   </select>
-  <div style="position:relative;">
+  <div id="nameSearchWrapper">
     <input type="text" id="nameSearch" placeholder="名前で検索">
-    <div id="autocompleteList" style="position:absolute; top:100%; left:0; right:0; background:#0d2b5e; border:1px solid #333; max-height:150px; overflow-y:auto; z-index:10; border-radius:6px;"></div>
+    <div id="autocompleteList"></div>
   </div>
 
-  <!-- 背番号 -->
+  <!-- 背番号スライダー -->
   <div class="range-slider">
-    <label>背番号範囲</label>
-    <div class="range-wrapper">
+    <label>背番号範囲:</label>
+    <div class="slider-inputs">
       <input type="number" id="numMinInput" min="0" max="145" value="0">
-      <input type="range" id="numMin" min="0" max="145" value="0">
-    </div>
-    <div class="range-wrapper">
       <input type="number" id="numMaxInput" min="0" max="145" value="145">
-      <input type="range" id="numMax" min="0" max="145" value="145">
     </div>
+    <input type="range" id="numMin" min="0" max="145" value="0">
+    <input type="range" id="numMax" min="0" max="145" value="145">
   </div>
 
-  <!-- ドラフト -->
+  <!-- ドラフトスライダー -->
   <div class="range-slider">
-    <label>ドラフト年範囲</label>
-    <div class="range-wrapper">
+    <label>ドラフト年範囲:</label>
+    <div class="slider-inputs">
       <input type="number" id="draftMinInput" min="2010" max="2026" value="2010">
-      <input type="range" id="draftMin" min="2010" max="2026" value="2010">
-    </div>
-    <div class="range-wrapper">
       <input type="number" id="draftMaxInput" min="2010" max="2026" value="2026">
-      <input type="range" id="draftMax" min="2010" max="2026" value="2026">
     </div>
+    <input type="range" id="draftMin" min="2010" max="2026" value="2010">
+    <input type="range" id="draftMax" min="2010" max="2026" value="2026">
   </div>
 
-  <!-- 年齢 -->
+  <!-- 年齢スライダー -->
   <div class="range-slider">
-    <label>年齢範囲</label>
-    <div class="range-wrapper">
-      <input type="number" id="ageMinInput" min="18" max="50" value="18">
-      <input type="range" id="ageMin" min="18" max="50" value="18">
+    <label>年齢範囲:</label>
+    <div class="slider-inputs">
+      <input type="number" id="ageMinInput" min="17" max="50" value="17">
+      <input type="number" id="ageMaxInput" min="17" max="50" value="50">
     </div>
-    <div class="range-wrapper">
-      <input type="number" id="ageMaxInput" min="18" max="50" value="50">
-      <input type="range" id="ageMax" min="18" max="50" value="50">
-    </div>
+    <input type="range" id="ageMin" min="17" max="50" value="17">
+    <input type="range" id="ageMax" min="17" max="50" value="50">
   </div>
-
 </div>
 
 <div class="player-grid" id="playerGrid"></div>
@@ -118,6 +111,35 @@ for(let y=2026;y>=2017;y--){
   yearSelect.appendChild(opt);
 }
 
+// スライダーと数値入力連動
+function syncSliderAndInput(sliderId, inputId, min, max){
+  const slider=document.getElementById(sliderId);
+  const input=document.getElementById(inputId);
+  slider.addEventListener('input', ()=>{
+    slider.value=Math.min(Math.max(slider.value,min),max);
+    input.value=slider.value;
+    renderPlayers();
+  });
+  input.addEventListener('input', ()=>{
+    input.value=Math.min(Math.max(input.value,min),max);
+    slider.value=input.value;
+    renderPlayers();
+  });
+}
+
+// 背番号
+syncSliderAndInput('numMin','numMinInput',0,145);
+syncSliderAndInput('numMax','numMaxInput',0,145);
+// ドラフト
+syncSliderAndInput('draftMin','draftMinInput',2010,2026);
+syncSliderAndInput('draftMax','draftMaxInput',2010,2026);
+// 年齢
+syncSliderAndInput('ageMin','ageMinInput',17,50);
+syncSliderAndInput('ageMax','ageMaxInput',17,50);
+
+// デュープ
+function dedupe(playersArray){ const map=new Map(); playersArray.sort((a,b)=>b.year-a.year); playersArray.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); }); return Array.from(map.values()); }
+
 // 総合検索＆描画
 function renderPlayers(){
   const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
@@ -127,12 +149,7 @@ function renderPlayers(){
     yearData.forEach(p=>p.year=parseInt(y));
     filtered=filtered.concat(yearData);
   });
-
-  // 最新年度のみ
-  const map=new Map();
-  filtered.sort((a,b)=>b.year-a.year);
-  filtered.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); });
-  filtered=Array.from(map.values());
+  filtered=dedupe(filtered);
 
   const pos=document.getElementById('positionFilter').value;
   if(pos) filtered=filtered.filter(p=>p.position===pos);
@@ -140,17 +157,22 @@ function renderPlayers(){
   const name=document.getElementById('nameSearch').value.trim();
   if(name) filtered=filtered.filter(p=>p.name.includes(name));
 
-  // 範囲検索
-  const numMin=parseInt(document.getElementById('numMin').value);
-  const numMax=parseInt(document.getElementById('numMax').value);
+  let numMin=parseInt(document.getElementById('numMin').value);
+  let numMax=parseInt(document.getElementById('numMax').value);
+  if(numMin>numMax) numMin=numMax;
+  if(numMax<numMin) numMax=numMin;
   filtered=filtered.filter(p=>p.number>=numMin && p.number<=numMax);
 
-  const draftMin=parseInt(document.getElementById('draftMin').value);
-  const draftMax=parseInt(document.getElementById('draftMax').value);
+  let draftMin=parseInt(document.getElementById('draftMin').value);
+  let draftMax=parseInt(document.getElementById('draftMax').value);
+  if(draftMin>draftMax) draftMin=draftMax;
+  if(draftMax<draftMin) draftMax=draftMin;
   filtered=filtered.filter(p=>p.draft && p.draft!=='-' && p.draft>=draftMin && p.draft<=draftMax);
 
-  const ageMin=parseInt(document.getElementById('ageMin').value);
-  const ageMax=parseInt(document.getElementById('ageMax').value);
+  let ageMin=parseInt(document.getElementById('ageMin').value);
+  let ageMax=parseInt(document.getElementById('ageMax').value);
+  if(ageMin>ageMax) ageMin=ageMax;
+  if(ageMax<ageMin) ageMax=ageMin;
   filtered=filtered.filter(p=>{
     const age=p.year-p.birth_year;
     return age>=ageMin && age<=ageMax;
@@ -158,7 +180,6 @@ function renderPlayers(){
 
   filtered.sort((a,b)=>a.number-b.number);
 
-  // 描画
   const grid=document.getElementById('playerGrid');
   grid.innerHTML="";
   filtered.forEach(p=>{
@@ -201,28 +222,14 @@ function updateAutocomplete(currentFiltered){
   });
 }
 
-// スライダーと数値入力連動
-function linkRange(numInputId, rangeId){
-  const numInput=document.getElementById(numInputId);
-  const range=document.getElementById(rangeId);
-  numInput.addEventListener('input',()=>{ range.value=numInput.value; renderPlayers(); });
-  range.addEventListener('input',()=>{ numInput.value=range.value; renderPlayers(); });
-}
-
-linkRange('numMinInput','numMin');
-linkRange('numMaxInput','numMax');
-linkRange('draftMinInput','draftMin');
-linkRange('draftMaxInput','draftMax');
-linkRange('ageMinInput','ageMin');
-linkRange('ageMaxInput','ageMax');
-
+// イベント登録
 ['change','input'].forEach(ev=>{
   yearSelect.addEventListener(ev, renderPlayers);
   document.getElementById('positionFilter').addEventListener(ev, renderPlayers);
   document.getElementById('nameSearch').addEventListener(ev, renderPlayers);
 });
 
-// 初回表示
+// 初期値
 yearSelect.options[0].selected=true;
 renderPlayers();
 </script>
