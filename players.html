@@ -8,11 +8,11 @@
 body { font-family:"Segoe UI","Noto Sans JP",sans-serif; background:linear-gradient(135deg,#091b3d,#0d2b5e); color:#fff; margin:0; padding:20px;}
 h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5px #000;}
 .controls { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:25px; }
-.controls select, .controls input { padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none;}
+.controls select, .controls input[type=number] { padding:6px 10px; font-size:14px; border-radius:6px; border:none; outline:none; width:80px; }
+.range-wrapper { display:flex; align-items:center; gap:6px; }
 .range-slider { display:flex; flex-direction:column; align-items:center; margin-bottom:10px;}
 .range-slider label { font-size:0.85em; margin-bottom:4px; }
 .range-slider input[type=range] { width:150px; margin:0; }
-.range-values { display:flex; justify-content:space-between; width:150px; font-size:0.8em; margin-top:2px; }
 
 .player-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
 @media(max-width:1000px){ .player-grid { grid-template-columns:repeat(2,1fr); } }
@@ -51,27 +51,50 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
     <option value="内野手">内野手</option>
     <option value="外野手">外野手</option>
   </select>
-  <div id="nameSearchWrapper">
+  <div style="position:relative;">
     <input type="text" id="nameSearch" placeholder="名前で検索">
-    <div id="autocompleteList"></div>
+    <div id="autocompleteList" style="position:absolute; top:100%; left:0; right:0; background:#0d2b5e; border:1px solid #333; max-height:150px; overflow-y:auto; z-index:10; border-radius:6px;"></div>
   </div>
 
-  <!-- スライダー検索 -->
+  <!-- 背番号 -->
   <div class="range-slider">
-    <label>背番号範囲: <span id="numRangeText">0 - 99</span></label>
-    <input type="range" id="numMin" min="0" max="99" value="0">
-    <input type="range" id="numMax" min="0" max="99" value="99">
+    <label>背番号範囲</label>
+    <div class="range-wrapper">
+      <input type="number" id="numMinInput" min="0" max="145" value="0">
+      <input type="range" id="numMin" min="0" max="145" value="0">
+    </div>
+    <div class="range-wrapper">
+      <input type="number" id="numMaxInput" min="0" max="145" value="145">
+      <input type="range" id="numMax" min="0" max="145" value="145">
+    </div>
   </div>
+
+  <!-- ドラフト -->
   <div class="range-slider">
-    <label>ドラフト年範囲: <span id="draftRangeText">2010 - 2026</span></label>
-    <input type="range" id="draftMin" min="2010" max="2026" value="2010">
-    <input type="range" id="draftMax" min="2010" max="2026" value="2026">
+    <label>ドラフト年範囲</label>
+    <div class="range-wrapper">
+      <input type="number" id="draftMinInput" min="2010" max="2026" value="2010">
+      <input type="range" id="draftMin" min="2010" max="2026" value="2010">
+    </div>
+    <div class="range-wrapper">
+      <input type="number" id="draftMaxInput" min="2010" max="2026" value="2026">
+      <input type="range" id="draftMax" min="2010" max="2026" value="2026">
+    </div>
   </div>
+
+  <!-- 年齢 -->
   <div class="range-slider">
-    <label>年齢範囲: <span id="ageRangeText">18 - 40</span></label>
-    <input type="range" id="ageMin" min="18" max="40" value="18">
-    <input type="range" id="ageMax" min="18" max="40" value="40">
+    <label>年齢範囲</label>
+    <div class="range-wrapper">
+      <input type="number" id="ageMinInput" min="18" max="50" value="18">
+      <input type="range" id="ageMin" min="18" max="50" value="18">
+    </div>
+    <div class="range-wrapper">
+      <input type="number" id="ageMaxInput" min="18" max="50" value="50">
+      <input type="range" id="ageMax" min="18" max="50" value="50">
+    </div>
   </div>
+
 </div>
 
 <div class="player-grid" id="playerGrid"></div>
@@ -95,10 +118,7 @@ for(let y=2026;y>=2017;y--){
   yearSelect.appendChild(opt);
 }
 
-// ヘルパー
-function dedupe(playersArray){ const map=new Map(); playersArray.sort((a,b)=>b.year-a.year); playersArray.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); }); return Array.from(map.values()); }
-
-// ----- 総合検索＆描画 -----
+// 総合検索＆描画
 function renderPlayers(){
   const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
   let filtered=[];
@@ -107,26 +127,27 @@ function renderPlayers(){
     yearData.forEach(p=>p.year=parseInt(y));
     filtered=filtered.concat(yearData);
   });
-  filtered=dedupe(filtered);
 
-  // 条件
+  // 最新年度のみ
+  const map=new Map();
+  filtered.sort((a,b)=>b.year-a.year);
+  filtered.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); });
+  filtered=Array.from(map.values());
+
   const pos=document.getElementById('positionFilter').value;
   if(pos) filtered=filtered.filter(p=>p.position===pos);
 
   const name=document.getElementById('nameSearch').value.trim();
   if(name) filtered=filtered.filter(p=>p.name.includes(name));
 
-  // スライダー条件
+  // 範囲検索
   const numMin=parseInt(document.getElementById('numMin').value);
   const numMax=parseInt(document.getElementById('numMax').value);
   filtered=filtered.filter(p=>p.number>=numMin && p.number<=numMax);
 
   const draftMin=parseInt(document.getElementById('draftMin').value);
   const draftMax=parseInt(document.getElementById('draftMax').value);
-  filtered=filtered.filter(p=>{
-    if(!p.draft || p.draft==='-') return false;
-    return p.draft>=draftMin && p.draft<=draftMax;
-  });
+  filtered=filtered.filter(p=>p.draft && p.draft!=='-' && p.draft>=draftMin && p.draft<=draftMax);
 
   const ageMin=parseInt(document.getElementById('ageMin').value);
   const ageMax=parseInt(document.getElementById('ageMax').value);
@@ -137,6 +158,7 @@ function renderPlayers(){
 
   filtered.sort((a,b)=>a.number-b.number);
 
+  // 描画
   const grid=document.getElementById('playerGrid');
   grid.innerHTML="";
   filtered.forEach(p=>{
@@ -179,22 +201,20 @@ function updateAutocomplete(currentFiltered){
   });
 }
 
-// スライダー表示更新
-function updateRangeTexts(){
-  document.getElementById('numRangeText').textContent=document.getElementById('numMin').value + " - " + document.getElementById('numMax').value;
-  document.getElementById('draftRangeText').textContent=document.getElementById('draftMin').value + " - " + document.getElementById('draftMax').value;
-  document.getElementById('ageRangeText').textContent=document.getElementById('ageMin').value + " - " + document.getElementById('ageMax').value;
+// スライダーと数値入力連動
+function linkRange(numInputId, rangeId){
+  const numInput=document.getElementById(numInputId);
+  const range=document.getElementById(rangeId);
+  numInput.addEventListener('input',()=>{ range.value=numInput.value; renderPlayers(); });
+  range.addEventListener('input',()=>{ numInput.value=range.value; renderPlayers(); });
 }
 
-// イベント登録
-const sliders=['numMin','numMax','draftMin','draftMax','ageMin','ageMax'];
-sliders.forEach(id=>{
-  const el=document.getElementById(id);
-  el.addEventListener('input', ()=>{
-    updateRangeTexts();
-    renderPlayers();
-  });
-});
+linkRange('numMinInput','numMin');
+linkRange('numMaxInput','numMax');
+linkRange('draftMinInput','draftMin');
+linkRange('draftMaxInput','draftMax');
+linkRange('ageMinInput','ageMin');
+linkRange('ageMaxInput','ageMax');
 
 ['change','input'].forEach(ev=>{
   yearSelect.addEventListener(ev, renderPlayers);
@@ -204,7 +224,6 @@ sliders.forEach(id=>{
 
 // 初回表示
 yearSelect.options[0].selected=true;
-updateRangeTexts();
 renderPlayers();
 </script>
 </body>
