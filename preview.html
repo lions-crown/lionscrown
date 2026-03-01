@@ -4,35 +4,139 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>埼玉西武ライオンズ 選手名鑑</title>
+<!-- noUiSlider CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.css" rel="stylesheet">
 <style>
-body { margin:0; padding:20px; font-family:"Segoe UI","Noto Sans JP",sans-serif; background: linear-gradient(135deg,#091b3d,#0d2b5e); color:#fff; }
-h1{ text-align:center; margin-bottom:20px; font-size:2em; }
-.controls, .sort-controls { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-bottom:16px; }
-.controls select, .controls input, .sort-controls select { padding:6px 10px; font-size:14px; border-radius:6px; border:none; }
-.autocomplete-items { position:absolute; top:42px; left:0; right:0; background:#0a193c; border:1px solid #1E90FF; max-height:180px; overflow-y:auto; border-radius:6px; z-index:99; }
-.autocomplete-items div{ padding:6px 10px; cursor:pointer; }
-.autocomplete-items div:hover{ background:#1E90FF; color:#fff; }
-
-.range-slider{ width:240px; margin-bottom:12px; }
-.range-slider .slider-label{ font-size:0.85em; margin-bottom:4px; display:flex; justify-content:space-between; }
-.range-slider .slider-inputs{ display:flex; justify-content:space-between; margin-bottom:4px; }
-.range-slider .slider-inputs input{ width:45%; padding:4px; border-radius:4px; border:none; font-size:0.85em; }
-
-.player-grid{ display:grid; gap:18px; grid-template-columns:repeat(4,1fr); }
-@media(max-width:1000px){ .player-grid{ grid-template-columns:repeat(2,1fr);} }
-@media(max-width:600px){ .player-grid{ grid-template-columns:1fr;} }
-
-.player-card{ display:flex; background:rgba(10,25,60,0.85); border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.4); transition: transform 0.2s, box-shadow 0.2s; }
-.player-card:hover{ transform:translateY(-4px); box-shadow:0 6px 18px rgba(0,0,0,0.6); }
-.player-photo img{ width:100%; aspect-ratio:1/1; object-fit:cover; }
-.player-info{ flex:1; padding:8px 10px; display:flex; flex-direction:column; justify-content:space-between; }
-.player-info .top{ display:flex; justify-content:space-between; font-weight:bold; font-size:0.95em; }
-.player-info .position{ padding:2px 6px; border-radius:4px; font-size:0.85em; }
-.position-投手{ background:#1E90FF; }
-.position-捕手{ background:#FF4500; }
-.position-内野手{ background:#32CD32; }
-.position-外野手{ background:#FFD700; }
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+    background: linear-gradient(135deg, #091b3d, #0d2b5e);
+    color: #fff;
+  }
+  h1 { text-align: center; margin-bottom: 24px; font-size: 2.2em; }
+  .controls, .sort-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .controls select, .controls input, .sort-controls select {
+    padding: 8px 12px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: none;
+    background: #0f254e;
+    color: white;
+  }
+  .controls select[multiple] {
+    width: 140px;
+  }
+  .autocomplete-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #0a193c;
+    border: 1px solid #1E90FF;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 6px;
+    z-index: 100;
+  }
+  .autocomplete-items div {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .autocomplete-items div:hover {
+    background: #1E90FF;
+  }
+  .range-slider {
+    width: 260px;
+    margin: 0 auto 20px;
+  }
+  .range-slider .slider-label {
+    font-size: 0.9em;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .range-slider .slider-inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 8px;
+  }
+  .range-slider .slider-inputs input {
+    width: 48%;
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+    font-size: 0.9em;
+    background: #0f254e;
+    color: white;
+    text-align: center;
+  }
+  .player-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .player-card {
+    display: flex;
+    background: rgba(10, 25, 60, 0.88);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: all 0.22s;
+  }
+  .player-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.6);
+  }
+  .player-photo img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+  }
+  .player-info {
+    flex: 1;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .position {
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.82em;
+    color: #000;
+  }
+  .position-投手 { background: #1E90FF; }
+  .position-捕手 { background: #FF4500; }
+  .position-内野手 { background: #32CD32; }
+  .position-外野手 { background: #FFD700; }
+  .middle a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.05em;
+  }
+  .middle a:hover { text-decoration: underline; }
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88em;
+    color: #ccc;
+  }
 </style>
 </head>
 <body>
@@ -40,7 +144,9 @@ h1{ text-align:center; margin-bottom:20px; font-size:2em; }
 <h1>埼玉西武ライオンズ 選手名鑑</h1>
 
 <div class="controls">
-  <select id="yearSelect" multiple size="4"></select>
+  <select id="yearSelect" multiple size="5">
+    <!-- JSで埋める -->
+  </select>
   <select id="positionFilter">
     <option value="">全ポジション</option>
     <option value="投手">投手</option>
@@ -48,14 +154,14 @@ h1{ text-align:center; margin-bottom:20px; font-size:2em; }
     <option value="内野手">内野手</option>
     <option value="外野手">外野手</option>
   </select>
-  <div style="position:relative; flex:1;">
-    <input type="text" id="nameSearch" placeholder="名前で検索" autocomplete="off" style="width:100%;">
+  <div style="position:relative; min-width:220px; flex:1; max-width:360px;">
+    <input type="text" id="nameSearch" placeholder="選手名で検索…" autocomplete="off" style="width:100%;">
     <div id="autocomplete-list" class="autocomplete-items"></div>
   </div>
 </div>
 
 <div class="range-slider">
-  <div class="slider-label">背番号: <span id="numRangeLabel">00 - 145</span></div>
+  <div class="slider-label">背番号 <span id="numRangeLabel">00 – 145</span></div>
   <div class="slider-inputs">
     <input type="number" id="numStartInput" min="0" max="145" value="0">
     <input type="number" id="numEndInput" min="0" max="145" value="145">
@@ -64,7 +170,7 @@ h1{ text-align:center; margin-bottom:20px; font-size:2em; }
 </div>
 
 <div class="range-slider">
-  <div class="slider-label">年齢: <span id="ageRangeLabel">17 - 50</span></div>
+  <div class="slider-label">年齢 <span id="ageRangeLabel">17 – 50</span></div>
   <div class="slider-inputs">
     <input type="number" id="ageStartInput" min="17" max="50" value="17">
     <input type="number" id="ageEndInput" min="17" max="50" value="50">
@@ -73,7 +179,7 @@ h1{ text-align:center; margin-bottom:20px; font-size:2em; }
 </div>
 
 <div class="range-slider">
-  <div class="slider-label">ドラフト年: <span id="draftRangeLabel">2010 - 2026</span></div>
+  <div class="slider-label">ドラフト年 <span id="draftRangeLabel">2010 – 2026</span></div>
   <div class="slider-inputs">
     <input type="number" id="draftStartInput" min="2010" max="2026" value="2010">
     <input type="number" id="draftEndInput" min="2010" max="2026" value="2026">
@@ -83,14 +189,14 @@ h1{ text-align:center; margin-bottom:20px; font-size:2em; }
 
 <div class="sort-controls">
   <select id="sortSelect">
-    <option value="number_asc">背番号↑</option>
-    <option value="number_desc">背番号↓</option>
-    <option value="age_asc">年齢↑</option>
-    <option value="age_desc">年齢↓</option>
-    <option value="draft_asc">ドラフト↑</option>
-    <option value="draft_desc">ドラフト↓</option>
-    <option value="name_asc">名前五十音↑</option>
-    <option value="name_desc">名前五十音↓</option>
+    <option value="number_asc">背番号 ↑</option>
+    <option value="number_desc">背番号 ↓</option>
+    <option value="age_asc">年齢 ↑</option>
+    <option value="age_desc">年齢 ↓</option>
+    <option value="draft_asc">ドラフト年 ↑</option>
+    <option value="draft_desc">ドラフト年 ↓</option>
+    <option value="name_asc">名前 五十音 ↑</option>
+    <option value="name_desc">名前 五十音 ↓</option>
   </select>
 </div>
 
@@ -98,125 +204,228 @@ h1{ text-align:center; margin-bottom:20px; font-size:2em; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.js"></script>
 <script>
-// ===== Helpers =====
-function displayNumber(n){ return (n===0 ? "00" : n); }
-function dedupe(arr){
-  const map=new Map();
-  arr.sort((a,b)=>b.year-a.year);
-  arr.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); });
+// ================================================================
+// データ（実際は別ファイルからfetchするか、もっと充実させる）
+// ================================================================
+const players = {
+  "2026": [
+    { number: 11, name: "上田 大河", position: "投手",    birth_year: 2002, draft: 2020, photo: "https://via.placeholder.com/110?text=11", link: "#" },
+    { number: 18, name: "隅田 知一郎", position: "投手",    birth_year: 1999, draft: 2021, photo: "https://via.placeholder.com/110?text=18", link: "#" },
+    { number: 0,  name: "源田 壮亮",   position: "内野手",  birth_year: 1994, draft: 2016, photo: "https://via.placeholder.com/110?text=源田", link: "#" },
+    { number: 65, name: "古賀 悠斗",   position: "捕手",    birth_year: 2000, draft: 2018, photo: "https://via.placeholder.com/110?text=65", link: "#" },
+  ],
+  "2025": [
+    { number: 11, name: "上田 大河", position: "投手",    birth_year: 2002, draft: 2020, photo: "https://via.placeholder.com/110?text=11", link: "#" },
+    { number: 16, name: "高橋 光成", position: "投手",    birth_year: 1997, draft: 2015, photo: "https://via.placeholder.com/110?text=16", link: "#" },
+    { number: 0,  name: "源田 壮亮", position: "内野手",  birth_year: 1994, draft: 2016, photo: "https://via.placeholder.com/110?text=源田", link: "#" },
+  ]
+  // 必要に応じて他の年も追加
+};
+
+// ================================================================
+// ユーティリティ
+// ================================================================
+function displayNumber(n) {
+  return n < 10 ? "0" + n : n;
+}
+
+function getSelectedYears() {
+  return [...document.getElementById("yearSelect").selectedOptions].map(o => o.value);
+}
+
+function collectPlayers() {
+  const years = getSelectedYears();
+  if (years.length === 0) return [];
+  
+  let all = [];
+  years.forEach(year => {
+    if (players[year]) {
+      players[year].forEach(p => {
+        all.push({ ...p, ref_year: parseInt(year) });
+      });
+    }
+  });
+  // 同じ選手は最新のデータを使う（必要に応じて変更可能）
+  const map = new Map();
+  all.sort((a,b) => b.ref_year - a.ref_year);
+  all.forEach(p => {
+    if (!map.has(p.name)) map.set(p.name, p);
+  });
   return Array.from(map.values());
 }
 
-// ===== Sample Data =====
-const players = {
-  "2026": [
-    { number: 11, name: "上田 大河", position: "投手", birth_year: 2002, draft: 2020, photo:"images/11_yamada.png", link:"players/11_yamada.html" },
-    { number: 0, name: "鈴木 太郎", position: "内野手", birth_year: 2003, draft: 2021, photo:"images/0_suzuki.png", link:"players/0_suzuki.html" },
-    { number: 65, name: "古市 尊", position: "捕手", birth_year: 2000, draft: 2018, photo:"images/65_furuichi.png", link:"players/65_furuichi.html" }
-  ]
-};
+// ================================================================
+// スライダー作成 & 双方向バインド
+// ================================================================
+function createSlider(id, min, max, start, labelId, startInputId, endInputId) {
+  const slider = document.getElementById(id);
+  const startInput = document.getElementById(startInputId);
+  const endInput = document.getElementById(endInputId);
+  const label = document.getElementById(labelId);
 
-// ===== UI Init =====
-const yearSelect=document.getElementById("yearSelect");
-for(let y=2026;y>=2017;y--){ const opt=document.createElement("option"); opt.value=y; opt.textContent=y+"年"; yearSelect.appendChild(opt);}
-yearSelect.options[0].selected=true;
+  noUiSlider.create(slider, {
+    start: start,
+    connect: true,
+    step: 1,
+    range: { min, max },
+    format: { to: v => Math.round(v), from: v => Number(v) }
+  });
 
-// Slider Factory
-function bindSlider(id,min,max,startMin,startMax,labelId,startInputId,endInputId){
-  const slider=document.getElementById(id);
-  const startInput=document.getElementById(startInputId);
-  const endInput=document.getElementById(endInputId);
-  const label=document.getElementById(labelId);
-  noUiSlider.create(slider,{ start:[startMin,startMax], connect:true, step:1, range:{min:min,max:max}, format:{to:v=>Math.round(v), from:v=>Math.round(v)} });
-  slider.noUiSlider.on("update",(values)=>{ const [s,e]=values.map(v=>Math.round(v)); label.textContent=s+" - "+e; startInput.value=s; endInput.value=e; renderPlayers(); });
-  function syncInputs(){ let s=parseInt(startInput.value)||min; let e=parseInt(endInput.value)||max; if(s>e) s=e; if(e<s) e=s; slider.noUiSlider.set([s,e]); }
-  startInput.addEventListener("input",syncInputs);
-  endInput.addEventListener("input",syncInputs);
+  const updateUI = (values) => {
+    const [s, e] = values.map(v => Math.round(v));
+    label.textContent = `${s} – ${e}`;
+    startInput.value = s;
+    endInput.value = e;
+  };
+
+  slider.noUiSlider.on("update", updateUI);
+
+  const syncFromInputs = () => {
+    let s = parseInt(startInput.value) || min;
+    let e = parseInt(endInput.value) || max;
+    if (s > e) [s, e] = [e, s];
+    s = Math.max(min, Math.min(max, s));
+    e = Math.max(min, Math.min(max, e));
+    slider.noUiSlider.set([s, e]);
+  };
+
+  startInput.addEventListener("input", syncFromInputs);
+  endInput.addEventListener("input", syncFromInputs);
+  startInput.addEventListener("change", syncFromInputs);
+  endInput.addEventListener("change", syncFromInputs);
 }
 
-bindSlider("numSlider",0,145,0,145,"numRangeLabel","numStartInput","numEndInput");
-bindSlider("ageSlider",17,50,17,50,"ageRangeLabel","ageStartInput","ageEndInput");
-bindSlider("draftSlider",2010,2026,2010,2026,"draftRangeLabel","draftStartInput","draftEndInput");
+// スライダー初期化
+createSlider("numSlider",   0, 145,  [0, 145],   "numRangeLabel",   "numStartInput",   "numEndInput");
+createSlider("ageSlider",   17, 50,  [17, 50],   "ageRangeLabel",   "ageStartInput",   "ageEndInput");
+createSlider("draftSlider", 2010, 2026,[2010,2026],"draftRangeLabel","draftStartInput","draftEndInput");
 
-// ===== AutoComplete =====
-const nameInput=document.getElementById("nameSearch");
-const autoList=document.getElementById("autocomplete-list");
-nameInput.addEventListener("input",function(){
-  const val=this.value.trim();
-  autoList.innerHTML="";
-  if(!val) return;
-  const years=[...yearSelect.selectedOptions].map(o=>o.value);
-  let all=[];
-  years.forEach(y=>{ (players[y]||[]).forEach(p=>{ p.year=parseInt(y); all.push(p); }); });
-  all=dedupe(all);
-  all.filter(p=>p.name.includes(val)).slice(0,8).forEach(p=>{
-    const item=document.createElement("div");
-    item.textContent=p.name+" ("+displayNumber(p.number)+")";
-    item.addEventListener("click",()=>{ nameInput.value=p.name; autoList.innerHTML=""; renderPlayers(); });
-    autoList.appendChild(item);
+// ================================================================
+// オートコンプリート
+// ================================================================
+const nameInput = document.getElementById("nameSearch");
+const autoList = document.getElementById("autocomplete-list");
+
+nameInput.addEventListener("input", () => {
+  const val = nameInput.value.trim();
+  autoList.innerHTML = "";
+  if (!val) return;
+
+  const list = collectPlayers()
+    .filter(p => p.name.includes(val))
+    .slice(0, 10);
+
+  list.forEach(p => {
+    const div = document.createElement("div");
+    div.textContent = `${p.name}  (${displayNumber(p.number)})`;
+    div.addEventListener("click", () => {
+      nameInput.value = p.name;
+      autoList.innerHTML = "";
+      renderPlayers();
+    });
+    autoList.appendChild(div);
   });
 });
-document.addEventListener("click",e=>{ if(e.target!==nameInput) autoList.innerHTML=""; });
 
-// ===== Render =====
-function renderPlayers(){
-  const years=[...yearSelect.selectedOptions].map(o=>o.value);
-  let arr=[];
-  years.forEach(y=>{ (players[y]||[]).forEach(p=>{ p.year=parseInt(y); arr.push({...p}); }); });
-  arr=dedupe(arr);
+document.addEventListener("click", e => {
+  if (e.target !== nameInput) autoList.innerHTML = "";
+});
 
-  const pos=document.getElementById("positionFilter").value;
-  if(pos) arr=arr.filter(p=>p.position===pos);
+// ================================================================
+// 選手一覧描画
+// ================================================================
+function renderPlayers() {
+  let arr = collectPlayers();
 
-  const nm=nameInput.value.trim();
-  if(nm) arr=arr.filter(p=>p.name.includes(nm));
+  // フィルタ
+  const pos = document.getElementById("positionFilter").value;
+  if (pos) arr = arr.filter(p => p.position === pos);
 
-  const numS=parseInt(document.getElementById("numStartInput").value);
-  const numE=parseInt(document.getElementById("numEndInput").value);
-  arr=arr.filter(p=>p.number>=numS && p.number<=numE);
+  const name = nameInput.value.trim();
+  if (name) arr = arr.filter(p => p.name.includes(name));
 
-  const ageS=parseInt(document.getElementById("ageStartInput").value);
-  const ageE=parseInt(document.getElementById("ageEndInput").value);
-  arr=arr.filter(p=>{ const age=parseInt(p.year)-parseInt(p.birth_year); return age>=ageS && age<=ageE; });
+  const numS = parseInt(document.getElementById("numStartInput").value) || 0;
+  const numE = parseInt(document.getElementById("numEndInput").value) || 145;
+  arr = arr.filter(p => p.number >= numS && p.number <= numE);
 
-  const draftS=parseInt(document.getElementById("draftStartInput").value);
-  const draftE=parseInt(document.getElementById("draftEndInput").value);
-  arr=arr.filter(p=>p.draft>=draftS && p.draft<=draftE);
+  const ageS = parseInt(document.getElementById("ageStartInput").value) || 17;
+  const ageE = parseInt(document.getElementById("ageEndInput").value) || 50;
+  arr = arr.filter(p => {
+    const age = p.ref_year - p.birth_year;
+    return age >= ageS && age <= ageE;
+  });
 
-  const sort=document.getElementById("sortSelect").value;
-  arr.sort((a,b)=>{
-    const ageA=parseInt(a.year)-parseInt(a.birth_year);
-    const ageB=parseInt(b.year)-parseInt(b.birth_year);
-    switch(sort){
-      case "number_asc": return a.number-b.number;
-      case "number_desc": return b.number-a.number;
-      case "age_asc": return ageA-ageB;
-      case "age_desc": return ageB-ageA;
-      case "draft_asc": return a.draft-b.draft;
-      case "draft_desc": return b.draft-a.draft;
-      case "name_asc": return a.name.localeCompare(b.name);
-      case "name_desc": return b.name.localeCompare(a.name);
+  const draftS = parseInt(document.getElementById("draftStartInput").value) || 2010;
+  const draftE = parseInt(document.getElementById("draftEndInput").value) || 2026;
+  arr = arr.filter(p => p.draft >= draftS && p.draft <= draftE);
+
+  // ソート
+  const sort = document.getElementById("sortSelect").value;
+  arr.sort((a, b) => {
+    const ageA = a.ref_year - a.birth_year;
+    const ageB = b.ref_year - b.birth_year;
+    switch (sort) {
+      case "number_asc":  return a.number - b.number;
+      case "number_desc": return b.number - a.number;
+      case "age_asc":     return ageA - ageB;
+      case "age_desc":    return ageB - ageA;
+      case "draft_asc":   return a.draft - b.draft;
+      case "draft_desc":  return b.draft - a.draft;
+      case "name_asc":    return a.name.localeCompare(b.name, "ja");
+      case "name_desc":   return b.name.localeCompare(a.name, "ja");
+      default:            return 0;
     }
   });
 
-  const grid=document.getElementById("playerGrid");
-  grid.innerHTML="";
-  arr.forEach(p=>{
-    const age=parseInt(p.year)-parseInt(p.birth_year);
-    const card=document.createElement("div"); card.className="player-card";
-    card.innerHTML=`
+  // 描画
+  const grid = document.getElementById("playerGrid");
+  grid.innerHTML = "";
+
+  if (arr.length === 0) {
+    grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; padding:40px;">該当する選手が見つかりませんでした</p>';
+    return;
+  }
+
+  arr.forEach(p => {
+    const age = p.ref_year - p.birth_year;
+    const card = document.createElement("div");
+    card.className = "player-card";
+    card.innerHTML = `
       <div class="player-photo"><img src="${p.photo}" alt="${p.name}"></div>
       <div class="player-info">
-        <div class="top"><span class="number">${displayNumber(p.number)}</span>
-        <span class="position position-${p.position}">${p.position}</span></div>
+        <div class="top">
+          <span>${displayNumber(p.number)}</span>
+          <span class="position position-${p.position}">${p.position}</span>
+        </div>
         <div class="middle"><a href="${p.link}">${p.name}</a></div>
-        <div class="bottom"><span>${p.draft}</span><span>${age}歳</span></div>
-      </div>`;
+        <div class="bottom">
+          <span>ドラフト ${p.draft}</span>
+          <span>${age}歳 (${p.ref_year}年基準)</span>
+        </div>
+      </div>
+    `;
     grid.appendChild(card);
   });
 }
 
-document.querySelectorAll("select, input").forEach(el=>{ el.addEventListener("change", renderPlayers); el.addEventListener("input", renderPlayers); });
+// ================================================================
+// 初期化
+// ================================================================
+const yearSelect = document.getElementById("yearSelect");
+for (let y = 2026; y >= 2015; y--) {  // 範囲はお好みで
+  const opt = document.createElement("option");
+  opt.value = y;
+  opt.textContent = y + "年";
+  if (y === 2026 || y === 2025) opt.selected = true;
+  yearSelect.appendChild(opt);
+}
+
+["yearSelect", "positionFilter", "sortSelect"].forEach(id => {
+  document.getElementById(id).addEventListener("change", renderPlayers);
+});
+nameInput.addEventListener("input", renderPlayers);  // debounceしても良い
+
+// 初回描画
 renderPlayers();
 </script>
 </body>
