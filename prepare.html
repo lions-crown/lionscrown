@@ -4,19 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L-crown</title>
-
 <!-- サイトアイコン -->
 <link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <meta name="theme-color" content="#0f172a">
-
+  
 <style>
+/* ===== 新しいヘッダー・フッター・全体背景（提供されたスタイル） ===== */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
-
 /* ===== 背景 ===== */
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
@@ -26,7 +25,6 @@ body{
   overflow-x:hidden;
   line-height:1.75;
 }
-
 /* 光のオーブ */
 body::before{
   content:"";
@@ -39,7 +37,6 @@ body::before{
   filter:blur(40px);
   z-index:-1;
 }
-
 /* ===== ヘッダー ===== */
 header{
   position:sticky;
@@ -49,8 +46,7 @@ header{
   border-bottom:1px solid rgba(255,255,255,0.08);
   z-index:1000;
 }
-
-header nav{
+nav{
   max-width:1100px;
   margin:auto;
   display:flex;
@@ -58,7 +54,6 @@ header nav{
   justify-content:space-between;
   padding:16px 20px;
 }
-
 /* ロゴ */
 .logo{
   display:flex;
@@ -69,13 +64,11 @@ header nav{
   letter-spacing:1px;
   text-decoration:none;
 }
-
 .logo span{
   background:linear-gradient(90deg,#4da3ff,#9ad0ff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
 .logo img{
   width:26px;
   height:26px;
@@ -84,21 +77,17 @@ header nav{
   filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
   transition:0.3s;
 }
-
 .logo:hover img{
   transform:scale(1.08);
 }
-
 .logo:hover span{
   text-shadow:0 0 12px rgba(77,163,255,0.7);
 }
-
 /* ===== メニュー ===== */
 .menu{
   display:flex;
   gap:26px;
 }
-
 .menu a{
   color:rgba(255,255,255,0.7);
   text-decoration:none;
@@ -106,7 +95,6 @@ header nav{
   position:relative;
   transition:0.25s;
 }
-
 .menu a::after{
   content:"";
   position:absolute;
@@ -117,45 +105,551 @@ header nav{
   background:linear-gradient(90deg,#4da3ff,#7ecbff);
   transition:0.25s;
 }
-
 .menu a:hover{
   color:white;
   text-shadow:0 0 10px rgba(77,163,255,0.6);
 }
-
 .menu a:hover::after,
 .menu a.active::after{
   width:100%;
 }
+/* ===== フッター ===== */
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+.footer-container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 0.6fr;
+  gap:50px;
+}
+.footer-logo{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.footer-text{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  line-height:1.7;
+}
+.footer-title{
+  font-size:12px;
+  margin-bottom:14px;
+  color:rgba(255,255,255,0.9);
+}
+footer a{
+  text-decoration:none;
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  transition:0.25s;
+}
+footer a:hover{
+  color:white;
+  transform:translateX(4px);
+  text-shadow:0 0 8px rgba(77,163,255,0.5);
+}
+.footer-bottom{
+  text-align:center;
+  padding:16px;
+  font-size:11px;
+  color:rgba(255,255,255,0.35);
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+/* ===== レスポンシブ ===== */
+@media(max-width:768px){
+  .footer-container{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
+}
+
+/* =========================
+   以下、元のコンテンツ部分のスタイル（メニューバー・フッター以外は完全に維持）
+========================= */
+.section {
+  max-width: 1100px;
+  width: 94%;
+  margin: 50px auto;
+}
+/* =========================
+   YouTube
+========================= */
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.video-wrapper iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+/* =========================
+   ヒーロー
+========================= */
+.hero {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: linear-gradient(
+    135deg,
+    #001f3f 0%,
+    #0a2a5a 35%,
+    #1a0033 70%,
+    #001f3f 100%
+  );
+  isolation: isolate;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(0, 180, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(200, 0, 255, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: -2;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 10, 40, 0.40);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: -1;
+  pointer-events: none;
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+  transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
+}
+.fade-in:nth-child(1) { transition-delay: 0.1s; }
+.fade-in:nth-child(2) { transition-delay: 0.25s; }
+.fade-in:nth-child(3) { transition-delay: 0.4s; }
+.fade-in:nth-child(4) { transition-delay: 0.55s; }
+.fade-in:nth-child(5) { transition-delay: 0.7s; }
+.fade-in:nth-child(6) { transition-delay: 0.85s; }
+.fade-in:nth-child(7) { transition-delay: 1.0s; }
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.hero h1 {
+  font-size: clamp(1.9rem, 5.5vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin: 0 auto 20px;
+  padding: 0 3%;
+  background: linear-gradient(90deg, #00c0ff, #ffffff, #ff4080, #00c0ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 15px rgba(0, 192, 255, 0.4),
+    0 0 30px rgba(255, 64, 128, 0.2);
+  display: inline-block;
+}
+@media (min-width: 1800px) {
+  .hero h1 {
+    font-size: 3.8rem;
+  }
+}
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: clamp(1.8rem, 7.5vw, 2.8rem);
+  }
+  .hero {
+    padding: 60px 15px 50px;
+  }
+}
+.hero p {
+  font-size: clamp(1.0rem, 2.6vw, 1.15rem);
+  max-width: 640px;
+  margin: 0 auto 12px;
+  opacity: 0.94;
+  background: linear-gradient(90deg, #a0e0ff, #e0c0ff, #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+}
+/* =========================
+   ビジュアルスライド
+========================= */
+.visual-slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background: #020617;
+  margin: 30px 0 50px;
+}
+.visual-track {
+  display: flex;
+  width: 300%;
+  animation: visualSlide 18s infinite;
+}
+.visual-track img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+@keyframes visualSlide {
+  0% { transform: translateX(0); }
+  30% { transform: translateX(0); }
+  35% { transform: translateX(-100%); }
+  65% { transform: translateX(-100%); }
+  70% { transform: translateX(-200%); }
+  95% { transform: translateX(-200%); }
+  100% { transform: translateX(0); }
+}
+@media (max-width: 600px) {
+  .visual-track img {
+    height: 180px;
+  }
+}
+/* =========================
+   試合速報
+========================= */
+.games-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+#slider {
+  display: flex;
+  transition: transform 0.45s ease;
+}
+.slide {
+  min-width: 100%;
+  padding: 10px;
+}
+.game-card {
+  background: linear-gradient(135deg, #092048, #092048);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+}
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 90px;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+.team {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.team.right {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.team-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+@media (max-width: 600px) {
+  .scoreboard {
+    min-height: 80px;
+  }
+  .team-logo {
+    width: 48px;
+    height: 48px;
+    gap: 8px;
+  }
+  .team {
+    font-size: 16px;
+  }
+  .score {
+    font-size: 28px;
+  }
+}
+.score {
+  font-size: 34px;
+  font-weight: bold;
+}
+.status {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  opacity: 0.6;
+}
+button.slide-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+#prevBtn { left: 10px; }
+#nextBtn { right: 10px; }
+/* =========================
+   ニュース
+========================= */
+.news-title {
+  font-size: 22px;
+  margin-bottom: 24px;
+  color: #6eb9ff;
+}
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+.news-card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 18px;
+  transition: 0.25s;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.news-card:hover {
+  transform: translateY(-4px);
+  background: #263449;
+}
+.news-source {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-bottom: 6px;
+}
+.news-card a {
+  text-decoration: none;
+  color: white;
+}
+.news-headline {
+  font-size: 15px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.news-time {
+  font-size: 12px;
+  opacity: 0.4;
+}
+/* =========================
+   MLB
+========================= */
+.mlb {
+  background: linear-gradient(135deg, #7a0019, #900123);
+  padding: 70px 20px;
+}
+.mlb-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.mlb-title {
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.mlb-description {
+  text-align: center;
+  opacity: 0.7;
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+.mlb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.mlb-card {
+  background: rgba(0,0,0,0.25);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.25s;
+}
+.mlb-card:hover {
+  transform: translateY(-5px);
+  background: rgba(0,0,0,0.35);
+}
+.mlb-player {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.mlb-stats {
+  font-size: 13px;
+  opacity: 0.75;
+  line-height: 1.7;
+}
+.mlb-link {
+  margin-top: 12px;
+  display: inline-block;
+  font-size: 13px;
+  color: #6eb9ff;
+  text-decoration: none;
+}
+/* =========================
+   お知らせ
+========================= */
+.notice {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 80px;
+  padding: 60px 0 20px;
+}
+.notice-title {
+  font-size: 22px;
+  margin-bottom: 30px;
+  color: #6eb9ff;
+}
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.notice-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.25s ease;
+}
+.notice-item:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(110,185,255,0.4);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
+.notice-item a {
+  color: #cfe6ff;
+  text-decoration: none;
+  font-weight: 500;
+  flex: 1;
+}
+.notice-item a:hover {
+  color: #ffffff;
+}
+.notice-time {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-left: 20px;
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .notice-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .notice-time {
+    margin-left: 0;
+  }
+}
+.notice-item {
+  position: relative;
+}
+.notice-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+.notice-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  letter-spacing: .05em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.badge-official {
+  background: rgba(0,180,255,0.15);
+  color: #6ecbff;
+  border-color: rgba(0,180,255,0.4);
+}
+.badge-media {
+  background: rgba(255,255,255,0.08);
+  color: #e2e8f0;
+  border-color: rgba(255,255,255,0.2);
+}
+.badge-update {
+  background: rgba(0,255,180,0.12);
+  color: #2ef0c8;
+  border-color: rgba(0,255,180,0.3);
+}
+.badge-important {
+  background: rgba(255,70,70,0.15);
+  color: #ff6b6b;
+  border-color: rgba(255,70,70,0.4);
+}
+@media (max-width: 600px) {
+  .notice-content {
+    flex-wrap: wrap;
+  }
+}
 </style>
 </head>
-
 <body>
-
 <header>
   <nav>
-    <a href="/lionscrown/" class="logo">
+    <a href="/" class="logo">
       <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
       <span>L-crown</span>
     </a>
     <div class="menu">
-      <a href="/lionscrown/">ホーム</a>
-      <a href="/lionscrown/news">お知らせ</a>
-      <a href="/lionscrown/privacypolicy">利用規約</a>
-      <a href="/lionscrown/contact">お問い合わせ</a>
-      <a href="/lionscrown/organization">運営委員会</a>
+      <a href="/" class="active">ホーム</a>
+      <a href="/news">お知らせ</a>
+      <a href="/privacypolicy">利用規約</a>
+      <a href="/contact">お問い合わせ</a>
     </div>
   </nav>
 </header>
-
-<!-- ===== 既存コンテンツ（本文・ヒーロー・スライダー等） ===== -->
 
 <div class="section">
   <div class="video-wrapper">
     <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
   </div>
 </div>
-
 <div class="hero">
   <h1 class="fade-in">「ライオンズで〜た」を更に深化。</h1>
   <p class="fade-in">データも、機能も、体験も。</p>
@@ -165,7 +659,7 @@ header nav{
   <p class="fade-in">ファンの皆さまにとって「データを身近なものにする」ために、</p>
   <p class="fade-in">これまで以上に進化したコンテンツを発信していきます。</p>
 </div>
-
+<!-- ✅ ビジュアルスライド -->
 <div class="visual-slider">
   <div class="visual-track">
     <img src="images/slide1.jpg" alt="">
@@ -173,9 +667,9 @@ header nav{
     <img src="images/slide3.jpg" alt="">
   </div>
 </div>
-
 <div class="games-wrapper">
   <div id="slider">
+    <!-- スライド1 -->
     <div class="slide">
       <div class="game-card">
         <div class="game-header">
@@ -196,6 +690,7 @@ header nav{
         <div class="status">26.02.28 16:52 更新</div>
       </div>
     </div>
+    <!-- スライド2 -->
     <div class="slide">
       <div class="game-card">
         <div class="game-header">
@@ -216,6 +711,7 @@ header nav{
         <div class="status">26.03.01 13:00 更新</div>
       </div>
     </div>
+    <!-- スライド3 -->
     <div class="slide">
       <div class="game-card">
         <div class="game-header">
@@ -240,7 +736,6 @@ header nav{
   <button id="prevBtn" class="slide-btn">◀</button>
   <button id="nextBtn" class="slide-btn">▶</button>
 </div>
-
 <div class="section">
   <h2 class="news-title">最新ニュース</h2>
   <div class="news-grid">
@@ -267,7 +762,6 @@ header nav{
     </div>
   </div>
 </div>
-
 <div class="mlb">
   <div class="mlb-container">
     <h2 class="mlb-title">夢のMLBへ ― 海外挑戦データ</h2>
@@ -281,9 +775,9 @@ header nav{
         <div class="mlb-stats">
           1991年生まれ。投手／右投右打<br>
           2010年~2018年に埼玉西武ライオンズに在籍。<br>
-          2018オフにポスティングで米国移籍。<br>
+          2018年オフにポスティングシステムによるアメリカ移籍をする。<br>
           マリナーズ・ブルージェイズ・アストロズを経て現在はエンゼルス在籍。<br>
-          WBC2026日本代表選出。
+          WBC2026の日本代表にも選出。
         </div>
         <a href="#" class="mlb-link">MLBデータを見る →</a>
       </div>
@@ -291,16 +785,17 @@ header nav{
         <div class="mlb-player">今井 達也</div>
         <div class="mlb-stats">
           1998年生まれ。投手／右投右打<br>
-          2017~2025に西武在籍。<br>
-          2025オフにポスティングで米国移籍。<br>
-          26年1月2日アストロズ移籍発表。
+          2017年~2025年に埼玉西武ライオンズに在籍。<br>
+          2025年オフにポスティングシステムによるアメリカ移籍を行う。<br>
+          26年1月2日にアストロズへの移籍が発表された。<br>
+          メジャーリーグ1年目の挑戦に注目。
         </div>
         <a href="#" class="mlb-link">MLB分析ページ →</a>
       </div>
     </div>
   </div>
 </div>
-
+<!-- ✅ 最下部お知らせ -->
 <div class="section notice">
   <h2 class="notice-title">L-crown 最新のお知らせ</h2>
   <div id="noticeList" class="notice-list">
@@ -317,20 +812,18 @@ document.addEventListener("DOMContentLoaded", () => {
   loadNotices();
   setInterval(loadNotices, 60000);
 });
-
+/* スライダー */
 const slider = document.getElementById("slider");
 const slides = document.querySelectorAll(".slide").length;
 let index = 0;
-
 function moveSlide(step){
   index = (index + step + slides) % slides;
   slider.style.transform = `translateX(-${index * 100}%)`;
 }
-
-prevBtn.onclick = () => moveSlide(-1);
-nextBtn.onclick = () => moveSlide(1);
+document.getElementById("prevBtn").onclick = () => moveSlide(-1);
+document.getElementById("nextBtn").onclick = () => moveSlide(1);
 setInterval(()=>moveSlide(1), 4500);
-
+/* お知らせ読み込み */
 async function loadNotices() {
   try {
     const res = await fetch("/lionscrown/notices.json");
@@ -347,8 +840,14 @@ async function loadNotices() {
       if(item.category === "重要") badgeClass = "badge-important";
       el.innerHTML = `
         <div class="notice-content">
-          <span class="notice-badge ${badgeClass}">${item.category||"INFO"}</span>
-          ${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>` : `<span>${item.text}</span>`}
+          <span class="notice-badge ${badgeClass}">
+            ${item.category || "INFO"}
+          </span>
+          ${
+            item.url && item.url.trim() !== ""
+              ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
+              : `<span>${item.text}</span>`
+          }
         </div>
         <span class="notice-time">${item.time}</span>
       `;
@@ -356,15 +855,14 @@ async function loadNotices() {
     });
   } catch (e) {
     console.error("お知らせ取得エラー:", e);
-    document.getElementById("noticeList").innerHTML = '<div class="notice-item">お知らせを取得できませんでした</div>';
+    document.getElementById("noticeList").innerHTML =
+      '<div class="notice-item">お知らせを取得できませんでした</div>';
   }
 }
 </script>
 
-<!-- ===== フッター ===== -->
 <footer>
   <div class="footer-container">
-
     <div>
       <div class="footer-logo">L-crown</div>
       <div class="footer-text">
@@ -372,27 +870,21 @@ async function loadNotices() {
         埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
       </div>
     </div>
-
     <div>
-      <div class="footer-title">SNS</div>
-      <a href="https://x.com/Lcrown_official" target="_blank">𝕏 @Lcrown_official</a>
+      <div class="footer-title">リンク</div>
+      <a href="/">ホーム</a><br>
+      <a href="/news">お知らせ</a><br>
+      <a href="/privacypolicy">利用規約</a><br>
+      <a href="/contact">お問い合わせ</a>
     </div>
-
     <div>
-      <div class="footer-title">ナビゲーション</div>
-      <a href="/lionscrown/">ホーム</a><br>
-      <a href="/lionscrown/news">お知らせ</a><br>
-      <a href="/lionscrown/privacypolicy">利用規約</a><br>
-      <a href="/lionscrown/contact">お問い合わせ</a><br>
-      <a href="/lionscrown/organization">運営委員会</a>
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
     </div>
-
   </div>
-
   <div class="footer-bottom">
-    © 2026 L-crown. All Rights Reserved. Powered by Lions fans.
+    © 2026 L-crown. All rights reserved.
   </div>
 </footer>
-
 </body>
 </html>
