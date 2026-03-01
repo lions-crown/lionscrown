@@ -439,11 +439,18 @@ const players = {
 
 /* ==================== 共通処理 ==================== */
 
-function displayNumber(n){
-  if(n==="00") return "00";
-  if(n==="0") return "0";
-  const num=parseInt(n);
-  return num<10 ? num : num.toString();
+/* ==================== 共通処理 ==================== */
+function displayNumber(n) {
+  if (n === "00") return "00";        // 00は例外でそのまま
+  if (n === "0") return "0";          // 0もそのまま
+
+  // 文字列として先頭の0をすべて除去
+  let str = String(n).replace(/^0+/, "");
+  
+  // 全部0だった場合は「0」に戻す
+  if (str === "") return "0";
+
+  return str;
 }
 
 function getSelectedYears(){
