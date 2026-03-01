@@ -398,3 +398,129 @@ footer a:hover{
     gap:30px;
   }
 }
+
+
+/* =========================
+   レスポンシブ（タブレット以下）
+========================= */
+@media (max-width: 1024px) {
+  main {
+    padding: 0 16px;
+  }
+  
+  .glass-card {
+    padding: 24px;
+  }
+  
+  .search-results {
+    max-height: 380px;
+  }
+}
+
+/* =========================
+   スマホ対応：カレンダーを縦1列に変更
+========================= */
+@media (max-width: 768px) {
+  /* ヘッダーメニューをハンバーガーに切り替える準備（必要なら後で実装） */
+  .menu {
+    gap: 16px;
+    font-size: 12px;
+  }
+
+  /* カレンダー曜日ヘッダー → 1列に */
+  .calendar-days {
+    grid-template-columns: 1fr;           /* 7列 → 1列 */
+    margin: 16px 0 8px;
+  }
+
+  .calendar-days div {
+    padding: 10px;
+    font-size: 14px;                      /* 少し見やすく */
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* カレンダー本体 → 縦に並べる */
+  .calendar-grid {
+    grid-template-columns: 1fr;           /* 7列 → 1列 */
+    gap: 12px;
+  }
+
+  .day-cell {
+    min-height: 100px;                    /* 少しコンパクトに */
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: row;                  /* 左に日付、右に予定 */
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  /* 日付部分を強調 */
+  .day-cell::before {
+    content: attr(data-date);             /* HTML側で data-date="4/10" などの属性を付ける想定 */
+    font-size: 18px;
+    font-weight: bold;
+    min-width: 50px;
+    color: #9ad0ff;
+  }
+
+  /* ミニカードを横並び→縦並び対応しやすく */
+  .day-cell .mini-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* 空セルは非表示or最小化 */
+  .day-cell.empty {
+    display: none;                        /* 完全に非表示でもOK */
+    /* または min-height: 40px; background: transparent; */
+  }
+
+  /* 検索結果のグリッドもスマホ用に調整 */
+  .result-row {
+    grid-template-columns: 44px 1fr;      /* ロゴ + 残り全部 */
+    grid-template-rows: auto auto;
+    gap: 8px 12px;
+    padding: 12px 14px;
+  }
+
+  .result-row > *:nth-child(2),
+  .result-row > *:nth-child(3),
+  .result-row > *:nth-child(4),
+  .result-row > *:nth-child(5),
+  .result-row > *:nth-child(6) {
+    grid-column: 2 / 3;
+  }
+
+  .result-row span {
+    font-size: 12px;
+  }
+
+  /* フィルターUIも縦にしやすく */
+  .opponent-box {
+    justify-content: center;
+  }
+
+  .search-results {
+    max-height: 50vh;
+  }
+}
+
+/* さらに小さい画面（例：横にするときも安心） */
+@media (max-width: 480px) {
+  .day-cell {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .mini-card img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .mini-card {
+    font-size: 10px;
+  }
+}
