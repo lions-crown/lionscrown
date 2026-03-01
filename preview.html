@@ -14,6 +14,7 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
 .range-slider .slider-label { display:flex; justify-content:space-between; font-size:0.85em; margin-bottom:4px; }
 .range-slider .slider-inputs { display:flex; justify-content:space-between; margin-bottom:4px; }
 .range-slider .slider-inputs input { width:45%; padding:4px; border-radius:4px; border:none; font-size:0.85em; }
+.sort-controls { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:15px;}
 .player-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
 @media(max-width:1000px){ .player-grid { grid-template-columns:repeat(2,1fr); } }
 @media(max-width:600px){ .player-grid { grid-template-columns:1fr; } }
@@ -49,30 +50,60 @@ h1 { text-align:center; margin-bottom:20px; font-size:2em; text-shadow:1px 1px 5
     <option value="外野手">外野手</option>
   </select>
   <input type="text" id="nameSearch" placeholder="名前で検索">
+</div>
 
-  <!-- 背番号 -->
-  <div class="range-slider">
-    <div class="slider-label">背番号範囲: <span id="numRangeLabel">00 - 145</span></div>
-    <div class="slider-inputs">
-      <input type="number" id="numStartInput" min="0" max="145" value="0">
-      <input type="number" id="numEndInput" min="0" max="145" value="145">
-    </div>
-    <div id="numSlider"></div>
+<div class="range-slider">
+  <div class="slider-label">背番号範囲: <span id="numRangeLabel">00 - 145</span></div>
+  <div class="slider-inputs">
+    <input type="number" id="numStartInput" min="0" max="145" value="0">
+    <input type="number" id="numEndInput" min="0" max="145" value="145">
   </div>
+  <div id="numSlider"></div>
+</div>
+
+<div class="range-slider">
+  <div class="slider-label">年齢範囲: <span id="ageRangeLabel">17 - 50</span></div>
+  <div class="slider-inputs">
+    <input type="number" id="ageStartInput" min="17" max="50" value="17">
+    <input type="number" id="ageEndInput" min="17" max="50" value="50">
+  </div>
+  <div id="ageSlider"></div>
+</div>
+
+<div class="range-slider">
+  <div class="slider-label">ドラフト年範囲: <span id="draftRangeLabel">2010 - 2026</span></div>
+  <div class="slider-inputs">
+    <input type="number" id="draftStartInput" min="2010" max="2026" value="2010">
+    <input type="number" id="draftEndInput" min="2010" max="2026" value="2026">
+  </div>
+  <div id="draftSlider"></div>
+</div>
+
+<div class="sort-controls">
+  <label>並び替え:
+    <select id="sortSelect">
+      <option value="number_asc">背番号↑</option>
+      <option value="number_desc">背番号↓</option>
+      <option value="age_asc">年齢↑</option>
+      <option value="age_desc">年齢↓</option>
+      <option value="draft_asc">ドラフト↑</option>
+      <option value="draft_desc">ドラフト↓</option>
+      <option value="name_asc">名前五十音↑</option>
+      <option value="name_desc">名前五十音↓</option>
+    </select>
+  </label>
 </div>
 
 <div class="player-grid" id="playerGrid"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.js"></script>
 <script>
-// 背番号表示用マッピング（00,0,1,2...145）
 function displayNumber(val){
   if(val===0) return "00";
   if(val===1) return "0";
   return (val-1).toString();
 }
 
-// サンプルデータ
 const players={
   "2026":[
     { "number":11,"name":"上田 大河","position":"投手","birth_year":2002,"draft":"2020","photo":"images/11_ueda_taiga.png","link":"players/11_ueda_taiga.html" },
@@ -88,8 +119,7 @@ for(let y=2026;y>=2017;y--){
 }
 yearSelect.options[0].selected=true;
 
-// 背番号スライダー + 入力同期
-function createNumberSlider(sliderId,startInputId,endInputId,labelId){
+function createSlider(sliderId,startInputId,endInputId,min,max,labelId){
   const slider=document.getElementById(sliderId);
   const startInput=document.getElementById(startInputId);
   const endInput=document.getElementById(endInputId);
@@ -99,16 +129,15 @@ function createNumberSlider(sliderId,startInputId,endInputId,labelId){
     start:[parseInt(startInput.value),parseInt(endInput.value)],
     connect:true,
     step:1,
-    range:{min:0,max:146}, // 0=00,1=0,2=1...
+    range:{min:min,max:max},
     format:{to:v=>parseInt(v), from:v=>parseInt(v)}
   });
 
   function updateLabel(){
     const [s,e]=slider.noUiSlider.get().map(v=>parseInt(v));
-    label.textContent=displayNumber(s)+' - '+displayNumber(e);
+    label.textContent=s+' - '+e;
     renderPlayers();
   }
-
   slider.noUiSlider.on('update', updateLabel);
 
   function syncInputs(){
@@ -118,17 +147,16 @@ function createNumberSlider(sliderId,startInputId,endInputId,labelId){
     slider.noUiSlider.set([s,e]);
     renderPlayers();
   }
-
   startInput.addEventListener('input', syncInputs);
   endInput.addEventListener('input', syncInputs);
 }
 
-createNumberSlider('numSlider','numStartInput','numEndInput','numRangeLabel');
+createSlider('numSlider','numStartInput','numEndInput',0,146,'numRangeLabel');
+createSlider('ageSlider','ageStartInput','ageEndInput',17,50,'ageRangeLabel');
+createSlider('draftSlider','draftStartInput','draftEndInput',2010,2026,'draftRangeLabel');
 
-// デュープ
 function dedupe(playersArray){ const map=new Map(); playersArray.sort((a,b)=>b.year-a.year); playersArray.forEach(p=>{ if(!map.has(p.name)) map.set(p.name,p); }); return Array.from(map.values()); }
 
-// 描画
 function renderPlayers(){
   const selectedYears=[...yearSelect.selectedOptions].map(o=>o.value);
   let filtered=[];
@@ -149,11 +177,32 @@ function renderPlayers(){
   const numEnd=parseInt(document.getElementById('numEndInput').value);
   filtered=filtered.filter(p=>{
     let n=p.number;
-    if(n===0) n=0; else if(n===1) n=1; else n+=1; // 内部計算
+    if(n===0) n=0; else if(n===1) n=1; else n+=1;
     return n>=numStart && n<=numEnd;
   });
 
-  filtered.sort((a,b)=>a.number-b.number);
+  const ageStart=parseInt(document.getElementById('ageStartInput').value);
+  const ageEnd=parseInt(document.getElementById('ageEndInput').value);
+  filtered=filtered.filter(p=>{ const age=p.year-p.birth_year; return age>=ageStart && age<=ageEnd; });
+
+  const draftStart=parseInt(document.getElementById('draftStartInput').value);
+  const draftEnd=parseInt(document.getElementById('draftEndInput').value);
+  filtered=filtered.filter(p=>p.draft && p.draft!=='-' && parseInt(p.draft)>=draftStart && parseInt(p.draft)<=draftEnd);
+
+  const sort=document.getElementById('sortSelect').value;
+  filtered.sort((a,b)=>{
+    const ageA=a.year-a.birth_year, ageB=b.year-b.birth_year;
+    switch(sort){
+      case 'number_asc': return a.number-b.number;
+      case 'number_desc': return b.number-a.number;
+      case 'age_asc': return ageA-ageB;
+      case 'age_desc': return ageB-ageA;
+      case 'draft_asc': return parseInt(a.draft||0)-parseInt(b.draft||0);
+      case 'draft_desc': return parseInt(b.draft||0)-parseInt(a.draft||0);
+      case 'name_asc': return a.name.localeCompare(b.name);
+      case 'name_desc': return b.name.localeCompare(a.name);
+    }
+  });
 
   const grid=document.getElementById('playerGrid');
   grid.innerHTML="";
@@ -182,6 +231,7 @@ function renderPlayers(){
   yearSelect.addEventListener(ev, renderPlayers);
   document.getElementById('positionFilter').addEventListener(ev, renderPlayers);
   document.getElementById('nameSearch').addEventListener(ev, renderPlayers);
+  document.getElementById('sortSelect').addEventListener(ev, renderPlayers);
 });
 
 renderPlayers();
