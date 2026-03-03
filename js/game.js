@@ -404,29 +404,41 @@ function renderAll() {
   renderPitcherStats();
 }
 
-function nextPA() {
-  if (!gameData?.pitches?.length) return;
+let currentPAIndex = 0; // 現在の打者のインデックス
+let gameData = null;    // ここに試合データを代入
 
-  currentPAIndex++;
+function init() {
+  // ここで gameData を取得または読み込み
+  // 例: fetch で JSON を取得
+  // gameData = ...
+  
+  renderCurrentPA();
+}
 
-  if (currentPAIndex >= gameData.pitches.length) {
-    currentPAIndex = 0; // ループ
-  }
+function renderCurrentPA() {
+  if (!gameData?.pitches?.[currentPAIndex]) return;
+  const pa = gameData.pitches[currentPAIndex];
 
-  renderAll();
+  // 投球ログ描画
+  renderPitchLog(pa);
+  renderPitcherStats();
+  renderBatterStats();
 }
 
 function prevPA() {
-  if (!gameData?.pitches?.length) return;
-
-  currentPAIndex--;
-
-  if (currentPAIndex < 0) {
-    currentPAIndex = gameData.pitches.length - 1;
+  if (currentPAIndex > 0) {
+    currentPAIndex--;
+    renderCurrentPA();
   }
-
-  renderAll();
 }
+
+function nextPA() {
+  if (currentPAIndex < gameData.pitches.length - 1) {
+    currentPAIndex++;
+    renderCurrentPA();
+  }
+}
+
 
 /* ===============================
    フィルター
