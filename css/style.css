@@ -610,3 +610,25 @@ footer a:hover{
 .empty {
   background: transparent;
 }
+
+
+/* ===== 守備フィールド表示 ===== */
+
+#field {
+  position: relative;
+  height: 320px;
+  background: radial-gradient(circle at center, #1c5d2e 0%, #0e3a1b 70%);
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+.fielder {
+  position: absolute;
+  background: white;
+  color: black;
+  font-size: 11px;
+  padding: 4px 6px;
+  border-radius: 12px;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
