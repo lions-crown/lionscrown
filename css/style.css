@@ -524,3 +524,62 @@ footer a:hover{
     font-size: 10px;
   }
 }
+
+
+
+/* =========================
+   game_detail 専用
+========================= */
+
+.game-detail table {
+  border-collapse: collapse;
+}
+
+.game-detail td,
+.game-detail th {
+  border: 1px solid #ccc;
+  padding: 4px;
+  text-align: center;
+}
+
+.game-detail .lineups {
+  display: flex;
+  gap: 40px;
+}
+
+.game-detail #zone {
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  grid-template-rows: repeat(5, 50px);
+  gap: 2px;
+  margin-top: 10px;
+}
+
+.game-detail .zoneCell {
+  border: 1px solid #333;
+  font-size: 12px;
+}
+
+.game-detail .strike { background: yellow; }
+.game-detail .ball { background: lightgreen; }
+.game-detail .hit { background: deepskyblue; }
+.game-detail .out { background: red; }
+
+.game-detail #field {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border: 1px solid #000;
+  margin-top: 10px;
+}
+
+.game-detail .base {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: gray;
+}
+
+.game-detail .runner {
+  background: orange !important;
+}
