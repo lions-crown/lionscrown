@@ -190,4 +190,14 @@ function latestPA(){ currentPAIndex=gameData.pitches.length-1; renderAllComponen
 // 選手検索
 function searchBatter(){
   const name = document.getElementById("searchBatter").value.trim();
-  const idx = gameData
+  const idx = gameData.pitches.findIndex(pa=> pa.batter_name===name || pa.batter===name);
+  if(idx>=0){ currentPAIndex=idx; renderAllComponents(); }
+}
+
+// 回飛び
+function goToInning(inning){
+  const idx = gameData.pitches.findIndex(pa=> pa.inning===inning);
+  if(idx>=0){ currentPAIndex=idx; renderAllComponents(); }
+}
+
+init();
