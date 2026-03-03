@@ -55,6 +55,48 @@ h2{margin-bottom:14px;font-size:18px;}
 }
 
 /* ラインナップ */
+.lineup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lineup-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  transition: 0.2s;
+}
+
+.lineup-item:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateX(4px);
+}
+
+.batting-order {
+  font-weight: bold;
+  color: #7ecbff;
+  width: 20px;
+}
+
+.position {
+  font-weight: bold;
+  color: #ffd84d;
+  margin-right: 6px;
+}
+
+.player-name {
+  flex: 1;
+}
+
+.avg {
+  font-size: 12px;
+  opacity: 0.8;
+}
+  
 .lineup-box{
   padding:20px;
   border-radius:18px;
