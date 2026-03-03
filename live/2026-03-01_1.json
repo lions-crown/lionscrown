@@ -7,7 +7,6 @@
     "stadium": "ベルーナドーム",
     "umpires": ["球審 山田", "一塁 佐藤", "二塁 鈴木", "三塁 田中"]
   },
-
   "pitchers": {
     "L2026_13": {
       "name": "髙橋 光成",
@@ -20,51 +19,45 @@
       }
     }
   },
-
   "scoreboard": {
     "innings": [
-      { "inning": 1, "home": 0, "away": 1 },
-      { "inning": 2, "home": 0, "away": 0 },
-      { "inning": 3, "home": 2, "away": 1 },
-      { "inning": 4, "home": 0, "away": 0 },
-      { "inning": 5, "home": 0, "away": 0 },
-      { "inning": 6, "home": 0, "away": 0 },
-      { "inning": 7, "home": 0, "away": 0 },
-      { "inning": 8, "home": 0, "away": 0 },
-      { "inning": 9, "home": 2, "away": 1 }
+      {"inning":1,"home":0,"away":1},
+      {"inning":2,"home":0,"away":0},
+      {"inning":3,"home":2,"away":1},
+      {"inning":4,"home":0,"away":0},
+      {"inning":5,"home":0,"away":0},
+      {"inning":6,"home":0,"away":0},
+      {"inning":7,"home":0,"away":0},
+      {"inning":8,"home":0,"away":0},
+      {"inning":9,"home":2,"away":1}
     ],
-    "total": {
-      "home": { "R": 4, "H": 8, "E": 0 },
-      "away": { "R": 3, "H": 7, "E": 0 }
-    }
+    "total": {"home":{"R":4,"H":8,"E":0},"away":{"R":3,"H":7,"E":0}}
   },
-
   "lineups": {
     "home": [
-      { "id": "L2026_51", "name": "西川 愛也", "pos": "CF", "avg": ".280" },
-      { "id": "L2026_7", "name": "桑原 将志", "pos": "RF", "avg": ".305" },
-      { "id": "L2026_8", "name": "渡部 聖弥", "pos": "3B", "avg": ".280" },
-      { "id": "L2026_26", "name": "ネビン", "pos": "1B", "avg": ".280" },
-      { "id": "L2026_25", "name": "カナリオ", "pos": "LF", "avg": ".280" },
-      { "id": "L2026_4", "name": "石井 一成", "pos": "2B", "avg": ".280" },
-      { "id": "L2026_73", "name": "林 安可", "pos": "DH", "avg": ".280" },
-      { "id": "L2026_22", "name": "古賀 悠斗", "pos": "C", "avg": ".280" },
-      { "id": "L2026_62", "name": "滝澤 夏央", "pos": "SS", "avg": ".280" },
-      { "id": "L2026_13", "name": "髙橋 光成", "pos": "P", "avg": "2.00" }
+      {"id":"L2026_51","name":"西川 愛也","pos":"CF","avg":".280"},
+      {"id":"L2026_7","name":"桑原 将志","pos":"RF","avg":".305"},
+      {"id":"L2026_8","name":"渡部 聖弥","pos":"3B","avg":".280"},
+      {"id":"L2026_26","name":"ネビン","pos":"1B","avg":".280"},
+      {"id":"L2026_25","name":"カナリオ","pos":"LF","avg":".280"},
+      {"id":"L2026_4","name":"石井 一成","pos":"2B","avg":".280"},
+      {"id":"L2026_73","name":"林 安可","pos":"DH","avg":".280"},
+      {"id":"L2026_22","name":"古賀 悠斗","pos":"C","avg":".280"},
+      {"id":"L2026_62","name":"滝澤 夏央","pos":"SS","avg":".280"},
+      {"id":"L2026_13","name":"髙橋 光成","pos":"P","avg":"2.00"}
     ],
     "away": [
-      { "id": "J2026_1", "name": "大谷 翔平", "pos": "DH", "avg": ".290" },
-      { "id": "J2026_2", "name": "近藤 健介", "pos": "RF", "avg": ".290" },
-      { "id": "J2026_3", "name": "鈴木 誠也", "pos": "CF", "avg": ".290" },
-      { "id": "J2026_4", "name": "村上 宗隆", "pos": "3B", "avg": ".290" },
-      { "id": "J2026_5", "name": "吉田 正尚", "pos": "LF", "avg": ".290" },
-      { "id": "J2026_6", "name": "岡本 和真", "pos": "1B", "avg": ".290" },
-      { "id": "J2026_7", "name": "牧 秀悟", "pos": "2B", "avg": ".290" },
-      { "id": "J2026_8", "name": "源田 壮亮" , "pos": "SS", "avg": ".290" },
-      { "id": "J2026_9", "name": "若月 健矢", "pos": "C", "avg": ".265" }
+      {"id":"J2026_1","name":"大谷 翔平","pos":"DH","avg":".290"},
+      {"id":"J2026_2","name":"近藤 健介","pos":"RF","avg":".290"},
+      {"id":"J2026_3","name":"鈴木 誠也","pos":"CF","avg":".290"},
+      {"id":"J2026_4","name":"村上 宗隆","pos":"3B","avg":".290"},
+      {"id":"J2026_5","name":"吉田 正尚","pos":"LF","avg":".290"},
+      {"id":"J2026_6","name":"岡本 和真","pos":"1B","avg":".290"},
+      {"id":"J2026_7","name":"牧 秀悟","pos":"2B","avg":".290"},
+      {"id":"J2026_8","name":"源田 壮亮","pos":"SS","avg":".290"},
+      {"id":"J2026_9","name":"若月 健矢","pos":"C","avg":".265"}
     ]
   },
-
   "pitches": [
     {
       "pa_id": 1,
@@ -73,52 +66,50 @@
       "batter_id": "J2026_1",
       "pitcher_id": "L2026_13",
       "result": "out",
-
-      "final_count": { "balls": 0, "strikes": 2, "outs": 1 },
-
-      "runners": {
-        "1B": null,
-        "2B": null,
-        "3B": null
-      },
-
-      "batted_ball": {
-        "type": "fly",
-        "direction": "CF",
-        "result": "out"
-      },
-
-      "fielders": {
-        "P": "髙橋 光成",
-        "C": "古賀 悠斗",
-        "1B": "ネビン",
-        "2B": "石井 一成",
-        "3B": "渡部 聖弥",
-        "SS": "滝澤 夏央",
-        "LF": "西川 愛也",
-        "CF": "桑原 将志",
-        "RF": "カナリオ"
-      },
-
-      "pitches": [
-        {
-          "pitch_type": "slider",
-          "velocity": 138,
-          "zone": { "x": 2.5, "y": 2.5 },
-          "result": "strike"
-        },
-        {
-          "pitch_type": "fastball",
-          "velocity": 145,
-          "zone": { "x": 1, "y": 4 },
-          "result": "strike"
-        },
-        {
-          "pitch_type": "slider",
-          "velocity": 137,
-          "zone": { "x": 4, "y": 3 },
-          "result": "strike"
-        }
+      "final_count": {"balls":0,"strikes":2,"outs":1},
+      "runners":{"1B":null,"2B":null,"3B":null},
+      "batted_ball":{"type":"fly","direction":"CF","result":"out"},
+      "fielders":{"P":"髙橋 光成","C":"古賀 悠斗","1B":"ネビン","2B":"石井 一成","3B":"渡部 聖弥","SS":"滝澤 夏央","LF":"西川 愛也","CF":"桑原 将志","RF":"カナリオ"},
+      "pitches":[
+        {"pitch_type":"slider","velocity":138,"zone":{"x":2.5,"y":2.5},"result":"strike"},
+        {"pitch_type":"fastball","velocity":145,"zone":{"x":1,"y":4},"result":"strike"},
+        {"pitch_type":"slider","velocity":137,"zone":{"x":4,"y":3},"result":"strike"}
+      ]
+    },
+    {
+      "pa_id": 2,
+      "inning": 1,
+      "half": "top",
+      "batter_id": "J2026_2",
+      "pitcher_id": "L2026_13",
+      "result": "hit",
+      "final_count": {"balls":3,"strikes":1,"outs":1},
+      "runners":{"1B":null,"2B":null,"3B":null},
+      "batted_ball":{"type":"ground","direction":"3B","result":"single"},
+      "fielders":{"P":"髙橋 光成","C":"古賀 悠斗","1B":"ネビン","2B":"石井 一成","3B":"渡部 聖弥","SS":"滝澤 夏央","LF":"西川 愛也","CF":"桑原 将志","RF":"カナリオ"},
+      "pitches":[
+        {"pitch_type":"fastball","velocity":145,"zone":{"x":3,"y":2},"result":"ball"},
+        {"pitch_type":"curve","velocity":128,"zone":{"x":2,"y":3},"result":"strike"},
+        {"pitch_type":"fastball","velocity":148,"zone":{"x":3,"y":3},"result":"ball"},
+        {"pitch_type":"slider","velocity":135,"zone":{"x":2,"y":4},"result":"ball"},
+        {"pitch_type":"fastball","velocity":147,"zone":{"x":3,"y":2},"result":"hit"}
+      ]
+    },
+    {
+      "pa_id": 3,
+      "inning": 1,
+      "half": "top",
+      "batter_id": "J2026_3",
+      "pitcher_id": "L2026_13",
+      "result": "strikeout",
+      "final_count": {"balls":2,"strikes":2,"outs":2},
+      "runners":{"1B":"J2026_2","2B":null,"3B":null},
+      "batted_ball":null,
+      "fielders":{"P":"髙橋 光成","C":"古賀 悠斗","1B":"ネビン","2B":"石井 一成","3B":"渡部 聖弥","SS":"滝澤 夏央","LF":"西川 愛也","CF":"桑原 将志","RF":"カナリオ"},
+      "pitches":[
+        {"pitch_type":"slider","velocity":136,"zone":{"x":2,"y":3},"result":"strike"},
+        {"pitch_type":"fastball","velocity":150,"zone":{"x":3,"y":3},"result":"strike"},
+        {"pitch_type":"curve","velocity":125,"zone":{"x":2,"y":4},"result":"strike"}
       ]
     }
   ]
