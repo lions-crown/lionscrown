@@ -8,10 +8,12 @@ async function init() {
   const date = params.get("date");
   const team = params.get("team");
 
-  console.log("fetch開始:", `live/${date}_${team}.json`);
+  // GitHub Pagesでは相対パスが404になることが多いため、絶対パスを使用
+  const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
+  console.log("fetch開始:", jsonUrl);
 
   try {
-    const res = await fetch(`live/${date}_${team}.json`);
+    const res = await fetch(jsonUrl);
     console.log("HTTPステータス:", res.status, res.ok);
 
     if (!res.ok) {
@@ -28,10 +30,10 @@ async function init() {
     } catch (parseError) {
       console.error("JSONパース失敗:", parseError);
       console.log("パースできなかった生テキスト:", rawText);
-      throw parseError;  // 外側のcatchでまとめて処理
+      throw parseError;
     }
 
-    // データが正常に取れた場合のみrenderを実行
+    // データ取得成功時のみ描画
     renderSummary();
     renderScoreboard();
     renderLineups();
@@ -43,14 +45,20 @@ async function init() {
 
   } catch (err) {
     console.error("データ読み込みエラー:", err);
+
+    const errorHtml = `
+      <div style="color:red; padding:1em; border:2px solid red; margin:1em; background:#ffebee;">
+        <strong>データ読み込みに失敗しました</strong><br>
+        ${err.message}<br>
+        <small>コンソールを確認してください（F12キー）</small>
+      </div>`;
+
+    // summary と scoreboard の両方にエラー表示（ユーザーが気づきやすい）
+    const summaryEl = document.getElementById("summary");
     const scoreboardEl = document.getElementById("scoreboard");
-    if (scoreboardEl) {
-      scoreboardEl.innerHTML = 
-        `<div style="color:red; padding:1em; border:1px solid red; margin:1em;">
-           データ読み込みに失敗しました<br>
-           ${err.message}
-         </div>`;
-    }
+
+    if (summaryEl) summaryEl.innerHTML = errorHtml;
+    if (scoreboardEl) scoreboardEl.innerHTML = errorHtml;
   }
 }
 
@@ -58,7 +66,7 @@ async function init() {
    試合概要
 ===================== */
 function renderSummary() {
-  const m = gameData.meta || {};
+  const m = gameData?.meta || {};
   document.getElementById("summary").innerHTML = `
     ${m.home || "?"} vs ${m.away || "?"}<br>
     球場: ${m.stadium || "-"}<br>
@@ -68,12 +76,12 @@ function renderSummary() {
 }
 
 /* =====================
-   スコアボード   ← ここを現在のJSONに合わせました
+   スコアボード
 ===================== */
 function renderScoreboard() {
-  // 安全ガードをたくさん入れてクラッシュを防ぐ
-  if (!gameData || !gameData.scoreboard) {
-    document.getElementById("scoreboard").innerHTML = "<p style='color:red;'>スコアデータがありません</p>";
+  if (!gameData?.scoreboard) {
+    document.getElementById("scoreboard").innerHTML = 
+      "<p style='color:#d32f2f; font-weight:bold;'>スコアデータがありません</p>";
     return;
   }
 
@@ -81,24 +89,23 @@ function renderScoreboard() {
   const innings = sb.innings || [];
   const totals = sb.total || { away: {}, home: {} };
 
-  let html = "<table border='1' style='border-collapse: collapse; text-align: center; margin: 10px auto;'>";
-  html += "<tr><th></th>";  // 左上の空セル
+  let html = '<table border="1" style="border-collapse: collapse; text-align: center; margin: 10px auto; font-size: 14px;">';
+  html += '<tr><th></th>';
 
-  // イニングのヘッダー
   innings.forEach(inningObj => {
     html += `<th>${inningObj.inning || "?"}</th>`;
   });
-  html += "<th>R</th><th>H</th><th>E</th></tr>";
+  html += '<th>R</th><th>H</th><th>E</th></tr>';
 
-  // away行
+  // away
   const awayTotal = totals.away || { R: "-", H: "-", E: "-" };
-  html += "<tr><td><strong>" + (gameData.meta?.away || "Away") + "</strong></td>";
-  innings.forEach(() => html += "<td>-</td>");  // イニングごとの得点（未実装）
+  html += `<tr><td><strong>${gameData.meta?.away || "Away"}</strong></td>`;
+  innings.forEach(() => html += "<td>-</td>");
   html += `<td>${awayTotal.R}</td><td>${awayTotal.H}</td><td>${awayTotal.E}</td></tr>`;
 
-  // home行
+  // home
   const homeTotal = totals.home || { R: "-", H: "-", E: "-" };
-  html += "<tr><td><strong>" + (gameData.meta?.home || "Home") + "</strong></td>";
+  html += `<tr><td><strong>${gameData.meta?.home || "Home"}</strong></td>`;
   innings.forEach(() => html += "<td>-</td>");
   html += `<td>${homeTotal.R}</td><td>${homeTotal.H}</td><td>${homeTotal.E}</td></tr>`;
 
@@ -107,22 +114,21 @@ function renderScoreboard() {
 }
 
 /* =====================
-   オーダー（今のJSONに lineups がないので仮実装）
+   オーダー（lineupsがない場合のフォールバック）
 ===================== */
 function renderLineups() {
-  // JSONに lineups がまだない場合のフォールバック
-  const home = gameData.lineups?.home || [];
-  const away = gameData.lineups?.away || [];
+  const home = gameData?.lineups?.home || [];
+  const away = gameData?.lineups?.away || [];
 
   document.getElementById("homeLineup").innerHTML = renderPlayers(home);
   document.getElementById("awayLineup").innerHTML = renderPlayers(away);
 }
 
 function renderPlayers(players) {
-  if (!players.length) return "<div>データなし</div>";
+  if (!players?.length) return "<div style='color:#777;'>データなし</div>";
   return players.map(p => `
-    <div>
-      <a href="player_detail.html?id=${p.id || ''}">
+    <div style="margin:4px 0;">
+      <a href="player_detail.html?id=${p.id || ''}" style="text-decoration:none; color:#1976d2;">
         ${p.name || "???"}
       </a>
       (${p.avg || p.era || "-"})
@@ -130,21 +136,23 @@ function renderPlayers(players) {
   `).join("");
 }
 
-// 以下は変更なし（必要に応じて ?. ガードを追加しています）
-
+/* =====================
+   守備・塁状況
+===================== */
 function renderField() {
   const field = document.getElementById("field");
+  if (!field) return;
   field.innerHTML = "";
 
-  const bases = gameData.current_state?.bases || {};
+  const bases = gameData?.current_state?.bases || {};
 
   const positions = {
-    1: {top: "200px", left: "220px"},
-    2: {top: "80px",  left: "135px"},
-    3: {top: "200px", left: "50px"}
+    1: { top: "200px", left: "220px" },
+    2: { top: "80px",  left: "135px" },
+    3: { top: "200px", left: "50px" }
   };
 
-  [1,2,3].forEach(b => {
+  [1, 2, 3].forEach(b => {
     const base = document.createElement("div");
     base.className = "base";
     if (bases[b]) base.classList.add("runner");
@@ -154,12 +162,16 @@ function renderField() {
   });
 }
 
+/* =====================
+   投球ゾーン
+===================== */
 function renderZone() {
   const zone = document.getElementById("zone");
+  if (!zone) return;
   zone.innerHTML = "";
 
-  const pa = gameData.pitches?.[currentPAIndex];
-  if (!pa || !pa.pitches) return;
+  const pa = gameData?.pitches?.[currentPAIndex];
+  if (!pa?.pitches) return;
 
   pa.pitches.forEach(p => {
     const cell = document.createElement("div");
@@ -185,14 +197,17 @@ function prevPA() {
 }
 
 function nextPA() {
-  if (currentPAIndex < (gameData.pitches?.length - 1 || 0)) {
+  if (currentPAIndex < (gameData?.pitches?.length - 1 || 0)) {
     currentPAIndex++;
     renderZone();
   }
 }
 
+/* =====================
+   投球検索
+===================== */
 function renderFilters() {
-  const pitches = gameData.pitches || [];
+  const pitches = gameData?.pitches || [];
   const innings = [...new Set(pitches.map(p => p.inning).filter(Boolean))];
   document.getElementById("inningFilter").innerHTML =
     innings.map(i => `<option>${i}</option>`).join("") || "<option>なし</option>";
@@ -207,15 +222,18 @@ function filterPitches() {
   const batter = document.getElementById("batterFilter")?.value;
   if (!inning || !batter) return;
 
-  const filtered = (gameData.pitches || []).filter(p =>
+  const filtered = (gameData?.pitches || []).filter(p =>
     String(p.inning) === inning && p.batter === batter
   );
 
   document.getElementById("filterResult").innerText = `${filtered.length} 件`;
 }
 
+/* =====================
+   投手集計
+===================== */
 function renderPitcherStats() {
-  const allPitches = (gameData.pitches || []).flatMap(p => p.pitches || []);
+  const allPitches = (gameData?.pitches || []).flatMap(p => p.pitches || []);
   const byType = {};
   allPitches.forEach(p => {
     const t = p.type || "unknown";
@@ -229,8 +247,11 @@ function renderPitcherStats() {
   document.getElementById("pitcherStats").innerHTML = html || "データなし";
 }
 
+/* =====================
+   打者集計
+===================== */
 function renderBatterStats() {
-  const all = gameData.pitches || [];
+  const all = gameData?.pitches || [];
   const byResult = {};
   all.forEach(pa => {
     const r = pa.result || "unknown";
