@@ -63,20 +63,27 @@ async function init() {
 
     console.log("描画完了");
 
-  } catch (err) {
-    console.error("エラー:", err);
+} catch (err) {
+  console.error("エラー:", err);
 
-    const errorMsg = `
-      <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
-        <strong>データ読み込み失敗</strong><br>
-        ${err.message || "不明なエラー"}<br>
-        <small>試したURL: ${jsonUrl}<br>コンソール(F12)を確認してください</small>
-      </div>`;
+  // バッククォートを使わず文字列連結で安全に
+  var errorMsg = '<div style="color:#c62828; background:#ffebee; padding:16px; ' +
+                 'border:2px solid #ef9a9a; margin:16px; border-radius:8px;">' +
+                 '<strong>データ読み込み失敗</strong><br>' +
+                 (err.message || "不明なエラー") + '<br>' +
+                 '<small>試したURL: ' + jsonUrl + '<br>コンソール(F12)を確認してください</small>' +
+                 '</div>';
 
-    ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
-      .forEach(id => document.getElementById(id)?.innerHTML = errorMsg);
-  }
+  // アロー関数ではなく通常のfunctionで
+  var ids = ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.innerHTML = errorMsg;
+    }
+  });
 }
+  
 // render関数群（変更なしでOK、必要に応じてコピー）
 function renderSummary() {
   if (!gameData) return;
