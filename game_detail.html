@@ -14,11 +14,11 @@
   margin-top: 10px;
 }
 
-/* 5x5 グリッド線 */
+/* ===== 5x5 グリッド ===== */
 .zoneGrid {
   position: absolute;
-  width: 250px;
-  height: 250px;
+  width: 100%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
@@ -28,30 +28,32 @@
   border: 1px solid #555;
 }
 
-/* 中央3x3を強調 */
-.zoneGrid div.strikeArea {
-  background: rgba(255,255,255,0.05);
+/* 中央3x3のみ線を強調 */
+.zoneGrid div.strikeZone {
   border: 1px solid #aaa;
 }
 
-/* 投球マーカー */
-.zoneCell {
-  width: 40px;
-  height: 40px;
+/* ===== 投球マーカー ===== */
+.pitchMarker {
   position: absolute;
-  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  font-size: 10px;
-  text-align: center;
-  line-height: 40px;
+  font-size: 9px;
   font-weight: bold;
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  opacity: 0.9;
+  border: 1px solid black;
 }
 
-.strike { background: #f44336; }
-.ball   { background: #2196f3; }
-.hit    { background: #4caf50; }
-.out    { background: #9e9e9e; }
+/* 結果カラー */
+.result-strike { background: yellow; color: black; }
+.result-ball   { background: green;  color: white; }
+.result-hit    { background: red;    color: white; }
+.result-out    { background: gray;   color: white; }
 </style>
   
 </head>
