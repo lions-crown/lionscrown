@@ -1,24 +1,26 @@
-// 変数宣言はファイルの先頭に1回だけ（これで再宣言エラーは発生しない）
-let gameData = null;  // nullで初期化しておくと扱いやすい
+let gameData = null;
 let currentPAIndex = 0;
 
-console.log("game.js が正常に読み込まれました");  // 読み込み確認用
+console.log("game.js 読み込み完了");
 
 window.addEventListener("DOMContentLoaded", init);
 
 async function init() {
-  console.log("init() 開始");
+  console.log("init開始");
+  console.log("location.search:", location.search);
 
-  const params = new URLSearchParams(location.search);
-  console.log("クエリ文字列:", location.search);
+  // URLSearchParamsが信頼できない場合の保険として、正規表現でteamを抽出
+  let date = "2026-03-01";
+  let team = "1";
 
-  const date = params.get("date") || "2026-03-01";
-  let team = params.get("team");
+  const search = location.search;
+  const dateMatch = search.match(/[?&]date=([^&]+)/);
+  const teamMatch = search.match(/[?&]team=([^&]+)/);
 
-  if (!team || team === "null" || team.trim() === "") {
-    team = "1";
-    console.warn("teamパラメータが取れなかったため、デフォルト '1' を使用");
-  }
+  if (dateMatch) date = decodeURIComponent(dateMatch[1]);
+  if (teamMatch) team = decodeURIComponent(teamMatch[1]);
+
+  console.log("抽出結果 → date:", date, "team:", team);
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
   console.log("fetch URL:", jsonUrl);
@@ -28,14 +30,11 @@ async function init() {
     console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗");
 
     if (!res.ok) {
-      throw new Error(`HTTPエラー ${res.status} ${res.statusText}`);
+      throw new Error(`HTTP ${res.status} ${res.statusText}`);
     }
 
-    const rawText = await res.text();
-    console.log("レスポンス先頭:", rawText.substring(0, 200));
-
-    gameData = JSON.parse(rawText);
-    console.log("gameData取得成功:", gameData.meta);
+    gameData = await res.json();
+    console.log("データ取得成功:", gameData.meta);
 
     renderSummary();
     renderScoreboard();
@@ -48,45 +47,35 @@ async function init() {
 
     console.log("描画完了");
 
-} catch (err) {
+  } catch (err) {
     console.error("エラー:", err);
 
-    // バッククォートを正しく閉じ、変数展開も正しく
     const errorMsg = `
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
         <strong>データ読み込み失敗</strong><br>
         ${err.message || "不明なエラー"}<br>
-        <small>URL: ${jsonUrl}</small>
+        <small>試したURL: ${jsonUrl}<br>コンソール(F12)を確認してください</small>
       </div>`;
 
-    // forEach を安全に（セミコロンも忘れずに）
-    ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.innerHTML = errorMsg;
-      }
-    });
+    ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
+      .forEach(id => document.getElementById(id)?.innerHTML = errorMsg);
   }
 }
 
-// renderSummary（そのままOK）
+// renderSummary と renderScoreboard（前回と同じでOK）
 function renderSummary() {
   if (!gameData) return;
   const m = gameData.meta || {};
-  const el = document.getElementById("summary");
-  if (el) {
-    el.innerHTML = `
-      ${m.home || "?"} vs ${m.away || "?"}<br>
-      球場: ${m.stadium || "-"}<br>
-      開始: ${m.start_time || "-"}<br>
-      審判: ${m.umpires?.join(", ") || "-"}
-    `;
-  }
+  document.getElementById("summary").innerHTML = `
+    ${m.home || "?"} vs ${m.away || "?"}<br>
+    球場: ${m.stadium || "-"}<br>
+    開始: ${m.start_time || "-"}<br>
+    審判: ${m.umpires?.join(", ") || "-"}
+  `;
 }
 
 function renderScoreboard() {
   if (!gameData?.scoreboard) return;
-
   const sb = gameData.scoreboard;
   const innings = sb.innings || [];
   const totals = sb.total || { away: {}, home: {} };
@@ -96,24 +85,19 @@ function renderScoreboard() {
   innings.forEach(i => html += `<th>${i.inning || "?"}</th>`);
   html += '<th>R</th><th>H</th><th>E</th></tr>';
 
-  // away
   const awayTotal = totals.away || { R: "-", H: "-", E: "-" };
   html += `<tr><td><strong>${gameData.meta?.away || "Away"}</strong></td>`;
   innings.forEach(() => html += "<td>-</td>");
   html += `<td>${awayTotal.R}</td><td>${awayTotal.H}</td><td>${awayTotal.E}</td></tr>`;
 
-  // home
   const homeTotal = totals.home || { R: "-", H: "-", E: "-" };
   html += `<tr><td><strong>${gameData.meta?.home || "Home"}</strong></td>`;
   innings.forEach(() => html += "<td>-</td>");
   html += `<td>${homeTotal.R}</td><td>${homeTotal.H}</td><td>${homeTotal.E}</td></tr>`;
 
   html += "</table>";
-
-  const el = document.getElementById("scoreboard");
-  if (el) el.innerHTML = html;
+  document.getElementById("scoreboard").innerHTML = html;
 }
-
 
 function renderLineups() {
   const home = gameData?.lineups?.home || [];
