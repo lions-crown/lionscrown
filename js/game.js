@@ -1,36 +1,30 @@
-let gameData = null;
-let currentPAIndex = 0;
-
-console.log("game.js 読み込み完了");
-
-window.addEventListener("DOMContentLoaded", init);
-
 async function init() {
   console.log("init開始");
   console.log("location.search 生値:", location.search);
 
-  // search文字列をクリーンアップ（&amp;対策）
   let search = location.search.replace(/&amp;/g, '&');
 
   let date = "2026-03-01";
-  let team = "1";
+  let team = "1";  // 初期値
 
-  // 正規表現で抽出（iフラグで大文字小文字無視）
+  // 正規表現で抽出
   const dateMatch = search.match(/[?&]date=([^&]*)/i);
   const teamMatch = search.match(/[?&]team=([^&]*)/i);
 
-  if (dateMatch && dateMatch[1]) date = decodeURIComponent(dateMatch[1]);
+  if (dateMatch && dateMatch[1]) {
+    date = decodeURIComponent(dateMatch[1]);
+  }
   if (teamMatch && teamMatch[1]) {
-    team = decodeURIComponent(teamMatch[1]);
-    console.log("team抽出成功:", team);
-  } else {
-    console.warn("team抽出失敗 → デフォルト '1'");
+    let rawTeam = decodeURIComponent(teamMatch[1]);
+    console.log("抽出された生のteam値:", rawTeam);
+
+    // 数字だけ抽出 & 重複除去
+    rawTeam = rawTeam.replace(/[^0-9]/g, '');  // 数字以外削除
+    if (rawTeam.length > 1) rawTeam = rawTeam.charAt(0);  // 複数桁なら最初の1文字だけ
+    if (rawTeam) team = rawTeam;
   }
 
-  // team が数字だけか確認、重複 '_1' 除去（念のため）
-  team = team.replace(/[^0-9]/g, '');  // 数字以外削除
-  if (team === '') team = '1';
-  console.log("クリーンアップ後 team:", team);
+  console.log("最終決定 team:", team);
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
   console.log("fetch URL:", jsonUrl);
