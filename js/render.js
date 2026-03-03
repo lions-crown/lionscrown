@@ -53,17 +53,21 @@ function renderZoneGrid(){
 }
 
 function renderCurrentPA(){
+  if(!gameData?.pitches?.length) return;
+
   const pas = [...new Set(gameData.pitches.map(p => p.pa_id))];
-  const currentId = pas[currentPAIndex];
+  const currentId = pas[window.currentPAIndex];
   const pitches = gameData.pitches.filter(p => p.pa_id === currentId);
 
   document.querySelectorAll(".zoneCell").forEach(c=>c.innerHTML="");
 
   pitches.forEach(p=>{
     const cell = document.getElementById(`zone_${p.zone.x}_${p.zone.y}`);
-    const mark = document.createElement("div");
-    mark.className = "pitchMarker " + p.result;
-    cell.appendChild(mark);
+    if(cell){
+      const mark = document.createElement("div");
+      mark.className = "pitchMarker " + p.result;
+      cell.appendChild(mark);
+    }
   });
 
   document.getElementById("pitchLog").innerHTML =
