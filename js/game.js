@@ -516,7 +516,9 @@ pitchChart = new Chart(ctx, {
     }
   }
 });
-
+  
+}
+  
 function renderBatterStats() {
   const allPA = gameData?.pitches || [];
   const byResult = {};
