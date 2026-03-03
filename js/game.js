@@ -1,3 +1,6 @@
+let gameData;
+let currentPAIndex = 0;
+
 const params = new URLSearchParams(location.search);
 const date = params.get("date");
 const team = params.get("team");
