@@ -317,19 +317,23 @@ function resultClass(r) {
   return "";
 }
 
+function renderAll() {
+  renderPitchLog();
+  renderZone();
+  renderCount();
+}
+
 function prevPA() {
   if (currentPAIndex > 0) {
     currentPAIndex--;
-    renderField();
-    renderZone();
+    renderAll();
   }
 }
 
 function nextPA() {
-  if (currentPAIndex < (gameData?.pitches?.length - 1 || 0)) {
+  if (currentPAIndex < gameData.pitches.length - 1) {
     currentPAIndex++;
-    renderField();
-    renderZone();
+    renderAll();
   }
 }
 
