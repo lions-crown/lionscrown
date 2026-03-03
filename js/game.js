@@ -1,48 +1,42 @@
-// 変数宣言はファイル先頭に1回だけ（これで再宣言エラー防止）
-let gameData = null;  // nullで初期化（undefinedより扱いやすい）
+// 変数宣言はファイルの先頭に1回だけ（これで再宣言エラーは発生しない）
+let gameData = null;  // nullで初期化しておくと扱いやすい
 let currentPAIndex = 0;
 
-console.log("game.js が読み込まれました");  // 読み込み確認ログ
+console.log("game.js が正常に読み込まれました");  // 読み込み確認用
 
-window.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded 発火");
-  init();
-});
+window.addEventListener("DOMContentLoaded", init);
 
 async function init() {
   console.log("init() 開始");
 
   const params = new URLSearchParams(location.search);
-  console.log("クエリパラメータ:", location.search);
+  console.log("クエリ文字列:", location.search);
 
   const date = params.get("date") || "2026-03-01";
   let team = params.get("team");
 
   if (!team || team === "null" || team.trim() === "") {
     team = "1";
-    console.warn("team が取得できなかったため、デフォルト '1' を使用");
+    console.warn("teamパラメータが取れなかったため、デフォルト '1' を使用");
   }
-
-  console.log("使用パラメータ:", { date, team });
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
   console.log("fetch URL:", jsonUrl);
 
   try {
     const res = await fetch(jsonUrl);
-    console.log("fetch レスポンス:", res.status, res.ok, res.statusText);
+    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗");
 
     if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      throw new Error(`HTTPエラー ${res.status} ${res.statusText}`);
     }
 
     const rawText = await res.text();
     console.log("レスポンス先頭:", rawText.substring(0, 200));
 
     gameData = JSON.parse(rawText);
-    console.log("gameData セット完了:", !!gameData, gameData.meta);
+    console.log("gameData取得成功:", gameData.meta);
 
-    // 描画呼び出し
     renderSummary();
     renderScoreboard();
     renderLineups();
@@ -52,27 +46,21 @@ async function init() {
     renderPitcherStats();
     renderBatterStats();
 
-    console.log("全render完了");
+    console.log("描画完了");
 
   } catch (err) {
-    console.error("エラー詳細:", err);
+    console.error("エラー:", err);
 
-    const errorHtml = `
+    const errorMsg = `
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
-        <strong>データ読み込みに失敗しました</strong><br>
-        ${err.message || err}<br>
-        <small>URL: ${jsonUrl}<br>コンソール(F12)を確認してください</small>
+        <strong>データ読み込み失敗</strong><br>
+        ${err.message || "不明なエラー"}<br>
+        <small>URL: ${jsonUrl}</small>
       </div>`;
 
-    // 可能な限り多くのセクションにエラーを表示
     ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = errorHtml;
+      document.getElementById(id)?.innerHTML = errorMsg;
     });
-
-    // filterResult にも
-    const filterEl = document.getElementById("filterResult");
-    if (filterEl) filterEl.innerText = "エラー発生";
   }
 }
 
