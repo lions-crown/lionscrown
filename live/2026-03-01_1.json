@@ -8,23 +8,11 @@
   },
   "scoreboard": {
     "innings": [
-      {
-        "inning": 1,
-        "home": 0,
-        "away": 1
-      }
+      { "inning": 1, "home": 0, "away": 1 }
     ],
     "total": {
-      "home": {
-        "R": 0,
-        "H": 1,
-        "E": 0
-      },
-      "away": {
-        "R": 1,
-        "H": 2,
-        "E": 0
-      }
+      "home": { "R": 0, "H": 1, "E": 0 },
+      "away": { "R": 1, "H": 2, "E": 0 }
     }
   },
   "pitches": [
@@ -34,14 +22,28 @@
       "half": "top",
       "batter_id": "M2026_1",
       "pitcher_id": "L2026_18",
+      "result": "strikeout",
       "bases": "000",
-      "pitch_type": "slider",
-      "velocity": 138,
-      "zone": {
-        "x": 3,
-        "y": 3
-      },
-      "result": "strike"
+      "pitches": [
+        {
+          "pitch_type": "slider",
+          "velocity": 138,
+          "zone": { "x": 3, "y": 3 },
+          "result": "strike"
+        },
+        {
+          "pitch_type": "fastball",
+          "velocity": 145,
+          "zone": { "x": 2, "y": 4 },
+          "result": "strike"
+        },
+        {
+          "pitch_type": "slider",
+          "velocity": 137,
+          "zone": { "x": 4, "y": 3 },
+          "result": "strike"
+        }
+      ]
     }
   ]
 }
