@@ -8,8 +8,9 @@ async function init() {
   const date = params.get("date");
   const team = params.get("team");
 
-  // GitHub Pagesでは相対パスが404になることが多いため、絶対パスを使用
+  // ★ここを絶対パスに変更★
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
+
   console.log("fetch開始:", jsonUrl);
 
   try {
@@ -23,17 +24,10 @@ async function init() {
     const rawText = await res.text();
     console.log("生のレスポンス本文（最初の200文字）:", rawText.substring(0, 200));
 
-    try {
-      gameData = JSON.parse(rawText);
-      console.log("gameData全体:", gameData);
-      console.log("gameData.scoreboard:", gameData.scoreboard);
-    } catch (parseError) {
-      console.error("JSONパース失敗:", parseError);
-      console.log("パースできなかった生テキスト:", rawText);
-      throw parseError;
-    }
+    gameData = JSON.parse(rawText);
+    console.log("gameData全体:", gameData);
+    console.log("gameData.scoreboard:", gameData.scoreboard);
 
-    // データ取得成功時のみ描画
     renderSummary();
     renderScoreboard();
     renderLineups();
@@ -50,10 +44,9 @@ async function init() {
       <div style="color:red; padding:1em; border:2px solid red; margin:1em; background:#ffebee;">
         <strong>データ読み込みに失敗しました</strong><br>
         ${err.message}<br>
-        <small>コンソールを確認してください（F12キー）</small>
+        <small>コンソールを確認してください（F12）</small>
       </div>`;
 
-    // summary と scoreboard の両方にエラー表示（ユーザーが気づきやすい）
     const summaryEl = document.getElementById("summary");
     const scoreboardEl = document.getElementById("scoreboard");
 
