@@ -1,39 +1,48 @@
-// 変数宣言はここに1回だけ（重複禁止）
-let gameData;
+// 変数宣言はファイル先頭に1回だけ（これで再宣言エラー防止）
+let gameData = null;  // nullで初期化（undefinedより扱いやすい）
 let currentPAIndex = 0;
 
-window.addEventListener("DOMContentLoaded", init);
+console.log("game.js が読み込まれました");  // 読み込み確認ログ
+
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded 発火");
+  init();
+});
 
 async function init() {
+  console.log("init() 開始");
+
   const params = new URLSearchParams(location.search);
+  console.log("クエリパラメータ:", location.search);
+
   const date = params.get("date") || "2026-03-01";
   let team = params.get("team");
 
-  // team が取れなかった場合のフォールバック
   if (!team || team === "null" || team.trim() === "") {
     team = "1";
-    console.warn("teamパラメータが見つからなかったため、デフォルト '1' を使用します");
+    console.warn("team が取得できなかったため、デフォルト '1' を使用");
   }
 
+  console.log("使用パラメータ:", { date, team });
+
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
-  console.log("fetch開始:", jsonUrl);
-  console.log("パラメータ → date:", date, "team:", team);
+  console.log("fetch URL:", jsonUrl);
 
   try {
     const res = await fetch(jsonUrl);
-    console.log("HTTPステータス:", res.status, res.ok);
+    console.log("fetch レスポンス:", res.status, res.ok, res.statusText);
 
     if (!res.ok) {
-      throw new Error(`HTTPエラー: ${res.status} ${res.statusText}`);
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
     }
 
     const rawText = await res.text();
-    console.log("レスポンス本文（先頭200文字）:", rawText.substring(0, 200));
+    console.log("レスポンス先頭:", rawText.substring(0, 200));
 
     gameData = JSON.parse(rawText);
-    console.log("gameData全体:", gameData);
-    console.log("scoreboard:", gameData.scoreboard);
+    console.log("gameData セット完了:", !!gameData, gameData.meta);
 
+    // 描画呼び出し
     renderSummary();
     renderScoreboard();
     renderLineups();
@@ -43,51 +52,54 @@ async function init() {
     renderPitcherStats();
     renderBatterStats();
 
+    console.log("全render完了");
+
   } catch (err) {
-    console.error("読み込みエラー:", err);
+    console.error("エラー詳細:", err);
 
     const errorHtml = `
-      <div style="color:red; padding:1em; border:2px solid red; margin:1em; background:#ffebee;">
-        <strong>データ読み込み失敗</strong><br>
-        ${err.message}<br>
-        <small>URL: ${jsonUrl}</small>
+      <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
+        <strong>データ読み込みに失敗しました</strong><br>
+        ${err.message || err}<br>
+        <small>URL: ${jsonUrl}<br>コンソール(F12)を確認してください</small>
       </div>`;
 
-    document.getElementById("summary")?.innerHTML = errorHtml;
-    document.getElementById("scoreboard")?.innerHTML = errorHtml;
+    // 可能な限り多くのセクションにエラーを表示
+    ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = errorHtml;
+    });
+
+    // filterResult にも
+    const filterEl = document.getElementById("filterResult");
+    if (filterEl) filterEl.innerText = "エラー発生";
   }
 }
 
-/* =====================
-   試合概要
-===================== */
+// render関数群（変更なしだが安全ガード強化）
 function renderSummary() {
-  const m = gameData?.meta || {};
-  document.getElementById("summary").innerHTML = `
-    ${m.home || "?"} vs ${m.away || "?"}<br>
-    球場: ${m.stadium || "-"}<br>
-    開始: ${m.start_time || "-"}<br>
-    審判: ${m.umpires?.join(", ") || "-"}
-  `;
+  if (!gameData) return;
+  const m = gameData.meta || {};
+  const el = document.getElementById("summary");
+  if (el) {
+    el.innerHTML = `
+      ${m.home || "?"} vs ${m.away || "?"}<br>
+      球場: ${m.stadium || "-"}<br>
+      開始: ${m.start_time || "-"}<br>
+      審判: ${m.umpires?.join(", ") || "-"}
+    `;
+  }
 }
 
-/* =====================
-   スコアボード
-===================== */
 function renderScoreboard() {
-  if (!gameData?.scoreboard) {
-    document.getElementById("scoreboard").innerHTML = 
-      "<p style='color:#d32f2f; font-weight:bold;'>スコアデータなし</p>";
-    return;
-  }
+  if (!gameData?.scoreboard) return;
 
   const sb = gameData.scoreboard;
   const innings = sb.innings || [];
   const totals = sb.total || { away: {}, home: {} };
 
-  let html = '<table border="1" style="border-collapse: collapse; text-align: center; margin:10px auto; font-size:14px;">';
+  let html = '<table border="1" style="border-collapse:collapse; text-align:center; margin:10px auto; font-size:14px;">';
   html += '<tr><th></th>';
-
   innings.forEach(i => html += `<th>${i.inning || "?"}</th>`);
   html += '<th>R</th><th>H</th><th>E</th></tr>';
 
@@ -104,10 +116,12 @@ function renderScoreboard() {
   html += `<td>${homeTotal.R}</td><td>${homeTotal.H}</td><td>${homeTotal.E}</td></tr>`;
 
   html += "</table>";
-  document.getElementById("scoreboard").innerHTML = html;
+
+  const el = document.getElementById("scoreboard");
+  if (el) el.innerHTML = html;
 }
 
-// 以下は変更なし（前回と同じ内容をコピー）
+
 function renderLineups() {
   const home = gameData?.lineups?.home || [];
   const away = gameData?.lineups?.away || [];
