@@ -8,11 +8,23 @@
   },
   "scoreboard": {
     "innings": [
-      { "inning": 1, "home": 0, "away": 1 }
+      {
+        "inning": 1,
+        "home": 0,
+        "away": 1
+      }
     ],
     "total": {
-      "home": { "R": 0, "H": 1, "E": 0 },
-      "away": { "R": 1, "H": 2, "E": 0 }
+      "home": {
+        "R": 0,
+        "H": 1,
+        "E": 0
+      },
+      "away": {
+        "R": 1,
+        "H": 2,
+        "E": 0
+      }
     }
   },
   "pitches": [
@@ -25,7 +37,10 @@
       "bases": "000",
       "pitch_type": "slider",
       "velocity": 138,
-      "zone": { "x": 3, "y": 3 },
+      "zone": {
+        "x": 3,
+        "y": 3
+      },
       "result": "strike"
     }
   ]
