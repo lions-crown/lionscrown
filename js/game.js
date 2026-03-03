@@ -109,10 +109,37 @@ function renderScoreboard() {
 }
 
 function renderLineups() {
-  const home = gameData?.lineups?.home || [];
-  const away = gameData?.lineups?.away || [];
-  document.getElementById("homeLineup").innerHTML = renderPlayers(home);
-  document.getElementById("awayLineup").innerHTML = renderPlayers(away);
+  const homeEl = document.getElementById("homeLineup");
+  const awayEl = document.getElementById("awayLineup");
+
+  if (!homeEl || !awayEl) return;
+
+  homeEl.innerHTML = "";
+  awayEl.innerHTML = "";
+
+  function renderTeam(teamData, container) {
+    const list = document.createElement("div");
+    list.className = "lineup-list";
+
+    teamData.forEach((player, index) => {
+      const item = document.createElement("div");
+      item.className = "lineup-item";
+
+      item.innerHTML = `
+        <div class="batting-order">${index + 1}</div>
+        <div class="position">${player.pos || "-"}</div>
+        <div class="player-name">${player.name}</div>
+        <div class="avg">${player.avg}</div>
+      `;
+
+      list.appendChild(item);
+    });
+
+    container.appendChild(list);
+  }
+
+  renderTeam(gameData.lineups.home, homeEl);
+  renderTeam(gameData.lineups.away, awayEl);
 }
 
 function renderPlayers(players) {
@@ -137,20 +164,29 @@ function renderField() {
 
   fieldEl.innerHTML = "";
 
-  const pa = gameData?.pitches?.[currentPAIndex];
-  if (!pa?.fielders) return;
+  if (!gameData || !gameData.pitches) return;
 
-  // 守備位置マッピング（％指定）
+  const pa = gameData.pitches[currentPAIndex];
+  if (!pa) return;
+
+  console.log("現在PA:", pa);
+  console.log("fielders:", pa.fielders);
+
+  if (!pa.fielders) {
+    fieldEl.innerHTML = "守備情報なし";
+    return;
+  }
+
   const positions = {
-    "P":  { top: "55%", left: "50%" },
-    "C":  { top: "85%", left: "50%" },
+    P:  { top: "55%", left: "50%" },
+    C:  { top: "85%", left: "50%" },
     "1B": { top: "65%", left: "75%" },
     "2B": { top: "45%", left: "65%" },
     "3B": { top: "65%", left: "25%" },
-    "SS": { top: "45%", left: "35%" },
-    "LF": { top: "20%", left: "25%" },
-    "CF": { top: "10%", left: "50%" },
-    "RF": { top: "20%", left: "75%" }
+    SS: { top: "45%", left: "35%" },
+    LF: { top: "20%", left: "25%" },
+    CF: { top: "10%", left: "50%" },
+    RF: { top: "20%", left: "75%" }
   };
 
   Object.entries(pa.fielders).forEach(([pos, name]) => {
@@ -158,8 +194,16 @@ function renderField() {
 
     const div = document.createElement("div");
     div.className = "fielder";
+    div.style.position = "absolute";
     div.style.top = positions[pos].top;
     div.style.left = positions[pos].left;
+    div.style.transform = "translate(-50%, -50%)";
+    div.style.background = "white";
+    div.style.color = "black";
+    div.style.padding = "4px 6px";
+    div.style.borderRadius = "10px";
+    div.style.fontSize = "12px";
+
     div.textContent = `${pos} ${name}`;
     fieldEl.appendChild(div);
   });
