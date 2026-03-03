@@ -1,11 +1,7 @@
-let gameData = null;
-let currentPAIndex = 0;
-
 async function init() {
   console.log("init開始");
   console.log("location.search 生値:", location.search);
 
-  // 不要な replace 削除
   let search = location.search;
   let date = "2026-03-01";
   let team = "1";
@@ -35,15 +31,19 @@ async function init() {
     gameData = await res.json();
     console.log("データ取得成功");
 
+    currentPAIndex = 0;
+
+    // 🔥 初期表示はこれだけでOK
     renderSummary();
     renderScoreboard();
     renderLineups();
     renderField();
-    renderZone();
-    renderCount();
     renderFilters();
     renderPitcherStats();
     renderBatterStats();
+
+    // 打席系はまとめて
+    renderAll();
 
     console.log("描画完了");
 
@@ -324,8 +324,10 @@ function renderAll() {
 }
 
 function prevPA() {
+  console.log("before:", currentPAIndex);
   if (currentPAIndex > 0) {
     currentPAIndex--;
+    console.log("after:", currentPAIndex);
     renderAll();
   }
 }
