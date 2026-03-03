@@ -160,20 +160,28 @@ function renderCount(){
   outs=Math.min(outs,3);
 
   container.innerHTML="";
-  function createDotRow(label,count,max,type){
-    const row=document.createElement("div");
-    row.className="countRow";
-    const labelSpan=document.createElement("span");
-    labelSpan.className="countLabel"; labelSpan.innerText=label;
-    row.appendChild(labelSpan);
-    for(let i=0;i<max;i++){
-      const dot=document.createElement("span");
-      dot.className="dot";
-      dot.classList.add(i<count?`filled ${type}`:"empty");
-      row.appendChild(dot);
+function createDotRow(label, count, max, type) {
+  const row = document.createElement("div");
+  row.className = "countRow";
+  
+  const labelSpan = document.createElement("span");
+  labelSpan.className = "countLabel";
+  labelSpan.innerText = label;
+  row.appendChild(labelSpan);
+
+  for (let i = 0; i < max; i++) {
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    if (i < count) {
+      dot.classList.add("filled");
+      dot.classList.add(type);  // ← スペースでまとめずに別々にadd
+    } else {
+      dot.classList.add("empty");
     }
-    return row;
+    row.appendChild(dot);
   }
+  return row;
+}
 
   container.appendChild(createDotRow("B",balls,3,"ball"));
   container.appendChild(createDotRow("S",strikes,3,"strike"));
