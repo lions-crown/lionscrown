@@ -6,29 +6,52 @@
 <link rel="stylesheet" href="css/style.css">
 
 <style>
-  /* 投球ゾーンを 4×4 で表示 */
-  #zone {
-    position: relative;
-    width: 240px;
-    height: 240px;
-    border: 2px solid #fff;
-    margin-top: 10px;
-  }
-  .zoneCell {
-    width: 50px;
-    height: 50px;
-    background: yellow;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    line-height: 50px;
-    border: 1px solid #444;
-    position: absolute;
-  }
-  .strike { background: #f44336; color: #fff; }
-  .ball   { background: #2196f3; color: #fff; }
-  .hit    { background: #4caf50; color: #fff; }
-  .out    { background: #9e9e9e; color: #fff; }
+#zone {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border: 2px solid white;
+  margin-top: 10px;
+}
+
+/* 5x5 グリッド線 */
+.zoneGrid {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.zoneGrid div {
+  border: 1px solid #555;
+}
+
+/* 中央3x3を強調 */
+.zoneGrid div.strikeArea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #aaa;
+}
+
+/* 投球マーカー */
+.zoneCell {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  font-size: 10px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  color: white;
+}
+
+.strike { background: #f44336; }
+.ball   { background: #2196f3; }
+.hit    { background: #4caf50; }
+.out    { background: #9e9e9e; }
 </style>
   
 </head>
