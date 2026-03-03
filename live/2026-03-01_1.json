@@ -51,66 +51,63 @@
     ]
   },
 
-  "pitches": [
-    {
-      "pa_id": 1,
-      "inning": 1,
-      "half": "top",
-      "batter_id": "J2026_1",
-      "pitcher_id": "L2026_13",
-      "result": "out",
-      "bases": "000",
-      "pitches": [
-        {
-          "pitch_type": "slider",
-          "velocity": 138,
-          "zone": { "x": 2.5, "y": 2.5 },
-          "result": "strike"
-        },
-        {
-          "pitch_type": "fastball",
-          "velocity": 145,
-          "zone": { "x": 1, "y": 4 },
-          "result": "strike"
-        },
-        {
-          "pitch_type": "slider",
-          "velocity": 137,
-          "zone": { "x": 4, "y": 3 },
-          "result": "strike"
-        }
-      ]
-    }
-  ],
+"pitches": [
+  {
+    "pa_id": 1,
+    "inning": 1,
+    "half": "top",
+    "batter_id": "J2026_1",
+    "pitcher_id": "L2026_13",
+    "result": "out",
+    "bases": "000",
     "pitches": [
-    {
-      "pa_id": 1,
-      "inning": 1,
-      "half": "top",
-      "batter_id": "J2026_2",
-      "pitcher_id": "L2026_13",
-      "result": "out",
-      "bases": "000",
-      "pitches": [
-        {
-          "pitch_type": "slider",
-          "velocity": 138,
-          "zone": { "x": 3.5, "y": 3.5 },
-          "result": "strike"
-        },
-        {
-          "pitch_type": "fastball",
-          "velocity": 145,
-          "zone": { "x": 5, "y": 5 },
-          "result": "ball"
-        },
-        {
-          "pitch_type": "slider",
-          "velocity": 137,
-          "zone": { "x": 4, "y": 3 },
-          "result": "strike"
-        }
-      ]
-    }
-  ]
-}
+      {
+        "pitch_type": "slider",
+        "velocity": 138,
+        "zone": { "x": 2.5, "y": 2.5 },
+        "result": "strike"
+      },
+      {
+        "pitch_type": "fastball",
+        "velocity": 145,
+        "zone": { "x": 1, "y": 4 },
+        "result": "strike"
+      },
+      {
+        "pitch_type": "slider",
+        "velocity": 137,
+        "zone": { "x": 4, "y": 3 },
+        "result": "strike"
+      }
+    ]
+  },
+  {
+    "pa_id": 2,
+    "inning": 1,
+    "half": "top",
+    "batter_id": "J2026_2",
+    "pitcher_id": "L2026_13",
+    "result": "out",
+    "bases": "000",
+    "pitches": [
+      {
+        "pitch_type": "slider",
+        "velocity": 138,
+        "zone": { "x": 3.5, "y": 3.5 },
+        "result": "strike"
+      },
+      {
+        "pitch_type": "fastball",
+        "velocity": 145,
+        "zone": { "x": 5, "y": 5 },
+        "result": "ball"
+      },
+      {
+        "pitch_type": "slider",
+        "velocity": 137,
+        "zone": { "x": 4, "y": 3 },
+        "result": "strike"
+      }
+    ]
+  }
+]
