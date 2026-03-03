@@ -1,8 +1,4 @@
-let gameData;
-let currentPAIndex = 0;
-
-window.addEventListener("DOMContentLoaded", init);
-
+// 変数宣言はここに1回だけ（重複禁止）
 let gameData;
 let currentPAIndex = 0;
 
@@ -10,18 +6,18 @@ window.addEventListener("DOMContentLoaded", init);
 
 async function init() {
   const params = new URLSearchParams(location.search);
-  const date = params.get("date") || "2026-03-01";  // デフォルト値で安全
+  const date = params.get("date") || "2026-03-01";
   let team = params.get("team");
 
-  // teamがnull/undefined/空文字列の場合、デフォルト'1'を使う
-  if (!team || team === "null") {
+  // team が取れなかった場合のフォールバック
+  if (!team || team === "null" || team.trim() === "") {
     team = "1";
-    console.warn("teamパラメータが取得できなかったため、デフォルト'1'を使用します");
+    console.warn("teamパラメータが見つからなかったため、デフォルト '1' を使用します");
   }
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
   console.log("fetch開始:", jsonUrl);
-  console.log("使用したパラメータ → date:", date, "team:", team);
+  console.log("パラメータ → date:", date, "team:", team);
 
   try {
     const res = await fetch(jsonUrl);
@@ -32,11 +28,11 @@ async function init() {
     }
 
     const rawText = await res.text();
-    console.log("生のレスポンス本文（最初の200文字）:", rawText.substring(0, 200));
+    console.log("レスポンス本文（先頭200文字）:", rawText.substring(0, 200));
 
     gameData = JSON.parse(rawText);
     console.log("gameData全体:", gameData);
-    console.log("gameData.scoreboard:", gameData.scoreboard);
+    console.log("scoreboard:", gameData.scoreboard);
 
     renderSummary();
     renderScoreboard();
@@ -48,20 +44,17 @@ async function init() {
     renderBatterStats();
 
   } catch (err) {
-    console.error("データ読み込みエラー:", err);
+    console.error("読み込みエラー:", err);
 
     const errorHtml = `
       <div style="color:red; padding:1em; border:2px solid red; margin:1em; background:#ffebee;">
-        <strong>データ読み込みに失敗しました</strong><br>
+        <strong>データ読み込み失敗</strong><br>
         ${err.message}<br>
-        <small>URLを確認してください: ${jsonUrl}</small>
+        <small>URL: ${jsonUrl}</small>
       </div>`;
 
-    const summaryEl = document.getElementById("summary");
-    const scoreboardEl = document.getElementById("scoreboard");
-
-    if (summaryEl) summaryEl.innerHTML = errorHtml;
-    if (scoreboardEl) scoreboardEl.innerHTML = errorHtml;
+    document.getElementById("summary")?.innerHTML = errorHtml;
+    document.getElementById("scoreboard")?.innerHTML = errorHtml;
   }
 }
 
@@ -84,7 +77,7 @@ function renderSummary() {
 function renderScoreboard() {
   if (!gameData?.scoreboard) {
     document.getElementById("scoreboard").innerHTML = 
-      "<p style='color:#d32f2f; font-weight:bold;'>スコアデータがありません</p>";
+      "<p style='color:#d32f2f; font-weight:bold;'>スコアデータなし</p>";
     return;
   }
 
@@ -92,12 +85,10 @@ function renderScoreboard() {
   const innings = sb.innings || [];
   const totals = sb.total || { away: {}, home: {} };
 
-  let html = '<table border="1" style="border-collapse: collapse; text-align: center; margin: 10px auto; font-size: 14px;">';
+  let html = '<table border="1" style="border-collapse: collapse; text-align: center; margin:10px auto; font-size:14px;">';
   html += '<tr><th></th>';
 
-  innings.forEach(inningObj => {
-    html += `<th>${inningObj.inning || "?"}</th>`;
-  });
+  innings.forEach(i => html += `<th>${i.inning || "?"}</th>`);
   html += '<th>R</th><th>H</th><th>E</th></tr>';
 
   // away
@@ -116,13 +107,10 @@ function renderScoreboard() {
   document.getElementById("scoreboard").innerHTML = html;
 }
 
-/* =====================
-   オーダー（lineupsがない場合のフォールバック）
-===================== */
+// 以下は変更なし（前回と同じ内容をコピー）
 function renderLineups() {
   const home = gameData?.lineups?.home || [];
   const away = gameData?.lineups?.away || [];
-
   document.getElementById("homeLineup").innerHTML = renderPlayers(home);
   document.getElementById("awayLineup").innerHTML = renderPlayers(away);
 }
@@ -139,23 +127,17 @@ function renderPlayers(players) {
   `).join("");
 }
 
-/* =====================
-   守備・塁状況
-===================== */
 function renderField() {
   const field = document.getElementById("field");
   if (!field) return;
   field.innerHTML = "";
-
   const bases = gameData?.current_state?.bases || {};
-
   const positions = {
     1: { top: "200px", left: "220px" },
-    2: { top: "80px",  left: "135px" },
+    2: { top: "80px", left: "135px" },
     3: { top: "200px", left: "50px" }
   };
-
-  [1, 2, 3].forEach(b => {
+  [1,2,3].forEach(b => {
     const base = document.createElement("div");
     base.className = "base";
     if (bases[b]) base.classList.add("runner");
@@ -165,17 +147,12 @@ function renderField() {
   });
 }
 
-/* =====================
-   投球ゾーン
-===================== */
 function renderZone() {
   const zone = document.getElementById("zone");
   if (!zone) return;
   zone.innerHTML = "";
-
   const pa = gameData?.pitches?.[currentPAIndex];
   if (!pa?.pitches) return;
-
   pa.pitches.forEach(p => {
     const cell = document.createElement("div");
     cell.className = "zoneCell " + (resultClass(p.result) || "");
@@ -186,9 +163,9 @@ function renderZone() {
 
 function resultClass(r) {
   if (r === "strike") return "strike";
-  if (r === "ball")   return "ball";
-  if (r === "hit")    return "hit";
-  if (r === "out")    return "out";
+  if (r === "ball") return "ball";
+  if (r === "hit") return "hit";
+  if (r === "out") return "out";
   return "";
 }
 
@@ -206,9 +183,6 @@ function nextPA() {
   }
 }
 
-/* =====================
-   投球検索
-===================== */
 function renderFilters() {
   const pitches = gameData?.pitches || [];
   const innings = [...new Set(pitches.map(p => p.inning).filter(Boolean))];
@@ -224,17 +198,12 @@ function filterPitches() {
   const inning = document.getElementById("inningFilter")?.value;
   const batter = document.getElementById("batterFilter")?.value;
   if (!inning || !batter) return;
-
   const filtered = (gameData?.pitches || []).filter(p =>
     String(p.inning) === inning && p.batter === batter
   );
-
   document.getElementById("filterResult").innerText = `${filtered.length} 件`;
 }
 
-/* =====================
-   投手集計
-===================== */
 function renderPitcherStats() {
   const allPitches = (gameData?.pitches || []).flatMap(p => p.pitches || []);
   const byType = {};
@@ -242,7 +211,6 @@ function renderPitcherStats() {
     const t = p.type || "unknown";
     byType[t] = (byType[t] || 0) + 1;
   });
-
   let html = "";
   for (let t in byType) {
     html += `${t}: ${byType[t]}<br>`;
@@ -250,9 +218,6 @@ function renderPitcherStats() {
   document.getElementById("pitcherStats").innerHTML = html || "データなし";
 }
 
-/* =====================
-   打者集計
-===================== */
 function renderBatterStats() {
   const all = gameData?.pitches || [];
   const byResult = {};
@@ -260,7 +225,6 @@ function renderBatterStats() {
     const r = pa.result || "unknown";
     byResult[r] = (byResult[r] || 0) + 1;
   });
-
   let html = "";
   for (let r in byResult) {
     html += `${r}: ${byResult[r]}<br>`;
