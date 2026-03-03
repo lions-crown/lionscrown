@@ -12,22 +12,17 @@
 
 <style>
 /* ============================= */
-/* 共通リセット */
+/* 共通リセット・背景・フォント */
 /* ============================= */
 *{margin:0;padding:0;box-sizing:border-box;}
-
-/* ============================= */
-/* 背景 */
-/* ============================= */
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
   color:white;
   min-height:100vh;
   overflow-x:hidden;
+  line-height:1.75;
 }
-
-/* 光エフェクト */
 body::before{
   content:"";
   position:fixed;
@@ -41,7 +36,7 @@ body::before{
 }
 
 /* ============================= */
-/* ヘッダー */
+/* ヘッダー・メニュー */
 /* ============================= */
 header{
   position:sticky;
@@ -51,7 +46,6 @@ header{
   border-bottom:1px solid rgba(255,255,255,0.08);
   z-index:1000;
 }
-
 nav{
   max-width:1200px;
   margin:auto;
@@ -60,7 +54,6 @@ nav{
   justify-content:space-between;
   padding:16px 24px;
 }
-
 .logo{
   display:flex;
   align-items:center;
@@ -71,25 +64,21 @@ nav{
   text-decoration:none;
   color:white;
 }
-
 .logo span{
   background:linear-gradient(90deg,#4da3ff,#9ad0ff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
 .logo img{
   width:26px;
   height:26px;
   border-radius:6px;
   filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
 }
-
 .menu{
   display:flex;
   gap:24px;
 }
-
 .menu a{
   color:rgba(255,255,255,0.7);
   text-decoration:none;
@@ -97,7 +86,6 @@ nav{
   position:relative;
   transition:0.25s;
 }
-
 .menu a::after{
   content:"";
   position:absolute;
@@ -108,24 +96,21 @@ nav{
   background:linear-gradient(90deg,#4da3ff,#7ecbff);
   transition:0.25s;
 }
-
 .menu a:hover{
   color:white;
 }
-
 .menu a:hover::after{
   width:100%;
 }
 
 /* ============================= */
-/* ★ ここから本文（変更なし） */
+/* 本文・カード */
 /* ============================= */
-
 main{
-  width:100%;
-  padding:30px;
+  max-width:1200px;
+  margin:50px auto;
+  padding:0 20px;
 }
-
 section{
   margin-bottom:30px;
   padding:24px;
@@ -134,40 +119,55 @@ section{
   backdrop-filter:blur(14px);
   box-shadow:0 20px 50px rgba(0,0,0,0.5);
 }
-
 h1{margin-bottom:20px;font-size:26px;}
 h2{margin-bottom:14px;font-size:18px;}
-
 #scoreboard table{
   width:100%;
   font-size:14px;
   border-collapse:collapse;
 }
-
-#scoreboard th,
-#scoreboard td{
+#scoreboard th,#scoreboard td{
   padding:8px;
 }
-
 .dashboard{
   display:grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns:1fr 2fr 1fr;
   gap:30px;
   align-items:start;
 }
-
 .lineup-box{
   padding:20px;
   border-radius:18px;
   background:rgba(255,255,255,0.04);
 }
-
-.center-panel{
+.lineup-list{display:flex;flex-direction:column;gap:8px;}
+.lineup-item{
   display:flex;
-  flex-direction:column;
-  gap:20px;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 12px;
+  border-radius:10px;
+  background: rgba(255,255,255,0.06);
+  transition:0.2s;
 }
-
+.lineup-item:hover{
+  background: rgba(255,255,255,0.15);
+  transform: translateX(4px);
+}
+.batting-order{font-weight:bold;color:#7ecbff;width:20px;}
+.position{font-weight:bold;color:#ffd84d;margin-right:6px;}
+.player-name{flex:1;}
+.avg{font-size:12px;opacity:0.8;}
+.center-panel{display:flex;flex-direction:column;gap:20px;}
+#zone{position:relative;width:340px;height:340px;border:2px solid white;margin:20px auto;}
+.zoneGrid{position:absolute;width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);}
+.zoneGrid div{border:1px solid #333;}
+.zoneGrid div.strikeZone{border:1px solid #aaa;}
+.pitchMarker{position:absolute;width:18px;height:18px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:1px solid black;}
+.result-strike{background:yellow;color:black;}
+.result-ball{background:green;color:white;}
+.result-hit{background:red;color:white;}
+.result-out{background:gray;color:white;}
 button{
   padding:8px 18px;
   border-radius:20px;
@@ -178,16 +178,12 @@ button{
   font-weight:bold;
   transition:0.25s;
 }
-
 button:hover{
   transform:translateY(-2px);
   box-shadow:0 10px 20px rgba(0,0,0,0.5);
 }
-
 @media(max-width:1000px){
-  .dashboard{
-    grid-template-columns:1fr;
-  }
+  .dashboard{grid-template-columns:1fr;}
 }
 
 /* ============================= */
@@ -199,7 +195,6 @@ footer{
   backdrop-filter:blur(16px);
   border-top:1px solid rgba(255,255,255,0.08);
 }
-
 .footer-container{
   max-width:1200px;
   margin:auto;
@@ -208,7 +203,6 @@ footer{
   grid-template-columns:1.6fr 1fr 0.6fr;
   gap:50px;
 }
-
 .footer-logo{
   font-size:18px;
   font-weight:bold;
@@ -217,39 +211,16 @@ footer{
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
-.footer-text{
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-  line-height:1.7;
-}
-
-.footer-title{
-  font-size:12px;
-  margin-bottom:14px;
-  color:rgba(255,255,255,0.9);
-}
-
-footer a{
-  text-decoration:none;
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-}
-
-footer a:hover{
-  color:white;
-}
-
-.footer-bottom{
-  text-align:center;
-  padding:16px;
-  font-size:11px;
-  color:rgba(255,255,255,0.35);
-  border-top:1px solid rgba(255,255,255,0.05);
+.footer-text{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;}
+.footer-title{font-size:12px;margin-bottom:14px;color:rgba(255,255,255,0.9);}
+footer a{text-decoration:none;font-size:12px;color:rgba(255,255,255,0.55);}
+footer a:hover{color:white;}
+.footer-bottom{text-align:center;padding:16px;font-size:11px;color:rgba(255,255,255,0.35);border-top:1px solid rgba(255,255,255,0.05);}
+@media(max-width:768px){
+  .footer-container{grid-template-columns:1fr;gap:30px;}
 }
 </style>
 </head>
-
 <body>
 
 <!-- ============================= -->
@@ -258,10 +229,9 @@ footer a:hover{
 <header>
   <nav>
     <a href="/" class="logo">
-      <img src="https://lions-crown.homep.jp/img/1766145327164.webp">
+      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
       <span>L-crown</span>
     </a>
-
     <div class="menu">
       <a href="/">ホーム</a>
       <a href="/news">お知らせ</a>
@@ -275,7 +245,6 @@ footer a:hover{
 <!-- 本文 -->
 <!-- ============================= -->
 <main>
-
 <h1>一球速報</h1>
 
 <section>
@@ -289,7 +258,6 @@ footer a:hover{
 </section>
 
 <div class="dashboard">
-
   <section class="lineup-box">
     <h2>ホーム</h2>
     <div id="homeLineup"></div>
@@ -299,12 +267,10 @@ footer a:hover{
     <h2>投球ログ</h2>
     <div id="pitchLog"></div>
     <div id="countDisplay"></div>
-
     <div>
       <button onclick="prevPA()">前打者</button>
       <button onclick="nextPA()">次打者</button>
     </div>
-
     <div id="zone"></div>
     <div id="field" style="position:relative;height:240px;"></div>
   </section>
@@ -313,7 +279,6 @@ footer a:hover{
     <h2>ビジター</h2>
     <div id="awayLineup"></div>
   </section>
-
 </div>
 
 <section>
@@ -326,7 +291,6 @@ footer a:hover{
   <h2>打者詳細</h2>
   <div id="batterStats"></div>
 </section>
-
 </main>
 
 <!-- ============================= -->
@@ -334,7 +298,6 @@ footer a:hover{
 <!-- ============================= -->
 <footer>
   <div class="footer-container">
-
     <div>
       <div class="footer-logo">L-crown</div>
       <div class="footer-text">
@@ -355,7 +318,6 @@ footer a:hover{
       <div class="footer-title">フォロー</div>
       <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
     </div>
-
   </div>
 
   <div class="footer-bottom">
@@ -367,19 +329,7 @@ footer a:hover{
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
-<!-- ここにJSで描画される構造を入れる -->
-<div id="summary"></div>
-<div id="scoreboard"></div>
-<div id="homeLineup"></div>
-<div id="awayLineup"></div>
-<div id="pitchLog"></div>
-<div id="countDisplay"></div>
-<div id="zone"></div>
-<div id="field"></div>
-<div id="pitcherStats"></div>
-<canvas id="pitchChart"></canvas>
-<div id="batterStats"></div>
-
+<!-- JS描画用 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/game.js"></script>
 
