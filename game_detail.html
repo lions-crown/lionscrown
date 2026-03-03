@@ -2,68 +2,77 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>一球速報 | L-crown</title>
-<link rel="stylesheet" href="css/game.css">
+<title>一球速報</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="gameSummary"></div>
+<h1>一球速報</h1>
 
-<div id="scoreboardWrap">
-  <table id="scoreboard"></table>
-</div>
+<!-- 試合概要 -->
+<section>
+  <h2>試合概要</h2>
+  <div id="summary"></div>
+</section>
 
-<div id="lineupsWrap">
-  <div id="homeLineup"></div>
-  <div id="awayLineup"></div>
-</div>
+<!-- スコアボード -->
+<section>
+  <h2>スコアボード</h2>
+  <div id="scoreboard"></div>
+</section>
 
-<div id="fieldWrap">
-  <div id="defenseDiagram"></div>
-  <div id="basesDiagram"></div>
-</div>
+<!-- オーダー -->
+<section>
+  <h2>オーダー</h2>
+  <div class="lineups">
+    <div>
+      <h3>ホーム</h3>
+      <div id="homeLineup"></div>
+    </div>
+    <div>
+      <h3>ビジター</h3>
+      <div id="awayLineup"></div>
+    </div>
+  </div>
+</section>
 
-<div id="plateNav">
-  <button onclick="prevPA()">前打者</button>
-  <span id="currentPAInfo"></span>
-  <button onclick="nextPA()">次打者</button>
-</div>
+<!-- 守備位置＋塁状況 -->
+<section>
+  <h2>守備配置・走者状況</h2>
+  <div id="field"></div>
+</section>
 
-<div id="zoneWrap">
-  <div id="zoneGrid"></div>
-</div>
+<!-- 投球ログ -->
+<section>
+  <h2>投球ログ</h2>
+  <div>
+    <button onclick="prevPA()">前打者</button>
+    <button onclick="nextPA()">次打者</button>
+  </div>
+  <div id="zone"></div>
+</section>
 
-<div id="pitchLog"></div>
-
-<div id="filterWrap">
-  <h3>検索</h3>
+<!-- 投球検索 -->
+<section>
+  <h2>投球検索</h2>
   <select id="inningFilter"></select>
   <select id="batterFilter"></select>
-  <select id="baseFilter">
-    <option value="">塁状況</option>
-    <option value="000">なし</option>
-    <option value="100">一塁</option>
-    <option value="010">二塁</option>
-    <option value="001">三塁</option>
-    <option value="110">一二塁</option>
-    <option value="101">一三塁</option>
-    <option value="011">二三塁</option>
-    <option value="111">満塁</option>
-  </select>
-  <button onclick="applyFilter()">検索</button>
-</div>
+  <button onclick="filterPitches()">検索</button>
+  <div id="filterResult"></div>
+</section>
 
-<div id="statsWrap">
-  <h3>投手・打者詳細</h3>
+<!-- 投手詳細 -->
+<section>
+  <h2>投手詳細</h2>
   <div id="pitcherStats"></div>
+</section>
+
+<!-- 打者詳細 -->
+<section>
+  <h2>打者詳細</h2>
   <div id="batterStats"></div>
-</div>
+</section>
 
-<script src="js/render.js"></script>
-<script src="js/filter.js"></script>
-<script src="js/stats.js"></script>
-<script src="js/game.js"></script>
-
+<script src="game.js"></script>
 </body>
 </html>
