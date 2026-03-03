@@ -10,22 +10,28 @@ async function init() {
 
   console.log("fetch開始:", `live/${date}_${team}.json`);
 
-  const res = await fetch(`live/${date}_${team}.json`);
-  console.log("HTTPステータス:", res.status, res.ok);
-
-  const rawText = await res.text();   // ← json() の前に生テキストを取る
-  console.log("生のレスポンス本文（最初の200文字）:", rawText.substring(0, 200));
-
   try {
-    gameData = JSON.parse(rawText);   // ← ここで構文エラーがあればキャッチされる
-    console.log("gameData全体:", gameData);
-    console.log("gameData.scoreboard:", gameData.scoreboard);
-  } catch (e) {
-    console.error("JSONパース失敗:", e);
-    console.log("パースできなかった生テキスト:", rawText);
-  }
+    const res = await fetch(`live/${date}_${team}.json`);
+    console.log("HTTPステータス:", res.status, res.ok);
 
-  // 以降のrender呼び出し...
+    if (!res.ok) {
+      throw new Error(`HTTPエラー: ${res.status} ${res.statusText}`);
+    }
+
+    const rawText = await res.text();
+    console.log("生のレスポンス本文（最初の200文字）:", rawText.substring(0, 200));
+
+    try {
+      gameData = JSON.parse(rawText);
+      console.log("gameData全体:", gameData);
+      console.log("gameData.scoreboard:", gameData.scoreboard);
+    } catch (parseError) {
+      console.error("JSONパース失敗:", parseError);
+      console.log("パースできなかった生テキスト:", rawText);
+      throw parseError;  // 外側のcatchでまとめて処理
+    }
+
+    // データが正常に取れた場合のみrenderを実行
     renderSummary();
     renderScoreboard();
     renderLineups();
@@ -34,11 +40,19 @@ async function init() {
     renderFilters();
     renderPitcherStats();
     renderBatterStats();
+
   } catch (err) {
     console.error("データ読み込みエラー:", err);
-    document.getElementById("scoreboard").innerHTML = 
-      `<div style="color:red; padding:1em;">データ読み込みに失敗しました<br>${err.message}</div>`;
+    const scoreboardEl = document.getElementById("scoreboard");
+    if (scoreboardEl) {
+      scoreboardEl.innerHTML = 
+        `<div style="color:red; padding:1em; border:1px solid red; margin:1em;">
+           データ読み込みに失敗しました<br>
+           ${err.message}
+         </div>`;
+    }
   }
+}
 
 /* =====================
    試合概要
