@@ -96,26 +96,31 @@ function renderSummary() {
 
 function renderScoreboard() {
   if (!gameData?.scoreboard) return;
+
   const sb = gameData.scoreboard;
   const innings = sb.innings || [];
-  const totals = sb.total || { away: {}, home: {} };
+  const totals = sb.total || {};
 
-  let html = '<table border="1" style="border-collapse:collapse; text-align:center; margin:10px auto; font-size:14px;">';
+  let html = '<table border="1" style="border-collapse:collapse; text-align:center; margin:10px auto;">';
   html += '<tr><th></th>';
-  innings.forEach(i => html += `<th>${i.inning || "?"}</th>`);
+
+  innings.forEach(i => html += `<th>${i.inning}</th>`);
   html += '<th>R</th><th>H</th><th>E</th></tr>';
 
-  const awayTotal = totals.away || { R: "-", H: "-", E: "-" };
-  html += `<tr><td><strong>${gameData.meta?.away || "Away"}</strong></td>`;
-  innings.forEach(() => html += "<td>-</td>");
-  html += `<td>${awayTotal.R}</td><td>${awayTotal.H}</td><td>${awayTotal.E}</td></tr>`;
+  html += `<tr><td><strong>${gameData.meta.away}</strong></td>`;
+  innings.forEach(i => html += `<td>${i.away ?? "-"}</td>`);
+  html += `<td>${totals.away?.R ?? "-"}</td>
+           <td>${totals.away?.H ?? "-"}</td>
+           <td>${totals.away?.E ?? "-"}</td></tr>`;
 
-  const homeTotal = totals.home || { R: "-", H: "-", E: "-" };
-  html += `<tr><td><strong>${gameData.meta?.home || "Home"}</strong></td>`;
-  innings.forEach(() => html += "<td>-</td>");
-  html += `<td>${homeTotal.R}</td><td>${homeTotal.H}</td><td>${homeTotal.E}</td></tr>`;
+  html += `<tr><td><strong>${gameData.meta.home}</strong></td>`;
+  innings.forEach(i => html += `<td>${i.home ?? "-"}</td>`);
+  html += `<td>${totals.home?.R ?? "-"}</td>
+           <td>${totals.home?.H ?? "-"}</td>
+           <td>${totals.home?.E ?? "-"}</td></tr>`;
 
   html += "</table>";
+
   document.getElementById("scoreboard").innerHTML = html;
 }
 
@@ -141,19 +146,27 @@ function renderPlayers(players) {
 function renderField() {
   const field = document.getElementById("field");
   if (!field) return;
+
   field.innerHTML = "";
-  const bases = gameData?.current_state?.bases || {};
+
+  const pa = gameData?.pitches?.[currentPAIndex];
+  const basesStr = pa?.bases || "000";
+
   const positions = {
     1: { top: "200px", left: "220px" },
     2: { top: "80px", left: "135px" },
     3: { top: "200px", left: "50px" }
   };
-  [1, 2, 3].forEach(b => {
+
+  [1,2,3].forEach((b, i) => {
     const base = document.createElement("div");
     base.className = "base";
-    if (bases[b]) base.classList.add("runner");
+    if (basesStr[i] === "1") base.classList.add("runner");
+
+    base.style.position = "absolute";
     base.style.top = positions[b].top;
     base.style.left = positions[b].left;
+
     field.appendChild(base);
   });
 }
@@ -161,13 +174,24 @@ function renderField() {
 function renderZone() {
   const zone = document.getElementById("zone");
   if (!zone) return;
+
   zone.innerHTML = "";
+
   const pa = gameData?.pitches?.[currentPAIndex];
   if (!pa?.pitches) return;
+
   pa.pitches.forEach(p => {
     const cell = document.createElement("div");
     cell.className = "zoneCell " + (resultClass(p.result) || "");
-    cell.innerText = p.pitch_type || "?";  // pitch_typeを表示
+    cell.innerText = p.pitch_type;
+
+    // 3×3ゾーン想定
+    if (p.zone) {
+      cell.style.position = "absolute";
+      cell.style.left = `${(p.zone.x - 1) * 60}px`;
+      cell.style.top = `${(p.zone.y - 1) * 60}px`;
+    }
+
     zone.appendChild(cell);
   });
 }
@@ -216,32 +240,34 @@ function filterPitches() {
 }
 
 function renderPitcherStats() {
-  const allPitches = (gameData?.pitches || []).flatMap(p => p.pitches || []);
+  const allPitches = (gameData?.pitches || []).flatMap(pa => pa.pitches || []);
   const byType = {};
+
   allPitches.forEach(p => {
-    const t = p.pitch_type || "unknown";  // pitch_typeに変更
-    byType[t] = (byType[t] || 0) + 1;
+    byType[p.pitch_type] = (byType[p.pitch_type] || 0) + 1;
   });
+
   let html = "";
   for (let t in byType) {
-    html += `${t}: ${byType[t]}
-`;
+    html += `${t}: ${byType[t]}<br>`;
   }
+
   document.getElementById("pitcherStats").innerHTML = html || "データなし";
 }
 
 function renderBatterStats() {
-  const all = gameData?.pitches || [];
+  const allPA = gameData?.pitches || [];
   const byResult = {};
-  all.forEach(pa => {
-    const r = pa.result || "unknown";
-    byResult[r] = (byResult[r] || 0) + 1;
+
+  allPA.forEach(pa => {
+    byResult[pa.result] = (byResult[pa.result] || 0) + 1;
   });
+
   let html = "";
   for (let r in byResult) {
-    html += `${r}: ${byResult[r]}
-`;
+    html += `${r}: ${byResult[r]}<br>`;
   }
+
   document.getElementById("batterStats").innerHTML = html || "データなし";
 }
 
