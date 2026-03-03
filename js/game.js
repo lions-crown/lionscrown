@@ -489,32 +489,33 @@ function renderPitcherStats() {
 
   if (pitchChart) pitchChart.destroy();
 
-  pitchChart = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: Object.keys(counts),
-      datasets: [{
-        data: Object.values(counts),
-        backgroundColor: [
-          "#4da3ff",
-          "#ff7676",
-          "#ffd84d",
-          "#7cff7c",
-          "#c57cff"
-        ]
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          labels: { color: "white" }
+pitchChart = new Chart(ctx, {
+  type: "doughnut",
+  data: {
+    labels: Object.keys(counts),
+    datasets: [{
+      data: Object.values(counts),
+      backgroundColor: [
+        "#4da3ff",
+        "#ff7676",
+        "#ffd84d",
+        "#7cff7c",
+        "#c57cff"
+      ]
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,   // ← ★ここにカンマ必要
+    plugins: {
+      legend: {
+        labels: {
+          color: "white"
         }
       }
     }
-  });
-}
+  }
+});
 
 function renderBatterStats() {
   const allPA = gameData?.pitches || [];
