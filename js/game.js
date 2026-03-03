@@ -46,38 +46,41 @@ function renderSummary() {
 ===================== */
 function renderScoreboard() {
   const sb = gameData.scoreboard || {};
-  const innings = sb.innings || [];
-  const total = sb.total || { home: {}, away: {} };
+  const inningsData = sb.innings || [];
+  const totals = sb.total || { away: {}, home: {} };
 
-  let html = "<table><tr><th></th>";
+  let html = '<table border="1" style="border-collapse: collapse; text-align: center;">';
+  html += '<tr><th></th>';
 
-  // イニング番号を表示（オブジェクトから inning キーを使う）
-  innings.forEach(i => {
-    html += `<th>${i.inning || "?"}</th>`;
+  // イニングヘッダー
+  inningsData.forEach(inningObj => {
+    html += `<th>${inningObj.inning || '?'}</th>`;
   });
-  html += "<th>R</th><th>H</th><th>E</th></tr>";
+  html += '<th>R</th><th>H</th><th>E</th></tr>';
 
-  // away と home を処理
-  ["away", "home"].forEach(side => {
-    const teamTotal = total[side] || { R: "-", H: "-", E: "-" };
-    const teamName = side === "away" ? (gameData.meta?.away || "Away") : (gameData.meta?.home || "Home");
+  // away と home の行
+  ['away', 'home'].forEach(side => {
+    const teamTotal = totals[side] || { R: '-', H: '-', E: '-' };
+    const teamName = side === 'away' 
+      ? (gameData.meta?.away || 'Away') 
+      : (gameData.meta?.home || 'Home');
 
-    html += `<tr><td>${teamName}</td>`;
+    html += `<tr><td><strong>${teamName}</strong></td>`;
 
-    // イニングごとの得点（今のJSONには詳細がないので仮で "-" 表示）
-    innings.forEach(() => {
-      html += "<td>-</td>";  // ← 将来 runs が追加されたらここを修正
+    // イニングごとの得点（今のJSONには詳細がないので仮表示）
+    inningsData.forEach(() => {
+      html += '<td>-</td>';   // ← 将来ここにイニングごとのrunsを入れる
     });
 
     html += `
-      <td>${teamTotal.R ?? "-"}</td>
-      <td>${teamTotal.H ?? "-"}</td>
-      <td>${teamTotal.E ?? "-"}</td>
+      <td>${teamTotal.R ?? '-'}</td>
+      <td>${teamTotal.H ?? '-'}</td>
+      <td>${teamTotal.E ?? '-'}</td>
     </tr>`;
   });
 
-  html += "</table>";
-  document.getElementById("scoreboard").innerHTML = html;
+  html += '</table>';
+  document.getElementById('scoreboard').innerHTML = html;
 }
 
 /* =====================
