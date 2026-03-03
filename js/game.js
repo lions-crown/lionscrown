@@ -357,6 +357,7 @@ function renderAll() {
   renderZone();
   renderCount();
   renderField();
+  renderPitcherStats();
 }
 
 function prevPA() {
