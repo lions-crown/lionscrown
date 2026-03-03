@@ -212,11 +212,12 @@ function renderCount() {
   container.innerHTML = "";
 
   const pa = gameData?.pitches?.[currentPAIndex];
-  if (!pa?.pitches) return;
+  if (!pa || !pa.pitches) return;
 
   let balls = 0;
   let strikes = 0;
 
+  // ===== 球ごとのカウント計算 =====
   pa.pitches.forEach(p => {
 
     if (p.result === "ball") {
@@ -233,13 +234,13 @@ function renderCount() {
 
   });
 
+  // 三振なら3表示
   if (pa.result === "strikeout") {
     strikes = 3;
   }
 
-  // ★ const → let に変更してもOKだが
-  // 今回は書き換えないので const のままでOK
-  const outs = getCurrentInningOuts();
+  // ===== 通算アウト取得（再代入しない） =====
+  let outs = getCurrentInningOuts();  // ← let にする
 
   container.appendChild(createCountRow("B", balls, 3, "ball"));
   container.appendChild(createCountRow("S", strikes, 3, "strike"));
