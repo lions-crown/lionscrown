@@ -5,23 +5,127 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>一球速報 | L-crown</title>
 
+<!-- サイトアイコン -->
+<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<meta name="theme-color" content="#0f172a">
+
 <style>
+/* ============================= */
+/* 共通リセット */
+/* ============================= */
 *{margin:0;padding:0;box-sizing:border-box;}
 
+/* ============================= */
+/* 背景 */
+/* ============================= */
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
   color:white;
   min-height:100vh;
+  overflow-x:hidden;
 }
 
-/* ===== 全幅使用 ===== */
+/* 光エフェクト */
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top:-120px;
+  right:-120px;
+  filter:blur(40px);
+  z-index:-1;
+}
+
+/* ============================= */
+/* ヘッダー */
+/* ============================= */
+header{
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:1000;
+}
+
+nav{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 24px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+  font-size:18px;
+  letter-spacing:1px;
+  text-decoration:none;
+  color:white;
+}
+
+.logo span{
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.logo img{
+  width:26px;
+  height:26px;
+  border-radius:6px;
+  filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
+}
+
+.menu{
+  display:flex;
+  gap:24px;
+}
+
+.menu a{
+  color:rgba(255,255,255,0.7);
+  text-decoration:none;
+  font-size:13px;
+  position:relative;
+  transition:0.25s;
+}
+
+.menu a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+  transition:0.25s;
+}
+
+.menu a:hover{
+  color:white;
+}
+
+.menu a:hover::after{
+  width:100%;
+}
+
+/* ============================= */
+/* ★ ここから本文（変更なし） */
+/* ============================= */
+
 main{
   width:100%;
   padding:30px;
 }
 
-/* ===== セクション共通 ===== */
 section{
   margin-bottom:30px;
   padding:24px;
@@ -34,7 +138,6 @@ section{
 h1{margin-bottom:20px;font-size:26px;}
 h2{margin-bottom:14px;font-size:18px;}
 
-/* ===== スコアボード横拡張 ===== */
 #scoreboard table{
   width:100%;
   font-size:14px;
@@ -46,7 +149,6 @@ h2{margin-bottom:14px;font-size:18px;}
   padding:8px;
 }
 
-/* ===== 3カラム構成 ===== */
 .dashboard{
   display:grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -54,103 +156,18 @@ h2{margin-bottom:14px;font-size:18px;}
   align-items:start;
 }
 
-/* ラインナップ */
-.lineup-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.lineup-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.06);
-  transition: 0.2s;
-}
-
-.lineup-item:hover {
-  background: rgba(255,255,255,0.15);
-  transform: translateX(4px);
-}
-
-.batting-order {
-  font-weight: bold;
-  color: #7ecbff;
-  width: 20px;
-}
-
-.position {
-  font-weight: bold;
-  color: #ffd84d;
-  margin-right: 6px;
-}
-
-.player-name {
-  flex: 1;
-}
-
-.avg {
-  font-size: 12px;
-  opacity: 0.8;
-}
-  
 .lineup-box{
   padding:20px;
   border-radius:18px;
   background:rgba(255,255,255,0.04);
 }
 
-/* ===== 投球ログ中央 ===== */
 .center-panel{
   display:flex;
   flex-direction:column;
   gap:20px;
 }
 
-/* ===== ZONE ===== */
-:root { --zone-size: 340px; }
-
-#zone{
-  position:relative;
-  width:var(--zone-size);
-  height:var(--zone-size);
-  border:2px solid white;
-}
-
-.zoneGrid{
-  position:absolute;
-  width:100%;
-  height:100%;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  grid-template-rows:repeat(5,1fr);
-}
-
-.zoneGrid div{border:1px solid #333;}
-.zoneGrid div.strikeZone{border:1px solid #aaa;}
-
-.pitchMarker{
-  position:absolute;
-  width:18px;
-  height:18px;
-  font-size:9px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transform:translate(-50%,-50%);
-  border:1px solid black;
-}
-
-.result-strike{background:yellow;color:black;}
-.result-ball{background:green;color:white;}
-.result-hit{background:red;color:white;}
-.result-out{background:gray;color:white;}
-
-/* ===== ボタン ===== */
 button{
   padding:8px 18px;
   border-radius:20px;
@@ -167,16 +184,96 @@ button:hover{
   box-shadow:0 10px 20px rgba(0,0,0,0.5);
 }
 
-/* ===== レスポンシブ ===== */
 @media(max-width:1000px){
   .dashboard{
     grid-template-columns:1fr;
   }
 }
+
+/* ============================= */
+/* フッター */
+/* ============================= */
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+
+.footer-container{
+  max-width:1200px;
+  margin:auto;
+  padding:50px 24px;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 0.6fr;
+  gap:50px;
+}
+
+.footer-logo{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.footer-text{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  line-height:1.7;
+}
+
+.footer-title{
+  font-size:12px;
+  margin-bottom:14px;
+  color:rgba(255,255,255,0.9);
+}
+
+footer a{
+  text-decoration:none;
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+}
+
+footer a:hover{
+  color:white;
+}
+
+.footer-bottom{
+  text-align:center;
+  padding:16px;
+  font-size:11px;
+  color:rgba(255,255,255,0.35);
+  border-top:1px solid rgba(255,255,255,0.05);
+}
 </style>
 </head>
 
 <body>
+
+<!-- ============================= -->
+<!-- ヘッダー -->
+<!-- ============================= -->
+<header>
+  <nav>
+    <a href="/" class="logo">
+      <img src="https://lions-crown.homep.jp/img/1766145327164.webp">
+      <span>L-crown</span>
+    </a>
+
+    <div class="menu">
+      <a href="/">ホーム</a>
+      <a href="/news">お知らせ</a>
+      <a href="/privacypolicy">利用規約</a>
+      <a href="/contact">お問い合わせ</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============================= -->
+<!-- 本文 -->
+<!-- ============================= -->
 <main>
 
 <h1>一球速報</h1>
@@ -186,38 +283,32 @@ button:hover{
   <div id="summary"></div>
 </section>
 
-<!-- スコアボード横いっぱい -->
 <section>
   <h2>スコアボード</h2>
   <div id="scoreboard"></div>
 </section>
 
-<!-- 3カラムエリア -->
 <div class="dashboard">
 
-  <!-- チーム① -->
   <section class="lineup-box">
     <h2>ホーム</h2>
     <div id="homeLineup"></div>
   </section>
 
-  <!-- 中央：投球ログ -->
   <section class="center-panel">
     <h2>投球ログ</h2>
-
     <div id="pitchLog"></div>
     <div id="countDisplay"></div>
 
     <div>
-      <button type="button" onclick="prevPA()">前打者</button>
-      <button type="button" onclick="nextPA()">次打者</button>
+      <button onclick="prevPA()">前打者</button>
+      <button onclick="nextPA()">次打者</button>
     </div>
 
     <div id="zone"></div>
     <div id="field" style="position:relative;height:240px;"></div>
   </section>
 
-  <!-- チーム② -->
   <section class="lineup-box">
     <h2>ビジター</h2>
     <div id="awayLineup"></div>
@@ -225,7 +316,6 @@ button:hover{
 
 </div>
 
-<!-- 下部情報 -->
 <section>
   <h2>投手詳細</h2>
   <div id="pitcherStats"></div>
@@ -239,7 +329,46 @@ button:hover{
 
 </main>
 
+<!-- ============================= -->
+<!-- フッター -->
+<!-- ============================= -->
+<footer>
+  <div class="footer-container">
+
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-title">リンク</div>
+      <a href="/">ホーム</a><br>
+      <a href="/news">お知らせ</a><br>
+      <a href="/privacypolicy">利用規約</a><br>
+      <a href="/contact">お問い合わせ</a>
+    </div>
+
+    <div>
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © <span id="year"></span> L-crown. All rights reserved.
+  </div>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/game.js"></script>
+
 </body>
 </html>
