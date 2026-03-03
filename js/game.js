@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(data => {
       gameData = data;
-      init();
+      window.addEventListener("DOMContentLoaded", init);
     })
     .catch(err => {
       console.error("JSON取得失敗:", err);
