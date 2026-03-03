@@ -1,1 +1,27 @@
+body { background:#0b1d3a; color:#fff; font-family:sans-serif; }
 
+#scoreboard { border-collapse:collapse; width:100%; }
+#scoreboard th, #scoreboard td { border:1px solid #2a3f66; padding:5px; text-align:center; }
+
+#lineupsWrap { display:flex; gap:30px; }
+#lineupsWrap div { width:50%; }
+
+#zoneGrid {
+  display:grid;
+  grid-template-columns:repeat(5,40px);
+  grid-template-rows:repeat(5,40px);
+  gap:2px;
+}
+
+.zoneCell { width:40px; height:40px; background:#1c2f55; }
+.strikeZone { background:#244b88; }
+
+.pitchMarker {
+  width:100%;
+  height:100%;
+}
+
+.hit { background:blue; }
+.strike { background:yellow; }
+.ball { background:green; }
+.out { background:red; }
