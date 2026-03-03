@@ -132,27 +132,36 @@ function renderPlayers(players) {
 ================================ */
 
 function renderField() {
-  const field = document.getElementById("field");
-  if (!field) return;
-  field.innerHTML = "";
+  const fieldEl = document.getElementById("field");
+  if (!fieldEl) return;
+
+  fieldEl.innerHTML = "";
 
   const pa = gameData?.pitches?.[currentPAIndex];
-  const basesStr = pa?.bases || "000";
+  if (!pa?.fielders) return;
 
+  // 守備位置マッピング（％指定）
   const positions = {
-    1: { top: "200px", left: "220px" },
-    2: { top: "80px", left: "135px" },
-    3: { top: "200px", left: "50px" }
+    "P":  { top: "55%", left: "50%" },
+    "C":  { top: "85%", left: "50%" },
+    "1B": { top: "65%", left: "75%" },
+    "2B": { top: "45%", left: "65%" },
+    "3B": { top: "65%", left: "25%" },
+    "SS": { top: "45%", left: "35%" },
+    "LF": { top: "20%", left: "25%" },
+    "CF": { top: "10%", left: "50%" },
+    "RF": { top: "20%", left: "75%" }
   };
 
-  [1,2,3].forEach((b,i) => {
-    const base = document.createElement("div");
-    base.className = "base";
-    if (basesStr[i] === "1") base.classList.add("runner");
-    base.style.position = "absolute";
-    base.style.top = positions[b].top;
-    base.style.left = positions[b].left;
-    field.appendChild(base);
+  Object.entries(pa.fielders).forEach(([pos, name]) => {
+    if (!positions[pos]) return;
+
+    const div = document.createElement("div");
+    div.className = "fielder";
+    div.style.top = positions[pos].top;
+    div.style.left = positions[pos].left;
+    div.textContent = `${pos} ${name}`;
+    fieldEl.appendChild(div);
   });
 }
 
@@ -403,20 +412,53 @@ function filterPitches() {
    統計
 ================================ */
 
-function renderPitcherStats() {
-  const allPitches = (gameData?.pitches || []).flatMap(pa => pa.pitches || []);
-  const byType = {};
+let pitchChart = null;
 
-  allPitches.forEach(p => {
-    byType[p.pitch_type] = (byType[p.pitch_type] || 0) + 1;
+function renderPitcherStats() {
+  const statsEl = document.getElementById("pitcherStats");
+  const canvas = document.getElementById("pitchChart");
+  if (!statsEl || !canvas) return;
+
+  const pa = gameData?.pitches?.[currentPAIndex];
+  if (!pa?.pitches) return;
+
+  // 球種カウント
+  const counts = {};
+  pa.pitches.forEach(p => {
+    counts[p.pitch_type] = (counts[p.pitch_type] || 0) + 1;
   });
 
-  let html = "";
-  for (let t in byType) {
-    html += `${t}: ${byType[t]}<br>`;
-  }
+  statsEl.innerHTML = `
+    投球数: ${pa.pitches.length}
+  `;
 
-  document.getElementById("pitcherStats").innerHTML = html || "データなし";
+  const ctx = canvas.getContext("2d");
+
+  if (pitchChart) pitchChart.destroy();
+
+  pitchChart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: Object.keys(counts),
+      datasets: [{
+        data: Object.values(counts),
+        backgroundColor: [
+          "#4da3ff",
+          "#ff7676",
+          "#ffd84d",
+          "#7cff7c",
+          "#c57cff"
+        ]
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: { color: "white" }
+        }
+      }
+    }
+  });
 }
 
 function renderBatterStats() {
