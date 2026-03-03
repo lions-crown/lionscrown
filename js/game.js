@@ -205,6 +205,32 @@ function renderZone() {
   });
 }
 
+function renderPitchLog() {
+  const logEl = document.getElementById("pitchLog");
+  if (!logEl) return;
+
+  logEl.innerHTML = "";
+
+  const pa = gameData?.pitches?.[currentPAIndex];
+  if (!pa) return;
+
+  let html = `<div><strong>
+    ${pa.inning}回 ${pa.half === "top" ? "表" : "裏"}
+    打者: ${pa.batter_name || pa.batter_id || "-"}
+  </strong></div>`;
+
+  (pa.pitches || []).forEach((p, i) => {
+    html += `
+      <div style="font-size:13px; margin-left:10px;">
+        ${i + 1}球目：
+        ${p.pitch_type} / ${p.result}
+      </div>
+    `;
+  });
+
+  logEl.innerHTML = html;
+}
+
 function renderCount() {
   const container = document.getElementById("countDisplay");
   if (!container) return;
