@@ -9,47 +9,42 @@ async function init() {
   console.log("init開始");
   console.log("location.search 生値:", location.search);
 
-  // location.search をデコードして &amp; を & に変換（保険）
-  let searchStr = location.search.replace(/&amp;/g, '&');
+  // search文字列をクリーンアップ（&amp;対策）
+  let search = location.search.replace(/&amp;/g, '&');
 
-  // 正規表現で抽出（より柔軟に）
   let date = "2026-03-01";
   let team = "1";
 
-  const dateMatch = searchStr.match(/[?&]date=([^&]*)/i);
-  const teamMatch = searchStr.match(/[?&]team=([^&]*)/i);
+  // 正規表現で抽出（iフラグで大文字小文字無視）
+  const dateMatch = search.match(/[?&]date=([^&]*)/i);
+  const teamMatch = search.match(/[?&]team=([^&]*)/i);
 
-  if (dateMatch && dateMatch[1]) {
-    date = decodeURIComponent(dateMatch[1]);
-  }
+  if (dateMatch && dateMatch[1]) date = decodeURIComponent(dateMatch[1]);
   if (teamMatch && teamMatch[1]) {
     team = decodeURIComponent(teamMatch[1]);
-    console.log("team 正規表現で抽出成功:", team);
+    console.log("team抽出成功:", team);
   } else {
-    console.warn("team を正規表現で抽出できなかった → デフォルト '1' 使用");
+    console.warn("team抽出失敗 → デフォルト '1'");
   }
 
-  console.log("最終使用値 → date:", date, "team:", team);
-
-  // ここで重複チェック（念のため）
-  if (team.endsWith('_1')) {
-    team = team.replace(/_1$/, '');
-    console.warn("team に重複 '_1' が付いていたため除去:", team);
-  }
+  // team が数字だけか確認、重複 '_1' 除去（念のため）
+  team = team.replace(/[^0-9]/g, '');  // 数字以外削除
+  if (team === '') team = '1';
+  console.log("クリーンアップ後 team:", team);
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
-  console.log("最終 fetch URL:", jsonUrl);
+  console.log("fetch URL:", jsonUrl);
 
   try {
     const res = await fetch(jsonUrl);
-    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗", res.url);
+    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗", "実際のURL:", res.url);
 
     if (!res.ok) {
       throw new Error(`HTTP ${res.status} ${res.statusText}`);
     }
 
     gameData = await res.json();
-    console.log("データ取得成功:", gameData?.meta || "metaなし");
+    console.log("データ取得成功:", gameData.meta);
 
     renderSummary();
     renderScoreboard();
@@ -63,7 +58,7 @@ async function init() {
     console.log("描画完了");
 
   } catch (err) {
-    console.error("エラー詳細:", err);
+    console.error("エラー:", err);
 
     const errorMsg = `
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
@@ -73,10 +68,7 @@ async function init() {
       </div>`;
 
     ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
-      .forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = errorMsg;
-      });
+      .forEach(id => document.getElementById(id)?.innerHTML = errorMsg);
   }
 }
 
