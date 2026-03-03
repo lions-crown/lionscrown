@@ -1,51 +1,32 @@
 {
-  "meta":{
-    "game_id":"2026-03-01_1",
-    "date":"2026-03-01",
-    "home":"L",
-    "away":"M",
-    "stadium":"ベルーナドーム"
+  "meta": {
+    "game_id": "2026-03-01_1",
+    "date": "2026-03-01",
+    "home": "L",
+    "away": "M",
+    "stadium": "ベルーナドーム"
   },
-  "scoreboard":{
-    "innings":[{"inning":1,"home":0,"away":1}],
-    "total":{
-      "home":{"R":0,"H":1,"E":0},
-      "away":{"R":1,"H":2,"E":0}
+  "scoreboard": {
+    "innings": [
+      { "inning": 1, "home": 0, "away": 1 }
+    ],
+    "total": {
+      "home": { "R": 0, "H": 1, "E": 0 },
+      "away": { "R": 1, "H": 2, "E": 0 }
     }
   },
-  "pitches":[
+  "pitches": [
     {
-      "pa_id":1,
-      "inning":1,
-      "half":"top",
-      "batter_id":"M2026_1",
-      "pitcher_id":"L2026_18",
-      "bases":"000",
-      "pitch_type":"slider",
-      "velocity":138,
-      "zone":{"x":3,"y":3},
-      "result":"strike"
+      "pa_id": 1,
+      "inning": 1,
+      "half": "top",
+      "batter_id": "M2026_1",
+      "pitcher_id": "L2026_18",
+      "bases": "000",
+      "pitch_type": "slider",
+      "velocity": 138,
+      "zone": { "x": 3, "y": 3 },
+      "result": "strike"
     }
   ]
-  {
-  "meta": {...},
-  "scoreboard": {
-    "innings": [1,2,3,4,5,6,7,8,9],
-    "home": {
-      "team": "西武",
-      "runs": [0,1,0,0,0,0,0,0,0],
-      "total": 1,
-      "hits": 5,
-      "errors": 0
-    },
-    "away": {
-      "team": "楽天",
-      "runs": [0,0,0,2,0,0,0,0,0],
-      "total": 2,
-      "hits": 7,
-      "errors": 1
-    }
-  },
-  "pitches": [...]
-}
 }
