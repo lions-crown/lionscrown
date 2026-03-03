@@ -8,11 +8,24 @@ async function init() {
   const date = params.get("date");
   const team = params.get("team");
 
-  try {
-    const res = await fetch(`live/${date}_${team}.json`);
-    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-    gameData = await res.json();
+  console.log("fetch開始:", `live/${date}_${team}.json`);
 
+  const res = await fetch(`live/${date}_${team}.json`);
+  console.log("HTTPステータス:", res.status, res.ok);
+
+  const rawText = await res.text();   // ← json() の前に生テキストを取る
+  console.log("生のレスポンス本文（最初の200文字）:", rawText.substring(0, 200));
+
+  try {
+    gameData = JSON.parse(rawText);   // ← ここで構文エラーがあればキャッチされる
+    console.log("gameData全体:", gameData);
+    console.log("gameData.scoreboard:", gameData.scoreboard);
+  } catch (e) {
+    console.error("JSONパース失敗:", e);
+    console.log("パースできなかった生テキスト:", rawText);
+  }
+
+  // 以降のrender呼び出し...
     renderSummary();
     renderScoreboard();
     renderLineups();
@@ -26,7 +39,6 @@ async function init() {
     document.getElementById("scoreboard").innerHTML = 
       `<div style="color:red; padding:1em;">データ読み込みに失敗しました<br>${err.message}</div>`;
   }
-}
 
 /* =====================
    試合概要
