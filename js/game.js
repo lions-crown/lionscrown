@@ -74,8 +74,11 @@ async function init() {
 コンソール(F12)を確認してください</small>
       </div>`;
 
-    ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
-      .forEach(id => document.getElementById(id)?.innerHTML = errorMsg);
+["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
+  .forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = errorMsg;
+  });
   }
 }
 
