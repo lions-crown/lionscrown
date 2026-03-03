@@ -158,23 +158,48 @@ function renderField() {
 function renderZone() {
   const zone = document.getElementById("zone");
   if (!zone) return;
+
   zone.innerHTML = "";
 
+  // ===== 5x5 グリッド作成 =====
+  const grid = document.createElement("div");
+  grid.className = "zoneGrid";
+
+  for (let y = 1; y <= 5; y++) {
+    for (let x = 1; x <= 5; x++) {
+      const cell = document.createElement("div");
+
+      // 中央 3x3 をストライクゾーン扱い
+      if (x >= 2 && x <= 4 && y >= 2 && y <= 4) {
+        cell.classList.add("strikeArea");
+      }
+
+      grid.appendChild(cell);
+    }
+  }
+
+  zone.appendChild(grid);
+
+  // ===== 投球描画 =====
   const pa = gameData?.pitches?.[currentPAIndex];
   if (!pa?.pitches) return;
 
   pa.pitches.forEach(p => {
-    const cell = document.createElement("div");
-    cell.className = "zoneCell " + (resultClass(p.result) || "");
-    cell.innerText = p.pitch_type;
+    if (!p.zone) return;
 
-    if (p.zone) {
-      cell.style.position = "absolute";
-      cell.style.left = `${(p.zone.x - 1) * 60}px`;
-      cell.style.top = `${(p.zone.y - 1) * 60}px`;
-    }
+    const marker = document.createElement("div");
+    marker.className = "zoneCell " + (resultClass(p.result) || "");
+    marker.innerText = p.velocity; // 球速表示
 
-    zone.appendChild(cell);
+    const cellSize = 250 / 5;
+
+    const x = Math.max(1, Math.min(5, p.zone.x));
+    const y = Math.max(1, Math.min(5, p.zone.y));
+
+    marker.style.left = `${(x - 0.5) * cellSize}px`;
+    marker.style.top  = `${(y - 0.5) * cellSize}px`;
+
+    zone.appendChild(marker);
   });
 }
 
