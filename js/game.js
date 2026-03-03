@@ -40,6 +40,7 @@ async function init() {
     renderLineups();
     renderField();
     renderZone();
+    renderCount();
     renderFilters();
     renderPitcherStats();
     renderBatterStats();
@@ -202,6 +203,57 @@ function renderZone() {
 
     zone.appendChild(marker);
   });
+}
+
+function renderCount() {
+  const container = document.getElementById("countDisplay");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const pa = gameData?.pitches?.[currentPAIndex];
+  if (!pa?.pitches) return;
+
+  let balls = 0;
+  let strikes = 0;
+  let outs = 0;
+
+  pa.pitches.forEach(p => {
+    if (p.result === "ball") balls++;
+    if (p.result === "strike") strikes++;
+  });
+
+  if (pa.result === "out") outs = 1;
+
+  container.appendChild(createCountRow("B", balls, 3, "ball"));
+  container.appendChild(createCountRow("S", strikes, 2, "strike"));
+  container.appendChild(createCountRow("O", outs, 3, "out"));
+}
+
+function createCountRow(label, count, max, type) {
+  const row = document.createElement("div");
+  row.className = "countRow";
+
+  const labelSpan = document.createElement("span");
+  labelSpan.className = "countLabel";
+  labelSpan.innerText = label;
+
+  row.appendChild(labelSpan);
+
+  for (let i = 0; i < max; i++) {
+    const dot = document.createElement("span");
+    dot.className = "dot";
+
+    if (i < count) {
+      dot.classList.add("filled", type);
+    } else {
+      dot.classList.add("empty");
+    }
+
+    row.appendChild(dot);
+  }
+
+  return row;
 }
 
 
