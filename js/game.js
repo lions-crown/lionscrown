@@ -219,14 +219,37 @@ function renderCount() {
   let outs = 0;
 
   pa.pitches.forEach(p => {
-    if (p.result === "ball") balls++;
-    if (p.result === "strike") strikes++;
+
+    // ボール
+    if (p.result === "ball") {
+      if (balls < 3) balls++;
+    }
+
+    // ストライク
+    if (p.result === "strike") {
+      if (strikes < 2) strikes++;
+    }
+
+    // ファウル
+    if (p.result === "foul") {
+      if (strikes < 2) strikes++;
+    }
+
   });
 
-  if (pa.result === "out") outs = 1;
+  // 打席結果が三振ならストライク3表示
+  if (pa.result === "strikeout") {
+    strikes = 3;
+    outs = 1;
+  }
+
+  // 打席結果がアウトならアウト1
+  if (pa.result === "out") {
+    outs = 1;
+  }
 
   container.appendChild(createCountRow("B", balls, 3, "ball"));
-  container.appendChild(createCountRow("S", strikes, 2, "strike"));
+  container.appendChild(createCountRow("S", strikes, 3, "strike"));
   container.appendChild(createCountRow("O", outs, 3, "out"));
 }
 
