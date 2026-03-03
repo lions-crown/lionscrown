@@ -2,80 +2,156 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>一球速報</title>
-<link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一球速報 | L-crown</title>
+
+<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<meta name="theme-color" content="#0f172a">
 
 <style>
-:root {
-  --zone-size: 300px;   /* ← ここを変えれば拡大縮小可能 */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
+  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
+  color:white;
+  min-height:100vh;
+  line-height:1.7;
 }
 
-#zone {
-  position: relative;
-  width: var(--zone-size);
-  height: var(--zone-size);
-  border: 2px solid white;
+main{
+  max-width:1100px;
+  margin:40px auto;
+  padding:20px;
 }
 
-.zoneGrid {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+h1{
+  margin-bottom:20px;
+  font-size:26px;
 }
 
-.zoneGrid div {
-  border: 1px solid #444;
+section{
+  margin-bottom:40px;
+  padding:24px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(14px);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
 }
 
-.zoneGrid div.strikeZone {
-  border: 1px solid #aaa;
+h2{
+  margin-bottom:16px;
+  font-size:18px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  padding-bottom:6px;
 }
 
-.pitchMarker {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  font-size: 8px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-  border: 1px solid black;
+/* ===== ZONE ===== */
+:root { --zone-size: 320px; }
+
+#zone{
+  position:relative;
+  width:var(--zone-size);
+  height:var(--zone-size);
+  border:2px solid white;
+  margin-top:20px;
 }
 
-/* 結果カラー */
-.result-strike { background: yellow; color: black; }
-.result-ball   { background: green;  color: white; }
-.result-hit    { background: red;    color: white; }
-.result-out    { background: gray;   color: white; }
+.zoneGrid{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  grid-template-rows:repeat(5,1fr);
+}
+
+.zoneGrid div{ border:1px solid #333; }
+
+.zoneGrid div.strikeZone{
+  border:1px solid #aaa;
+}
+
+.pitchMarker{
+  position:absolute;
+  width:18px;
+  height:18px;
+  font-size:9px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transform:translate(-50%,-50%);
+  border:1px solid black;
+}
+
+.result-strike{background:yellow;color:black;}
+.result-ball{background:green;color:white;}
+.result-hit{background:red;color:white;}
+.result-out{background:gray;color:white;}
+
+/* ===== ボタン ===== */
+button{
+  padding:8px 18px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  margin-right:10px;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+  color:black;
+  font-weight:bold;
+  transition:0.25s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* ===== カウント表示 ===== */
+.countRow{
+  display:flex;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.countLabel{
+  width:20px;
+  margin-right:10px;
+}
+
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  margin-right:6px;
+  background:#555;
+}
+
+.dot.ball{background:green;}
+.dot.strike{background:yellow;}
+.dot.out{background:red;}
 </style>
-  
 </head>
+
 <body>
-<div class="game-detail">
+<main>
 
 <h1>一球速報</h1>
 
-<!-- 試合概要 -->
 <section>
   <h2>試合概要</h2>
   <div id="summary"></div>
 </section>
 
-<!-- スコアボード -->
 <section>
   <h2>スコアボード</h2>
   <div id="scoreboard"></div>
 </section>
 
-<!-- オーダー -->
 <section>
   <h2>オーダー</h2>
-  <div class="lineups">
+  <div style="display:flex;gap:40px;">
     <div>
       <h3>ホーム</h3>
       <div id="homeLineup"></div>
@@ -87,19 +163,11 @@
   </div>
 </section>
 
-<!-- 守備位置＋塁状況 -->
 <section>
   <h2>守備配置・走者状況</h2>
-  <div id="field"></div>
+  <div id="field" style="position:relative;height:260px;"></div>
 </section>
 
-<!-- カウント表示 -->
-<section>
-  <h2>カウント</h2>
-  <div id="countDisplay"></div>
-</section>
-  
-<!-- 投球ログ -->
 <section>
   <h2>投球ログ</h2>
 
@@ -107,36 +175,34 @@
 
   <div id="countDisplay"></div>
 
-  <div>
-    <button onclick="prevPA()">前打者</button>
-    <button onclick="nextPA()">次打者</button>
+  <div style="margin-top:12px;">
+    <button type="button" onclick="prevPA()">前打者</button>
+    <button type="button" onclick="nextPA()">次打者</button>
   </div>
 
   <div id="zone"></div>
 </section>
 
-<!-- 投球検索 -->
 <section>
   <h2>投球検索</h2>
   <select id="inningFilter"></select>
   <select id="batterFilter"></select>
-  <button onclick="filterPitches()">検索</button>
+  <button type="button" onclick="filterPitches()">検索</button>
   <div id="filterResult"></div>
 </section>
 
-<!-- 投手詳細 -->
 <section>
   <h2>投手詳細</h2>
   <div id="pitcherStats"></div>
 </section>
 
-<!-- 打者詳細 -->
 <section>
   <h2>打者詳細</h2>
   <div id="batterStats"></div>
 </section>
 
+</main>
+
 <script src="js/game.js"></script>
-</div>
 </body>
 </html>
