@@ -265,6 +265,7 @@ function getCurrentInningOuts() {
   let outs = 0;
 
   gameData.pitches.forEach((pa, index) => {
+    if (!pa) return;
     if (index > currentPAIndex) return;
 
     if (pa.inning === inning && pa.half === half) {
