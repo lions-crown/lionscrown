@@ -583,3 +583,30 @@ footer a:hover{
 .game-detail .runner {
   background: orange !important;
 }
+
+.countRow {
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.countLabel {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-right: 4px;
+  border: 1px solid #888;
+}
+
+.filled.ball   { background: green; }
+.filled.strike { background: yellow; }
+.filled.out    { background: red; }
+
+.empty {
+  background: transparent;
+}
