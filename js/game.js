@@ -2,33 +2,51 @@ async function init() {
   console.log("init開始");
   console.log("location.search 生値:", location.search);
 
-  // search文字列をクリーンアップ
-  let search = location.search.replace(/&amp;/g, '&').replace(/^\?/, '');
+  let search = location.search.replace(/&amp;/g, '&');
 
   let date = "2026-03-01";
-  let team = "1";
+  let team = "1";  // 絶対に「1」にする
 
-  // 安全に抽出
-  const params = new URLSearchParams(search);
-  if (params.has("date")) date = params.get("date");
-  if (params.has("team")) team = params.get("team");
+  const dateMatch = search.match(/[?&]date=([^&]*)/i);
+  const teamMatch = search.match(/[?&]team=([^&]*)/i);
 
-  console.log("抽出後 date:", date);
-  console.log("抽出後 team:", team);
+  if (dateMatch && dateMatch[1]) {
+    date = decodeURIComponent(dateMatch[1]);
+  }
 
-  // 念のためクリーンアップ（数字だけにする）
-  team = team.replace(/[^0-9]/g, '') || "1";
-  console.log("最終 team:", team);
+  if (teamMatch && teamMatch[1]) {
+    let rawTeam = decodeURIComponent(teamMatch[1]);
+    console.log("抽出された生の team 値:", rawTeam);
+
+    // どんな文字列が来ても、数字部分だけ取り出し、最初の1桁だけにする
+    const digits = rawTeam.match(/\d+/g) || [];
+    if (digits.length > 0) {
+      team = digits.join('').charAt(0);  // 数字を繋げて最初の1桁
+      console.log("数字抽出後 team:", team);
+    } else {
+      console.warn("teamに数字が見つからなかった → デフォルト '1'");
+    }
+  } else {
+    console.warn("teamMatch が取れなかった → デフォルト '1'");
+  }
+
+  // 最終保険：team が空 or 複数桁なら強制「1」
+  if (!team || team.length > 1 || !/^\d$/.test(team)) {
+    team = "1";
+    console.warn("最終保険発動 → team を '1' に強制修正");
+  }
+
+  console.log("最終決定 team:", team);
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
   console.log("fetch URL:", jsonUrl);
 
   try {
     const res = await fetch(jsonUrl);
-    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗");
+    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗", "実際のURL:", res.url);
 
     if (!res.ok) {
-      throw new Error(`HTTPエラー ${res.status}`);
+      throw new Error(`HTTP ${res.status} ${res.statusText}`);
     }
 
     gameData = await res.json();
@@ -36,7 +54,14 @@ async function init() {
 
     renderSummary();
     renderScoreboard();
-    // 他のrender呼び出し...
+    renderLineups();
+    renderField();
+    renderZone();
+    renderFilters();
+    renderPitcherStats();
+    renderBatterStats();
+
+    console.log("描画完了");
 
   } catch (err) {
     console.error("エラー:", err);
@@ -45,14 +70,13 @@ async function init() {
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
         <strong>データ読み込み失敗</strong><br>
         ${err.message || "不明なエラー"}<br>
-        <small>試したURL: ${jsonUrl}</small>
+        <small>試したURL: ${jsonUrl}<br>コンソール(F12)を確認してください</small>
       </div>`;
 
     ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
       .forEach(id => document.getElementById(id)?.innerHTML = errorMsg);
   }
 }
-
 // render関数群（変更なしでOK、必要に応じてコピー）
 function renderSummary() {
   if (!gameData) return;
