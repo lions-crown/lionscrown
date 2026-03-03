@@ -6,15 +6,17 @@
 <link rel="stylesheet" href="css/style.css">
 
 <style>
-#zone {
-  position: relative;
-  width: 250px;
-  height: 250px;
-  border: 2px solid white;
-  margin-top: 10px;
+:root {
+  --zone-size: 300px;   /* ← ここを変えれば拡大縮小可能 */
 }
 
-/* ===== 5x5 グリッド ===== */
+#zone {
+  position: relative;
+  width: var(--zone-size);
+  height: var(--zone-size);
+  border: 2px solid white;
+}
+
 .zoneGrid {
   position: absolute;
   width: 100%;
@@ -25,27 +27,23 @@
 }
 
 .zoneGrid div {
-  border: 1px solid #555;
+  border: 1px solid #444;
 }
 
-/* 中央3x3のみ線を強調 */
 .zoneGrid div.strikeZone {
   border: 1px solid #aaa;
 }
 
-/* ===== 投球マーカー ===== */
 .pitchMarker {
   position: absolute;
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
+  font-size: 8px;
   border-radius: 50%;
-  font-size: 9px;
-  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   transform: translate(-50%, -50%);
-  opacity: 0.9;
   border: 1px solid black;
 }
 
