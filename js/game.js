@@ -161,7 +161,7 @@ function renderZone() {
 
   zone.innerHTML = "";
 
-  // ===== 5x5 グリッド作成 =====
+  // ===== グリッド作成 =====
   const grid = document.createElement("div");
   grid.className = "zoneGrid";
 
@@ -169,9 +169,9 @@ function renderZone() {
     for (let x = 1; x <= 5; x++) {
       const cell = document.createElement("div");
 
-      // 中央 3x3 をストライクゾーン扱い
+      // 中央3x3だけ強調
       if (x >= 2 && x <= 4 && y >= 2 && y <= 4) {
-        cell.classList.add("strikeArea");
+        cell.classList.add("strikeZone");
       }
 
       grid.appendChild(cell);
@@ -184,15 +184,26 @@ function renderZone() {
   const pa = gameData?.pitches?.[currentPAIndex];
   if (!pa?.pitches) return;
 
-  pa.pitches.forEach(p => {
+  const cellSize = 250 / 5;
+
+  pa.pitches.forEach((p, index) => {
     if (!p.zone) return;
 
     const marker = document.createElement("div");
-    marker.className = "zoneCell " + (resultClass(p.result) || "");
-    marker.innerText = p.velocity; // 球速表示
+    marker.classList.add("pitchMarker");
 
-    const cellSize = 250 / 5;
+    // 結果カラー
+    if (p.result) {
+      marker.classList.add("result-" + p.result);
+    }
 
+    // 球種記号変換
+    const typeSymbol = pitchSymbol(p.pitch_type);
+
+    // 表示内容：球種記号 + 球数
+    marker.innerText = `${typeSymbol}${index + 1}`;
+
+    // 座標（1〜5）
     const x = Math.max(1, Math.min(5, p.zone.x));
     const y = Math.max(1, Math.min(5, p.zone.y));
 
