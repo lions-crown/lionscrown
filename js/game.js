@@ -216,7 +216,7 @@ function renderCount() {
 
   let balls = 0;
   let strikes = 0;
-  let outs = 0;
+  const outs = getCurrentInningOuts();
 
   pa.pitches.forEach(p => {
 
@@ -251,6 +251,30 @@ function renderCount() {
   container.appendChild(createCountRow("B", balls, 3, "ball"));
   container.appendChild(createCountRow("S", strikes, 3, "strike"));
   container.appendChild(createCountRow("O", outs, 3, "out"));
+}
+
+function getCurrentInningOuts() {
+  if (!gameData?.pitches?.length) return 0;
+
+  const currentPA = gameData.pitches[currentPAIndex];
+  if (!currentPA) return 0;
+
+  const inning = currentPA.inning;
+  const half = currentPA.half;
+
+  let outs = 0;
+
+  gameData.pitches.forEach((pa, index) => {
+    if (index > currentPAIndex) return;
+
+    if (pa.inning === inning && pa.half === half) {
+      if (pa.result === "out" || pa.result === "strikeout") {
+        outs++;
+      }
+    }
+  });
+
+  return Math.min(outs, 3);
 }
 
 function createCountRow(label, count, max, type) {
