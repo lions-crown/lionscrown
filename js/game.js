@@ -45,42 +45,39 @@ function renderSummary() {
    スコアボード   ← ここを現在のJSONに合わせました
 ===================== */
 function renderScoreboard() {
-  const sb = gameData.scoreboard || {};
-  const inningsData = sb.innings || [];
+  // 安全ガードをたくさん入れてクラッシュを防ぐ
+  if (!gameData || !gameData.scoreboard) {
+    document.getElementById("scoreboard").innerHTML = "<p style='color:red;'>スコアデータがありません</p>";
+    return;
+  }
+
+  const sb = gameData.scoreboard;
+  const innings = sb.innings || [];
   const totals = sb.total || { away: {}, home: {} };
 
-  let html = '<table border="1" style="border-collapse: collapse; text-align: center;">';
-  html += '<tr><th></th>';
+  let html = "<table border='1' style='border-collapse: collapse; text-align: center; margin: 10px auto;'>";
+  html += "<tr><th></th>";  // 左上の空セル
 
-  // イニングヘッダー
-  inningsData.forEach(inningObj => {
-    html += `<th>${inningObj.inning || '?'}</th>`;
+  // イニングのヘッダー
+  innings.forEach(inningObj => {
+    html += `<th>${inningObj.inning || "?"}</th>`;
   });
-  html += '<th>R</th><th>H</th><th>E</th></tr>';
+  html += "<th>R</th><th>H</th><th>E</th></tr>";
 
-  // away と home の行
-  ['away', 'home'].forEach(side => {
-    const teamTotal = totals[side] || { R: '-', H: '-', E: '-' };
-    const teamName = side === 'away' 
-      ? (gameData.meta?.away || 'Away') 
-      : (gameData.meta?.home || 'Home');
+  // away行
+  const awayTotal = totals.away || { R: "-", H: "-", E: "-" };
+  html += "<tr><td><strong>" + (gameData.meta?.away || "Away") + "</strong></td>";
+  innings.forEach(() => html += "<td>-</td>");  // イニングごとの得点（未実装）
+  html += `<td>${awayTotal.R}</td><td>${awayTotal.H}</td><td>${awayTotal.E}</td></tr>`;
 
-    html += `<tr><td><strong>${teamName}</strong></td>`;
+  // home行
+  const homeTotal = totals.home || { R: "-", H: "-", E: "-" };
+  html += "<tr><td><strong>" + (gameData.meta?.home || "Home") + "</strong></td>";
+  innings.forEach(() => html += "<td>-</td>");
+  html += `<td>${homeTotal.R}</td><td>${homeTotal.H}</td><td>${homeTotal.E}</td></tr>`;
 
-    // イニングごとの得点（今のJSONには詳細がないので仮表示）
-    inningsData.forEach(() => {
-      html += '<td>-</td>';   // ← 将来ここにイニングごとのrunsを入れる
-    });
-
-    html += `
-      <td>${teamTotal.R ?? '-'}</td>
-      <td>${teamTotal.H ?? '-'}</td>
-      <td>${teamTotal.E ?? '-'}</td>
-    </tr>`;
-  });
-
-  html += '</table>';
-  document.getElementById('scoreboard').innerHTML = html;
+  html += "</table>";
+  document.getElementById("scoreboard").innerHTML = html;
 }
 
 /* =====================
