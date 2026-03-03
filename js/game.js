@@ -482,7 +482,7 @@ function renderPitcherStats() {
   if (pitchChart) pitchChart.destroy();
 
   pitchChart = new Chart(ctx, {
-    type: "pie",
+    type: "doughnut",
     data: {
       labels: Object.keys(counts),
       datasets: [{
@@ -497,6 +497,8 @@ function renderPitcherStats() {
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false   // ← これ必須
       plugins: {
         legend: {
           labels: { color: "white" }
