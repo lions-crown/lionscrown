@@ -7,34 +7,49 @@ window.addEventListener("DOMContentLoaded", init);
 
 async function init() {
   console.log("init開始");
-  console.log("location.search:", location.search);
+  console.log("location.search 生値:", location.search);
 
-  // URLSearchParamsが信頼できない場合の保険として、正規表現でteamを抽出
+  // location.search をデコードして &amp; を & に変換（保険）
+  let searchStr = location.search.replace(/&amp;/g, '&');
+
+  // 正規表現で抽出（より柔軟に）
   let date = "2026-03-01";
   let team = "1";
 
-  const search = location.search;
-  const dateMatch = search.match(/[?&]date=([^&]+)/);
-  const teamMatch = search.match(/[?&]team=([^&]+)/);
+  const dateMatch = searchStr.match(/[?&]date=([^&]*)/i);
+  const teamMatch = searchStr.match(/[?&]team=([^&]*)/i);
 
-  if (dateMatch) date = decodeURIComponent(dateMatch[1]);
-  if (teamMatch) team = decodeURIComponent(teamMatch[1]);
+  if (dateMatch && dateMatch[1]) {
+    date = decodeURIComponent(dateMatch[1]);
+  }
+  if (teamMatch && teamMatch[1]) {
+    team = decodeURIComponent(teamMatch[1]);
+    console.log("team 正規表現で抽出成功:", team);
+  } else {
+    console.warn("team を正規表現で抽出できなかった → デフォルト '1' 使用");
+  }
 
-  console.log("抽出結果 → date:", date, "team:", team);
+  console.log("最終使用値 → date:", date, "team:", team);
+
+  // ここで重複チェック（念のため）
+  if (team.endsWith('_1')) {
+    team = team.replace(/_1$/, '');
+    console.warn("team に重複 '_1' が付いていたため除去:", team);
+  }
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
-  console.log("fetch URL:", jsonUrl);
+  console.log("最終 fetch URL:", jsonUrl);
 
   try {
     const res = await fetch(jsonUrl);
-    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗");
+    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗", res.url);
 
     if (!res.ok) {
       throw new Error(`HTTP ${res.status} ${res.statusText}`);
     }
 
     gameData = await res.json();
-    console.log("データ取得成功:", gameData.meta);
+    console.log("データ取得成功:", gameData?.meta || "metaなし");
 
     renderSummary();
     renderScoreboard();
@@ -48,7 +63,7 @@ async function init() {
     console.log("描画完了");
 
   } catch (err) {
-    console.error("エラー:", err);
+    console.error("エラー詳細:", err);
 
     const errorMsg = `
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
@@ -58,11 +73,14 @@ async function init() {
       </div>`;
 
     ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
-      .forEach(id => document.getElementById(id)?.innerHTML = errorMsg);
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = errorMsg;
+      });
   }
 }
 
-// renderSummary と renderScoreboard（前回と同じでOK）
+// render関数群（変更なしでOK、必要に応じてコピー）
 function renderSummary() {
   if (!gameData) return;
   const m = gameData.meta || {};
