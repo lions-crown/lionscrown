@@ -2,8 +2,7 @@ async function init() {
   console.log("init開始");
   console.log("location.search 生値:", location.search);
 
-  let search = location.search.replace(/&amp;/g, '&');
-
+  let search = location.search.replace(/&/g, '&');
   let date = "2026-03-01";
   let team = "1";  // 絶対に「1」にする
 
@@ -18,10 +17,9 @@ async function init() {
     let rawTeam = decodeURIComponent(teamMatch[1]);
     console.log("抽出された生の team 値:", rawTeam);
 
-    // どんな文字列が来ても、数字部分だけ取り出し、最初の1桁だけにする
     const digits = rawTeam.match(/\d+/g) || [];
     if (digits.length > 0) {
-      team = digits.join('').charAt(0);  // 数字を繋げて最初の1桁
+      team = digits.join('').charAt(0);  // 最初の1桁を取得
       console.log("数字抽出後 team:", team);
     } else {
       console.warn("teamに数字が見つからなかった → デフォルト '1'");
@@ -30,9 +28,8 @@ async function init() {
     console.warn("teamMatch が取れなかった → デフォルト '1'");
   }
 
-  // 最終保険：team が空 or 複数桁なら強制「1」
   if (!team || team.length > 1 || !/^\d$/.test(team)) {
-    team = "1";
+    team = "1";  // 最終的に「1」に強制
     console.warn("最終保険発動 → team を '1' に強制修正");
   }
 
@@ -49,7 +46,7 @@ async function init() {
       throw new Error(`HTTP ${res.status} ${res.statusText}`);
     }
 
-    gameData = await res.json();
+    const gameData = await res.json();
     console.log("データ取得成功:", gameData.meta);
 
     renderSummary();
@@ -63,35 +60,35 @@ async function init() {
 
     console.log("描画完了");
 
-} catch (err) {
-  console.error("エラー:", err);
+  } catch (err) {
+    console.error("エラー:", err);
 
-  // バッククォートを使わず文字列連結で安全に
-  var errorMsg = '<div style="color:#c62828; background:#ffebee; padding:16px; ' +
-                 'border:2px solid #ef9a9a; margin:16px; border-radius:8px;">' +
-                 '<strong>データ読み込み失敗</strong><br>' +
-                 (err.message || "不明なエラー") + '<br>' +
-                 '<small>試したURL: ' + jsonUrl + '<br>コンソール(F12)を確認してください</small>' +
-                 '</div>';
+    const errorMsg = `
+      <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
+        <strong>データ読み込み失敗</strong>
 
-  // アロー関数ではなく通常のfunctionで
-  var ids = ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"];
-  ids.forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) {
-      el.innerHTML = errorMsg;
-    }
-  });
+        ${err.message || "不明なエラー"}
+
+        <small>試したURL: ${jsonUrl}
+コンソール(F12)を確認してください</small>
+      </div>`;
+
+    ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
+      .forEach(id => document.getElementById(id)?.innerHTML = errorMsg);
+  }
 }
-  
+
 // render関数群（変更なしでOK、必要に応じてコピー）
 function renderSummary() {
   if (!gameData) return;
   const m = gameData.meta || {};
   document.getElementById("summary").innerHTML = `
-    ${m.home || "?"} vs ${m.away || "?"}<br>
-    球場: ${m.stadium || "-"}<br>
-    開始: ${m.start_time || "-"}<br>
+    ${m.home || "?"} vs ${m.away || "?"}
+
+    球場: ${m.stadium || "-"}
+
+    開始: ${m.start_time || "-"}
+
     審判: ${m.umpires?.join(", ") || "-"}
   `;
 }
@@ -150,7 +147,7 @@ function renderField() {
     2: { top: "80px", left: "135px" },
     3: { top: "200px", left: "50px" }
   };
-  [1,2,3].forEach(b => {
+  [1, 2, 3].forEach(b => {
     const base = document.createElement("div");
     base.className = "base";
     if (bases[b]) base.classList.add("runner");
@@ -226,7 +223,8 @@ function renderPitcherStats() {
   });
   let html = "";
   for (let t in byType) {
-    html += `${t}: ${byType[t]}<br>`;
+    html += `${t}: ${byType[t]}
+`;
   }
   document.getElementById("pitcherStats").innerHTML = html || "データなし";
 }
@@ -240,7 +238,8 @@ function renderBatterStats() {
   });
   let html = "";
   for (let r in byResult) {
-    html += `${r}: ${byResult[r]}<br>`;
+    html += `${r}: ${byResult[r]}
+`;
   }
   document.getElementById("batterStats").innerHTML = html || "データなし";
 }
