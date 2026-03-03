@@ -2,39 +2,33 @@ async function init() {
   console.log("init開始");
   console.log("location.search 生値:", location.search);
 
-  let search = location.search.replace(/&amp;/g, '&');
+  // search文字列をクリーンアップ
+  let search = location.search.replace(/&amp;/g, '&').replace(/^\?/, '');
 
   let date = "2026-03-01";
-  let team = "1";  // 初期値
+  let team = "1";
 
-  // 正規表現で抽出
-  const dateMatch = search.match(/[?&]date=([^&]*)/i);
-  const teamMatch = search.match(/[?&]team=([^&]*)/i);
+  // 安全に抽出
+  const params = new URLSearchParams(search);
+  if (params.has("date")) date = params.get("date");
+  if (params.has("team")) team = params.get("team");
 
-  if (dateMatch && dateMatch[1]) {
-    date = decodeURIComponent(dateMatch[1]);
-  }
-  if (teamMatch && teamMatch[1]) {
-    let rawTeam = decodeURIComponent(teamMatch[1]);
-    console.log("抽出された生のteam値:", rawTeam);
+  console.log("抽出後 date:", date);
+  console.log("抽出後 team:", team);
 
-    // 数字だけ抽出 & 重複除去
-    rawTeam = rawTeam.replace(/[^0-9]/g, '');  // 数字以外削除
-    if (rawTeam.length > 1) rawTeam = rawTeam.charAt(0);  // 複数桁なら最初の1文字だけ
-    if (rawTeam) team = rawTeam;
-  }
-
-  console.log("最終決定 team:", team);
+  // 念のためクリーンアップ（数字だけにする）
+  team = team.replace(/[^0-9]/g, '') || "1";
+  console.log("最終 team:", team);
 
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
   console.log("fetch URL:", jsonUrl);
 
   try {
     const res = await fetch(jsonUrl);
-    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗", "実際のURL:", res.url);
+    console.log("fetch結果:", res.status, res.ok ? "成功" : "失敗");
 
     if (!res.ok) {
-      throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      throw new Error(`HTTPエラー ${res.status}`);
     }
 
     gameData = await res.json();
@@ -42,14 +36,7 @@ async function init() {
 
     renderSummary();
     renderScoreboard();
-    renderLineups();
-    renderField();
-    renderZone();
-    renderFilters();
-    renderPitcherStats();
-    renderBatterStats();
-
-    console.log("描画完了");
+    // 他のrender呼び出し...
 
   } catch (err) {
     console.error("エラー:", err);
@@ -58,7 +45,7 @@ async function init() {
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
         <strong>データ読み込み失敗</strong><br>
         ${err.message || "不明なエラー"}<br>
-        <small>試したURL: ${jsonUrl}<br>コンソール(F12)を確認してください</small>
+        <small>試したURL: ${jsonUrl}</small>
       </div>`;
 
     ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"]
