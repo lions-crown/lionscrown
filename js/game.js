@@ -3,15 +3,25 @@ let currentPAIndex = 0;
 
 window.addEventListener("DOMContentLoaded", init);
 
+let gameData;
+let currentPAIndex = 0;
+
+window.addEventListener("DOMContentLoaded", init);
+
 async function init() {
   const params = new URLSearchParams(location.search);
-  const date = params.get("date");
-  const team = params.get("team");
+  const date = params.get("date") || "2026-03-01";  // デフォルト値で安全
+  let team = params.get("team");
 
-  // ★ここを絶対パスに変更★
+  // teamがnull/undefined/空文字列の場合、デフォルト'1'を使う
+  if (!team || team === "null") {
+    team = "1";
+    console.warn("teamパラメータが取得できなかったため、デフォルト'1'を使用します");
+  }
+
   const jsonUrl = `https://lions-crown.github.io/lionscrown/live/${date}_${team}.json`;
-
   console.log("fetch開始:", jsonUrl);
+  console.log("使用したパラメータ → date:", date, "team:", team);
 
   try {
     const res = await fetch(jsonUrl);
@@ -44,7 +54,7 @@ async function init() {
       <div style="color:red; padding:1em; border:2px solid red; margin:1em; background:#ffebee;">
         <strong>データ読み込みに失敗しました</strong><br>
         ${err.message}<br>
-        <small>コンソールを確認してください（F12）</small>
+        <small>URLを確認してください: ${jsonUrl}</small>
       </div>`;
 
     const summaryEl = document.getElementById("summary");
