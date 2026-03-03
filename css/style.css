@@ -632,3 +632,16 @@ footer a:hover{
   transform: translate(-50%, -50%);
   white-space: nowrap;
 }
+
+
+.chart-box {
+  width: 100%;
+  max-width: 400px;   /* ← 好きなサイズ */
+  height: 250px;      /* ← 高さ固定が超重要 */
+  margin: 0 auto;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
