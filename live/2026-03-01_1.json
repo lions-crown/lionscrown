@@ -8,6 +8,19 @@
     "umpires": ["球審 山田", "一塁 佐藤", "二塁 鈴木", "三塁 田中"]
   },
 
+  "pitchers": {
+    "L2026_13": {
+      "name": "髙橋 光成",
+      "throws": "R",
+      "season_stats": {
+        "era": 2.45,
+        "whip": 1.10,
+        "k": 120,
+        "bb": 30
+      }
+    }
+  },
+
   "scoreboard": {
     "innings": [
       { "inning": 1, "home": 0, "away": 1 },
@@ -51,64 +64,61 @@
     ]
   },
 
-"pitches": [
-  {
-    "pa_id": 1,
-    "inning": 1,
-    "half": "top",
-    "batter_id": "J2026_1",
-    "pitcher_id": "L2026_13",
-    "result": "out",
-    "bases": "000",
-    "pitches": [
-      {
-        "pitch_type": "slider",
-        "velocity": 138,
-        "zone": { "x": 2.5, "y": 2.5 },
-        "result": "strike"
+  "pitches": [
+    {
+      "pa_id": 1,
+      "inning": 1,
+      "half": "top",
+      "batter_id": "J2026_1",
+      "pitcher_id": "L2026_13",
+      "result": "out",
+
+      "final_count": { "balls": 0, "strikes": 2, "outs": 1 },
+
+      "runners": {
+        "1B": null,
+        "2B": null,
+        "3B": null
       },
-      {
-        "pitch_type": "fastball",
-        "velocity": 145,
-        "zone": { "x": 1, "y": 4 },
-        "result": "strike"
+
+      "batted_ball": {
+        "type": "fly",
+        "direction": "CF",
+        "result": "out"
       },
-      {
-        "pitch_type": "slider",
-        "velocity": 137,
-        "zone": { "x": 4, "y": 3 },
-        "result": "strike"
-      }
-    ]
-  },
-  {
-    "pa_id": 2,
-    "inning": 1,
-    "half": "top",
-    "batter_id": "J2026_2",
-    "pitcher_id": "L2026_13",
-    "result": "out",
-    "bases": "000",
-    "pitches": [
-      {
-        "pitch_type": "slider",
-        "velocity": 138,
-        "zone": { "x": 3.5, "y": 3.5 },
-        "result": "strike"
+
+      "fielders": {
+        "P": "髙橋 光成",
+        "C": "古賀 悠斗",
+        "1B": "ネビン",
+        "2B": "石井 一成",
+        "3B": "渡部 聖弥",
+        "SS": "滝澤 夏央",
+        "LF": "西川 愛也",
+        "CF": "桑原 将志",
+        "RF": "カナリオ"
       },
-      {
-        "pitch_type": "fastball",
-        "velocity": 145,
-        "zone": { "x": 5, "y": 5 },
-        "result": "ball"
-      },
-      {
-        "pitch_type": "slider",
-        "velocity": 137,
-        "zone": { "x": 4, "y": 3 },
-        "result": "strike"
-      }
-    ]
-  }
-]
+
+      "pitches": [
+        {
+          "pitch_type": "slider",
+          "velocity": 138,
+          "zone": { "x": 2.5, "y": 2.5 },
+          "result": "strike"
+        },
+        {
+          "pitch_type": "fastball",
+          "velocity": 145,
+          "zone": { "x": 1, "y": 4 },
+          "result": "strike"
+        },
+        {
+          "pitch_type": "slider",
+          "velocity": 137,
+          "zone": { "x": 4, "y": 3 },
+          "result": "strike"
+        }
+      ]
+    }
+  ]
 }
