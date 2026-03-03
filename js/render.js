@@ -4,20 +4,29 @@ function renderSummary(){
     `${g.date} ${g.away} vs ${g.home} (${g.stadium})`;
 }
 
-function renderScoreboard(){
+function renderScoreboard() {
   const sb = gameData.scoreboard;
-  let html = "<tr><th></th>";
-  sb.innings.forEach(i => html += `<th>${i.inning}</th>`);
+  console.log("scoreboard:", sb);
+
+  if (!sb || !sb.home || !sb.away) {
+    console.error("scoreboard構造が想定と違う");
+    return;
+  }
+
+  let html = "<table><tr><th></th>";
+
+  sb.innings.forEach(i => html += `<th>${i}</th>`);
   html += "<th>R</th><th>H</th><th>E</th></tr>";
 
-  html += "<tr><td>AWAY</td>";
-  sb.innings.forEach(i => html += `<td>${i.away}</td>`);
-  html += `<td>${sb.total.away.R}</td><td>${sb.total.away.H}</td><td>${sb.total.away.E}</td></tr>`;
+  ["away","home"].forEach(team => {
+    html += `<tr><td>${sb[team].team}</td>`;
+    sb[team].runs.forEach(r => html += `<td>${r}</td>`);
+    html += `<td>${sb[team].total}</td>`;
+    html += `<td>${sb[team].hits}</td>`;
+    html += `<td>${sb[team].errors}</td></tr>`;
+  });
 
-  html += "<tr><td>HOME</td>";
-  sb.innings.forEach(i => html += `<td>${i.home}</td>`);
-  html += `<td>${sb.total.home.R}</td><td>${sb.total.home.H}</td><td>${sb.total.home.E}</td></tr>`;
-
+  html += "</table>";
   document.getElementById("scoreboard").innerHTML = html;
 }
 
