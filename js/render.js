@@ -21,6 +21,20 @@ function renderScoreboard(){
   document.getElementById("scoreboard").innerHTML = html;
 }
 
+function renderLineups(){
+  const home = gameData.lineups?.home || [];
+  const away = gameData.lineups?.away || [];
+
+  const homeDiv = document.getElementById("homeLineup");
+  const awayDiv = document.getElementById("awayLineup");
+
+  homeDiv.innerHTML = "<h3>HOME</h3>" +
+    home.map(p => `${p.name} (${p.position})`).join("<br>");
+
+  awayDiv.innerHTML = "<h3>AWAY</h3>" +
+    away.map(p => `${p.name} (${p.position})`).join("<br>");
+}
+
 function renderZoneGrid(){
   const grid = document.getElementById("zoneGrid");
   grid.innerHTML = "";
