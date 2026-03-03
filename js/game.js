@@ -48,9 +48,10 @@ async function init() {
 
     console.log("描画完了");
 
-  } catch (err) {
+} catch (err) {
     console.error("エラー:", err);
 
+    // バッククォートを正しく閉じ、変数展開も正しく
     const errorMsg = `
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
         <strong>データ読み込み失敗</strong><br>
@@ -58,13 +59,17 @@ async function init() {
         <small>URL: ${jsonUrl}</small>
       </div>`;
 
+    // forEach を安全に（セミコロンも忘れずに）
     ["summary", "scoreboard", "homeLineup", "awayLineup", "field", "zone", "pitcherStats", "batterStats"].forEach(id => {
-      document.getElementById(id)?.innerHTML = errorMsg;
+      const el = document.getElementById(id);
+      if (el) {
+        el.innerHTML = errorMsg;
+      }
     });
   }
 }
 
-// render関数群（変更なしだが安全ガード強化）
+// renderSummary（そのままOK）
 function renderSummary() {
   if (!gameData) return;
   const m = gameData.meta || {};
