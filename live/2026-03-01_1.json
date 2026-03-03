@@ -4,8 +4,10 @@
     "date": "2026-03-01",
     "home": "L",
     "away": "M",
-    "stadium": "ベルーナドーム"
+    "stadium": "ベルーナドーム",
+    "umpires": ["球審 山田", "一塁 佐藤", "二塁 鈴木", "三塁 田中"]
   },
+
   "scoreboard": {
     "innings": [
       { "inning": 1, "home": 0, "away": 1 }
@@ -15,6 +17,18 @@
       "away": { "R": 1, "H": 2, "E": 0 }
     }
   },
+
+  "lineups": {
+    "home": [
+      { "id": "L2026_1", "name": "山川", "avg": ".280" },
+      { "id": "L2026_2", "name": "源田", "avg": ".305" }
+    ],
+    "away": [
+      { "id": "M2026_1", "name": "荻野", "avg": ".290" },
+      { "id": "M2026_2", "name": "中村", "avg": ".265" }
+    ]
+  },
+
   "pitches": [
     {
       "pa_id": 1,
@@ -22,7 +36,7 @@
       "half": "top",
       "batter_id": "M2026_1",
       "pitcher_id": "L2026_18",
-      "result": "strikeout",
+      "result": "out",
       "bases": "000",
       "pitches": [
         {
