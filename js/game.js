@@ -1,25 +1,32 @@
 let gameData;
 let currentPAIndex = 0;
 
-const params = new URLSearchParams(location.search);
-const date = params.get("date");
-const team = params.get("team");
+document.addEventListener("DOMContentLoaded", () => {
 
-const gameId = params.get("game") || `${date}_${team}`;
+  const params = new URLSearchParams(location.search);
+  const date = (params.get("date") || "").trim();
+  const team = (params.get("team") || "").trim();
+  const gameId = params.get("game") || `${date}_${team}`;
 
-if (!gameId) {
-  alert("gameパラメータがありません");
-}
+  if (!gameId) {
+    alert("gameパラメータがありません");
+    return;
+  }
 
-fetch(`live/${gameId}.json?${Date.now()}`)
-  .then(res => res.json())
-  .then(data => {
-    gameData = data;
-    init();
-  })
-  .catch(err => {
-    console.error("JSON取得失敗:", err);
-  });
+  fetch(`live/${gameId}.json?${Date.now()}`)
+    .then(res => {
+      if(!res.ok) throw new Error(res.status);
+      return res.json();
+    })
+    .then(data => {
+      gameData = data;
+      init();
+    })
+    .catch(err => {
+      console.error("JSON取得失敗:", err);
+    });
+
+});
 
 function init(){
   renderSummary();
