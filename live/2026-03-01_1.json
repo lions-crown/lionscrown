@@ -27,4 +27,25 @@
       "result":"strike"
     }
   ]
+  {
+  "meta": {...},
+  "scoreboard": {
+    "innings": [1,2,3,4,5,6,7,8,9],
+    "home": {
+      "team": "西武",
+      "runs": [0,1,0,0,0,0,0,0,0],
+      "total": 1,
+      "hits": 5,
+      "errors": 0
+    },
+    "away": {
+      "team": "楽天",
+      "runs": [0,0,0,2,0,0,0,0,0],
+      "total": 2,
+      "hits": 7,
+      "errors": 1
+    }
+  },
+  "pitches": [...]
+}
 }
