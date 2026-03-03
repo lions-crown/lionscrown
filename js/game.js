@@ -216,37 +216,30 @@ function renderCount() {
 
   let balls = 0;
   let strikes = 0;
-  const outs = getCurrentInningOuts();
 
   pa.pitches.forEach(p => {
 
-    // ボール
     if (p.result === "ball") {
       if (balls < 3) balls++;
     }
 
-    // ストライク
     if (p.result === "strike") {
       if (strikes < 2) strikes++;
     }
 
-    // ファウル
     if (p.result === "foul") {
       if (strikes < 2) strikes++;
     }
 
   });
 
-  // 打席結果が三振ならストライク3表示
   if (pa.result === "strikeout") {
     strikes = 3;
-    outs = 1;
   }
 
-  // 打席結果がアウトならアウト1
-  if (pa.result === "out") {
-    outs = 1;
-  }
+  // ★ const → let に変更してもOKだが
+  // 今回は書き換えないので const のままでOK
+  const outs = getCurrentInningOuts();
 
   container.appendChild(createCountRow("B", balls, 3, "ball"));
   container.appendChild(createCountRow("S", strikes, 3, "strike"));
