@@ -214,6 +214,16 @@ function renderZone() {
   });
 }
 
+function pitchSymbol(type) {
+  switch (type) {
+    case "fastball": return "F";
+    case "slider": return "S";
+    case "curve": return "C";
+    case "fork": return "K";
+    default: return "?";
+  }
+}
+
 function resultClass(r) {
   if (r === "strike") return "strike";
   if (r === "ball") return "ball";
