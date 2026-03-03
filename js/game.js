@@ -404,20 +404,28 @@ function renderAll() {
   renderPitcherStats();
 }
 
-function prevPA() {
-  console.log("before:", currentPAIndex);
-  if (currentPAIndex > 0) {
-    currentPAIndex--;
-    console.log("after:", currentPAIndex);
-    renderAll();
+function nextPA() {
+  if (!gameData?.pitches?.length) return;
+
+  currentPAIndex++;
+
+  if (currentPAIndex >= gameData.pitches.length) {
+    currentPAIndex = 0; // ループ
   }
+
+  renderAll();
 }
 
-function nextPA() {
-  if (currentPAIndex < gameData.pitches.length - 1) {
-    currentPAIndex++;
-    renderAll();
+function prevPA() {
+  if (!gameData?.pitches?.length) return;
+
+  currentPAIndex--;
+
+  if (currentPAIndex < 0) {
+    currentPAIndex = gameData.pitches.length - 1;
   }
+
+  renderAll();
 }
 
 /* ===============================
