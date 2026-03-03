@@ -1,3 +1,6 @@
+let gameData = null; // グローバル変数として宣言
+let currentPAIndex = 0; // 初期化
+
 async function init() {
   console.log("init開始");
   console.log("location.search 生値:", location.search);
@@ -46,7 +49,7 @@ async function init() {
       throw new Error(`HTTP ${res.status} ${res.statusText}`);
     }
 
-    const gameData = await res.json();
+    gameData = await res.json(); // グローバル変数に格納
     console.log("データ取得成功:", gameData.meta);
 
     renderSummary();
@@ -66,9 +69,7 @@ async function init() {
     const errorMsg = `
       <div style="color:#c62828; background:#ffebee; padding:16px; border:2px solid #ef9a9a; margin:16px; border-radius:8px;">
         <strong>データ読み込み失敗</strong>
-
         ${err.message || "不明なエラー"}
-
         <small>試したURL: ${jsonUrl}
 コンソール(F12)を確認してください</small>
       </div>`;
@@ -78,7 +79,7 @@ async function init() {
   }
 }
 
-// render関数群（変更なしでOK、必要に応じてコピー）
+// render関数群
 function renderSummary() {
   if (!gameData) return;
   const m = gameData.meta || {};
@@ -87,7 +88,7 @@ function renderSummary() {
 
     球場: ${m.stadium || "-"}
 
-    開始: ${m.start_time || "-"}
+    開始: ${m.date || "-"}
 
     審判: ${m.umpires?.join(", ") || "-"}
   `;
@@ -166,7 +167,7 @@ function renderZone() {
   pa.pitches.forEach(p => {
     const cell = document.createElement("div");
     cell.className = "zoneCell " + (resultClass(p.result) || "");
-    cell.innerText = p.type || "?";
+    cell.innerText = p.pitch_type || "?";  // pitch_typeを表示
     zone.appendChild(cell);
   });
 }
@@ -199,7 +200,7 @@ function renderFilters() {
   document.getElementById("inningFilter").innerHTML =
     innings.map(i => `<option>${i}</option>`).join("") || "<option>なし</option>";
 
-  const batters = [...new Set(pitches.map(p => p.batter).filter(Boolean))];
+  const batters = [...new Set(pitches.map(p => p.batter_id).filter(Boolean))];  // batter_idに変更
   document.getElementById("batterFilter").innerHTML =
     batters.map(b => `<option>${b}</option>`).join("") || "<option>なし</option>";
 }
@@ -209,7 +210,7 @@ function filterPitches() {
   const batter = document.getElementById("batterFilter")?.value;
   if (!inning || !batter) return;
   const filtered = (gameData?.pitches || []).filter(p =>
-    String(p.inning) === inning && p.batter === batter
+    String(p.inning) === inning && p.batter_id === batter  // batter_idに変更
   );
   document.getElementById("filterResult").innerText = `${filtered.length} 件`;
 }
@@ -218,7 +219,7 @@ function renderPitcherStats() {
   const allPitches = (gameData?.pitches || []).flatMap(p => p.pitches || []);
   const byType = {};
   allPitches.forEach(p => {
-    const t = p.type || "unknown";
+    const t = p.pitch_type || "unknown";  // pitch_typeに変更
     byType[t] = (byType[t] || 0) + 1;
   });
   let html = "";
@@ -243,3 +244,6 @@ function renderBatterStats() {
   }
   document.getElementById("batterStats").innerHTML = html || "データなし";
 }
+
+// ページが読み込まれた際にinit関数を呼び出す
+window.onload = init;
