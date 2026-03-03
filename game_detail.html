@@ -265,7 +265,9 @@ footer a:hover{color:white;}
 
 <section>
   <h2>投手詳細</h2>
-  <div id="pitcherStats"></div>
+  <div id="pitcherStats">
+    <canvas id="pitchChart" style="width:100%;height:200px;"></canvas>
+  </div>
 </section>
 
 <section>
@@ -280,146 +282,13 @@ footer a:hover{color:white;}
 
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
-
-/* ============================= */
-/* デモデータ（過去ログ含むサンプル） */
-/* ============================= */
-const gameData = {
-  meta:{
-    game_id:"2026-03-01_1",
-    date:"2026-03-01",
-    home:"L",
-    away:"M",
-    stadium:"ベルーナドーム",
-    umpires:["球審 山田","一塁 佐藤","二塁 鈴木","三塁 田中"]
-  },
-  lineup:{
-    home:[
-      {id:"L2026_51",name:"西川 愛也",pos:"CF",avg:".280"},
-      {id:"L2026_7",name:"桑原 将志",pos:"RF",avg:".305"},
-      {id:"L2026_13",name:"髙橋 光成",pos:"P",avg:"2.00"}
-    ],
-    away:[
-      {id:"J2026_1",name:"大谷 翔平",pos:"DH",avg:".290"},
-      {id:"J2026_2",name:"近藤 健介",pos:"RF",avg:".290"}
-    ]
-  },
-  scoreboard:{
-    innings:[
-      {inning:1,home:0,away:1},
-      {inning:2,home:0,away:0},
-      {inning:3,home:2,away:1}
-    ]
-  },
-  pitches:[
-    {
-      pa_id:1,inning:1,half:"top",batter:"大谷 翔平",pitcher:"髙橋 光成",result:"out",
-      final_count:{balls:0,strikes:2,outs:1},
-      pitches:[
-        {pitch_type:"slider",velocity:138,zone:{x:2.5,y:2.5},result:"strike"},
-        {pitch_type:"fastball",velocity:145,zone:{x:1,y:4},result:"strike"}
-      ]
-    },
-    {
-      pa_id:2,inning:1,half:"bottom",batter:"髙橋 光成",pitcher:"大谷 翔平",result:"hit",
-      final_count:{balls:1,strikes:1,outs:1},
-      pitches:[
-        {pitch_type:"fastball",velocity:144,zone:{x:3,y:2},result:"ball"}
-      ]
-    },
-    {
-      pa_id:3,inning:2,half:"top",batter:"近藤 健介",pitcher:"髙橋 光成",result:"hit",
-      final_count:{balls:2,strikes:1,outs:2},
-      pitches:[
-        {pitch_type:"curve",velocity:130,zone:{x:4,y:3},result:"strike"}
-      ]
-    }
-  ]
-};
-
-/* ============================= */
-/* 状態管理 */
-/* ============================= */
-let currentPAIndex = gameData.pitches.length-1; // 最新打者
-
-function renderSummary(){
-  const s = gameData.meta;
-  document.getElementById("summary").textContent = `試合: ${s.home} vs ${s.away} @ ${s.stadium}`;
-}
-
-function renderLineups(){
-  document.getElementById("homeLineup").textContent = gameData.lineup.home.map(p=>p.name).join(", ");
-  document.getElementById("awayLineup").textContent = gameData.lineup.away.map(p=>p.name).join(", ");
-}
-
-function renderScoreboard(){
-  const sb=document.getElementById("scoreboard");
-  sb.innerHTML="";
-  gameData.scoreboard.innings.forEach((i,index)=>{
-    const link=document.createElement("a");
-    link.href="#";
-    link.textContent = i.half===undefined ? i.inning+"回" : i.inning+"回";
-    link.onclick=e=>{
-      e.preventDefault();
-      goToInning(i.inning);
-    };
-    sb.appendChild(link);
-  });
-}
-
-/* ============================= */
-/* 投球ログ・ゾーン描画 */
-/* ============================= */
-function renderPA(){
-  const pa = gameData.pitches[currentPAIndex];
-  if(!pa) return;
-  document.getElementById("pitchLog").textContent = `打者: ${pa.batter} 結果: ${pa.result}`;
-  document.getElementById("countDisplay").textContent = `B:${pa.final_count.balls} S:${pa.final_count.strikes} O:${pa.final_count.outs}`;
-
-  // ゾーン描画
-  const zoneEl = document.getElementById("zone");
-  zoneEl.innerHTML="";
-  pa.pitches.forEach(p=>{
-    const dot=document.createElement("div");
-    dot.className="pitchMarker result-"+p.result.replace(/\s+/g,'-');
-    dot.style.left=`${p.zone.x*20}%`;
-    dot.style.top=`${p.zone.y*20}%`;
-    dot.title=`${p.pitch_type} ${p.velocity}km/h`;
-    zoneEl.appendChild(dot);
-  });
-}
-
-/* ============================= */
-/* 打者移動・検索 */
-/* ============================= */
-function prevPA(){if(currentPAIndex>0){currentPAIndex--; renderPA();}}
-function nextPA(){if(currentPAIndex<gameData.pitches.length-1){currentPAIndex++; renderPA();}}
-function latestPA(){currentPAIndex=gameData.pitches.length-1; renderPA();}
-function searchBatter(){
-  const name = document.getElementById("searchBatter").value.trim();
-  const idx = gameData.pitches.findIndex(p=>p.batter===name);
-  if(idx>=0){currentPAIndex=idx; renderPA();}
-}
-
-/* ============================= */
-/* イニングリンク */
-/* ============================= */
-function goToInning(inning){
-  const idx = gameData.pitches.findIndex(p=>p.inning===inning);
-  if(idx>=0){currentPAIndex=idx; renderPA();}
-}
-
-/* ============================= */
-/* 初期表示 */
-/* ============================= */
-function init(){
-  renderSummary();
-  renderLineups();
-  renderScoreboard();
-  renderPA();
-}
-init();
 </script>
+
+<!-- ============================= -->
+<!-- 外部JS読み込み -->
+<!-- ============================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/game.js"></script>
 
 </body>
 </html>
