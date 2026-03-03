@@ -506,7 +506,7 @@ function renderPitcherStats() {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false   // ← これ必須
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           labels: { color: "white" }
