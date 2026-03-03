@@ -1,14 +1,21 @@
-let gameData;
-let currentPAIndex = 0;
-
 const params = new URLSearchParams(location.search);
-const gameId = params.get("game");
+const date = params.get("date");
+const team = params.get("team");
+
+const gameId = params.get("game") || `${date}_${team}`;
+
+if (!gameId) {
+  alert("gameパラメータがありません");
+}
 
 fetch(`live/${gameId}.json?${Date.now()}`)
   .then(res => res.json())
   .then(data => {
     gameData = data;
     init();
+  })
+  .catch(err => {
+    console.error("JSON取得失敗:", err);
   });
 
 function init(){
