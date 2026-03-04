@@ -27,7 +27,7 @@
   },
   "lineups": {
     "home": [
-      {"id":"L2026_51", "name":"西川 愛也", "pos":"CF", "avg":".280"},
+      {"id":"L2026_51", "name":"西川 愛也", "pos":"CF", "avg":".280", "photo":"https://example.com/players/nishikawa_a.png"},
       {"id":"L2026_7",  "name":"桑原 将志", "pos":"RF", "avg":".305"},
       {"id":"L2026_8",  "name":"渡部 聖弥", "pos":"3B", "avg":".280"},
       {"id":"L2026_26", "name":"ネビン",     "pos":"1B", "avg":".280"},
@@ -38,7 +38,7 @@
       {"id":"L2026_62", "name":"滝澤 夏央", "pos":"SS", "avg":".280"}
     ],
     "away": [
-      {"id":"J2026_1", "name":"大谷 翔平",   "pos":"DH", "avg":".290"},
+      {"id":"J2026_1", "name":"大谷 翔平",   "pos":"DH", "avg":".290", "photo":"https://example.com/players/otani_sh.png"},
       {"id":"J2026_2", "name":"近藤 健介",   "pos":"RF", "avg":".290"},
       {"id":"J2026_3", "name":"鈴木 誠也",   "pos":"CF", "avg":".290"},
       {"id":"J2026_4", "name":"村上 宗隆",   "pos":"3B", "avg":".290"},
@@ -50,8 +50,16 @@
     ]
   },
   "bench": {
-    "home": [],
-    "away": []
+    "home": [
+      {"id":"L2026_99", "name":"山川 穂高", "avg":".310"},
+      {"id":"L2026_88", "name":"外崎 修汰", "avg":".275"},
+      {"id":"L2026_77", "name":"中村 剛也", "avg":".295"}
+    ],
+    "away": [
+      {"id":"J2026_10", "name":"佐々木 朗希", "avg":"-"},
+      {"id":"J2026_11", "name":"柳田 悠岐",   "avg":".305"},
+      {"id":"J2026_12", "name":"森 友哉",     "avg":".285"}
+    ]
   },
   "pitchers": {
     "L2026_13": {
@@ -62,9 +70,36 @@
         "whip": 1.10,
         "k": 120,
         "bb": 30
-      }
+      },
+      "photo": "https://example.com/players/takahashi_k.png"
     }
   },
+  "events": [
+    {
+      "type": "pitcher_change",
+      "inning": 5,
+      "half": "bottom",
+      "prev_pitcher_id": "L2026_13",
+      "new_pitcher_id": "L2026_18",
+      "reason": "降板",
+      "pa_id": 28
+    },
+    {
+      "type": "pinch_hitter",
+      "pa_id": 35,
+      "original_batter_id": "L2026_51",
+      "new_batter_id": "L2026_99",
+      "reason": "代打"
+    },
+    {
+      "type": "pinch_runner",
+      "pa_id": 40,
+      "base": "1B",
+      "original_runner_id": "J2026_2",
+      "new_runner_id": "J2026_11",
+      "reason": "代走"
+    }
+  ],
   "pitches": [
     {
       "pa_id": 1,
@@ -88,9 +123,9 @@
         "RF": "カナリオ"
       },
       "pitches": [
-        {"pitch_type": "slider",   "velocity": 138, "zone": {"x": 2.5, "y": 2.5}, "result": "strike"},
-        {"pitch_type": "fastball", "velocity": 145, "zone": {"x": 1,   "y": 4},   "result": "strike"},
-        {"pitch_type": "slider",   "velocity": 137, "zone": {"x": 4,   "y": 3},   "result": "strike"}
+        {"pitch_type": "slider", "velocity": 138, "zone": {"x": 2.5, "y": 2.5}, "result": "strike"},
+        {"pitch_type": "fastball", "velocity": 145, "zone": {"x": 1, "y": 4}, "result": "strike"},
+        {"pitch_type": "slider", "velocity": 137, "zone": {"x": 4, "y": 3}, "result": "strike"}
       ]
     },
     {
@@ -116,9 +151,9 @@
       },
       "pitches": [
         {"pitch_type": "fastball", "velocity": 145, "zone": {"x": 3, "y": 2}, "result": "ball"},
-        {"pitch_type": "curve",    "velocity": 128, "zone": {"x": 2, "y": 3}, "result": "strike"},
+        {"pitch_type": "curve", "velocity": 128, "zone": {"x": 2, "y": 3}, "result": "strike"},
         {"pitch_type": "fastball", "velocity": 148, "zone": {"x": 3, "y": 3}, "result": "ball"},
-        {"pitch_type": "slider",   "velocity": 135, "zone": {"x": 2, "y": 4}, "result": "ball"},
+        {"pitch_type": "slider", "velocity": 135, "zone": {"x": 2, "y": 4}, "result": "ball"},
         {"pitch_type": "fastball", "velocity": 147, "zone": {"x": 3, "y": 2}, "result": "hit"}
       ]
     },
@@ -144,9 +179,9 @@
         "RF": "カナリオ"
       },
       "pitches": [
-        {"pitch_type": "slider",   "velocity": 136, "zone": {"x": 2, "y": 3}, "result": "strike"},
+        {"pitch_type": "slider", "velocity": 136, "zone": {"x": 2, "y": 3}, "result": "strike"},
         {"pitch_type": "fastball", "velocity": 150, "zone": {"x": 3, "y": 3}, "result": "strike"},
-        {"pitch_type": "curve",    "velocity": 125, "zone": {"x": 2, "y": 4}, "result": "strike"}
+        {"pitch_type": "curve", "velocity": 125, "zone": {"x": 2, "y": 4}, "result": "strike"}
       ]
     }
   ]
