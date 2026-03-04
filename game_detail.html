@@ -3,121 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <title>Game Detail</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  background:#0b0f1a;
-  color:#fff;
-  font-family:Arial, sans-serif;
-}
-
-/* ===== テレビ中継スコアバー ===== */
+body{margin:0;background:#0b0f1a;color:#fff;font-family:Arial;}
 #scoreBar{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  background:#111;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 20px;
-  font-family:'Orbitron',sans-serif;
-  z-index:9999;
-  border-bottom:2px solid #333;
+ position:fixed;top:0;left:0;width:100%;
+ background:#111;padding:10px 20px;
+ display:flex;justify-content:space-between;
+ align-items:center;font-family:'Orbitron';
+ border-bottom:2px solid #333;z-index:1000;
 }
+.scoreNum{font-size:28px;font-weight:bold;}
 
-.teamBlock{
-  display:flex;
-  gap:20px;
-  align-items:center;
-}
-
-.scoreNum{
-  font-size:28px;
-  font-weight:bold;
-}
-
-/* ===== メインエリア ===== */
 #container{
-  padding-top:80px;
-  display:grid;
-  grid-template-columns: 2fr 1fr;
-  gap:20px;
-  padding:100px 40px 40px;
+ padding-top:90px;
+ display:grid;
+ grid-template-columns:2fr 1fr;
+ gap:20px;
+ padding:100px 40px 40px;
 }
 
-/* スコアボード */
-#scoreboard{
-  width:100%;
-  border-collapse:collapse;
-  background:#111;
-  font-family:'Orbitron';
-}
+#scoreboard{width:100%;border-collapse:collapse;background:#111;}
 #scoreboard th,#scoreboard td{
-  border:1px solid #333;
-  padding:6px;
-  text-align:center;
+ border:1px solid #333;padding:6px;text-align:center;
 }
 
-/* 守備位置 */
-#field{
-  position:relative;
-  width:350px;
-  height:350px;
-  margin:auto;
-  background:radial-gradient(circle,#1e7e34 60%,#145a24);
-  transform:rotate(45deg);
-}
-.base{
-  position:absolute;
-  width:40px;
-  height:40px;
-  background:white;
-  transform:rotate(-45deg);
-  text-align:center;
-  font-size:10px;
-}
-
-/* カウント */
 .ball,.strike,.out{
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  display:inline-block;
-  margin:3px;
-  background:#333;
+ width:18px;height:18px;border-radius:50%;
+ display:inline-block;margin:3px;background:#333;
 }
 .ball.on{background:#2ecc71;}
 .strike.on{background:#f1c40f;}
 .out.on{background:#e74c3c;}
 
-/* Pitch Zone */
 #zone{
-  position:relative;
-  width:200px;
-  height:200px;
-  border:2px solid #fff;
-  margin-top:20px;
+ position:relative;width:200px;height:200px;
+ border:2px solid #fff;margin-top:20px;
 }
 .pitch{
-  position:absolute;
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  background:#00d4ff;
-  text-align:center;
-  line-height:24px;
-  font-size:12px;
+ position:absolute;width:24px;height:24px;
+ border-radius:50%;background:#00d4ff;
+ text-align:center;line-height:24px;font-size:12px;
 }
 
-/* ラインナップ */
-#lineups{
-  background:#111;
-  padding:10px;
+#searchResults{
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:10px;margin-top:10px;
+}
+.card{
+ background:#111;padding:8px;
+ border:1px solid #333;
+ cursor:pointer;font-size:12px;
 }
 </style>
 </head>
@@ -125,49 +63,53 @@ body{
 <body>
 
 <div id="scoreBar">
-  <div class="teamBlock">
-    <div id="awayName"></div>
-    <div class="scoreNum" id="awayScore"></div>
-  </div>
-
+  <div><span id="awayName"></span> <span class="scoreNum" id="awayScore"></span></div>
   <div id="inningInfo"></div>
-
-  <div class="teamBlock">
-    <div class="scoreNum" id="homeScore"></div>
-    <div id="homeName"></div>
-  </div>
+  <div><span class="scoreNum" id="homeScore"></span> <span id="homeName"></span></div>
 </div>
 
 <div id="container">
 
-  <div>
-    <table id="scoreboard"></table>
+<div>
 
-    <h3>守備位置</h3>
-    <div id="field">
-      <div class="base" id="firstBase" style="bottom:0; right:50%;"></div>
-      <div class="base" id="secondBase" style="top:0; left:50%;"></div>
-      <div class="base" id="thirdBase" style="left:0; top:50%;"></div>
-    </div>
+<div>
+<button onclick="prevAtBat()">◀ 前へ</button>
+<button onclick="nextAtBat()">次へ ▶</button>
+<button onclick="goLive()">LIVE</button>
+</div>
 
-    <h3>カウント</h3>
-    <div id="countBoard"></div>
+<table id="scoreboard"></table>
 
-    <h3>Pitch Zone</h3>
-    <div id="zone"></div>
+<h3>カウント</h3>
+<div id="countBoard"></div>
 
-    <h3>実況タイムライン</h3>
-    <div id="timeline"></div>
-  </div>
+<h3>Pitch Zone</h3>
+<div id="zone"></div>
 
-  <div id="lineups">
-    <h3>ラインナップ</h3>
-    <div id="lineupAway"></div>
-    <div id="benchAway"></div>
-    <hr>
-    <div id="lineupHome"></div>
-    <div id="benchHome"></div>
-  </div>
+<h3>実況ログ</h3>
+<div id="timeline"></div>
+
+<h3>選手検索</h3>
+<input type="text" id="playerSearch">
+<select id="searchMode">
+<option value="all">全関与</option>
+<option value="batter">打者目線</option>
+<option value="pitcher">投手目線</option>
+</select>
+<button onclick="searchPlayer()">検索</button>
+
+<div id="searchResults"></div>
+
+</div>
+
+<div>
+<h3>ラインナップ</h3>
+<div id="lineupAway"></div>
+<div id="benchAway"></div>
+<hr>
+<div id="lineupHome"></div>
+<div id="benchHome"></div>
+</div>
 
 </div>
 
