@@ -546,25 +546,39 @@ function renderCount(){
    ストライクゾーン（正規化）
 =========================== */
 function renderZone(){
+
   const zoneEl = zone;
   const pa = gameData.pitches[currentPAIndex];
   if(!pa) return;
 
-  zoneEl.innerHTML="";
+  zoneEl.innerHTML = "";
 
+  // 5x5グリッド生成
+  for(let row=0; row<5; row++){
+    for(let col=0; col<5; col++){
+      const cell = document.createElement("div");
+      cell.className = "zone-cell";
+
+      // 中央3×3をストライクゾーンに
+      if(row>=1 && row<=3 && col>=1 && col<=3){
+        cell.classList.add("strike-zone");
+      }
+
+      zoneEl.appendChild(cell);
+    }
+  }
+
+  // 投球プロット
   pa.pitches?.forEach(p=>{
     if(!p.zone) return;
 
     const dot = document.createElement("div");
-    dot.className =
-      "pitchMarker result-"+(p.result||"ball");
+    dot.className = "pitchMarker result-"+(p.result||"ball");
 
-    // 0-4想定を100%へ正規化
     dot.style.left = (p.zone.x/4*100)+"%";
     dot.style.top  = (p.zone.y/4*100)+"%";
 
-    dot.title =
-      `${p.pitch_type} ${p.velocity}km/h`;
+    dot.title = `${p.pitch_type} ${p.velocity}km/h`;
 
     zoneEl.appendChild(dot);
   });
