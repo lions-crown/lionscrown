@@ -5,53 +5,121 @@
     "stadium": "ベルーナドーム",
     "date": "2026-03-01"
   },
+
   "scoreboard": {
-    "away": [0,1,0,2],
-    "home": [0,0,1,0],
-    "away_hits": 6,
-    "home_hits": 4,
+    "away": [0,1,0,2,0,0,1,0,0],
+    "home": [0,0,1,0,0,2,0,0,0],
+    "away_hits": 10,
+    "home_hits": 8,
     "away_errors": 0,
     "home_errors": 1
   },
+
   "lineups": {
     "away": {
-      "starting":[{"name":"近藤健介","pos":"LF"}],
-      "bench":[{"name":"代打A"}]
+      "starting": [
+        {"name":"源田壮亮","pos":"SS"},
+        {"name":"近藤健介","pos":"LF"},
+        {"name":"中村剛也","pos":"DH"},
+        {"name":"栗山巧","pos":"RF"},
+        {"name":"山川穂高","pos":"1B"},
+        {"name":"外崎修汰","pos":"2B"},
+        {"name":"呉念庭","pos":"3B"},
+        {"name":"岸潤一郎","pos":"CF"},
+        {"name":"古賀悠斗","pos":"C"}
+      ],
+      "bench":[{"name":"代打A"},{"name":"代走B"}]
     },
     "home": {
-      "starting":[{"name":"今宮健太","pos":"SS"}],
-      "bench":[{"name":"控えB"}]
+      "starting":[
+        {"name":"周東佑京","pos":"CF"},
+        {"name":"今宮健太","pos":"SS"},
+        {"name":"柳田悠岐","pos":"LF"},
+        {"name":"近藤健介","pos":"DH"},
+        {"name":"中村晃","pos":"1B"},
+        {"name":"栗原陵矢","pos":"3B"},
+        {"name":"三森大貴","pos":"2B"},
+        {"name":"甲斐拓也","pos":"C"},
+        {"name":"柳町達","pos":"RF"}
+      ],
+      "bench":[{"name":"控えA"},{"name":"控えB"}]
     }
   },
-  "at_bats":[
+
+  "at_bats": [
+    
+    /* ===== 1回表 ===== */
     {
-      "inning":3,
-      "half":"top",
-      "outs":1,
-      "count":{"b":2,"s":1,"o":1},
-      "bases":{"first":"源田壮亮","second":null,"third":null},
-      "field":{
-        "P":"高橋光成",
-        "C":"甲斐拓也",
-        "1B":"中村晃",
-        "2B":"三森大貴",
-        "3B":"栗原陵矢",
-        "SS":"今宮健太",
-        "LF":"近藤健介",
-        "CF":"柳田悠岐",
-        "RF":"周東佑京"
-      },
+      "inning":1,"half":"top",
+      "count":{"b":0,"s":0,"o":0},
+      "bases":{"first":null,"second":null,"third":null},
+      "field":{"P":"高橋光成","C":"甲斐拓也","1B":"中村晃","2B":"三森大貴","3B":"栗原陵矢","SS":"今宮健太","LF":"柳田悠岐","CF":"周東佑京","RF":"柳町達"},
       "pitcher":{"name":"高橋光成","era":"2.85"},
-      "batter":{"name":"近藤健介","avg":".312","today":"1-1"},
-      "result":"進行中",
-      "pitches":[
-        {"x":3,"y":3,"result":"strike"},
-        {"x":2,"y":4,"result":"ball"}
-      ],
-      "log":[
-        {"time":"18:32","text":"初球ストライク"},
-        {"time":"18:33","text":"2球目ボール"}
-      ]
+      "batter":{"name":"源田壮亮","avg":".280","today":"0-0"},
+      "result":"遊ゴロ",
+      "pitches":[{"x":3,"y":3,"result":"strike"},{"x":3,"y":2,"result":"out"}],
+      "log":[{"time":"18:00","text":"源田 遊ゴロ 1アウト"}]
+    },
+    {
+      "inning":1,"half":"top",
+      "count":{"b":1,"s":2,"o":1},
+      "bases":{"first":null,"second":null,"third":null},
+      "field":{"P":"高橋光成","C":"甲斐拓也","1B":"中村晃","2B":"三森大貴","3B":"栗原陵矢","SS":"今宮健太","LF":"柳田悠岐","CF":"周東佑京","RF":"柳町達"},
+      "pitcher":{"name":"高橋光成","era":"2.85"},
+      "batter":{"name":"近藤健介","avg":".312","today":"0-0"},
+      "result":"三振",
+      "pitches":[{"x":2,"y":4,"result":"ball"},{"x":3,"y":3,"result":"strike"},{"x":3,"y":2,"result":"strike"}],
+      "log":[{"time":"18:03","text":"近藤 三振 2アウト"}]
+    },
+    {
+      "inning":1,"half":"top",
+      "count":{"b":0,"s":1,"o":2},
+      "bases":{"first":null,"second":null,"third":null},
+      "field":{"P":"高橋光成","C":"甲斐拓也","1B":"中村晃","2B":"三森大貴","3B":"栗原陵矢","SS":"今宮健太","LF":"柳田悠岐","CF":"周東佑京","RF":"柳町達"},
+      "pitcher":{"name":"高橋光成","era":"2.85"},
+      "batter":{"name":"中村剛也","avg":".250","today":"0-0"},
+      "result":"左飛",
+      "pitches":[{"x":3,"y":3,"result":"strike"},{"x":4,"y":3,"result":"out"}],
+      "log":[{"time":"18:06","text":"中村 左飛 3アウト"}]
+    },
+
+    /* ===== 1回裏 ===== */
+    {
+      "inning":1,"half":"bottom",
+      "count":{"b":0,"s":0,"o":0},
+      "bases":{"first":null,"second":null,"third":null},
+      "field":{"P":"平良海馬","C":"古賀悠斗","1B":"山川穂高","2B":"外崎修汰","3B":"呉念庭","SS":"源田壮亮","LF":"近藤健介","CF":"岸潤一郎","RF":"栗山巧"},
+      "pitcher":{"name":"平良海馬","era":"1.90"},
+      "batter":{"name":"周東佑京","avg":".290","today":"0-0"},
+      "result":"中飛",
+      "pitches":[{"x":3,"y":3,"result":"strike"},{"x":3,"y":3,"result":"out"}],
+      "log":[{"time":"18:10","text":"周東 中飛 1アウト"}]
+    },
+    {
+      "inning":1,"half":"bottom",
+      "count":{"b":2,"s":1,"o":1},
+      "bases":{"first":null,"second":null,"third":null},
+      "field":{"P":"平良海馬","C":"古賀悠斗","1B":"山川穂高","2B":"外崎修汰","3B":"呉念庭","SS":"源田壮亮","LF":"近藤健介","CF":"岸潤一郎","RF":"栗山巧"},
+      "pitcher":{"name":"平良海馬","era":"1.90"},
+      "batter":{"name":"今宮健太","avg":".270","today":"0-0"},
+      "result":"三振",
+      "pitches":[{"x":1,"y":5,"result":"ball"},{"x":3,"y":3,"result":"strike"},{"x":3,"y":2,"result":"strike"}],
+      "log":[{"time":"18:13","text":"今宮 三振 2アウト"}]
+    },
+    {
+      "inning":1,"half":"bottom",
+      "count":{"b":1,"s":1,"o":2},
+      "bases":{"first":null,"second":null,"third":null},
+      "field":{"P":"平良海馬","C":"古賀悠斗","1B":"山川穂高","2B":"外崎修汰","3B":"呉念庭","SS":"源田壮亮","LF":"近藤健介","CF":"岸潤一郎","RF":"栗山巧"},
+      "pitcher":{"name":"平良海馬","era":"1.90"},
+      "batter":{"name":"柳田悠岐","avg":".315","today":"0-0"},
+      "result":"一ゴロ",
+      "pitches":[{"x":3,"y":4,"result":"ball"},{"x":3,"y":3,"result":"out"}],
+      "log":[{"time":"18:16","text":"柳田 一ゴロ 3アウト"}]
     }
+
+    /* ---- 以下同様に2回〜9回裏まで、
+       各半イニング3アウトずつ構成 ---- */
+
   ]
 }
