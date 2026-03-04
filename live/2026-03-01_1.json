@@ -44,8 +44,11 @@
       "inning":3,
       "half":"top",
       "outs":1,
+
       "count":{"b":2,"s":1,"o":1},
+
       "bases":{"first":"源田壮亮","second":null,"third":null},
+
       "field":{
         "P":"高橋光成",
         "C":"甲斐拓也",
@@ -57,13 +60,23 @@
         "CF":"柳田悠岐",
         "RF":"周東佑京"
       },
-      "pitcher":{"name":"高橋光成","era":"2.85"},
-      "batter":{"name":"近藤健介","avg":".312","today":"1-1"},
+
+      "pitcher":{"name":"高橋光成","team":"home","era":"2.85"},
+      "batter":{"name":"近藤健介","team":"away","avg":".312","today":"1-1"},
+
+      "players_involved":[
+        "近藤健介",
+        "高橋光成",
+        "源田壮亮"
+      ],
+
       "result":"進行中",
+
       "pitches":[
         {"x":3,"y":3,"result":"strike"},
         {"x":2,"y":4,"result":"ball"}
       ],
+
       "log":[
         {"time":"18:32","text":"初球ストライク"},
         {"time":"18:33","text":"2球目ボール"}
