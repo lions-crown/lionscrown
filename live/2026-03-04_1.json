@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "game_id": "2026-03-04_1",
+    "date": "2026-03-04",
+    "home": "FIGHTERS",
+    "away": "LIONS",
+    "stadium": "エスコンフィールド北海道",
+    "umpires": ["球審 市川貴", "一塁 原", "二塁 秋村", "三塁 本田"],
+    "status": "coming"
+  },
+  "scoreboard": {
+    "innings": [
+      {"inning":1, "away":-, "home":-},
+      {"inning":2, "away":-, "home":-},
+      {"inning":3, "away":-, "home":-},
+      {"inning":4, "away":-, "home":-},
+      {"inning":5, "away":-, "home":-},
+      {"inning":6, "away":-, "home":-},
+      {"inning":7, "away":-, "home":-},
+      {"inning":8, "away":-, "home":-},
+      {"inning":9, "away":-, "home":-}
+    ],
+    "total": {
+      "away": {"R":0, "H":-, "E":-},
+      "home": {"R":0, "H":-, "E":-}
+    }
+  },
+  "lineups": {
+    "home": [
+      {"id":"F2026_1", "name":"中島 卓也", "pos":"SS", "avg":"-", "photo":"https://example.com/players/nishikawa_a.png"},
+      {"id":"F2026_2",  "name":"今川 優馬", "pos":"LF", "avg":"-"},
+      {"id":"F2026_3",  "name":"奈良間 大己", "pos":"3B", "avg":".000"},
+      {"id":"F2026_4", "name":"カストロ", "pos":"2B", "avg":".250"},
+      {"id":"F2026_5", "name":"万波 中正",   "pos":"RF", "avg":".000"},
+      {"id":"F2026_6",  "name":"西川 遥輝", "pos":"CF", "avg":".333"},
+      {"id":"F2026_7", "name":"野村 佑希",   "pos":"1B", "avg":".500"},
+      {"id":"F2026_8", "name":"田宮 裕涼", "pos":"C",  "avg":".333"},
+      {"id":"F2026_9", "name":"水野 達稀", "pos":"DH", "avg":".000"},
+      {"id":"F2026_10", "name":"達 孝太", "pos":"P", "era":"0.00"}
+    ],
+    "away": [
+      {"id":"L2026_7", "name":"桑原 将志",   "pos":"LF", "avg":".500", "photo":"https://example.com/players/otani_sh.png"},
+      {"id":"L2026_4", "name":"石井 一成",   "pos":"2B", "avg":".000"},
+      {"id":"L2026_51", "name":"西川 愛也",   "pos":"CF", "avg":".400"},
+      {"id":"L2026_8", "name":"渡部 聖弥",   "pos":"3B", "avg":".400"},
+      {"id":"L2026_55", "name":"仲三 優太",   "pos":"DH", "avg":".500"},
+      {"id":"L2026_25", "name":"カナリオ",   "pos":"RF", "avg":".333"},
+      {"id":"L2026_32", "name":"山村 崇嘉",     "pos":"1B", "avg":".333"},
+      {"id":"L2026_22", "name":"古賀 悠斗",   "pos":"C", "avg":".000"},
+      {"id":"L2026_62", "name":"滝澤 夏央",   "pos":"SS",  "avg":".667"},
+      {"id":"L2026_12", "name":"渡邉 勇太朗",   "pos":"P",  "era":"-"}
+    ]
+  },
+  "bench": {
+    "home": [
+      {"id":"H2026_10", "name":"山本", "pos":"", "avg":".310"}
+    ],
+    "away": [
+      {"id":"L2026_37", "name":"柘植 世那",   "pos":"C",  "avg":".000"},
+      {"id":"L2026_122", "name":"是澤 涼輔",   "pos":"C",  "avg":".250"},
+      {"id":"L2026_5", "name":"外崎 修汰",   "pos":"IF",  "avg":".750"},
+      {"id":"L2026_99", "name":"村田 怜音",   "pos":"IF",  "avg":".333"},
+      {"id":"L2026_130", "name":"金子 功児",   "pos":"IF",  "avg":".000"},
+      {"id":"L2026_9", "name":"蛭間 拓哉",   "pos":"OF",  "avg":".400"},
+      {"id":"L2026_31", "name":"茶野 篤政",   "pos":"OF",  "avg":".000"},
+      {"id":"L2026_35", "name":"秋山 俊",   "pos":"OF",  "avg":".000"},
+      {"id":"L2026_63", "name":"長谷川 信哉",   "pos":"OF",  "avg":".333"}      
+    ]
+  },
+  "pitchers": {
+    "L2026_12": {
+      "name": "渡邉 勇太朗",
+      "throws": "R",
+      "season_stats": {
+        "era": -,
+        "whip": -,
+        "k": -,
+        "bb": -
+      },
+      "photo": "https://example.com/players/takahashi_k.png"
+    }
+  },
+  "events": [
+    {
+      "type": "pitcher_change",
+      "inning": 5,
+      "half": "bottom",
+      "prev_pitcher_id": "L2026_13",
+      "new_pitcher_id": "L2026_18",
+      "reason": "降板",
+      "pa_id": 28
+    },
+    {
+      "type": "pinch_hitter",
+      "pa_id": 35,
+      "original_batter_id": "L2026_51",
+      "new_batter_id": "L2026_99",
+      "reason": "代打"
+    },
+    {
+      "type": "pinch_runner",
+      "pa_id": 40,
+      "base": "1B",
+      "original_runner_id": "J2026_2",
+      "new_runner_id": "J2026_11",
+      "reason": "代走"
+    }
+  ],
+  "pitches": [
+    {
+      "pa_id": 1,
+      "inning": 1,
+      "half": "top",
+      "batter_id": "J2026_1",
+      "pitcher_id": "L2026_13",
+      "result": "out",
+      "final_count": {"balls":0, "strikes":2, "outs":1},
+      "runners": {"1B": null, "2B": null, "3B": null},
+      "batted_ball": {"type": "fly", "direction": "CF", "result": "out"},
+      "fielders": {
+        "P": "髙橋 光成",
+        "C": "古賀 悠斗",
+        "1B": "ネビン",
+        "2B": "石井 一成",
+        "3B": "渡部 聖弥",
+        "SS": "滝澤 夏央",
+        "LF": "西川 愛也",
+        "CF": "桑原 将志",
+        "RF": "カナリオ"
+      },
+      "pitches": [
+        {"pitch_type": "slider", "velocity": 138, "zone": {"x": 2.5, "y": 2.5}, "result": "strike"},
+        {"pitch_type": "fastball", "velocity": 145, "zone": {"x": 1, "y": 4}, "result": "strike"},
+        {"pitch_type": "slider", "velocity": 137, "zone": {"x": 4, "y": 3}, "result": "strike"}
+      ]
+    },
+    {
+      "pa_id": 2,
+      "inning": 1,
+      "half": "top",
+      "batter_id": "J2026_2",
+      "pitcher_id": "L2026_13",
+      "result": "hit",
+      "final_count": {"balls":3, "strikes":1, "outs":1},
+      "runners": {"1B": null, "2B": null, "3B": null},
+      "batted_ball": {"type": "ground", "direction": "3B", "result": "single"},
+      "fielders": {
+        "P": "髙橋 光成",
+        "C": "古賀 悠斗",
+        "1B": "ネビン",
+        "2B": "石井 一成",
+        "3B": "渡部 聖弥",
+        "SS": "滝澤 夏央",
+        "LF": "西川 愛也",
+        "CF": "桑原 将志",
+        "RF": "カナリオ"
+      },
+      "pitches": [
+        {"pitch_type": "fastball", "velocity": 145, "zone": {"x": 3, "y": 2}, "result": "ball"},
+        {"pitch_type": "curve", "velocity": 128, "zone": {"x": 2, "y": 3}, "result": "strike"},
+        {"pitch_type": "fastball", "velocity": 148, "zone": {"x": 3, "y": 3}, "result": "ball"},
+        {"pitch_type": "slider", "velocity": 135, "zone": {"x": 2, "y": 4}, "result": "ball"},
+        {"pitch_type": "fastball", "velocity": 147, "zone": {"x": 3, "y": 2}, "result": "hit"}
+      ]
+    },
+    {
+      "pa_id": 3,
+      "inning": 1,
+      "half": "top",
+      "batter_id": "J2026_3",
+      "pitcher_id": "L2026_13",
+      "result": "strikeout",
+      "final_count": {"balls":2, "strikes":2, "outs":2},
+      "runners": {"1B": "J2026_2", "2B": null, "3B": null},
+      "batted_ball": null,
+      "fielders": {
+        "P": "髙橋 光成",
+        "C": "古賀 悠斗",
+        "1B": "ネビン",
+        "2B": "石井 一成",
+        "3B": "渡部 聖弥",
+        "SS": "滝澤 夏央",
+        "LF": "西川 愛也",
+        "CF": "桑原 将志",
+        "RF": "カナリオ"
+      },
+      "pitches": [
+        {"pitch_type": "slider", "velocity": 136, "zone": {"x": 2, "y": 3}, "result": "strike"},
+        {"pitch_type": "fastball", "velocity": 150, "zone": {"x": 3, "y": 3}, "result": "strike"},
+        {"pitch_type": "curve", "velocity": 125, "zone": {"x": 2, "y": 4}, "result": "strike"}
+      ]
+    }
+  ]
+}
