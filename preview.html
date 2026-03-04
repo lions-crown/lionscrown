@@ -9,441 +9,362 @@
 <meta name="theme-color" content="#0f172a">
 
 <style>
-/* ===== 既存デザイン維持 ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
   color:white;
   min-height:100vh;
-  line-height:1.7;
+  line-height:1.75;
 }
-header{position:sticky;top:0;backdrop-filter:blur(14px);background:rgba(10,25,60,0.55);border-bottom:1px solid rgba(255,255,255,0.08);z-index:1000;}
-nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;}
-.logo{display:flex;align-items:center;gap:10px;font-weight:bold;font-size:18px;letter-spacing:1px;text-decoration:none;color:white;}
-.logo span{background:linear-gradient(90deg,#4da3ff,#9ad0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.logo img{width:26px;height:26px;border-radius:6px;filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));}
-.menu{display:flex;gap:24px;}
-.menu a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;position:relative;transition:0.25s;}
-.menu a:hover{color:white;}
 
-main{max-width:1200px;margin:40px auto;padding:0 20px;}
-section{margin-bottom:28px;padding:22px;border-radius:18px;background:rgba(255,255,255,0.05);backdrop-filter:blur(14px);}
-h1{margin-bottom:20px;}
-h2{margin-bottom:14px;}
-
-.dashboard{display:grid;grid-template-columns:1fr 2fr 1fr;gap:24px;}
-@media(max-width:1000px){.dashboard{grid-template-columns:1fr;}}
-
-/* ===== 5x5ゾーン ===== */
-.zone{
-  display:grid;
-  grid-template-columns:repeat(5,60px);
-  grid-template-rows:repeat(5,60px);
-  gap:6px;
-  justify-content:center;
-  margin-bottom:16px;
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
+  top:-120px;
+  right:-120px;
+  filter:blur(40px);
+  z-index:-1;
 }
-.cell{
-  border:1px solid rgba(255,255,255,0.15);
+
+/* ===== HEADER ===== */
+header{
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:1000;
+}
+
+nav{
+  max-width:1100px;
+  margin:auto;
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:space-between;
+  padding:16px 20px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
   font-weight:bold;
-  position:relative;
-  font-size:14px;
+  font-size:18px;
 }
-.strikezone{background:rgba(77,163,255,0.15);}
 
-.pitch-icon{
-  width:34px;height:34px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:bold;font-size:14px;color:#000;
+.logo span{
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-.ball-color{background:#00c853;}
-.strike-color{background:#ffd600;}
-.hit-color{background:#2196f3;color:#fff;}
-.out-color{background:#ff3d00;color:#fff;}
 
-.pitch-text{
+.menu{
+  display:flex;
+  gap:24px;
+}
+
+.menu a{
+  color:rgba(255,255,255,0.7);
+  text-decoration:none;
   font-size:13px;
-  margin-bottom:4px;
 }
 
-/* ===== player card ===== */
-.player-card{font-size:14px;line-height:1.8;}
+.menu a:hover{color:white;}
 
-footer{margin-top:100px;background:rgba(0,0,0,0.35);backdrop-filter:blur(16px);text-align:center;padding:20px 0;}
-footer a{text-decoration:none;color:#7ecbff;}
-footer a:hover{color:white;}
+/* ===== MAIN ===== */
+main{
+  max-width:1100px;
+  margin:50px auto;
+  padding:0 20px;
+}
+
+.glass-card{
+  background:rgba(255,255,255,0.06);
+  border-radius:22px;
+  padding:32px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.55);
+  margin-bottom:40px;
+}
+
+/* ===== SCOREBOARD ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+  text-align:center;
+}
+
+th,td{
+  border:1px solid rgba(255,255,255,0.15);
+  padding:6px;
+}
+
+td.clickable{
+  cursor:pointer;
+}
+
+td.clickable:hover{
+  background:rgba(77,163,255,0.2);
+}
+
+/* ===== BASE DISPLAY ===== */
+.base-display{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+  font-size:18px;
+}
+
+.base.filled{
+  color:#ffd600;
+}
+
+/* ===== STATS CARD ===== */
+.stats-card{
+  display:flex;
+  gap:20px;
+  padding:20px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+}
+
+.stats-card img{
+  width:120px;
+  border-radius:16px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  padding:30px 0;
+  text-align:center;
+  font-size:12px;
+  color:rgba(255,255,255,0.6);
+}
+
+/* ===== AUTO BUTTON ===== */
+.auto-btn{
+  padding:6px 14px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#00e676;
+  color:black;
+}
+
+.auto-btn.off{
+  background:#ff5252;
+  color:white;
+}
 
 </style>
 </head>
+
 <body>
 
 <header>
 <nav>
-<a href="/" class="logo"><img src="https://lions-crown.homep.jp/img/1766145327164.webp"><span>L-crown</span></a>
-<div class="menu">
-<a href="/lionscrown/">ホーム</a>
-<a href="/lionscrown/news">お知らせ</a>
-<a href="/lionscrown/privacypolicy">利用規約</a>
-<a href="/lionscrown/contact">お問い合わせ</a>
-</div>
-<button onclick="location.reload()" style="background:#ffcc00;color:black;padding:6px 14px;border-radius:16px;font-weight:bold;">更新</button>
+  <a href="#" class="logo">
+    <img src="https://lions-crown.homep.jp/img/1766145327164.webp" width="26">
+    <span>L-crown</span>
+  </a>
+
+  <div style="display:flex;gap:20px;align-items:center;">
+    <div id="autoToggle" class="auto-btn">AUTO ON</div>
+    <button onclick="manualReload()">手動更新</button>
+  </div>
 </nav>
 </header>
 
 <main>
-<h1>一球速報</h1>
 
-<section id="summary"></section>
-
-<div class="dashboard">
-
-<section>
-<h2>ホーム</h2>
-<div id="homeLineup"></div>
-</section>
-
-<section>
-<h2>投球ログ</h2>
-<div id="zoneContainer"></div>
-<div id="pitchTexts"></div>
-</section>
-
-<section>
-<h2>ビジター</h2>
-<div id="awayLineup"></div>
-</section>
-
+<div class="glass-card">
+<h2>試合概要</h2>
+<div id="summary"></div>
 </div>
 
-<section>
+<div class="glass-card">
+<h2>スコアボード</h2>
+<div id="scoreboard"></div>
+</div>
+
+<div class="glass-card">
+<h2>投球ログ</h2>
+<div id="pitchLog"></div>
+</div>
+
+<div class="glass-card">
 <h2>投手詳細</h2>
 <div id="pitcherStats"></div>
-</section>
+</div>
 
-<section>
+<div class="glass-card">
 <h2>打者詳細</h2>
 <div id="batterStats"></div>
-</section>
+</div>
 
 </main>
 
-<style>
-/* ===== 追加：投球ゾーンUI ===== */
-
-.zone-grid{
-  display:inline-block;
-  margin-bottom:20px;
-}
-.zone-row{
-  display:flex;
-}
-.zone-cell{
-  width:60px;
-  height:60px;
-  border:1px solid rgba(255,255,255,0.2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-wrap:wrap;
-  font-size:14px;
-}
-.strike-zone{
-  background:rgba(255,255,255,0.08);
-}
-
-.pitch-dot{
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-  font-size:12px;
-  margin:2px;
-  color:#000;
-}
-
-.green{background:#00c853;}
-.yellow{background:#ffd600;}
-.blue{background:#2196f3;color:#fff;}
-.red{background:#ff3d00;color:#fff;}
-
-.pitch-text-log{
-  font-size:13px;
-  margin-top:10px;
-}
-</style>
+<footer>
+© 2026 L-crown
+</footer>
 
 <script>
 
-/* =========================== */
-/* 状態管理 */
-/* =========================== */
-
 let gameData=null;
 let currentPAIndex=0;
-let dataPath="";
-let lastHash="";
+let autoUpdate=true;
+let polling=null;
 
-/* =========================== */
-/* 初期化 */
-/* =========================== */
+const dataPath="live/2026-03-01_1.json";
 
+/* ===== INIT ===== */
 async function init(){
-
-const params=new URLSearchParams(location.search);
-const date=params.get("date")||"2026-03-01";
-const team=params.get("team")||"1";
-
-const basePath=location.pathname.includes("/lionscrown")?"/lionscrown/":"/";
-dataPath=`${basePath}live/${date}_${team}.json`;
-
-await loadData();
+  await fetchData();
+  currentPAIndex=gameData.pitches.length-1;
+  renderAll();
+  startPolling();
 }
 
-async function loadData(){
-try{
-const res=await fetch(dataPath+"?t="+Date.now());
-const text=await res.text();
-
-const hashBuffer=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));
-const hashArray=Array.from(new Uint8Array(hashBuffer));
-const hashHex=hashArray.map(b=>b.toString(16).padStart(2,"0")).join("");
-
-if(hashHex===lastHash)return;
-lastHash=hashHex;
-
-gameData=JSON.parse(text);
-currentPAIndex=gameData.pitches.length-1;
-
-renderAll();
-
-}catch(e){
-console.error(e);
-}
+async function fetchData(){
+  const res=await fetch(dataPath+"?t="+Date.now());
+  gameData=await res.json();
 }
 
-/* =========================== */
-/* 描画統合 */
-/* =========================== */
+function startPolling(){
+  polling=setInterval(async()=>{
+    if(!autoUpdate) return;
+    await fetchData();
+    currentPAIndex=gameData.pitches.length-1;
+    renderAll();
+  },15000);
+}
+
+/* ===== AUTO TOGGLE ===== */
+autoToggle.onclick=()=>{
+  autoUpdate=!autoUpdate;
+  autoToggle.textContent=autoUpdate?"AUTO ON":"AUTO OFF";
+  autoToggle.classList.toggle("off",!autoUpdate);
+};
+
+function manualReload(){
+  fetchData().then(()=>renderAll());
+}
+
+/* ===== SUMMARY ===== */
+function renderSummary(){
+  const m=gameData.meta;
+  const t=gameData.scoreboard.total;
+  summary.innerHTML=`${m.away} ${t.away.R} - ${t.home.R} ${m.home}`;
+}
+
+/* ===== SCOREBOARD LINK ===== */
+function renderScoreboard(){
+  const sb=gameData.scoreboard;
+  let html="<table><tr><th></th>";
+  sb.innings.forEach((_,i)=>html+=`<th>${i+1}</th>`);
+  html+="</tr>";
+
+  ["away","home"].forEach(team=>{
+    html+=`<tr><td>${gameData.meta[team]}</td>`;
+    sb.innings.forEach((inning,i)=>{
+      html+=`<td class="clickable" onclick="jumpToInning(${i+1})">${inning[team]??""}</td>`;
+    });
+    html+="</tr>";
+  });
+
+  html+="</table>";
+  scoreboard.innerHTML=html;
+}
+
+function jumpToInning(inning){
+  const idx=gameData.pitches.findIndex(p=>p.inning===inning);
+  if(idx>=0){
+    currentPAIndex=idx;
+    renderAll();
+  }
+}
+
+/* ===== PITCH LOG + BASE ===== */
+function renderPitchLog(){
+  const pa=gameData.pitches[currentPAIndex];
+  let html=`${pa.inning}回 ${pa.half==="top"?"表":"裏"}<br>`;
+
+  pa.pitches.forEach((p,i)=>{
+    html+=`${i+1}球目 ${p.pitch_type} (${p.velocity}) → ${p.result}`;
+    if(p.landing) html+=` [${p.landing}]`;
+    html+="<br>";
+  });
+
+  html+=renderBases(pa);
+  pitchLog.innerHTML=html;
+}
+
+function renderBases(pa){
+  const b=pa.bases||{};
+  const base=(runner)=>runner?"♦":"♢";
+  return `<div class="base-display">
+    1塁 <span class="base ${b.first?'filled':''}">${base(b.first)}</span>
+    2塁 <span class="base ${b.second?'filled':''}">${base(b.second)}</span>
+    3塁 <span class="base ${b.third?'filled':''}">${base(b.third)}</span>
+  </div>`;
+}
+
+/* ===== STATS ===== */
+function renderPitcherStats(){
+  const pa=gameData.pitches[currentPAIndex];
+  const p=getPlayer(pa.pitcher_id);
+
+  pitcherStats.innerHTML=`
+  <div class="stats-card">
+    <img src="${p.photo||'https://via.placeholder.com/120'}">
+    <div>
+      <strong>${p.name}</strong><br>
+      ERA: ${p.era||"-"}<br>
+      今日の投球数: ${pa.pitches.length}
+    </div>
+  </div>`;
+}
+
+function renderBatterStats(){
+  const pa=gameData.pitches[currentPAIndex];
+  const b=getPlayer(pa.batter_id);
+
+  batterStats.innerHTML=`
+  <div class="stats-card">
+    <img src="${b.photo||'https://via.placeholder.com/120'}">
+    <div>
+      <strong>${b.name}</strong><br>
+      打率: ${b.avg||"-"}<br>
+      前打席まで: ${b.last_results||"-"}
+    </div>
+  </div>`;
+}
+
+function getPlayer(id){
+  return [...gameData.lineups.home,...gameData.lineups.away]
+    .find(p=>p.id===id)||{};
+}
 
 function renderAll(){
-renderSummary();
-renderScoreboard();
-renderLineups();
-renderPitch();
-renderPitcher();
-renderBatter();
-renderFinal();
+  renderSummary();
+  renderScoreboard();
+  renderPitchLog();
+  renderPitcherStats();
+  renderBatterStats();
 }
-
-/* =========================== */
-/* 投球ゾーン描画 */
-/* =========================== */
-
-function renderPitch(){
-
-const pa=gameData.pitches[currentPAIndex];
-if(!pa){ pitchLog.innerHTML=""; return; }
-
-let grid=Array(5).fill().map(()=>Array(5).fill(""));
-
-pa.pitches?.forEach((p,i)=>{
-
-const r=p.zone_row ?? 2;
-const c=p.zone_col ?? 2;
-
-grid[r][c]+=`
-<div class="pitch-dot ${getResultColor(p.result)}">
-${getPitchSymbol(p.type, pa.pitcher_hand)}${i+1}
-</div>`;
-});
-
-let html=`<div class="zone-grid">`;
-
-for(let r=0;r<5;r++){
-html+=`<div class="zone-row">`;
-for(let c=0;c<5;c++){
-
-let cls=(r>=1&&r<=3&&c>=1&&c<=3)?"zone-cell strike-zone":"zone-cell";
-
-html+=`<div class="${cls}">${grid[r][c]}</div>`;
-}
-html+=`</div>`;
-}
-
-html+=`</div>`;
-
-html+=`<div class="pitch-text-log">`;
-
-pa.pitches?.forEach((p,i)=>{
-html+=`${i+1}球目 ｜ ${p.speed||""}km/h ｜ ${p.type} ｜ ${p.result}<br>`;
-});
-
-html+=`</div>`;
-
-pitchLog.innerHTML=html;
-
-renderCount(pa);
-renderBases(pa);
-}
-
-/* =========================== */
-/* 球種記号 */
-/* =========================== */
-
-function getPitchSymbol(type, hand){
-
-switch(type){
-
-case "fastball": return "●";
-case "fork":
-case "splitter": return "▼";
-
-case "slider": return hand==="L"?"▶":"◀";
-case "shoot": return hand==="L"?"◀":"▶";
-case "curve": return hand==="L"?"↘":"↙";
-
-default: return "●";
-}
-}
-
-/* =========================== */
-/* 色判定 */
-/* =========================== */
-
-function getResultColor(result){
-if(result==="ball") return "green";
-if(result==="strike"||result==="foul") return "yellow";
-if(result==="hit") return "blue";
-if(result==="out") return "red";
-return "";
-}
-
-/* =========================== */
-/* 投手詳細 */
-/* =========================== */
-
-function renderPitcher(){
-
-const pa=gameData.pitches[currentPAIndex];
-if(!pa) return;
-
-const id=pa.pitcher_id;
-const pas=gameData.pitches.filter(p=>p.pitcher_id===id);
-
-let pitchCount=0;
-let batters=new Set();
-let hits=0;
-let runs=0;
-
-pas.forEach(p=>{
-pitchCount+=p.pitches?.length||0;
-batters.add(p.batter_id);
-if(p.result==="hit") hits++;
-runs+=p.runs||0;
-});
-
-let era=(runs*9/(pas.length||1)).toFixed(2);
-
-pitcherStats.innerHTML=`
-<div class="player-card">
-<div>
-<strong>${getName(id)}</strong><br>
-投球数: ${pitchCount}<br>
-対戦打者数: ${batters.size}<br>
-被安打: ${hits}<br>
-失点: ${runs}<br>
-防御率: ${era}
-</div>
-</div>`;
-}
-
-/* =========================== */
-/* 打者詳細 */
-/* =========================== */
-
-function renderBatter(){
-
-const pa=gameData.pitches[currentPAIndex];
-if(!pa) return;
-
-const id=pa.batter_id;
-const pas=gameData.pitches.filter(p=>p.batter_id===id);
-
-let hits=pas.filter(p=>p.result==="hit").length;
-let atbats=pas.length;
-let avg=atbats?(hits/atbats).toFixed(3):".000";
-
-let history=pas.slice(0,pas.length-1).map(p=>p.result).join(" ｜ ");
-
-batterStats.innerHTML=`
-<div class="player-card">
-<div>
-<strong>${getName(id)}</strong><br>
-打率: ${avg}<br>
-過去打席: ${history||"なし"}
-</div>
-</div>`;
-}
-
-/* =========================== */
-/* ラインナップ修正 */
-/* =========================== */
-
-function renderTeam(side){
-const lineup=gameData.lineups[side]||[];
-const container=document.getElementById(side+"Lineup");
-
-container.innerHTML="";
-
-lineup.filter(p=>p.pos!=="P").forEach((p,i)=>{
-container.innerHTML+=`<div class="lineup-item">${i+1} ${p.pos} ${p.name}</div>`;
-});
-
-const pitcher=lineup.find(p=>p.pos==="P");
-if(pitcher){
-container.innerHTML+=`<div class="lineup-item">投手 ${pitcher.name}</div>`;
-}
-}
-
-/* =========================== */
 
 init();
 
 </script>
-
-<footer>
-  <div class="footer-container">
-    <div>
-      <div class="footer-logo">L-crown</div>
-      <div class="footer-text">
-        データをより身近なものへ。<br>
-        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
-      </div>
-    </div>
-    <div>
-      <div class="footer-title">リンク</div>
-      <a href="/lionscrown/">ホーム</a><br>
-      <a href="/lionscrown/news">お知らせ</a><br>
-      <a href="/lionscrown/privacypolicy">利用規約</a><br>
-      <a href="/lionscrown/contact">お問い合わせ</a><br>
-      <a href="/lionscrown/pagelist">ページ一覧</a>
-    </div>
-    <div>
-      <div class="footer-title">フォロー</div>
-      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    © 2026 L-crown. All rights reserved.
-  </div>
-</footer>
 
 </body>
 </html>
