@@ -1,190 +1,114 @@
-/* =========================
-   GLOBAL STATE
-========================= */
-
-let gameData = null;
-let currentIndex = 0;
-
-/* =========================
-   LOAD GAME
-========================= */
+let gameData=null;
+let currentIndex=0;
 
 async function loadGame(){
-  try{
-    const params = new URLSearchParams(location.search);
-    const date = params.get("date");
-    const team = params.get("team");
+  const params=new URLSearchParams(location.search);
+  const date=params.get("date");
+  const team=params.get("team");
 
-    if(!date || !team){
-      console.error("URLパラメータ不足");
-      return;
-    }
-
-    const res = await fetch(`live/${date}_${team}.json`);
-    if(!res.ok){
-      console.error("JSON取得失敗");
-      return;
-    }
-
-    gameData = await res.json();
-    currentIndex = 0;
-
-    renderAll();
-
-  }catch(e){
-    console.error("loadGameエラー", e);
-  }
+  const res=await fetch(`live/${date}_${team}.json`);
+  gameData=await res.json();
+  renderAll();
 }
 
-/* =========================
-   SAFE RENDER
-========================= */
-
 function renderAll(){
-
-  if(!gameData) return;
-  if(!gameData.at_bats) return;
-  if(gameData.at_bats.length === 0) return;
-
-  if(currentIndex < 0) currentIndex = 0;
-  if(currentIndex >= gameData.at_bats.length){
-    currentIndex = gameData.at_bats.length - 1;
-  }
-
-  const ab = gameData.at_bats[currentIndex];
-  if(!ab) return;
-
-  renderGameInfo();
+  if(!gameData || !gameData.at_bats?.length) return;
+  const ab=gameData.at_bats[currentIndex];
+  renderScoreBar(ab);
   renderScoreboard();
-  renderField(ab);
   renderCount(ab);
   renderZone(ab);
   renderLog(ab);
+  renderLineups();
 }
 
-/* =========================
-   GAME INFO
-========================= */
+function renderScoreBar(ab){
+  document.getElementById("awayName").innerText=gameData.game_info.away_team;
+  document.getElementById("homeName").innerText=gameData.game_info.home_team;
 
-function renderGameInfo(){
-  const info = gameData.game_info || {};
-  document.getElementById("gameInfo").innerText =
-    `${info.away_team || ""} vs ${info.home_team || ""}
-     ${info.stadium || ""} ${info.date || ""}`;
+  const awayR=gameData.scoreboard.away.reduce((a,b)=>a+b,0);
+  const homeR=gameData.scoreboard.home.reduce((a,b)=>a+b,0);
+
+  document.getElementById("awayScore").innerText=awayR;
+  document.getElementById("homeScore").innerText=homeR;
+
+  document.getElementById("inningInfo").innerText=
+    `${ab.inning}回${ab.half==="top"?"表":"裏"} ${ab.outs}アウト`;
 }
-
-/* =========================
-   SCOREBOARD
-========================= */
 
 function renderScoreboard(){
-  const sb = gameData.scoreboard || {};
-  const innings = 9;
+  const sb=gameData.scoreboard;
+  let html="<tr><th></th>";
+  for(let i=1;i<=9;i++) html+=`<th>${i}</th>`;
+  html+="<th>R</th><th>H</th><th>E</th></tr>";
 
-  let html = "<tr><th></th>";
+  html+="<tr><td>Away</td>";
+  for(let i=0;i<9;i++) html+=`<td>${sb.away[i]??"-"}</td>`;
+  html+=`<td>${sb.away.reduce((a,b)=>a+b,0)}</td>
+         <td>${sb.away_hits}</td>
+         <td>${sb.away_errors}</td></tr>`;
 
-  for(let i=1;i<=innings;i++){
-    html += `<th>${i}</th>`;
-  }
+  html+="<tr><td>Home</td>";
+  for(let i=0;i<9;i++) html+=`<td>${sb.home[i]??"-"}</td>`;
+  html+=`<td>${sb.home.reduce((a,b)=>a+b,0)}</td>
+         <td>${sb.home_hits}</td>
+         <td>${sb.home_errors}</td></tr>`;
 
-  html += "<th>R</th><th>H</th><th>E</th></tr>";
-
-  html += "<tr><td>Away</td>";
-  for(let i=0;i<innings;i++){
-    html += `<td>${sb.away?.[i] ?? "-"}</td>`;
-  }
-  html += `<td>${sum(sb.away)}</td>
-           <td>${sb.away_hits ?? 0}</td>
-           <td>${sb.away_errors ?? 0}</td></tr>`;
-
-  html += "<tr><td>Home</td>";
-  for(let i=0;i<innings;i++){
-    html += `<td>${sb.home?.[i] ?? "-"}</td>`;
-  }
-  html += `<td>${sum(sb.home)}</td>
-           <td>${sb.home_hits ?? 0}</td>
-           <td>${sb.home_errors ?? 0}</td></tr>`;
-
-  document.getElementById("scoreboard").innerHTML = html;
+  document.getElementById("scoreboard").innerHTML=html;
 }
-
-function sum(arr){
-  if(!arr) return 0;
-  return arr.reduce((a,b)=>a+(b||0),0);
-}
-
-/* =========================
-   COUNT BOARD
-========================= */
 
 function renderCount(ab){
-  const c = ab.count || {b:0,s:0,o:0};
-
-  document.getElementById("countBoard").innerHTML =
-  `
-  <div class="ball ${c.b>=1?'on':''}"></div>
-  <div class="ball ${c.b>=2?'on':''}"></div>
-  <div class="ball ${c.b>=3?'on':''}"></div>
-
-  <div class="strike ${c.s>=1?'on':''}"></div>
-  <div class="strike ${c.s>=2?'on':''}"></div>
-
-  <div class="out ${c.o>=1?'on':''}"></div>
-  <div class="out ${c.o>=2?'on':''}"></div>
-  <div class="out ${c.o>=3?'on':''}"></div>
-  `;
+  const c=ab.count;
+  document.getElementById("countBoard").innerHTML=
+  `<div class="ball ${c.b>=1?'on':''}"></div>
+   <div class="ball ${c.b>=2?'on':''}"></div>
+   <div class="ball ${c.b>=3?'on':''}"></div>
+   <div class="strike ${c.s>=1?'on':''}"></div>
+   <div class="strike ${c.s>=2?'on':''}"></div>
+   <div class="out ${c.o>=1?'on':''}"></div>
+   <div class="out ${c.o>=2?'on':''}"></div>
+   <div class="out ${c.o>=3?'on':''}"></div>`;
 }
-
-/* =========================
-   FIELD
-========================= */
-
-function renderField(ab){
-
-  const bases = ab.bases || {};
-  const field = ab.field || {};
-
-  document.getElementById("firstBase").innerText = bases.first || "";
-  document.getElementById("secondBase").innerText = bases.second || "";
-  document.getElementById("thirdBase").innerText = bases.third || "";
-
-  for(const pos in field){
-    const el = document.getElementById(pos);
-    if(el) el.innerText = field[pos];
-  }
-}
-
-/* =========================
-   PITCH ZONE
-========================= */
 
 function renderZone(ab){
-  const zone = document.getElementById("zone");
-  zone.innerHTML = "";
-
-  if(!ab.pitches) return;
-
+  const zone=document.getElementById("zone");
+  zone.innerHTML="";
   ab.pitches.forEach((p,i)=>{
-    const div = document.createElement("div");
-    div.className = "pitch";
-    div.style.left = `${p.x*20}px`;
-    div.style.top = `${p.y*20}px`;
-    div.innerText = i+1;
+    const div=document.createElement("div");
+    div.className="pitch";
+    div.style.left=`${p.x*30}px`;
+    div.style.top=`${p.y*30}px`;
+    div.innerText=i+1;
     zone.appendChild(div);
   });
 }
 
-/* =========================
-   LOG
-========================= */
-
 function renderLog(ab){
-  const log = ab.log || [];
-  let html = "";
-  log.forEach(l=>{
-    html += `<div>${l.time} ${l.text}</div>`;
+  let html="";
+  ab.log.forEach(l=>{
+    html+=`<div>${l.time} ${l.text}</div>`;
   });
-  document.getElementById("timeline").innerHTML = html;
+  document.getElementById("timeline").innerHTML=html;
+}
+
+function renderLineups(){
+  const lu=gameData.lineups;
+
+  document.getElementById("lineupAway").innerHTML=
+    "<b>西武 先発</b><br>"+
+    lu.away.starting.map(p=>`${p.pos} ${p.name}`).join("<br>");
+
+  document.getElementById("benchAway").innerHTML=
+    "<b>ベンチ</b><br>"+
+    lu.away.bench.map(p=>p.name).join("<br>");
+
+  document.getElementById("lineupHome").innerHTML=
+    "<b>ソフトバンク 先発</b><br>"+
+    lu.home.starting.map(p=>`${p.pos} ${p.name}`).join("<br>");
+
+  document.getElementById("benchHome").innerHTML=
+    "<b>ベンチ</b><br>"+
+    lu.home.bench.map(p=>p.name).join("<br>");
 }
 
 loadGame();
