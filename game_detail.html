@@ -519,7 +519,10 @@ async function fetchGameData() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const text = await res.text();
-    const newHash = text.length;
+    const newHash = await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(text)
+    );
 
     if (newHash === lastDataHash) {
       return false; // 更新なし
@@ -710,7 +713,7 @@ function renderPitchLog(){
 
   let html =
     `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}
-     打者: ${pa.batter_name || "-"}</strong><br>`;
+     打者: ${getPlayerNameById(pa.batter_id)}</strong><br>`;
 
   pa.pitches?.forEach((p,i)=>{
     html += `${i+1}球目:
@@ -751,7 +754,7 @@ function renderCount(){
 
   html+=" O ";
   for(let i=0;i<2;i++){
-    html+=`<span class="count-dot ${i<(pa.outs||0)?'count-on out':''}"></span>`;
+    html+=`<span class="count-dot ${i<(pa.final_count?.outs || 0)?'count-on out':''}"></span>`;
   }
 
   html+="</div>";
@@ -846,7 +849,7 @@ function renderPitcherStats(){
   if(!pa) return;
 
   pitcherStats.innerHTML =
-    `投手: ${pa.pitcher_name || pa.pitcher_id || "-"}<br>
+    `投手: ${getPlayerNameById(pa.pitcher_id)}<br>
      投球数: ${pa.pitches?.length || 0}`;
 }
 
@@ -874,9 +877,8 @@ function renderBatterStats(){
   const results={};
 
   gameData.pitches.forEach(pa=>{
-    if(!pa.final_result) return;
-    results[pa.final_result] =
-      (results[pa.final_result]||0)+1;
+    if(!pa.result) return;
+    results[pa.result] = (results[pa.result] || 0) + 1;
   });
 
   let html="";
@@ -891,6 +893,18 @@ function renderBatterStats(){
 /* ===========================
    ナビゲーション
 =========================== */
+function getPlayerNameById(id){
+  if(!id) return "-";
+
+  const allPlayers = [
+    ...(gameData.lineups?.home || []),
+    ...(gameData.lineups?.away || [])
+  ];
+
+  const found = allPlayers.find(p=>p.id===id);
+  return found?.name || id;
+}
+  
 function prevPA(){
   if(currentPAIndex>0){
     currentPAIndex--;
@@ -903,18 +917,21 @@ function nextPA(){
     renderAll();
   }
 }
+  
 function latestPA(){
-  if(currentPAIndex === gameData.pitches.length - 2){
-     currentPAIndex = gameData.pitches.length - 1;
-  }
+  currentPAIndex = gameData.pitches.length - 1;
   renderAll();
 }
+  
 function searchBatter(){
-  const name=searchBatterInput.value.trim();
-  const idx=gameData.pitches
-    .findIndex(pa=>pa.batter_name===name);
-  if(idx>=0){
-    currentPAIndex=idx;
+  const name = document.getElementById("searchBatter").value.trim();
+
+  const idx = gameData.pitches.findIndex(pa =>
+    getPlayerNameById(pa.batter_id) === name
+  );
+
+  if(idx >= 0){
+    currentPAIndex = idx;
     renderAll();
   }
 }
