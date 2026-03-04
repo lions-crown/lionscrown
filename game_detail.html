@@ -181,12 +181,24 @@ async function loadGame(){
 }
 
 function renderAll(){
- renderHeader();
- renderScore();
- renderCount();
- renderField();
- renderZone();
- renderTimeline();
+  if(!gameData || !gameData.at_bats || gameData.at_bats.length === 0){
+    console.warn("打席データがありません");
+    return;
+  }
+
+  if(currentIndex >= gameData.at_bats.length){
+    currentIndex = gameData.at_bats.length - 1;
+  }
+
+  const ab = gameData.at_bats[currentIndex];
+  if(!ab) return;
+
+  renderGameInfo();
+  renderScoreboard();
+  renderField(ab);
+  renderCount(ab);
+  renderZone(ab);
+  renderLog(ab);
 }
 
 function renderHeader(){
@@ -212,10 +224,18 @@ function renderScore(){
 }
 
 function renderCount(){
- const c=gameData.at_bats[currentAtBat].count;
- renderLights("balls",3,c.b,"green");
- renderLights("strikes",2,c.s,"yellow");
- renderLights("outs",2,c.o,"red");
+
+  if(!gameData.at_bats || !gameData.at_bats.length) return;
+
+  const ab = gameData.at_bats[currentAtBat];
+  if(!ab) return;
+
+  // ★ countが無い場合の完全防御
+  const c = ab.count || { b:0, s:0, o:0 };
+
+  renderLights("balls",3,c.b ?? 0,"green");
+  renderLights("strikes",2,c.s ?? 0,"yellow");
+  renderLights("outs",2,c.o ?? 0,"red");
 }
 
 function renderLights(id,max,on,color){
