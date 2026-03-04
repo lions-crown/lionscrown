@@ -404,27 +404,56 @@ function renderSummary() {
 }
 
 function renderScoreboard() {
-  const inningsData = gameData.scoreboard.innings;
-  const totals = gameData.scoreboard.total;
-  const maxInning = inningsData.length;
-  const currentPA = gameData.pitches[currentPAIndex];
-  const currentInning = currentPA?.inning || 1;
-  let html = `<table class="scoreboard-table"><thead><tr><th></th>`;
-  for (let i = 1; i <= maxInning; i++) {
-    const highlight = i === currentInning ? "current-inning" : "";
-    html += `<th class="${highlight}">${i}</th>`;
+  const scoreboardEl = document.getElementById("scoreboard");
+
+  if (!scoreboardEl) return;
+
+  if (!gameData || !gameData.pitches) {
+    scoreboardEl.innerHTML = "<p>データなし</p>";
+    return;
   }
-  html += `<th>R</th><th>H</th><th>E</th></tr></thead><tbody>`;
-  html += `<tr><td>${gameData.meta.away}</td>`;
-  inningsData.forEach(inning => html += `<td>${inning.away ?? ""}</td>`);
-  html += `<td>${totals?.away?.R ?? ""}</td><td>${totals?.away?.H ?? ""}</td><td>${totals?.away?.E ?? ""}</td></tr>`;
-  html += `<tr><td>${gameData.meta.home}</td>`;
-  inningsData.forEach(inning => html += `<td>${inning.home ?? ""}</td>`);
-  html += `<td>${totals?.home?.R ?? ""}</td><td>${totals?.home?.H ?? ""}</td><td>${totals?.home?.E ?? ""}</td></tr>`;
-  html += `</tbody></table>`;
+
+  const innings = {};
+  gameData.pitches.forEach(p => {
+    if (!innings[p.inning]) {
+      innings[p.inning] = { top: 0, bottom: 0 };
+    }
+    if (p.half === "表") {
+      innings[p.inning].top += p.runs || 0;
+    } else if (p.half === "裏") {
+      innings[p.inning].bottom += p.runs || 0;
+    }
+  });
+
+  let html = "<table border='1'><tr><th>回</th>";
+  Object.keys(innings).forEach(i => {
+    html += `<th>${i}</th>`;
+  });
+  html += "<th>計</th></tr>";
+
+  let topTotal = 0;
+  let bottomTotal = 0;
+
+  html += "<tr><td>表</td>";
+  Object.keys(innings).forEach(i => {
+    const r = innings[i].top;
+    topTotal += r;
+    html += `<td>${r}</td>`;
+  });
+  html += `<td>${topTotal}</td></tr>`;
+
+  html += "<tr><td>裏</td>";
+  Object.keys(innings).forEach(i => {
+    const r = innings[i].bottom;
+    bottomTotal += r;
+    html += `<td>${r}</td>`;
+  });
+  html += `<td>${bottomTotal}</td></tr>`;
+
+  html += "</table>";
+
   scoreboardEl.innerHTML = html;
 }
-
 function renderLineups() {
   renderTeam(gameData.lineups?.home || [], homeLineup, 0);
   renderTeam(gameData.lineups?.away || [], awayLineup, 1);
