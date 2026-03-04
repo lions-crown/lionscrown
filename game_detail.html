@@ -2,309 +2,175 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>NPB Live View</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Game Detail</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
   margin:0;
   background:#0b0f1a;
-  color:white;
-  font-family:'Segoe UI',sans-serif;
+  color:#fff;
+  font-family:Arial, sans-serif;
 }
 
-header{
-  background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
-  padding:15px;
-  text-align:center;
-  font-size:24px;
+/* ===== テレビ中継スコアバー ===== */
+#scoreBar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  background:#111;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 20px;
+  font-family:'Orbitron',sans-serif;
+  z-index:9999;
+  border-bottom:2px solid #333;
+}
+
+.teamBlock{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+
+.scoreNum{
+  font-size:28px;
   font-weight:bold;
 }
 
-.section{
-  margin:15px;
-  padding:15px;
-  background:#111827;
-  border-radius:12px;
+/* ===== メインエリア ===== */
+#container{
+  padding-top:80px;
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap:20px;
+  padding:100px 40px 40px;
 }
 
 /* スコアボード */
-.score-table{
+#scoreboard{
   width:100%;
   border-collapse:collapse;
-  text-align:center;
-  font-size:18px;
+  background:#111;
+  font-family:'Orbitron';
 }
-.score-table th,.score-table td{
-  padding:6px;
+#scoreboard th,#scoreboard td{
   border:1px solid #333;
-}
-.score-table th{
-  background:#1f2937;
+  padding:6px;
+  text-align:center;
 }
 
-/* 電光掲示板 */
-.count-board{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  font-size:28px;
-}
-.light{
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  margin:4px;
-  background:#333;
-}
-.on.green{background:#0f0;}
-.on.yellow{background:#ff0;}
-.on.red{background:#f00;}
-
-.count-group{text-align:center}
-
-/* フィールド */
-.field{
+/* 守備位置 */
+#field{
   position:relative;
-  width:400px;
-  height:400px;
+  width:350px;
+  height:350px;
   margin:auto;
-  background:#14532d;
-  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+  background:radial-gradient(circle,#1e7e34 60%,#145a24);
+  transform:rotate(45deg);
 }
 .base{
   position:absolute;
-  width:50px;
+  width:40px;
+  height:40px;
+  background:white;
+  transform:rotate(-45deg);
   text-align:center;
-  font-size:14px;
+  font-size:10px;
 }
-.first{ right:60px; top:160px;}
-.second{ top:40px; left:175px;}
-.third{ left:60px; top:160px;}
 
-.pos{
-  position:absolute;
-  font-size:13px;
-  text-align:center;
-  width:80px;
-}
-.P{top:200px;left:160px;}
-.C{top:300px;left:160px;}
-.SS{top:150px;left:120px;}
-.CF{top:80px;left:160px;}
-.LF{top:120px;left:40px;}
-.RF{top:120px;right:40px;}
-
-/* ゾーン */
-.zone{
-  display:grid;
-  grid-template-columns:repeat(5,40px);
-  grid-template-rows:repeat(5,40px);
-  gap:2px;
-}
-.cell{
-  background:#1f2937;
-  position:relative;
-}
-.strike{background:#374151;}
-.dot{
-  position:absolute;
-  width:20px;
-  height:20px;
+/* カウント */
+.ball,.strike,.out{
+  width:18px;
+  height:18px;
   border-radius:50%;
-  color:black;
-  font-size:12px;
+  display:inline-block;
+  margin:3px;
+  background:#333;
+}
+.ball.on{background:#2ecc71;}
+.strike.on{background:#f1c40f;}
+.out.on{background:#e74c3c;}
+
+/* Pitch Zone */
+#zone{
+  position:relative;
+  width:200px;
+  height:200px;
+  border:2px solid #fff;
+  margin-top:20px;
+}
+.pitch{
+  position:absolute;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:#00d4ff;
   text-align:center;
-  line-height:20px;
-  top:10px;
-  left:10px;
+  line-height:24px;
+  font-size:12px;
 }
 
-/* タイムライン */
-.timeline{
-  max-height:200px;
-  overflow:auto;
-}
-.log-item{
-  border-bottom:1px solid #333;
-  padding:6px;
+/* ラインナップ */
+#lineups{
+  background:#111;
+  padding:10px;
 }
 </style>
 </head>
 
 <body>
 
-<header id="game-info">Loading...</header>
-
-<div class="section" id="scoreboard"></div>
-
-<div class="section">
-<div class="count-board">
-  <div class="count-group">B
-    <div id="balls"></div>
+<div id="scoreBar">
+  <div class="teamBlock">
+    <div id="awayName"></div>
+    <div class="scoreNum" id="awayScore"></div>
   </div>
-  <div class="count-group">S
-    <div id="strikes"></div>
-  </div>
-  <div class="count-group">O
-    <div id="outs"></div>
+
+  <div id="inningInfo"></div>
+
+  <div class="teamBlock">
+    <div class="scoreNum" id="homeScore"></div>
+    <div id="homeName"></div>
   </div>
 </div>
+
+<div id="container">
+
+  <div>
+    <table id="scoreboard"></table>
+
+    <h3>守備位置</h3>
+    <div id="field">
+      <div class="base" id="firstBase" style="bottom:0; right:50%;"></div>
+      <div class="base" id="secondBase" style="top:0; left:50%;"></div>
+      <div class="base" id="thirdBase" style="left:0; top:50%;"></div>
+    </div>
+
+    <h3>カウント</h3>
+    <div id="countBoard"></div>
+
+    <h3>Pitch Zone</h3>
+    <div id="zone"></div>
+
+    <h3>実況タイムライン</h3>
+    <div id="timeline"></div>
+  </div>
+
+  <div id="lineups">
+    <h3>ラインナップ</h3>
+    <div id="lineupAway"></div>
+    <div id="benchAway"></div>
+    <hr>
+    <div id="lineupHome"></div>
+    <div id="benchHome"></div>
+  </div>
+
 </div>
 
-<div class="section">
-<h3>守備位置</h3>
-<div class="field" id="field"></div>
-</div>
-
-<div class="section">
-<h3>ストライクゾーン</h3>
-<div class="zone" id="zone"></div>
-</div>
-
-<div class="section">
-<h3>実況タイムライン</h3>
-<div class="timeline" id="timeline"></div>
-</div>
-
-<script>
-let gameData;
-let currentAtBat=0;
-
-async function loadGame(){
- const params=new URLSearchParams(location.search);
- const date=params.get("date");
- const team=params.get("team");
- const res=await fetch(`live/${date}_${team}.json`);
- gameData=await res.json();
- renderAll();
-}
-
-function renderAll(){
-  if(!gameData || !gameData.at_bats || gameData.at_bats.length === 0){
-    console.warn("打席データがありません");
-    return;
-  }
-
-  if(currentIndex >= gameData.at_bats.length){
-    currentIndex = gameData.at_bats.length - 1;
-  }
-
-  const ab = gameData.at_bats[currentIndex];
-  if(!ab) return;
-
-  renderGameInfo();
-  renderScoreboard();
-  renderField(ab);
-  renderCount(ab);
-  renderZone(ab);
-  renderLog(ab);
-}
-
-function renderHeader(){
- const g=gameData.game_info;
- document.getElementById("game-info").innerText=
-  `${g.away_team} vs ${g.home_team} ＠${g.stadium}`;
-}
-
-function renderScore(){
- const s=gameData.scoreboard;
- let html="<table class='score-table'><tr><th></th>";
- for(let i=1;i<=s.away.length;i++) html+=`<th>${i}</th>`;
- html+="<th>R</th><th>H</th><th>E</th></tr>";
- html+=`<tr><td>${gameData.game_info.away_team}</td>`;
- s.away.forEach(v=>html+=`<td>${v}</td>`);
- html+=`<td>${s.away.reduce((a,b)=>a+b,0)}</td>
-        <td>${s.away_hits}</td><td>${s.away_errors}</td></tr>`;
- html+=`<tr><td>${gameData.game_info.home_team}</td>`;
- s.home.forEach(v=>html+=`<td>${v}</td>`);
- html+=`<td>${s.home.reduce((a,b)=>a+b,0)}</td>
-        <td>${s.home_hits}</td><td>${s.home_errors}</td></tr></table>`;
- document.getElementById("scoreboard").innerHTML=html;
-}
-
-function renderCount(){
-
-  if(!gameData.at_bats || !gameData.at_bats.length) return;
-
-  const ab = gameData.at_bats[currentAtBat];
-  if(!ab) return;
-
-  // ★ countが無い場合の完全防御
-  const c = ab.count || { b:0, s:0, o:0 };
-
-  renderLights("balls",3,c.b ?? 0,"green");
-  renderLights("strikes",2,c.s ?? 0,"yellow");
-  renderLights("outs",2,c.o ?? 0,"red");
-}
-
-function renderLights(id,max,on,color){
- const el=document.getElementById(id);
- el.innerHTML="";
- for(let i=0;i<max;i++){
-   const d=document.createElement("div");
-   d.className="light";
-   if(i<on) d.classList.add("on",color);
-   el.appendChild(d);
- }
-}
-
-function renderField(){
- const ab=gameData.at_bats[currentAtBat];
- const f=document.getElementById("field");
- f.innerHTML="";
-
- // 塁
- ["first","second","third"].forEach(b=>{
-  const div=document.createElement("div");
-  div.className=`base ${b}`;
-  div.innerText=ab.bases[b]||"";
-  f.appendChild(div);
- });
-
- // 守備位置
- for(const pos in ab.field){
-  const div=document.createElement("div");
-  div.className=`pos ${pos}`;
-  div.innerText=ab.field[pos];
-  f.appendChild(div);
- }
-}
-
-function renderZone(){
- const zone=document.getElementById("zone");
- zone.innerHTML="";
- for(let y=1;y<=5;y++){
-  for(let x=1;x<=5;x++){
-   const cell=document.createElement("div");
-   cell.className="cell";
-   if(x>=2&&x<=4&&y>=2&&y<=4) cell.classList.add("strike");
-   zone.appendChild(cell);
-  }
- }
- const pitches=gameData.at_bats[currentAtBat].pitches;
- pitches.forEach((p,i)=>{
-   const index=(p.y-1)*5+(p.x-1);
-   const dot=document.createElement("div");
-   dot.className="dot";
-   dot.style.background=p.result==="strike"?"yellow":
-                        p.result==="ball"?"green":"white";
-   dot.innerText=i+1;
-   zone.children[index].appendChild(dot);
- });
-}
-
-function renderTimeline(){
- const logs=gameData.at_bats[currentAtBat].log;
- const tl=document.getElementById("timeline");
- tl.innerHTML="";
- logs.forEach(l=>{
-   tl.innerHTML+=`<div class="log-item">${l.time} - ${l.text}</div>`;
- });
-}
-
-loadGame();
-</script>
-
+<script src="game.js"></script>
 </body>
 </html>
