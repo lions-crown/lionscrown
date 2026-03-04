@@ -694,3 +694,51 @@ canvas {
   font-weight:600;
   letter-spacing:0.5px;
 }
+
+
+/* =============================
+   ワイドスコアボード
+============================= */
+
+#scoreboard{
+  padding:0;
+  background:none;
+}
+
+.scoreboard-wrapper{
+  width:100%;
+  overflow-x:auto;
+}
+
+.scoreboard-table{
+  width:100%;
+  min-width:100%;
+  border-collapse:collapse;
+  font-size:15px;
+}
+
+.scoreboard-table th,
+.scoreboard-table td{
+  border:1px solid rgba(255,255,255,0.15);
+  padding:10px 12px;
+}
+
+.scoreboard-table thead{
+  background:rgba(255,255,255,0.08);
+}
+
+.scoreboard-team{
+  text-align:left;
+  font-weight:600;
+  padding-left:14px;
+  width:160px;
+}
+
+.scoreboard-total{
+  background:rgba(77,163,255,0.25);
+  font-weight:bold;
+}
+
+.scoreboard-table tbody tr:hover{
+  background:rgba(255,255,255,0.06);
+}
