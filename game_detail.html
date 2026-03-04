@@ -230,26 +230,27 @@ let lineupMode = [0, 0];
 async function init() {
   const params = new URLSearchParams(window.location.search);
 
-  // 今日の日付を自動取得（日本時間 YYYY-MM-DD）
-  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }).slice(0, 10);
+  const today = new Date()
+    .toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' })
+    .slice(0, 10);
 
   const date = params.get("date") || today;
   let team = params.get("team") || "1";
 
-  const basePath = "/lionscrown/";  // ← ここを強制固定
-  dataPath = `${basePath}live/${date}_${team}.json`;
+  // 🔥 basePath削除
+  dataPath = `./live/${date}_${team}.json`;
 
   let updated = await fetchGameData();
 
-  // team=1で失敗したら2 → 3を自動試行（最大3まで対応）
+  // team=1→2→3 自動探索
   if (!updated && team === "1") {
     team = "2";
-    dataPath = `${basePath}live/${date}_${team}.json`;
+    dataPath = `./live/${date}_${team}.json`;
     updated = await fetchGameData();
   }
   if (!updated && team === "2") {
     team = "3";
-    dataPath = `${basePath}live/${date}_${team}.json`;
+    dataPath = `./live/${date}_${team}.json`;
     updated = await fetchGameData();
   }
 
@@ -259,7 +260,7 @@ async function init() {
     populateInningFilter();
     renderAll();
   } else {
-    showError(`データ取得失敗: ${date}_${team}.json（1〜3をすべて試しました）`);
+    showError(`データ取得失敗: ${date}_1〜3.json`);
   }
 
   startPolling();
@@ -638,27 +639,6 @@ function renderField() {
     div.textContent = `${pos} ${name}`;
     field.appendChild(div);
   });
-}
-
-function renderPitcherStatsEnhanced() {
-  const pa = gameData.pitches[currentPAIndex];
-  if (!pa) return;
-  const pitcher = gameData.pitchers?.[currentPitcherId] || {};
-  const photo = pitcher.photo || "https://via.placeholder.com/100x130/1e293b/ffffff?text=P";
-  const name = pitcher.name || getPlayerNameById(currentPitcherId);
-  pitcherStats.innerHTML = `
-    <div class="player-photo"><img src="${photo}" alt="${name}"></div>
-    <div class="player-info">
-      <div class="player-name">${name}</div>
-      <div class="player-stats">
-        投球数: ${pa.pitches?.length || 0}球<br>
-        投球方向: ${pitcher.throws || "-"}投げ<br>
-        防御率: ${pitcher.season_stats?.era || "-"}<br>
-        WHIP: ${pitcher.season_stats?.whip || "-"}<br>
-        奪三振: ${pitcher.season_stats?.k || "-"}
-      </div>
-    </div>
-  `;
 }
 
 function renderBatterStatsEnhanced() {
