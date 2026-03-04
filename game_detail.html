@@ -620,63 +620,59 @@ function renderSummary(){
    スコアボード
 =========================== */
 function renderScoreboard(){
-  const sb = gameData?.scoreboard;
-  if(!sb) return;
+
+  if(!gameData?.scoreboard){
+    document.getElementById("scoreboard").innerHTML =
+      "<p>スコアデータなし</p>";
+    return;
+  }
+
+  const sb = gameData.scoreboard;
+
+  if(!sb?.innings?.away || !sb?.innings?.home){
+    document.getElementById("scoreboard").innerHTML =
+      "<p>イニングデータなし</p>";
+    return;
+  }
+
+  const maxInning = Math.max(
+    sb.innings.away.length,
+    sb.innings.home.length
+  );
 
   const currentPA = gameData.pitches[currentPAIndex];
   const currentInning = currentPA?.inning;
-  const currentHalf = currentPA?.half;
-
-  let maxInning = Math.max(
-    sb.innings.home.length,
-    sb.innings.away.length
-  );
 
   let html = `<table class="scoreboard-table"><thead><tr><th></th>`;
 
   for(let i=1;i<=maxInning;i++){
     const highlight = i === currentInning ? "current-inning" : "";
-    html += `<th class="${highlight}" 
-                onclick="jumpToInning(${i})"
-                style="cursor:pointer">${i}</th>`;
+    html += `<th class="${highlight}">${i}</th>`;
   }
 
   html += `<th>R</th><th>H</th><th>E</th></tr></thead><tbody>`;
 
-  // AWAY
-  html += `<tr><td>${gameData.meta.away}</td>`;
+  // Away
+  html += `<tr><td>${sb.away ?? "Away"}</td>`;
   for(let i=0;i<maxInning;i++){
-    const highlight = (i+1) === currentInning ? "current-inning" : "";
-    html += `<td class="${highlight}">${sb.innings.away[i] ?? ""}</td>`;
+    html += `<td>${sb.innings.away[i] ?? ""}</td>`;
   }
-  html += `<td>${sb.total.away.R}</td>
-           <td>${sb.total.away.H}</td>
-           <td>${sb.total.away.E}</td></tr>`;
+  html += `<td>${sb.totals?.away?.R ?? ""}</td>`;
+  html += `<td>${sb.totals?.away?.H ?? ""}</td>`;
+  html += `<td>${sb.totals?.away?.E ?? ""}</td></tr>`;
 
-  // HOME
-  html += `<tr><td>${gameData.meta.home}</td>`;
+  // Home
+  html += `<tr><td>${sb.home ?? "Home"}</td>`;
   for(let i=0;i<maxInning;i++){
-    const highlight = (i+1) === currentInning ? "current-inning" : "";
-    html += `<td class="${highlight}">${sb.innings.home[i] ?? ""}</td>`;
+    html += `<td>${sb.innings.home[i] ?? ""}</td>`;
   }
-  html += `<td>${sb.total.home.R}</td>
-           <td>${sb.total.home.H}</td>
-           <td>${sb.total.home.E}</td></tr>`;
+  html += `<td>${sb.totals?.home?.R ?? ""}</td>`;
+  html += `<td>${sb.totals?.home?.H ?? ""}</td>`;
+  html += `<td>${sb.totals?.home?.E ?? ""}</td></tr>`;
 
   html += `</tbody></table>`;
-  scoreboard.innerHTML = html;
-}
 
-function jumpToInning(inning){
-  const index = gameData.pitches
-    .map((pa,i)=>({pa,i}))
-    .filter(obj=>obj.pa.inning===inning)
-    .pop();
-
-  if(index){
-    currentPAIndex = index.i;
-    renderAll();
-  }
+  document.getElementById("scoreboard").innerHTML = html;
 }
 
 /* ===========================
