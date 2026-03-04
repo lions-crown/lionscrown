@@ -11,14 +11,14 @@
   "scoreboard": {
     "innings": [
       {"inning":1, "away":0, "home":0},
-      {"inning":2, "away":-, "home":-},
-      {"inning":3, "away":-, "home":-},
-      {"inning":4, "away":-, "home":-},
-      {"inning":5, "away":-, "home":-},
-      {"inning":6, "away":-, "home":-},
-      {"inning":7, "away":-, "home":-},
-      {"inning":8, "away":-, "home":-},
-      {"inning":9, "away":-, "home":-}
+      {"inning":2, "away":0, "home":null},
+      {"inning":3, "away":null, "home":null},
+      {"inning":4, "away":null, "home":null},
+      {"inning":5, "away":null, "home":null},
+      {"inning":6, "away":null, "home":null},
+      {"inning":7, "away":null, "home":null},
+      {"inning":8, "away":null, "home":null},
+      {"inning":9, "away":null, "home":null}
     ],
     "total": {
       "away": {"R":0, "H":2, "E":0},
@@ -27,8 +27,8 @@
   },
   "lineups": {
     "home": [
-      {"id":"F2026_1", "name":"中島 卓也", "pos":"SS", "avg":"-", "photo":"https://example.com/players/nishikawa_a.png"},
-      {"id":"F2026_2",  "name":"今川 優馬", "pos":"LF", "avg":"-"},
+      {"id":"F2026_1", "name":"中島 卓也", "pos":"SS", "avg":".000", "photo":"https://example.com/players/nishikawa_a.png"},
+      {"id":"F2026_2",  "name":"今川 優馬", "pos":"LF", "avg":".000"},
       {"id":"F2026_3",  "name":"奈良間 大己", "pos":"3B", "avg":".000"},
       {"id":"F2026_4", "name":"カストロ", "pos":"2B", "avg":".250"},
       {"id":"F2026_5", "name":"万波 中正",   "pos":"RF", "avg":".000"},
@@ -48,7 +48,7 @@
       {"id":"L2026_32", "name":"山村 崇嘉",     "pos":"1B", "avg":".333"},
       {"id":"L2026_22", "name":"古賀 悠斗",   "pos":"C", "avg":".000"},
       {"id":"L2026_62", "name":"滝澤 夏央",   "pos":"SS",  "avg":".667"},
-      {"id":"L2026_12", "name":"渡邉 勇太朗",   "pos":"P",  "era":"-"}
+      {"id":"L2026_12", "name":"渡邉 勇太朗",   "pos":"P",  "era":"0.00"}
     ]
   },
   "bench": {
@@ -72,10 +72,10 @@
       "name": "渡邉 勇太朗",
       "throws": "R",
       "season_stats": {
-        "era": -,
-        "whip": -,
-        "k": -,
-        "bb": -
+        "era": 0.00,
+        "whip": null,
+        "k": null,
+        "bb": null
       },
       "photo": "https://example.com/players/takahashi_k.png"
     }
@@ -157,8 +157,8 @@
       },
     
       "pitches": [
-        {"pitch_type": "fastball", "velocity": -, "zone": {"x": 3, "y": 2}, "result": "ball"},
-        {"pitch_type": "fastball", "velocity": -, "zone": {"x": 2, "y": 3}, "result": "2ndflyout"}
+        {"pitch_type": "fastball", "velocity": null, "zone": {"x": 3, "y": 2}, "result": "ball"},
+        {"pitch_type": "fastball", "velocity": null, "zone": {"x": 2, "y": 3}, "result": "2ndflyout"}
       ]
     },
     {
@@ -183,9 +183,9 @@
         "RF": "カナリオ"
       },
       "pitches": [
-        {"pitch_type": "slider", "velocity": -, "zone": {"x": 2, "y": 3}, "result": "ball"},
-        {"pitch_type": "fork", "velocity": -, "zone": {"x": 3, "y": 3}, "result": "strike"},
-        {"pitch_type": "fastball", "velocity": -, "zone": {"x": 2, "y": 4}, "result": "lefthit"}
+        {"pitch_type": "slider", "velocity": null, "zone": {"x": 2, "y": 3}, "result": "ball"},
+        {"pitch_type": "fork", "velocity": null, "zone": {"x": 3, "y": 3}, "result": "strike"},
+        {"pitch_type": "fastball", "velocity": null, "zone": {"x": 2, "y": 4}, "result": "lefthit"}
       ]
     }
   ]
