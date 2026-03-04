@@ -1,88 +1,43 @@
 {
   "game_info": {
-    "game_id": "2026-03-01_1",
-    "date": "2026-03-01",
-    "stadium": "ベルーナドーム",
-    "start_time": "13:00",
     "away_team": "福岡ソフトバンクホークス",
     "home_team": "埼玉西武ライオンズ",
-    "umpires": {
-      "plate": "山路哲生",
-      "first": "本田英志",
-      "second": "杉本大成",
-      "third": "市川貴之"
-    }
+    "stadium": "ベルーナドーム",
+    "start_time": "13:00"
   },
-
   "scoreboard": {
-    "away": [1, 0, 1],
-    "home": [0, 1, 0],
+    "away": [1,0,1],
+    "home": [0,1,0],
     "away_hits": 4,
     "home_hits": 3,
     "away_errors": 0,
-    "home_errors": 0
+    "home_errors": 0,
+    "bases": [1,0,1]
   },
-
-  "lineups": {
-    "away": {
-      "starting": [
-        { "name": "周東佑京", "avg": ".310", "link": "#" },
-        { "name": "近藤健介", "avg": ".285", "link": "#" },
-        { "name": "柳田悠岐", "avg": ".298", "link": "#" }
-      ],
-      "bench": [
-        { "name": "中村晃", "avg": ".250", "link": "#" }
-      ]
-    },
-    "home": {
-      "starting": [
-        { "name": "源田壮亮", "avg": ".270", "link": "#" },
-        { "name": "外崎修汰", "avg": ".265", "link": "#" },
-        { "name": "中村剛也", "avg": ".240", "link": "#" }
-      ],
-      "bench": [
-        { "name": "栗山巧", "avg": ".220", "link": "#" }
-      ]
-    }
-  },
-
   "at_bats": [
     {
-      "inning": 1,
+      "inning": 3,
       "half": "top",
-      "outs": 0,
-      "pitcher": { "name": "高橋光成" },
-      "batter": { "name": "周東佑京" },
-      "result": "四球",
-      "pitches": [
-        { "x": 3, "y": 3, "type": "FF", "result": "ball" },
-        { "x": 4, "y": 2, "type": "SL", "result": "strike" },
-        { "x": 2, "y": 4, "type": "FF", "result": "ball" },
-        { "x": 3, "y": 2, "type": "FF", "result": "ball" }
-      ]
-    },
-    {
-      "inning": 1,
-      "half": "top",
-      "outs": 0,
-      "pitcher": { "name": "高橋光成" },
-      "batter": { "name": "近藤健介" },
-      "result": "中前安打",
-      "pitches": [
-        { "x": 3, "y": 3, "type": "FF", "result": "strike" },
-        { "x": 3, "y": 3, "type": "FF", "result": "hit" }
-      ]
-    },
-    {
-      "inning": 1,
-      "half": "bottom",
-      "outs": 0,
-      "pitcher": { "name": "有原航平" },
-      "batter": { "name": "源田壮亮" },
-      "result": "二ゴロ",
-      "pitches": [
-        { "x": 2, "y": 2, "type": "FF", "result": "strike" },
-        { "x": 3, "y": 3, "type": "FF", "result": "out" }
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "pitcher": {"name":"高橋光成"},
+      "batter": {"name":"近藤健介"},
+      "result": "進行中",
+      "pitches":[
+        {"x":3,"y":3,"result":"strike"},
+        {"x":4,"y":2,"result":"ball"}
+      ],
+      "defense":[
+        {"pos":"P","x":50,"y":60},
+        {"pos":"C","x":50,"y":85},
+        {"pos":"1B","x":75,"y":65},
+        {"pos":"2B","x":60,"y":45},
+        {"pos":"3B","x":25,"y":65},
+        {"pos":"SS","x":40,"y":50},
+        {"pos":"LF","x":20,"y":20},
+        {"pos":"CF","x":50,"y":10},
+        {"pos":"RF","x":80,"y":20}
       ]
     }
   ]
