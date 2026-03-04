@@ -1,26 +1,26 @@
 {
   "game_info": {
-    "away_team": "福岡ソフトバンクホークス",
-    "home_team": "埼玉西武ライオンズ",
+    "away_team": "埼玉西武ライオンズ",
+    "home_team": "福岡ソフトバンクホークス",
     "stadium": "ベルーナドーム",
-    "start_time": "13:00"
+    "date": "2026-03-01"
   },
   "scoreboard": {
-    "away": [1,0,1],
-    "home": [0,1,0],
-    "away_hits": 4,
-    "home_hits": 3,
+    "away": [0,1,0,2],
+    "home": [0,0,1,0],
+    "away_hits": 6,
+    "home_hits": 4,
     "away_errors": 0,
-    "home_errors": 0
+    "home_errors": 1
   },
   "lineups": {
     "away": {
-      "starting":[{"name":"周東佑京","avg":".310"},{"name":"近藤健介","avg":".312"},{"name":"柳田悠岐","avg":".298"}],
-      "bench":[{"name":"中村晃"},{"name":"栗原陵矢"}]
+      "starting":[{"name":"近藤健介","pos":"LF"}],
+      "bench":[{"name":"代打A"}]
     },
     "home": {
-      "starting":[{"name":"源田壮亮","avg":".270"},{"name":"外崎修汰","avg":".265"},{"name":"中村剛也","avg":".240"}],
-      "bench":[{"name":"栗山巧"},{"name":"蛭間拓哉"}]
+      "starting":[{"name":"今宮健太","pos":"SS"}],
+      "bench":[{"name":"控えB"}]
     }
   },
   "at_bats":[
@@ -28,31 +28,29 @@
       "inning":3,
       "half":"top",
       "outs":1,
-      "balls":2,
-      "strikes":1,
-      "pitcher":{"name":"高橋光成","era":2.45},
-      "batter":{"name":"近藤健介","avg":".312"},
+      "count":{"b":2,"s":1,"o":1},
+      "bases":{"first":"源田壮亮","second":null,"third":null},
+      "field":{
+        "P":"高橋光成",
+        "C":"甲斐拓也",
+        "1B":"中村晃",
+        "2B":"三森大貴",
+        "3B":"栗原陵矢",
+        "SS":"今宮健太",
+        "LF":"近藤健介",
+        "CF":"柳田悠岐",
+        "RF":"周東佑京"
+      },
+      "pitcher":{"name":"高橋光成","era":"2.85"},
+      "batter":{"name":"近藤健介","avg":".312","today":"1-1"},
       "result":"進行中",
-      "runners":{"first":"周東佑京","second":null,"third":"柳田悠岐"},
-      "defense":[
-        {"pos":"P","name":"高橋光成","x":50,"y":60},
-        {"pos":"C","name":"古賀悠斗","x":50,"y":85},
-        {"pos":"1B","name":"マキノン","x":75,"y":65},
-        {"pos":"2B","name":"外崎修汰","x":60,"y":45},
-        {"pos":"3B","name":"ブランドン","x":25,"y":65},
-        {"pos":"SS","name":"源田壮亮","x":40,"y":50},
-        {"pos":"LF","name":"蛭間拓哉","x":20,"y":20},
-        {"pos":"CF","name":"西川愛也","x":50,"y":10},
-        {"pos":"RF","name":"愛斗","x":80,"y":20}
-      ],
       "pitches":[
         {"x":3,"y":3,"result":"strike"},
-        {"x":4,"y":2,"result":"ball"}
+        {"x":2,"y":4,"result":"ball"}
       ],
       "log":[
-        {"time":"14:21","text":"近藤健介 打席へ"},
-        {"time":"14:22","text":"1球目 ストライク"},
-        {"time":"14:23","text":"2球目 ボール"}
+        {"time":"18:32","text":"初球ストライク"},
+        {"time":"18:33","text":"2球目ボール"}
       ]
     }
   ]
