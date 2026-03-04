@@ -645,3 +645,52 @@ canvas {
   width: 100% !important;
   height: 100% !important;
 }
+
+
+/* =============================
+   プロ仕様スコアボード
+============================= */
+
+.scoreboard-wrapper{
+  overflow-x:auto;
+  border-radius:14px;
+}
+
+.scoreboard-table{
+  border-collapse:collapse;
+  min-width:700px;
+  width:100%;
+  text-align:center;
+  font-size:14px;
+}
+
+.scoreboard-table th,
+.scoreboard-table td{
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,0.15);
+}
+
+.scoreboard-table thead{
+  background:rgba(255,255,255,0.08);
+}
+
+.scoreboard-table tbody tr:first-child{
+  background:rgba(255,255,255,0.05);
+}
+
+.scoreboard-team{
+  text-align:left;
+  padding-left:12px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.scoreboard-total{
+  background:rgba(77,163,255,0.25);
+  font-weight:bold;
+}
+
+.scoreboard-table th{
+  font-weight:600;
+  letter-spacing:0.5px;
+}
