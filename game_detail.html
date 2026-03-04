@@ -224,6 +224,52 @@ h2{margin-bottom:14px;font-size:18px;}
 .scoreboard-table tbody tr:hover{
   background:rgba(255,255,255,0.06);
 }
+
+.count-board{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-weight:600;
+  font-size:14px;
+}
+
+.count-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#333;
+  box-shadow: inset 0 0 6px #000;
+}
+
+.count-on.ball{
+  background:#00c853;
+  box-shadow:0 0 8px #00c853;
+}
+
+.count-on.strike{
+  background:#ffd600;
+  box-shadow:0 0 8px #ffd600;
+}
+
+.count-on.out{
+  background:#ff3d00;
+  box-shadow:0 0 8px #ff3d00;
+}
+
+/* ===== Current Inning Highlight ===== */
+.scoreboard-table th.current-inning,
+.scoreboard-table td.current-inning{
+  background:linear-gradient(135deg,#4da3ff,#1e40af);
+  color:white;
+  font-weight:700;
+  box-shadow:0 0 15px rgba(77,163,255,0.6);
+  animation: inningGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes inningGlow{
+  from{box-shadow:0 0 10px rgba(77,163,255,0.4);}
+  to{box-shadow:0 0 20px rgba(77,163,255,0.9);}
+}
   
 .dashboard{
   display:grid;
@@ -430,38 +476,93 @@ let gameData = null;
 let currentPAIndex = 0;
 let currentFielders = null;
 
+let lastDataHash = "";
+let pollingInterval = null;
+let dataPath = "";
+
 /* ===========================
    初期化
 =========================== */
 async function init() {
 
+  // URLパラメータ取得
   const params = new URLSearchParams(window.location.search);
   const date = params.get("date") || "2026-03-01";
   const team = params.get("team") || "1";
 
-  // GitHub Pages 安全パス
-  const basePath = location.pathname.includes("/lionscrown") 
-    ? "/lionscrown/" 
+  // GitHub Pages対応ベースパス
+  const basePath = location.pathname.includes("/lionscrown")
+    ? "/lionscrown/"
     : "/";
 
-  const jsonUrl = `${basePath}live/${date}_${team}.json`;
+  // JSONパス確定
+  dataPath = `${basePath}live/${date}_${team}.json`;
 
-  try {
-    const res = await fetch(jsonUrl, { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    gameData = await res.json();
+  // 初回取得
+  const updated = await fetchGameData();
 
-    if (!gameData?.pitches?.length)
-      throw new Error("投球データが存在しません");
-
+  if (updated) {
     currentPAIndex = gameData.pitches.length - 1;
     renderAll();
+  } else {
+    showError("データ取得失敗");
+    return;
+  }
+
+  // ポーリング開始
+  startPolling();
+}
+
+async function fetchGameData() {
+  try {
+    const res = await fetch(dataPath + "?t=" + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const text = await res.text();
+    const newHash = text.length;
+
+    if (newHash === lastDataHash) {
+      return false; // 更新なし
+    }
+
+    lastDataHash = newHash;
+    gameData = JSON.parse(text);
+
+    if (!gameData?.pitches?.length) {
+      throw new Error("投球データが存在しません");
+    }
+
+    return true;
 
   } catch (err) {
     console.error("データ取得失敗:", err);
-    showError(err.message);
+    return false;
   }
 }
+
+function startPolling() {
+
+  if (pollingInterval) clearInterval(pollingInterval);
+
+  pollingInterval = setInterval(async () => {
+
+    const updated = await fetchGameData();
+
+    if (updated) {
+      currentPAIndex = gameData.pitches.length - 1;
+      renderAll();
+      showUpdateFlash?.();
+    }
+
+    // 試合終了なら停止
+    if (gameData?.meta?.status === "final") {
+      clearInterval(pollingInterval);
+    }
+
+  }, 30000);
+}
+
+
 
 /* ===========================
    エラー表示
@@ -522,59 +623,47 @@ function renderScoreboard(){
   const sb = gameData?.scoreboard;
   if(!sb) return;
 
-  const innings = sb.innings || [];
-  // 最大回数（延長対応込み）
-  const maxInning = Math.max(9, ...innings.map(i=>i.inning));
+  const currentPA = gameData.pitches[currentPAIndex];
+  const currentInning = currentPA?.inning;
+  const currentHalf = currentPA?.half;
 
-  let html = `
-  <div class="scoreboard-wrapper">
-    <table class="scoreboard-table">
-      <thead>
-        <tr>
-          <th></th>`;
+  let maxInning = Math.max(
+    sb.innings.home.length,
+    sb.innings.away.length
+  );
+
+  let html = `<table class="scoreboard-table"><thead><tr><th></th>`;
 
   for(let i=1;i<=maxInning;i++){
-    html += `<th>
-    <a href="#" onclick="jumpToInning(${i});return false;"
-         style="color:#7ecbff;text-decoration:none;">
-         ${i}
-      </a>
-    </th>`;
+    const highlight = i === currentInning ? "current-inning" : "";
+    html += `<th class="${highlight}" 
+                onclick="jumpToInning(${i})"
+                style="cursor:pointer">${i}</th>`;
   }
 
-  html += `
-          <th class="scoreboard-total">R</th>
-          <th>H</th>
-          <th>E</th>
-        </tr>
-      </thead>
-      <tbody>`;
+  html += `<th>R</th><th>H</th><th>E</th></tr></thead><tbody>`;
 
-  // ビジター
-  html += `<tr><td class="scoreboard-team">${gameData.meta.away}</td>`;
-  for(let i=1;i<=maxInning;i++){
-    const inningData = innings.find(x=>x.inning===i);
-    html += `<td>${inningData?.away ?? ""}</td>`;
+  // AWAY
+  html += `<tr><td>${gameData.meta.away}</td>`;
+  for(let i=0;i<maxInning;i++){
+    const highlight = (i+1) === currentInning ? "current-inning" : "";
+    html += `<td class="${highlight}">${sb.innings.away[i] ?? ""}</td>`;
   }
-  html += `<td class="scoreboard-total">${sb.total?.away?.R ?? 0}</td>
-           <td>${sb.total?.away?.H ?? "-"}</td>
-           <td>${sb.total?.away?.E ?? "-"}</td></tr>`;
+  html += `<td>${sb.total.away.R}</td>
+           <td>${sb.total.away.H}</td>
+           <td>${sb.total.away.E}</td></tr>`;
 
-  // ホーム
-  html += `<tr><td class="scoreboard-team">${gameData.meta.home}</td>`;
-  for(let i=1;i<=maxInning;i++){
-    const inningData = innings.find(x=>x.inning===i);
-    html += `<td>${inningData?.home ?? ""}</td>`;
+  // HOME
+  html += `<tr><td>${gameData.meta.home}</td>`;
+  for(let i=0;i<maxInning;i++){
+    const highlight = (i+1) === currentInning ? "current-inning" : "";
+    html += `<td class="${highlight}">${sb.innings.home[i] ?? ""}</td>`;
   }
-  html += `<td class="scoreboard-total">${sb.total?.home?.R ?? 0}</td>
-           <td>${sb.total?.home?.H ?? "-"}</td>
-           <td>${sb.total?.home?.E ?? "-"}</td></tr>`;
+  html += `<td>${sb.total.home.R}</td>
+           <td>${sb.total.home.H}</td>
+           <td>${sb.total.home.E}</td></tr>`;
 
-  html += `
-      </tbody>
-    </table>
-  </div>`;
-
+  html += `</tbody></table>`;
   scoreboard.innerHTML = html;
 }
 
@@ -767,6 +856,23 @@ function renderPitcherStats(){
      投球数: ${pa.pitches?.length || 0}`;
 }
 
+function showUpdateFlash(){
+  const el = document.createElement("div");
+  el.textContent = "UPDATE";
+  el.style.position="fixed";
+  el.style.top="20px";
+  el.style.right="20px";
+  el.style.padding="8px 16px";
+  el.style.background="#4da3ff";
+  el.style.color="black";
+  el.style.fontWeight="bold";
+  el.style.borderRadius="20px";
+  el.style.zIndex="9999";
+  document.body.appendChild(el);
+
+  setTimeout(()=>el.remove(),1000);
+}
+  
 /* ===========================
    打者最終結果集計
 =========================== */
@@ -804,7 +910,9 @@ function nextPA(){
   }
 }
 function latestPA(){
-  currentPAIndex=gameData.pitches.length-1;
+  if(currentPAIndex === gameData.pitches.length - 2){
+     currentPAIndex = gameData.pitches.length - 1;
+  }
   renderAll();
 }
 function searchBatter(){
