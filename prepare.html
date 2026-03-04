@@ -8,9 +8,6 @@
 <link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <meta name="theme-color" content="#0f172a">
 <style>
-/* ============================= */
-/* 共通リセット・背景・フォント */
-/* ============================= */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
@@ -31,9 +28,6 @@ body::before{
   filter:blur(40px);
   z-index:-1;
 }
-/* ============================= */
-/* ヘッダー・メニュー */
-/* ============================= */
 header{
   position:sticky;
   top:0;
@@ -157,7 +151,6 @@ input:checked + .slider:before{
   color:rgba(255,255,255,0.7);
   min-width:78px;
 }
-/* 状況バー */
 #gameStatusBar{
   background:rgba(0,0,0,0.45);
   padding:14px 24px;
@@ -166,7 +159,6 @@ input:checked + .slider:before{
   font-weight:600;
   border-bottom:1px solid rgba(255,255,255,0.1);
 }
-/* 交代ログ */
 #changeLog{
   margin:15px 0;
   padding:14px 20px;
@@ -177,8 +169,6 @@ input:checked + .slider:before{
   line-height:1.65;
   color:#9ad0ff;
 }
-/* ============================= */
-/* 本文・カード */
 main{
   max-width:1200px;
   margin:30px auto;
@@ -194,7 +184,6 @@ section{
 }
 h1{margin-bottom:20px;font-size:26px;}
 h2{margin-bottom:14px;font-size:18px;}
-/* イニングフィルタ */
 #inningFilter{
   background:rgba(255,255,255,0.1);
   color:white;
@@ -202,7 +191,6 @@ h2{margin-bottom:14px;font-size:18px;}
   padding:6px 12px;
   border-radius:8px;
 }
-/* ラインナップ切り替えボタン */
 .lineup-header{
   display:flex;
   justify-content:space-between;
@@ -221,9 +209,6 @@ h2{margin-bottom:14px;font-size:18px;}
 .lineup-toggle:hover{
   background:rgba(77,163,255,0.45);
 }
-/* =============================
-   プロ仕様スコアボード
-============================= */
 #scoreboard{
   margin-bottom:20px;
   padding:0;
@@ -247,7 +232,6 @@ h2{margin-bottom:14px;font-size:18px;}
 .scoreboard-table tbody tr:hover{
   background:rgba(255,255,255,0.06);
 }
-/* Current Inning Highlight */
 .scoreboard-table th.current-inning,
 .scoreboard-table td.current-inning{
   background:linear-gradient(135deg,#4da3ff,#1e40af);
@@ -277,7 +261,6 @@ h2{margin-bottom:14px;font-size:18px;}
 .count-on.ball{background:#00c853;box-shadow:0 0 8px #00c853;}
 .count-on.strike{background:#ffd600;box-shadow:0 0 8px #ffd600;}
 .count-on.out{background:#ff3d00;box-shadow:0 0 8px #ff3d00;}
-/* 塁状況 */
 .bases-panel{
   margin:20px auto;
   padding:14px 20px;
@@ -315,7 +298,6 @@ h2{margin-bottom:14px;font-size:18px;}
   box-shadow:0 0 28px #00ff9d;
   color:#000;
 }
-/* ダッシュボード（左右ベンチ＋中央ログ） */
 .dashboard{
   display:grid;
   grid-template-columns:1fr 2fr 1fr;
@@ -323,22 +305,18 @@ h2{margin-bottom:14px;font-size:18px;}
   align-items:start;
   margin-bottom:40px;
 }
-.bench-sidebar{
+.team-column{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.lineup-box, .bench-sidebar{
   padding:20px;
   border-radius:18px;
   background:rgba(255,255,255,0.04);
   box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
-.bench-sidebar h2{
-  font-size:17px;
-  margin-bottom:14px;
-  color:rgba(255,255,255,0.9);
-}
-.lineup-box{
-  padding:20px;
-  border-radius:18px;
-  background:rgba(255,255,255,0.04);
-}
+.bench-sidebar h2{font-size:17px;margin-bottom:14px;color:rgba(255,255,255,0.9);}
 .lineup-list{display:flex;flex-direction:column;gap:8px;}
 .lineup-item{
   display:flex;
@@ -400,63 +378,20 @@ button:hover{
 .hero-teams{font-size:28px;font-weight:700;letter-spacing:1px;}
 .hero-meta{font-size:14px;opacity:.8;margin-top:6px;}
 .hero-score{font-size:42px;font-weight:800;background:linear-gradient(90deg,#4da3ff,#9ad0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-/* フッター */
 footer{
   margin-top:100px;
   background:rgba(0,0,0,0.35);
   backdrop-filter:blur(16px);
   border-top:1px solid rgba(255,255,255,0.08);
-}
-.footer-container{
-  max-width:1100px;
-  margin:auto;
-  padding:50px 20px;
-  display:grid;
-  grid-template-columns:1.6fr 1fr 0.6fr;
-  gap:50px;
-}
-.footer-logo{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:12px;
-  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.footer-text{
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-  line-height:1.7;
-}
-.footer-title{
-  font-size:12px;
-  margin-bottom:14px;
-  color:rgba(255,255,255,0.9);
-}
-footer a{
-  text-decoration:none;
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-  transition:0.25s;
-}
-footer a:hover{
-  color:white;
-  transform:translateX(4px);
-  text-shadow:0 0 8px rgba(77,163,255,0.5);
-}
-.footer-bottom{
   text-align:center;
-  padding:16px;
-  font-size:11px;
-  color:rgba(255,255,255,0.35);
-  border-top:1px solid rgba(255,255,255,0.05);
+  padding:20px 0;
 }
-@media(max-width:768px){
-  .footer-container{grid-template-columns:1fr;gap:30px;}
-}
+footer a{text-decoration:none;color:#7ecbff;}
+footer a:hover{color:white;}
 </style>
 </head>
 <body>
+
 <header>
   <nav>
     <a href="/" class="logo"><img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon"><span>L-crown</span></a>
@@ -477,7 +412,6 @@ footer a:hover{
   </nav>
 </header>
 
-<!-- 状況バー -->
 <div id="gameStatusBar">
   現在投手: <span id="currentPitcher">---</span>　｜　イニング: <span id="currentInning">---</span>　｜　アウト: <span id="currentOuts">0</span>
 </div>
@@ -499,13 +433,22 @@ footer a:hover{
     <div id="scoreboard"></div>
   </section>
 
-  <!-- メインのダッシュボード：左右ベンチ＋中央ログ -->
   <div class="dashboard">
-    <!-- 左：ホームベンチ -->
-    <section class="bench-sidebar">
-      <h2>ホーム ベンチ</h2>
-      <div id="homeBench" class="lineup-list"></div>
-    </section>
+
+    <!-- 左列：ホームスタメン → ホームベンチ -->
+    <div class="team-column">
+      <section class="lineup-box">
+        <div class="lineup-header">
+          <h2>ホーム スタメン</h2>
+          <button class="lineup-toggle" onclick="toggleLineupMode(0)">現在配置</button>
+        </div>
+        <div id="homeLineup" class="lineup-list"></div>
+      </section>
+      <section class="bench-sidebar">
+        <h2>ホーム ベンチ</h2>
+        <div id="homeBench" class="lineup-list"></div>
+      </section>
+    </div>
 
     <!-- 中央：投球ログエリア -->
     <section class="center-panel">
@@ -519,7 +462,6 @@ footer a:hover{
       <div id="pitchLog"></div>
       <div id="countDisplay"></div>
       
-      <!-- 塁状況 -->
       <div class="bases-panel">
         <div class="bases-row">
           <div><div class="base-label">3塁</div><div id="runner3" class="runner-dot"></div></div>
@@ -536,35 +478,28 @@ footer a:hover{
       <div id="field" style="position:relative;height:240px;"></div>
     </section>
 
-    <!-- 右：ビジターベンチ -->
-    <section class="bench-sidebar">
-      <h2>ビジター ベンチ</h2>
-      <div id="awayBench" class="lineup-list"></div>
-    </section>
-  </div>
+    <!-- 右列：ビジタースタメン → ビジターベンチ -->
+    <div class="team-column">
+      <section class="lineup-box">
+        <div class="lineup-header">
+          <h2>ビジター スタメン</h2>
+          <button class="lineup-toggle" onclick="toggleLineupMode(1)">現在配置</button>
+        </div>
+        <div id="awayLineup" class="lineup-list"></div>
+      </section>
+      <section class="bench-sidebar">
+        <h2>ビジター ベンチ</h2>
+        <div id="awayBench" class="lineup-list"></div>
+      </section>
+    </div>
 
-  <!-- スタメンラインナップ（別ブロック・上部） -->
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; max-width:1200px; margin:0 auto 40px; padding:0 20px;">
-    <section class="lineup-box">
-      <div class="lineup-header">
-        <h2>ホーム スタメン</h2>
-        <button class="lineup-toggle" onclick="toggleLineupMode(0)">現在配置</button>
-      </div>
-      <div id="homeLineup" class="lineup-list"></div>
-    </section>
-    <section class="lineup-box">
-      <div class="lineup-header">
-        <h2>ビジター スタメン</h2>
-        <button class="lineup-toggle" onclick="toggleLineupMode(1)">現在配置</button>
-      </div>
-      <div id="awayLineup" class="lineup-list"></div>
-    </section>
   </div>
 
   <section>
     <h2>投手詳細</h2>
     <div id="pitcherStats"></div>
   </section>
+
   <section>
     <h2>打者詳細</h2>
     <div id="batterStats"></div>
@@ -572,20 +507,17 @@ footer a:hover{
 </main>
 
 <script>
-/* ===========================
-   L-crown Pro Live Engine 2026
-   完全版：投手・代打・代走・守備・イニング対応 + ラインナップ切り替え + ベンチ左右配置
-=========================== */
+// スクリプトは前回と同じ完全版を使用（変更不要）
 let gameData = null;
 let currentPAIndex = 0;
 let currentFielders = null;
 let currentPitcherId = null;
-let batterHistory = {}; // pa_id → 実際の打者ID（代打後）
-let runnerHistory = {}; // 代走反映用
+let batterHistory = {};
+let runnerHistory = {};
 let autoUpdateEnabled = true;
 let pollingInterval = null;
 let dataPath = "";
-let lineupMode = [0, 0]; // 0:スタメン / 1:現在配置（ホーム,ビジター）
+let lineupMode = [0, 0];
 
 const summary = document.getElementById("summary");
 const scoreboardEl = document.getElementById("scoreboard");
@@ -601,9 +533,6 @@ const pitcherStats = document.getElementById("pitcherStats");
 const batterStats = document.getElementById("batterStats");
 const changeLog = document.getElementById("changeLog");
 
-/* ===========================
-   初期化
-=========================== */
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const date = params.get("date") || "2026-03-01";
