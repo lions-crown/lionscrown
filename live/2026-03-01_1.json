@@ -2,58 +2,69 @@
   "meta": {
     "game_id": "2026-03-01_1",
     "date": "2026-03-01",
-    "home": "L",
-    "away": "M",
-    "stadium": "ベルーナドーム",
+    "home": "HAWKS",
+    "away": "LIONS",
+    "stadium": "アイビースタジアム",
     "umpires": ["球審 山田", "一塁 佐藤", "二塁 鈴木", "三塁 田中"],
-    "status": "live"
+    "status": "finished"
   },
   "scoreboard": {
     "innings": [
-      {"inning":1, "away":1, "home":0},
-      {"inning":2, "away":0, "home":0},
-      {"inning":3, "away":1, "home":2},
+      {"inning":1, "away":4, "home":0},
+      {"inning":2, "away":2, "home":2},
+      {"inning":3, "away":1, "home":1},
       {"inning":4, "away":0, "home":0},
-      {"inning":5, "away":0, "home":0},
-      {"inning":6, "away":0, "home":0},
-      {"inning":7, "away":0, "home":0},
-      {"inning":8, "away":0, "home":0},
-      {"inning":9, "away":1, "home":2}
+      {"inning":5, "away":0, "home":1},
+      {"inning":6, "away":1, "home":0},
+      {"inning":7, "away":0, "home":2},
+      {"inning":8, "away":2, "home":0},
+      {"inning":9, "away":0, "home":0}
     ],
     "total": {
-      "away": {"R":3, "H":7, "E":0},
-      "home": {"R":4, "H":8, "E":0}
+      "away": {"R":10, "H":12, "E":0},
+      "home": {"R":6, "H":11, "E":0}
     }
   },
   "lineups": {
     "home": [
-      {"id":"L2026_51", "name":"西川 愛也", "pos":"CF", "avg":".280", "photo":"https://example.com/players/nishikawa_a.png"},
-      {"id":"L2026_7",  "name":"桑原 将志", "pos":"RF", "avg":".305"},
-      {"id":"L2026_8",  "name":"渡部 聖弥", "pos":"3B", "avg":".280"},
-      {"id":"L2026_26", "name":"ネビン",     "pos":"1B", "avg":".280"},
-      {"id":"L2026_25", "name":"カナリオ",   "pos":"LF", "avg":".280"},
-      {"id":"L2026_4",  "name":"石井 一成", "pos":"2B", "avg":".280"},
-      {"id":"L2026_73", "name":"林 安可",   "pos":"DH", "avg":".280"},
-      {"id":"L2026_22", "name":"古賀 悠斗", "pos":"C",  "avg":".280"},
-      {"id":"L2026_62", "name":"滝澤 夏央", "pos":"SS", "avg":".280"}
+      {"id":"H2026_1", "name":"柳町", "pos":"CF", "avg":".280", "photo":"https://example.com/players/nishikawa_a.png"},
+      {"id":"H2026_2",  "name":"栗原", "pos":"RF", "avg":".305"},
+      {"id":"H2026_3",  "name":"野村 勇", "pos":"3B", "avg":".280"},
+      {"id":"H2026_4", "name":"正木",     "pos":"1B", "avg":".280"},
+      {"id":"H2026_5", "name":"秋広",   "pos":"LF", "avg":".280"},
+      {"id":"H2026_6",  "name":"笹川", "pos":"2B", "avg":".280"},
+      {"id":"H2026_7", "name":"谷川原",   "pos":"DH", "avg":".280"},
+      {"id":"H2026_8", "name":"渡邉", "pos":"C",  "avg":".280"},
+      {"id":"H2026_9", "name":"川瀬 晃", "pos":"SS", "avg":".280"},
+      {"id":"H2026_10", "name":"東浜 巨", "pos":"P", "era":"0.00"}
     ],
     "away": [
-      {"id":"J2026_1", "name":"大谷 翔平",   "pos":"DH", "avg":".290", "photo":"https://example.com/players/otani_sh.png"},
-      {"id":"J2026_2", "name":"近藤 健介",   "pos":"RF", "avg":".290"},
-      {"id":"J2026_3", "name":"鈴木 誠也",   "pos":"CF", "avg":".290"},
-      {"id":"J2026_4", "name":"村上 宗隆",   "pos":"3B", "avg":".290"},
-      {"id":"J2026_5", "name":"吉田 正尚",   "pos":"LF", "avg":".290"},
-      {"id":"J2026_6", "name":"岡本 和真",   "pos":"1B", "avg":".290"},
-      {"id":"J2026_7", "name":"牧 秀悟",     "pos":"2B", "avg":".290"},
-      {"id":"J2026_8", "name":"源田 壮亮",   "pos":"SS", "avg":".290"},
-      {"id":"J2026_9", "name":"若月 健矢",   "pos":"C",  "avg":".265"}
+      {"id":"L2026_35", "name":"秋山 俊",   "pos":"CF", "avg":".290", "photo":"https://example.com/players/otani_sh.png"},
+      {"id":"L2026_9", "name":"蛭間 拓哉",   "pos":"DH", "avg":".290"},
+      {"id":"L2026_55", "name":"仲三 優太",   "pos":"LF", "avg":".290"},
+      {"id":"L2026_8", "name":"渡部 聖弥",   "pos":"3B", "avg":".290"},
+      {"id":"L2026_25", "name":"カナリオ",   "pos":"RF", "avg":".290"},
+      {"id":"L2026_5", "name":"外崎 修汰",   "pos":"2B", "avg":".290"},
+      {"id":"L2026_99", "name":"村田 怜音",     "pos":"1B", "avg":".290"},
+      {"id":"L2026_122", "name":"是澤 涼輔",   "pos":"C", "avg":".290"},
+      {"id":"L2026_62", "name":"滝澤 夏央",   "pos":"SS",  "avg":".265"},
+      {"id":"L2026_133", "name":"佐藤 爽",   "pos":"P",  "era":"0.00"}
     ]
   },
   "bench": {
     "home": [
-      {"id":"L2026_99", "name":"山川 穂高", "avg":".310"},
-      {"id":"L2026_88", "name":"外崎 修汰", "avg":".275"},
-      {"id":"L2026_77", "name":"中村 剛也", "avg":".295"}
+      {"id":"H2026_10", "name":"山本", "avg":".310"},
+      {"id":"H2026_11", "name":"庄子", "avg":".275"},
+      {"id":"H2026_12", "name":"井上", "avg":".295"},
+      {"id":"H2026_13", "name":"廣瀨", "avg":".275"},
+      {"id":"H2026_14", "name":"広瀬", "avg":".275"},
+      {"id":"H2026_15", "name":"髙橋", "avg":".275"},
+      {"id":"H2026_16", "name":"漁府", "avg":".275"},
+      {"id":"H2026_17", "name":"イヒネ イツア", "avg":".275"},
+      {"id":"H2026_18", "name":"スチュアート ジュニア", "era":"1.27"},
+      {"id":"H2026_19", "name":"伊藤", "era":"1.27"},
+      {"id":"H2026_20", "name":"鈴木", "era":"1.27"},
+      {"id":"H2026_21", "name":"稲川", "era":"1.27"}
     ],
     "away": [
       {"id":"J2026_10", "name":"佐々木 朗希", "avg":"-"},
