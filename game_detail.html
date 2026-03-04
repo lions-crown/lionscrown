@@ -403,6 +403,47 @@ function renderSummary() {
   `;
 }
 
+function renderPitchLogEnhanced() {
+  const logEl = document.getElementById("pitchLog");
+  if (!logEl || !gameData?.pitches?.length) {
+    if (logEl) logEl.innerHTML = "データなし";
+    return;
+  }
+
+  const filterVal = document.getElementById("inningFilter").value;
+  const filterInning = filterVal === "all" ? null : parseInt(filterVal);
+
+  let pitches = gameData.pitches;
+  if (filterInning !== null) {
+    pitches = pitches.filter(p => p.inning === filterInning);
+  }
+
+  let html = "";
+
+  pitches.forEach((pa, index) => {
+    const batterId = batterHistory[pa.pa_id] || pa.batter_id;
+    const batterName = getPlayerNameById(batterId);
+
+    html += `
+      <div style="
+        padding:10px;
+        margin-bottom:8px;
+        background:${index === currentPAIndex ? 'rgba(77,163,255,0.25)' : 'rgba(255,255,255,0.05)'};
+        border-radius:10px;
+        cursor:pointer;
+      " onclick="currentPAIndex=${gameData.pitches.indexOf(pa)};renderAll();">
+        <strong>${pa.inning}回 ${pa.half === "top" ? "表" : "裏"}</strong>
+        　
+        ${batterName}
+        　
+        <span style="opacity:0.7;">${pa.result || "-"}</span>
+      </div>
+    `;
+  });
+
+  logEl.innerHTML = html || "ログなし";
+}
+
 function renderScoreboard() {
   const scoreboardEl = document.getElementById("scoreboard");
 
