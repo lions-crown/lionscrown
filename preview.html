@@ -3,430 +3,650 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>埼玉西武ライオンズ 選手名鑑</title>
-<!-- noUiSlider CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.css" rel="stylesheet">
+<title>一球速報 | L-crown</title>
+
+<link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
+<meta name="theme-color" content="#0f172a">
+
 <style>
-  body {
-    margin: 0;
-    padding: 20px;
-    font-family: "Segoe UI", "Noto Sans JP", sans-serif;
-    background: linear-gradient(135deg, #091b3d, #0d2b5e);
-    color: #fff;
+/* ============================= */
+/* 基本 */
+/* ============================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Segoe UI","Noto Sans JP",sans-serif;
+  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
+  color:white;
+  min-height:100vh;
+  line-height:1.7;
+}
+
+/* ============================= */
+/* ヘッダー・メニュー */
+/* ============================= */
+header{
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(14px);
+  background:rgba(10,25,60,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:1000;
+}
+nav{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 24px;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+  font-size:18px;
+  letter-spacing:1px;
+  text-decoration:none;
+  color:white;
+}
+.logo span{
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.logo img{
+  width:26px;
+  height:26px;
+  border-radius:6px;
+  filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
+}
+.menu{
+  display:flex;
+  gap:24px;
+}
+.menu a{
+  color:rgba(255,255,255,0.7);
+  text-decoration:none;
+  font-size:13px;
+  position:relative;
+  transition:0.25s;
+}
+.menu a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+  transition:0.25s;
+}
+.menu a:hover{
+  color:white;
+}
+.menu a:hover::after{
+  width:100%;
+}
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+.footer-container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+  display:grid;
+  grid-template-columns:1.6fr 1fr 0.6fr;
+  gap:50px;
+}
+.footer-logo{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.footer-text{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  line-height:1.7;
+}
+.footer-title{
+  font-size:12px;
+  margin-bottom:14px;
+  color:rgba(255,255,255,0.9);
+}
+footer a{
+  text-decoration:none;
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+  transition:0.25s;
+}
+footer a:hover{
+  color:white;
+  transform:translateX(4px);
+  text-shadow:0 0 8px rgba(77,163,255,0.5);
+}
+.footer-bottom{
+  text-align:center;
+  padding:16px;
+  font-size:11px;
+  color:rgba(255,255,255,0.35);
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+@media(max-width:768px){
+  .footer-container{
+    grid-template-columns:1fr;
+    gap:30px;
   }
-  h1 { text-align: center; margin-bottom: 24px; font-size: 2.2em; }
-  .controls, .sort-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  .controls select, .controls input, .sort-controls select {
-    padding: 8px 12px;
-    font-size: 15px;
-    border-radius: 6px;
-    border: none;
-    background: #0f254e;
-    color: white;
-  }
-  .controls select[multiple] {
-    width: 140px;
-  }
-  .autocomplete-items {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #0a193c;
-    border: 1px solid #1E90FF;
-    max-height: 200px;
-    overflow-y: auto;
-    border-radius: 6px;
-    z-index: 100;
-  }
-  .autocomplete-items div {
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-  .autocomplete-items div:hover {
-    background: #1E90FF;
-  }
-  .range-slider {
-    width: 260px;
-    margin: 0 auto 20px;
-  }
-  .range-slider .slider-label {
-    font-size: 0.9em;
-    margin-bottom: 6px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .range-slider .slider-inputs {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    gap: 8px;
-  }
-  .range-slider .slider-inputs input {
-    width: 48%;
-    padding: 6px;
-    border-radius: 4px;
-    border: none;
-    font-size: 0.9em;
-    background: #0f254e;
-    color: white;
-    text-align: center;
-  }
-  .player-grid {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  .player-card {
-    display: flex;
-    background: rgba(10, 25, 60, 0.88);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    transition: all 0.22s;
-  }
-  .player-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.6);
-  }
-  .player-photo img {
-    width: 110px;
-    height: 110px;
-    object-fit: cover;
-  }
-  .player-info {
-    flex: 1;
-    padding: 10px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .top {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    font-size: 1.1em;
-  }
-  .position {
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 0.82em;
-    color: #000;
-  }
-  .position-投手 { background: #1E90FF; }
-  .position-捕手 { background: #FF4500; }
-  .position-内野手 { background: #32CD32; }
-  .position-外野手 { background: #FFD700; }
-  .middle a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.05em;
-  }
-  .middle a:hover { text-decoration: underline; }
-  .bottom {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.88em;
-    color: #ccc;
-  }
+}
+
+/* ============================= */
+/* main */
+/* ============================= */
+main{
+  max-width:1200px;
+  margin:40px auto;
+  padding:0 20px;
+}
+section{
+  margin-bottom:28px;
+  padding:22px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(14px);
+}
+h1{margin-bottom:20px;}
+h2{margin-bottom:14px;}
+
+/* ============================= */
+/* Hero */
+/* ============================= */
+.hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:26px;
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(77,163,255,0.2),rgba(0,0,0,0.4));
+}
+.hero-score{
+  font-size:44px;
+  font-weight:800;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ============================= */
+/* スコアボード */
+/* ============================= */
+.scoreboard-wrapper{overflow-x:auto;}
+.scoreboard-table{
+  width:100%;
+  min-width:900px;
+  border-collapse:collapse;
+  text-align:center;
+}
+.scoreboard-table th,
+.scoreboard-table td{
+  border:1px solid rgba(255,255,255,0.15);
+  padding:8px;
+  cursor:pointer;
+}
+.scoreboard-table th{
+  background:rgba(255,255,255,0.08);
+}
+.scoreboard-table td:hover{
+  background:rgba(77,163,255,0.2);
+}
+.current-inning{
+  background:linear-gradient(135deg,#4da3ff,#1e40af);
+}
+
+/* ============================= */
+/* ダッシュボード */
+/* ============================= */
+.dashboard{
+  display:grid;
+  grid-template-columns:1fr 2fr 1fr;
+  gap:24px;
+}
+@media(max-width:1000px){
+  .dashboard{grid-template-columns:1fr;}
+}
+
+/* ============================= */
+/* ラインナップ */
+/* ============================= */
+.lineup-item{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 10px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  margin-bottom:6px;
+}
+.bench-box{
+  margin-top:20px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.3);
+}
+
+/* ============================= */
+/* カードUI */
+/* ============================= */
+.player-card{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+.player-card img{
+  width:110px;
+  height:110px;
+  border-radius:16px;
+  object-fit:cover;
+  background:#111;
+}
+.player-info{
+  font-size:14px;
+}
+
+/* ============================= */
+/* カウント */
+/* ============================= */
+.count-dot{
+  width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:4px;background:#333;
+}
+.ball{background:#00c853;}
+.strike{background:#ffd600;}
+.out{background:#ff3d00;}
+
+/* ============================= */
+/* 走者表示 */
+/* ============================= */
+.bases{
+  position:relative;
+  width:160px;height:160px;
+  margin:auto;
+}
+.base{
+  position:absolute;
+  width:30px;height:30px;
+  background:#222;
+  transform:rotate(45deg);
+}
+.base.on{background:#4da3ff;}
+.first{right:0;top:50%;transform:translateY(-50%) rotate(45deg);}
+.second{top:0;left:50%;transform:translateX(-50%) rotate(45deg);}
+.third{left:0;top:50%;transform:translateY(-50%) rotate(45deg);}
+.home{bottom:0;left:50%;transform:translateX(-50%) rotate(45deg);}
+
+.toggle{
+  padding:6px 12px;
+  border-radius:14px;
+  border:none;
+  background:#ffcc00;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* ============================= */
+/* フッター */
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+  text-align:center;
+  padding:20px 0;
+}
+footer a{text-decoration:none;color:#7ecbff;}
+footer a:hover{color:white;}
+
 </style>
 </head>
 <body>
 
-<h1>埼玉西武ライオンズ 選手名鑑</h1>
+<header>
+  <nav>
+    <a href="/" class="logo"><img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon"><span>L-crown</span></a>
+    <div class="menu">
+      <a href="/lionscrown/">ホーム</a>
+      <a href="/lionscrown/news">お知らせ</a>
+      <a href="/lionscrown/privacypolicy">利用規約</a>
+      <a href="/lionscrown/contact">お問い合わせ</a>
+    </div>
+    <button onclick="location.reload()" style="
+      background:#ffcc00;
+      color:black;
+      padding:6px 14px;
+      border-radius:16px;
+      font-weight:bold;
+      margin-left:20px;">
+      更新
+    </button>
+  </nav>
+</header>
 
-<div class="controls">
-  <select id="yearSelect" multiple size="5">
-    <!-- JSで埋める -->
-  </select>
-  <select id="positionFilter">
-    <option value="">全ポジション</option>
-    <option value="投手">投手</option>
-    <option value="捕手">捕手</option>
-    <option value="内野手">内野手</option>
-    <option value="外野手">外野手</option>
-  </select>
-  <div style="position:relative; min-width:220px; flex:1; max-width:360px;">
-    <input type="text" id="nameSearch" placeholder="選手名で検索…" autocomplete="off" style="width:100%;">
-    <div id="autocomplete-list" class="autocomplete-items"></div>
-  </div>
+<main>
+<h1>一球速報</h1>
+
+<section id="summary"></section>
+<section id="scoreboard"></section>
+
+<div class="dashboard">
+
+<section>
+<h2>ホーム</h2>
+<div id="homeLineup"></div>
+<div id="homeBench" class="bench-box"></div>
+</section>
+
+<section>
+<h2>投球ログ</h2>
+<div id="pitchLog"></div>
+<div id="countDisplay"></div>
+<div id="bases"></div>
+</section>
+
+<section>
+<h2>ビジター</h2>
+<div id="awayLineup"></div>
+<div id="awayBench" class="bench-box"></div>
+</section>
+
 </div>
 
-<div class="range-slider">
-  <div class="slider-label">背番号 <span id="numRangeLabel">00 – 145</span></div>
-  <div class="slider-inputs">
-    <input type="number" id="numStartInput" min="0" max="145" value="0">
-    <input type="number" id="numEndInput" min="0" max="145" value="145">
-  </div>
-  <div id="numSlider"></div>
-</div>
+<section>
+<h2>投手詳細</h2>
+<div id="pitcherStats"></div>
+</section>
 
-<div class="range-slider">
-  <div class="slider-label">年齢 <span id="ageRangeLabel">17 – 50</span></div>
-  <div class="slider-inputs">
-    <input type="number" id="ageStartInput" min="17" max="50" value="17">
-    <input type="number" id="ageEndInput" min="17" max="50" value="50">
-  </div>
-  <div id="ageSlider"></div>
-</div>
+<section>
+<h2>打者詳細</h2>
+<div id="batterStats"></div>
+</section>
 
-<div class="range-slider">
-  <div class="slider-label">ドラフト年 <span id="draftRangeLabel">2010 – 2026</span></div>
-  <div class="slider-inputs">
-    <input type="number" id="draftStartInput" min="2010" max="2026" value="2010">
-    <input type="number" id="draftEndInput" min="2010" max="2026" value="2026">
-  </div>
-  <div id="draftSlider"></div>
-</div>
+<section id="finalBox"></section>
 
-<div class="sort-controls">
-  <select id="sortSelect">
-    <option value="number_asc">背番号 ↑</option>
-    <option value="number_desc">背番号 ↓</option>
-    <option value="age_asc">年齢 ↑</option>
-    <option value="age_desc">年齢 ↓</option>
-    <option value="draft_asc">ドラフト年 ↑</option>
-    <option value="draft_desc">ドラフト年 ↓</option>
-    <option value="name_asc">名前 五十音 ↑</option>
-    <option value="name_desc">名前 五十音 ↓</option>
-  </select>
-</div>
+</main>
 
-<div class="player-grid" id="playerGrid"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.0/nouislider.min.js"></script>
 <script>
-// ================================================================
-// データ（実際は別ファイルからfetchするか、もっと充実させる）
-// ================================================================
-const players = {
-  "2026": [
-    { number: 11, name: "上田 大河", position: "投手",    birth_year: 2002, draft: 2020, photo: "https://via.placeholder.com/110?text=11", link: "#" },
-    { number: 18, name: "隅田 知一郎", position: "投手",    birth_year: 1999, draft: 2021, photo: "https://via.placeholder.com/110?text=18", link: "#" },
-    { number: 0,  name: "源田 壮亮",   position: "内野手",  birth_year: 1994, draft: 2016, photo: "https://via.placeholder.com/110?text=源田", link: "#" },
-    { number: 65, name: "古賀 悠斗",   position: "捕手",    birth_year: 2000, draft: 2018, photo: "https://via.placeholder.com/110?text=65", link: "#" },
-  ],
-  "2025": [
-    { number: 11, name: "上田 大河", position: "投手",    birth_year: 2002, draft: 2020, photo: "https://via.placeholder.com/110?text=11", link: "#" },
-    { number: 16, name: "高橋 光成", position: "投手",    birth_year: 1997, draft: 2015, photo: "https://via.placeholder.com/110?text=16", link: "#" },
-    { number: 0,  name: "源田 壮亮", position: "内野手",  birth_year: 1994, draft: 2016, photo: "https://via.placeholder.com/110?text=源田", link: "#" },
-  ]
-  // 必要に応じて他の年も追加
-};
 
-// ================================================================
-// ユーティリティ
-// ================================================================
-function displayNumber(n) {
-  return n < 10 ? "0" + n : n;
+/* =========================== */
+/* 状態管理 */
+/* =========================== */
+
+let gameData=null;
+let currentPAIndex=0;
+let autoUpdate=true;
+let polling=null;
+let dataPath="";
+let lastHash="";
+
+/* =========================== */
+/* 初期化 */
+/* =========================== */
+
+async function init(){
+
+const params=new URLSearchParams(location.search);
+const date=params.get("date")||"2026-03-01";
+const team=params.get("team")||"1";
+
+const basePath=location.pathname.includes("/lionscrown")?"/lionscrown/":"/";
+dataPath=`${basePath}live/${date}_${team}.json`;
+
+await loadData();
+startPolling();
+
 }
 
-function getSelectedYears() {
-  return [...document.getElementById("yearSelect").selectedOptions].map(o => o.value);
+async function loadData(){
+try{
+const res=await fetch(dataPath+"?t="+Date.now());
+const text=await res.text();
+
+const hashBuffer=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));
+const hashArray=Array.from(new Uint8Array(hashBuffer));
+const hashHex=hashArray.map(b=>b.toString(16).padStart(2,"0")).join("");
+
+if(hashHex===lastHash)return;
+lastHash=hashHex;
+
+gameData=JSON.parse(text);
+currentPAIndex=gameData.pitches.length-1;
+
+renderAll();
+
+}catch(e){
+console.error(e);
+}
 }
 
-function collectPlayers() {
-  const years = getSelectedYears();
-  if (years.length === 0) return [];
-  
-  let all = [];
-  years.forEach(year => {
-    if (players[year]) {
-      players[year].forEach(p => {
-        all.push({ ...p, ref_year: parseInt(year) });
-      });
-    }
-  });
-  // 同じ選手は最新のデータを使う（必要に応じて変更可能）
-  const map = new Map();
-  all.sort((a,b) => b.ref_year - a.ref_year);
-  all.forEach(p => {
-    if (!map.has(p.name)) map.set(p.name, p);
-  });
-  return Array.from(map.values());
+function startPolling(){
+if(polling)clearInterval(polling);
+polling=setInterval(()=>{if(autoUpdate)loadData()},30000);
 }
 
-// ================================================================
-// スライダー作成 & 双方向バインド
-// ================================================================
-function createSlider(id, min, max, start, labelId, startInputId, endInputId) {
-  const slider = document.getElementById(id);
-  const startInput = document.getElementById(startInputId);
-  const endInput = document.getElementById(endInputId);
-  const label = document.getElementById(labelId);
-
-  noUiSlider.create(slider, {
-    start: start,
-    connect: true,
-    step: 1,
-    range: { min, max },
-    format: { to: v => Math.round(v), from: v => Number(v) }
-  });
-
-  const updateUI = (values) => {
-    const [s, e] = values.map(v => Math.round(v));
-    label.textContent = `${s} – ${e}`;
-    startInput.value = s;
-    endInput.value = e;
-  };
-
-  slider.noUiSlider.on("update", updateUI);
-
-  const syncFromInputs = () => {
-    let s = parseInt(startInput.value) || min;
-    let e = parseInt(endInput.value) || max;
-    if (s > e) [s, e] = [e, s];
-    s = Math.max(min, Math.min(max, s));
-    e = Math.max(min, Math.min(max, e));
-    slider.noUiSlider.set([s, e]);
-  };
-
-  startInput.addEventListener("input", syncFromInputs);
-  endInput.addEventListener("input", syncFromInputs);
-  startInput.addEventListener("change", syncFromInputs);
-  endInput.addEventListener("change", syncFromInputs);
+function toggleAutoUpdate(){
+autoUpdate=!autoUpdate;
+document.querySelector(".toggle").textContent="自動更新: "+(autoUpdate?"ON":"OFF");
 }
 
-// スライダー初期化
-createSlider("numSlider",   0, 145,  [0, 145],   "numRangeLabel",   "numStartInput",   "numEndInput");
-createSlider("ageSlider",   17, 50,  [17, 50],   "ageRangeLabel",   "ageStartInput",   "ageEndInput");
-createSlider("draftSlider", 2010, 2026,[2010,2026],"draftRangeLabel","draftStartInput","draftEndInput");
+/* =========================== */
+/* 描画 */
+/* =========================== */
 
-// ================================================================
-// オートコンプリート
-// ================================================================
-const nameInput = document.getElementById("nameSearch");
-const autoList = document.getElementById("autocomplete-list");
+function renderAll(){
+renderSummary();
+renderScoreboard();
+renderLineups();
+renderPitch();
+renderPitcher();
+renderBatter();
+renderFinal();
+}
 
-nameInput.addEventListener("input", () => {
-  const val = nameInput.value.trim();
-  autoList.innerHTML = "";
-  if (!val) return;
+/* ===== Summary ===== */
+function renderSummary(){
+const m=gameData.meta;
+const sb=gameData.scoreboard.total;
 
-  const list = collectPlayers()
-    .filter(p => p.name.includes(val))
-    .slice(0, 10);
+summary.innerHTML=`
+<div class="hero">
+<div>
+<div>${m.away} vs ${m.home}</div>
+<div>${m.date} ｜ ${m.stadium}</div>
+</div>
+<div class="hero-score">${sb.away.R} - ${sb.home.R}</div>
+</div>`;
+}
 
-  list.forEach(p => {
-    const div = document.createElement("div");
-    div.textContent = `${p.name}  (${displayNumber(p.number)})`;
-    div.addEventListener("click", () => {
-      nameInput.value = p.name;
-      autoList.innerHTML = "";
-      renderPlayers();
-    });
-    autoList.appendChild(div);
-  });
+/* ===== Scoreboard ===== */
+function renderScoreboard(){
+const innings=gameData.scoreboard.innings;
+let html=`<div class="scoreboard-wrapper"><table class="scoreboard-table"><tr><th></th>`;
+
+innings.forEach((_,i)=>{
+html+=`<th onclick="jumpInning(${i+1})">${i+1}</th>`;
+});
+html+="<th>R</th><th>H</th><th>E</th></tr>";
+
+html+=renderRow("away");
+html+=renderRow("home");
+
+html+="</table></div>";
+scoreboard.innerHTML=html;
+}
+
+function renderRow(side){
+const innings=gameData.scoreboard.innings;
+const total=gameData.scoreboard.total[side];
+let html=`<tr><td>${gameData.meta[side]}</td>`;
+innings.forEach((inn,i)=>{
+html+=`<td onclick="jumpInning(${i+1})">${inn[side]||""}</td>`;
+});
+html+=`<td>${total.R}</td><td>${total.H}</td><td>${total.E}</td></tr>`;
+return html;
+}
+
+function jumpInning(inning){
+const idx=gameData.pitches.findIndex(p=>p.inning===inning);
+if(idx>=0){
+currentPAIndex=idx;
+renderAll();
+}
+}
+
+/* ===== Lineups + Bench ===== */
+function renderLineups(){
+renderTeam("home");
+renderTeam("away");
+}
+
+function renderTeam(side){
+const lineup=gameData.lineups[side]||[];
+const bench=gameData.bench?.[side]||[];
+const container=document.getElementById(side+"Lineup");
+const benchBox=document.getElementById(side+"Bench");
+
+container.innerHTML="";
+lineup.forEach((p,i)=>{
+container.innerHTML+=`<div class="lineup-item">${i+1} ${p.pos} ${p.name}</div>`;
 });
 
-document.addEventListener("click", e => {
-  if (e.target !== nameInput) autoList.innerHTML = "";
+const activeIds=lineup.map(p=>p.id);
+const remain=bench.filter(b=>!activeIds.includes(b.id));
+
+benchBox.innerHTML="<strong>ベンチ</strong><br>";
+remain.forEach(p=>{
+benchBox.innerHTML+=p.name+" ";
 });
-
-// ================================================================
-// 選手一覧描画
-// ================================================================
-function renderPlayers() {
-  let arr = collectPlayers();
-
-  // フィルタ
-  const pos = document.getElementById("positionFilter").value;
-  if (pos) arr = arr.filter(p => p.position === pos);
-
-  const name = nameInput.value.trim();
-  if (name) arr = arr.filter(p => p.name.includes(name));
-
-  const numS = parseInt(document.getElementById("numStartInput").value) || 0;
-  const numE = parseInt(document.getElementById("numEndInput").value) || 145;
-  arr = arr.filter(p => p.number >= numS && p.number <= numE);
-
-  const ageS = parseInt(document.getElementById("ageStartInput").value) || 17;
-  const ageE = parseInt(document.getElementById("ageEndInput").value) || 50;
-  arr = arr.filter(p => {
-    const age = p.ref_year - p.birth_year;
-    return age >= ageS && age <= ageE;
-  });
-
-  const draftS = parseInt(document.getElementById("draftStartInput").value) || 2010;
-  const draftE = parseInt(document.getElementById("draftEndInput").value) || 2026;
-  arr = arr.filter(p => p.draft >= draftS && p.draft <= draftE);
-
-  // ソート
-  const sort = document.getElementById("sortSelect").value;
-  arr.sort((a, b) => {
-    const ageA = a.ref_year - a.birth_year;
-    const ageB = b.ref_year - b.birth_year;
-    switch (sort) {
-      case "number_asc":  return a.number - b.number;
-      case "number_desc": return b.number - a.number;
-      case "age_asc":     return ageA - ageB;
-      case "age_desc":    return ageB - ageA;
-      case "draft_asc":   return a.draft - b.draft;
-      case "draft_desc":  return b.draft - a.draft;
-      case "name_asc":    return a.name.localeCompare(b.name, "ja");
-      case "name_desc":   return b.name.localeCompare(a.name, "ja");
-      default:            return 0;
-    }
-  });
-
-  // 描画
-  const grid = document.getElementById("playerGrid");
-  grid.innerHTML = "";
-
-  if (arr.length === 0) {
-    grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; padding:40px;">該当する選手が見つかりませんでした</p>';
-    return;
-  }
-
-  arr.forEach(p => {
-    const age = p.ref_year - p.birth_year;
-    const card = document.createElement("div");
-    card.className = "player-card";
-    card.innerHTML = `
-      <div class="player-photo"><img src="${p.photo}" alt="${p.name}"></div>
-      <div class="player-info">
-        <div class="top">
-          <span>${displayNumber(p.number)}</span>
-          <span class="position position-${p.position}">${p.position}</span>
-        </div>
-        <div class="middle"><a href="${p.link}">${p.name}</a></div>
-        <div class="bottom">
-          <span>ドラフト ${p.draft}</span>
-          <span>${age}歳 (${p.ref_year}年基準)</span>
-        </div>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
 }
 
-// ================================================================
-// 初期化
-// ================================================================
-const yearSelect = document.getElementById("yearSelect");
-for (let y = 2026; y >= 2015; y--) {  // 範囲はお好みで
-  const opt = document.createElement("option");
-  opt.value = y;
-  opt.textContent = y + "年";
-  if (y === 2026 || y === 2025) opt.selected = true;
-  yearSelect.appendChild(opt);
+/* ===== Pitch ===== */
+function renderPitch(){
+const pa=gameData.pitches[currentPAIndex];
+pitchLog.innerHTML=`${pa.inning}回 ${pa.half==="top"?"表":"裏"}<br>
+打者: ${getName(pa.batter_id)}<br>
+結果: ${pa.result||""} ${pa.hit_location||""}`;
+
+renderCount(pa);
+renderBases(pa);
 }
 
-["yearSelect", "positionFilter", "sortSelect"].forEach(id => {
-  document.getElementById(id).addEventListener("change", renderPlayers);
+function renderCount(pa){
+let balls=0,strikes=0;
+pa.pitches?.forEach(p=>{
+if(p.result==="ball"&&balls<3)balls++;
+if(p.result==="strike"&&strikes<2)strikes++;
 });
-nameInput.addEventListener("input", renderPlayers);  // debounceしても良い
 
-// 初回描画
-renderPlayers();
+countDisplay.innerHTML=`
+B:${dot(balls,3,"ball")}
+S:${dot(strikes,2,"strike")}
+O:${dot(pa.outs||0,2,"out")}
+`;
+}
+
+function dot(n,max,cls){
+let s="";
+for(let i=0;i<max;i++){
+s+=`<span class="count-dot ${i<n?cls:""}"></span>`;
+}
+return s;
+}
+
+/* ===== 走者 ===== */
+function renderBases(pa){
+const r=pa.runners||{};
+bases.innerHTML=`
+<div class="bases">
+<div class="base first ${r.first?"on":""}"></div>
+<div class="base second ${r.second?"on":""}"></div>
+<div class="base third ${r.third?"on":""}"></div>
+<div class="base home"></div>
+</div>`;
+}
+
+/* ===== Player Detail ===== */
+function renderPitcher(){
+const pa=gameData.pitches[currentPAIndex];
+const id=pa.pitcher_id;
+pitcherStats.innerHTML=playerCard(id,"投手");
+}
+
+function renderBatter(){
+const pa=gameData.pitches[currentPAIndex];
+const id=pa.batter_id;
+batterStats.innerHTML=playerCard(id,"打者");
+}
+
+function playerCard(id,label){
+const name=getName(id);
+return `
+<div class="player-card">
+<img src="/lionscrown/img/players/${id}.webp" onerror="this.src='https://via.placeholder.com/110x110'">
+<div class="player-info">
+<strong>${label}: ${name}</strong><br>
+打席数: ${gameData.pitches.filter(p=>p.batter_id===id).length}
+</div>
+</div>`;
+}
+
+function getName(id){
+const all=[...(gameData.lineups.home||[]),...(gameData.lineups.away||[])];
+return all.find(p=>p.id===id)?.name||id;
+}
+
+/* ===== Final ===== */
+function renderFinal(){
+if(gameData.meta.status!=="final")return;
+const f=gameData.meta.final;
+finalBox.innerHTML=`
+<h2>試合結果</h2>
+勝利投手: ${getName(f.win)}<br>
+敗戦投手: ${getName(f.lose)}<br>
+セーブ: ${getName(f.save)}
+`;
+}
+
+init();
 </script>
+
+<footer>
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">リンク</div>
+      <a href="/lionscrown/">ホーム</a><br>
+      <a href="/lionscrown/news">お知らせ</a><br>
+      <a href="/lionscrown/privacypolicy">利用規約</a><br>
+      <a href="/lionscrown/contact">お問い合わせ</a><br>
+      <a href="/lionscrown/pagelist">ページ一覧</a>
+    </div>
+    <div>
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
+  </div>
+</footer>
+
 </body>
 </html>
