@@ -1,15 +1,29 @@
-let gameData=null;
-let currentIndex=0;
+let gameData = null;
+let currentIndex = 0;
+let autoPlay = null;
 
-async function loadGame(){
- const params=new URLSearchParams(location.search);
- const date=params.get("date");
- const team=params.get("team");
+async function loadGame() {
+  const params = new URLSearchParams(location.search);
+  const date = params.get("date");
+  const team = params.get("team");
 
- const res=await fetch(`live/${date}_${team}.json`);
- gameData=await res.json();
- currentIndex=gameData.at_bats.length-1; // 最新打席＝速報
- renderAll();
+  if (!date || !team) {
+    alert("URLパラメータが不足しています");
+    return;
+  }
+
+  try {
+    const res = await fetch(`data/${date}_${team}.json`);
+    if (!res.ok) throw new Error("JSON not found");
+    gameData = await res.json();
+
+    currentIndex = 0;
+    renderAll();
+    startAutoPlay();
+  } catch (err) {
+    console.error(err);
+    alert("データが読み込めませんでした");
+  }
 }
 
 function renderAll(){
