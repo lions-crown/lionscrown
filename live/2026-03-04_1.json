@@ -156,11 +156,8 @@
         "RF": "カナリオ"
       },
       "pitches": [
-        {"pitch_type": "fastball", "velocity": 145, "zone": {"x": 3, "y": 2}, "result": "ball"},
-        {"pitch_type": "curve", "velocity": 128, "zone": {"x": 2, "y": 3}, "result": "strike"},
-        {"pitch_type": "fastball", "velocity": 148, "zone": {"x": 3, "y": 3}, "result": "ball"},
-        {"pitch_type": "slider", "velocity": 135, "zone": {"x": 2, "y": 4}, "result": "ball"},
-        {"pitch_type": "fastball", "velocity": 147, "zone": {"x": 3, "y": 2}, "result": "hit"}
+        {"pitch_type": "fastball", "velocity": -, "zone": {"x": 3, "y": 2}, "result": "ball"},
+        {"pitch_type": "fastball", "velocity": -, "zone": {"x": 2, "y": 3}, "result": "2ndflyout"}
       ]
     },
     {
