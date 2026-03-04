@@ -98,7 +98,6 @@ nav{
 .menu a:hover::after{
   width:100%;
 }
-/* ヘッダーコントロール（更新ボタン＋トグル） */
 .header-controls{
   display:flex;
   align-items:center;
@@ -117,7 +116,6 @@ nav{
   transform:translateY(-2px);
   box-shadow:0 8px 20px rgba(255,204,0,0.4);
 }
-/* トグルスイッチ */
 .toggle{
   position:relative;
   display:inline-block;
@@ -159,67 +157,31 @@ input:checked + .slider:before{
   color:rgba(255,255,255,0.7);
   min-width:78px;
 }
-footer{
-  margin-top:100px;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(16px);
-  border-top:1px solid rgba(255,255,255,0.08);
-}
-.footer-container{
-  max-width:1100px;
-  margin:auto;
-  padding:50px 20px;
-  display:grid;
-  grid-template-columns:1.6fr 1fr 0.6fr;
-  gap:50px;
-}
-.footer-logo{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:12px;
-  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.footer-text{
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-  line-height:1.7;
-}
-.footer-title{
-  font-size:12px;
-  margin-bottom:14px;
-  color:rgba(255,255,255,0.9);
-}
-footer a{
-  text-decoration:none;
-  font-size:12px;
-  color:rgba(255,255,255,0.55);
-  transition:0.25s;
-}
-footer a:hover{
-  color:white;
-  transform:translateX(4px);
-  text-shadow:0 0 8px rgba(77,163,255,0.5);
-}
-.footer-bottom{
+/* 状況バー */
+#gameStatusBar{
+  background:rgba(0,0,0,0.45);
+  padding:14px 24px;
   text-align:center;
-  padding:16px;
-  font-size:11px;
-  color:rgba(255,255,255,0.35);
-  border-top:1px solid rgba(255,255,255,0.05);
+  font-size:15px;
+  font-weight:600;
+  border-bottom:1px solid rgba(255,255,255,0.1);
 }
-@media(max-width:768px){
-  .footer-container{
-    grid-template-columns:1fr;
-    gap:30px;
-  }
+/* 交代ログ */
+#changeLog{
+  margin:15px 0;
+  padding:14px 20px;
+  background:rgba(77,163,255,0.12);
+  border-radius:12px;
+  min-height:68px;
+  font-size:13.5px;
+  line-height:1.65;
+  color:#9ad0ff;
 }
 /* ============================= */
 /* 本文・カード */
 main{
   max-width:1200px;
-  margin:50px auto;
+  margin:30px auto;
   padding:0 20px;
 }
 section{
@@ -232,6 +194,33 @@ section{
 }
 h1{margin-bottom:20px;font-size:26px;}
 h2{margin-bottom:14px;font-size:18px;}
+/* イニングフィルタ */
+#inningFilter{
+  background:rgba(255,255,255,0.1);
+  color:white;
+  border:1px solid rgba(255,255,255,0.2);
+  padding:6px 12px;
+  border-radius:8px;
+}
+/* ラインナップ切り替えボタン */
+.lineup-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+.lineup-toggle{
+  background:rgba(77,163,255,0.25);
+  color:white;
+  border:none;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  cursor:pointer;
+}
+.lineup-toggle:hover{
+  background:rgba(77,163,255,0.45);
+}
 /* =============================
    プロ仕様スコアボード
 ============================= */
@@ -239,10 +228,6 @@ h2{margin-bottom:14px;font-size:18px;}
   margin-bottom:20px;
   padding:0;
   background:none;
-}
-.scoreboard-wrapper{
-  width:100%;
-  overflow-x:auto;
 }
 .scoreboard-table{
   width:100%;
@@ -258,16 +243,6 @@ h2{margin-bottom:14px;font-size:18px;}
 }
 .scoreboard-table thead{
   background:rgba(255,255,255,0.08);
-}
-.scoreboard-team{
-  text-align:left;
-  font-weight:600;
-  padding-left:14px;
-  width:160px;
-}
-.scoreboard-total{
-  background:rgba(77,163,255,0.25);
-  font-weight:bold;
 }
 .scoreboard-table tbody tr:hover{
   background:rgba(255,255,255,0.06);
@@ -286,32 +261,50 @@ h2{margin-bottom:14px;font-size:18px;}
   background:#333;
   box-shadow: inset 0 0 6px #000;
 }
-.count-on.ball{
+.count-on.ball{background:#00c853;box-shadow:0 0 8px #00c853;}
+.count-on.strike{background:#ffd600;box-shadow:0 0 8px #ffd600;}
+.count-on.out{background:#ff3d00;box-shadow:0 0 8px #ff3d00;}
+
+/* 塁状況 */
+.bases-panel{
+  margin:20px auto;
+  padding:14px 20px;
+  background:rgba(255,255,255,0.04);
+  border-radius:16px;
+  width:fit-content;
+}
+.bases-row{
+  display:flex;
+  justify-content:center;
+  gap:58px;
+}
+.base-label{
+  text-align:center;
+  font-size:11px;
+  margin-bottom:6px;
+  color:rgba(255,255,255,0.65);
+}
+.runner-dot{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:#1a263d;
+  border:4px solid rgba(77,163,255,0.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.5);
+  transition:all .4s ease;
+}
+.runner-dot.occupied{
   background:#00c853;
-  box-shadow:0 0 8px #00c853;
+  border-color:#00ff9d;
+  box-shadow:0 0 28px #00ff9d;
+  color:#000;
 }
-.count-on.strike{
-  background:#ffd600;
-  box-shadow:0 0 8px #ffd600;
-}
-.count-on.out{
-  background:#ff3d00;
-  box-shadow:0 0 8px #ff3d00;
-}
-/* ===== Current Inning Highlight ===== */
-.scoreboard-table th.current-inning,
-.scoreboard-table td.current-inning{
-  background:linear-gradient(135deg,#4da3ff,#1e40af);
-  color:white;
-  font-weight:700;
-  box-shadow:0 0 15px rgba(77,163,255,0.6);
-  animation: inningGlow 1.2s ease-in-out infinite alternate;
-}
-@keyframes inningGlow{
-  from{box-shadow:0 0 10px rgba(77,163,255,0.4);}
-  to{box-shadow:0 0 20px rgba(77,163,255,0.9);}
-}
- 
+
+/* ダッシュボード */
 .dashboard{
   display:grid;
   grid-template-columns:1fr 2fr 1fr;
@@ -347,26 +340,13 @@ h2{margin-bottom:14px;font-size:18px;}
   display:grid;
   grid-template-columns:repeat(5,1fr);
   grid-template-rows:repeat(5,1fr);
+  background:rgba(255,255,255,0.03);
 }
-#zone div{border:1px solid #333; position:relative;}
-#zone div.strikeZone{border:1px solid #aaa;}
+.zone-cell{border:1px solid rgba(255,255,255,0.08);}
+.strike-zone{background:rgba(77,163,255,0.18);border:1px solid rgba(77,163,255,0.6);}
 .pitchMarker{
   position:absolute;width:18px;height:18px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:1px solid black;
 }
-#zone{
-  background:rgba(255,255,255,0.03);
-}
-.zone-cell{
-  border:1px solid rgba(255,255,255,0.08);
-}
-.strike-zone{
-  background:rgba(77,163,255,0.18);
-  border:1px solid rgba(77,163,255,0.6);
-}
-.result-strike{background:yellow;color:black;}
-.result-ball{background:green;color:white;}
-.result-hit{background:red;color:white;}
-.result-out{background:gray;color:white;}
 button{
   padding:8px 18px;
   border-radius:20px;
@@ -384,50 +364,6 @@ button:hover{
 @media(max-width:1000px){
   .dashboard{grid-template-columns:1fr;}
 }
-
-/* ===== 塁状況表示（新機能） ===== */
-.bases-panel{
-  margin:20px auto;
-  padding:14px 20px;
-  background:rgba(255,255,255,0.04);
-  border-radius:16px;
-  width:fit-content;
-  box-shadow:0 8px 25px rgba(0,0,0,0.4);
-}
-.bases-row{
-  display:flex;
-  justify-content:center;
-  gap:58px;
-}
-.base-label{
-  text-align:center;
-  font-size:11px;
-  margin-bottom:6px;
-  color:rgba(255,255,255,0.65);
-  font-weight:500;
-}
-.runner-dot{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  background:#1a263d;
-  border:4px solid rgba(77,163,255,0.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.5);
-  transition:all .4s ease;
-  cursor:default;
-}
-.runner-dot.occupied{
-  background:#00c853;
-  border-color:#00ff9d;
-  box-shadow:0 0 28px #00ff9d;
-  color:#000;
-}
-
-/* ===== Hero Summary ===== */
 .hero-summary{
   display:flex;
   justify-content:space-between;
@@ -438,25 +374,9 @@ button:hover{
   backdrop-filter:blur(18px);
   box-shadow:0 25px 60px rgba(0,0,0,0.6);
 }
-.hero-teams{
-  font-size:28px;
-  font-weight:700;
-  letter-spacing:1px;
-}
-.hero-meta{
-  font-size:14px;
-  opacity:.8;
-  margin-top:6px;
-}
-.hero-score{
-  font-size:42px;
-  font-weight:800;
-  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-/* ============================= */
-/* フッター */
+.hero-teams{font-size:28px;font-weight:700;letter-spacing:1px;}
+.hero-meta{font-size:14px;opacity:.8;margin-top:6px;}
+.hero-score{font-size:42px;font-weight:800;background:linear-gradient(90deg,#4da3ff,#9ad0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 footer{
   margin-top:100px;
   background:rgba(0,0,0,0.35);
@@ -489,44 +409,57 @@ footer a:hover{color:white;}
     </div>
   </nav>
 </header>
+
+<!-- 状況バー -->
+<div id="gameStatusBar">
+  現在投手: <span id="currentPitcher">---</span>　｜　イニング: <span id="currentInning">---</span>　｜　アウト: <span id="currentOuts">0</span>
+</div>
+
 <main>
 <h1>一球速報</h1>
+
 <section>
   <h2>試合概要</h2>
   <div id="summary"></div>
 </section>
+
 <section>
   <h2>スコアボード</h2>
+  <div style="text-align:center;margin:12px 0;">
+    <label>表示イニング: </label>
+    <select id="inningFilter" onchange="applyFilter()"></select>
+  </div>
   <div id="scoreboard"></div>
 </section>
+
 <div class="dashboard">
+  <!-- ホームラインナップ -->
   <section class="lineup-box">
-    <h2>ホーム</h2>
-    <div id="homeLineup"></div>
+    <div class="lineup-header">
+      <h2>ホーム</h2>
+      <button class="lineup-toggle" onclick="toggleLineupMode(0)">スタメン ↔ 現在</button>
+    </div>
+    <div id="homeLineup" class="lineup-list"></div>
   </section>
+
+  <!-- 中央パネル -->
   <section class="center-panel">
     <h2>投球ログ</h2>
-    <input type="text" id="searchBatter" placeholder="選手名で検索">
+    <div id="changeLog">交代・変更履歴なし</div>
+    
+    <input type="text" id="searchBatter" placeholder="選手名で検索" style="width:100%;padding:10px;margin-bottom:8px;border-radius:8px;background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);">
     <button onclick="searchBatter()">検索</button>
     <button onclick="latestPA()">最新に戻る</button>
+    
     <div id="pitchLog"></div>
     <div id="countDisplay"></div>
     
-    <!-- 塁状況表示（新機能） -->
+    <!-- 塁状況 -->
     <div class="bases-panel">
       <div class="bases-row">
-        <div>
-          <div class="base-label">3塁</div>
-          <div id="runner3" class="runner-dot"></div>
-        </div>
-        <div>
-          <div class="base-label">2塁</div>
-          <div id="runner2" class="runner-dot"></div>
-        </div>
-        <div>
-          <div class="base-label">1塁</div>
-          <div id="runner1" class="runner-dot"></div>
-        </div>
+        <div><div class="base-label">3塁</div><div id="runner3" class="runner-dot"></div></div>
+        <div><div class="base-label">2塁</div><div id="runner2" class="runner-dot"></div></div>
+        <div><div class="base-label">1塁</div><div id="runner1" class="runner-dot"></div></div>
       </div>
     </div>
     
@@ -537,13 +470,18 @@ footer a:hover{color:white;}
     <div id="zone"></div>
     <div id="field" style="position:relative;height:240px;"></div>
   </section>
+
+  <!-- ビジターラインナップ -->
   <section class="lineup-box">
-    <h2>ビジター</h2>
-    <div id="awayLineup"></div>
+    <div class="lineup-header">
+      <h2>ビジター</h2>
+      <button class="lineup-toggle" onclick="toggleLineupMode(1)">スタメン ↔ 現在</button>
+    </div>
+    <div id="awayLineup" class="lineup-list"></div>
   </section>
 </div>
 
-<!-- ベンチ選手表示（新機能） -->
+<!-- ベンチ -->
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1200px;margin:40px auto;padding:0 20px;">
   <section class="lineup-box">
     <h2>ホーム ベンチ</h2>
@@ -564,21 +502,37 @@ footer a:hover{color:white;}
   <div id="batterStats"></div>
 </section>
 </main>
+
 <script>
 /* ===========================
-   L-crown Pro Live Engine
-   GitHub Pages Compatible + 新機能追加
-   ・ベンチ選手表示
-   ・塁状況表示（ビジュアル）
-   ・自動更新／手動更新切り替え
+   L-crown Pro Live Engine 2026
+   完全版：投手・代打・代走・守備・イニング対応 + ラインナップ切り替え + ベンチ
 =========================== */
 let gameData = null;
 let currentPAIndex = 0;
 let currentFielders = null;
-let lastDataHash = "";
+let currentPitcherId = null;
+let batterHistory = {};     // pa_id → 実際の打者ID（代打後）
+let runnerHistory = {};     // 代走反映用
+let changeLogEntries = [];
+let autoUpdateEnabled = true;
 let pollingInterval = null;
 let dataPath = "";
-let autoUpdateEnabled = true;
+let lineupMode = [0, 0];    // 0:スタメン / 1:現在配置（ホーム,ビジター）
+
+const summary = document.getElementById("summary");
+const scoreboardEl = document.getElementById("scoreboard");
+const homeLineup = document.getElementById("homeLineup");
+const awayLineup = document.getElementById("awayLineup");
+const homeBench = document.getElementById("homeBench");
+const awayBench = document.getElementById("awayBench");
+const pitchLog = document.getElementById("pitchLog");
+const countDisplay = document.getElementById("countDisplay");
+const zone = document.getElementById("zone");
+const field = document.getElementById("field");
+const pitcherStats = document.getElementById("pitcherStats");
+const batterStats = document.getElementById("batterStats");
+const changeLog = document.getElementById("changeLog");
 
 /* ===========================
    初期化
@@ -593,6 +547,8 @@ async function init() {
   const updated = await fetchGameData();
   if (updated) {
     currentPAIndex = gameData.pitches.length - 1;
+    detectInitialState();
+    populateInningFilter();
     renderAll();
   } else {
     showError("データ取得失敗");
@@ -601,29 +557,22 @@ async function init() {
   startPolling();
 }
 
-/* ===========================
-   データ取得（ハッシュ比較）
-=========================== */
 async function fetchGameData() {
   try {
     const res = await fetch(dataPath + "?t=" + Date.now());
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
     const newHash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-    if (newHash === lastDataHash) return false;
-    lastDataHash = newHash;
+    if (newHash === (window.lastDataHash || "")) return false;
+    window.lastDataHash = newHash;
     gameData = JSON.parse(text);
-    if (!gameData?.pitches?.length) throw new Error("投球データなし");
     return true;
   } catch (err) {
-    console.error("データ取得失敗:", err);
+    console.error(err);
     return false;
   }
 }
 
-/* ===========================
-   自動更新制御
-=========================== */
 function startPolling() {
   if (pollingInterval) clearInterval(pollingInterval);
   if (!autoUpdateEnabled) return;
@@ -631,62 +580,127 @@ function startPolling() {
     const updated = await fetchGameData();
     if (updated) {
       currentPAIndex = gameData.pitches.length - 1;
+      detectInitialState();
       renderAll();
       showUpdateFlash();
     }
-    if (gameData?.meta?.status === "final") {
-      clearInterval(pollingInterval);
-      pollingInterval = null;
-    }
+    if (gameData?.meta?.status === "final") clearInterval(pollingInterval);
   }, 30000);
 }
 
 function toggleAutoUpdate() {
   autoUpdateEnabled = document.getElementById("autoToggle").checked;
   document.getElementById("autoLabel").textContent = autoUpdateEnabled ? "自動更新 ON" : "自動更新 OFF";
-  if (autoUpdateEnabled) {
-    startPolling();
-  } else if (pollingInterval) {
-    clearInterval(pollingInterval);
-    pollingInterval = null;
-  }
+  if (autoUpdateEnabled) startPolling();
+  else if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
 }
 
 async function manualUpdate() {
   const updated = await fetchGameData();
   if (updated) {
     currentPAIndex = gameData.pitches.length - 1;
+    detectInitialState();
     renderAll();
     showUpdateFlash();
   } else {
     const flash = document.createElement("div");
     flash.textContent = "最新です";
-    flash.style.cssText = "position:fixed;top:20px;right:20px;padding:8px 16px;background:#666;color:white;font-weight:bold;border-radius:20px;z-index:9999;";
+    flash.style.cssText = "position:fixed;top:20px;right:20px;padding:8px 16px;background:#666;color:white;border-radius:20px;z-index:9999;";
     document.body.appendChild(flash);
     setTimeout(() => flash.remove(), 1200);
   }
 }
 
 /* ===========================
-   エラー表示
+   初期状態検出 & イベント処理
 =========================== */
-function showError(msg) {
-  document.querySelectorAll("section, #zone, #field").forEach(el => {
-    el.innerHTML = `<div style="color:#ff4444;background:#200;padding:15px;border-radius:10px">データ読み込み失敗: ${msg}</div>`;
-  });
+function detectInitialState() {
+  if (!gameData.pitches.length) return;
+  const first = gameData.pitches[0];
+  currentPitcherId = first.pitcher_id;
+  currentFielders = first.fielders || {};
+}
+
+function applyEventsUpTo(paIndex) {
+  const pa = gameData.pitches[paIndex];
+  if (!pa) return;
+
+  // 投手交代
+  const pitcherChanges = (gameData.events || []).filter(e => e.type === "pitcher_change" && e.pa_id <= pa.pa_id);
+  if (pitcherChanges.length) {
+    currentPitcherId = pitcherChanges[pitcherChanges.length-1].new_pitcher_id;
+  }
+
+  // 代打
+  const pinchHit = (gameData.events || []).find(e => e.type === "pinch_hitter" && e.pa_id === pa.pa_id);
+  if (pinchHit) batterHistory[pa.pa_id] = pinchHit.new_batter_id;
+  else batterHistory[pa.pa_id] = pa.batter_id;
+
+  // 代走
+  const pinchRuns = (gameData.events || []).filter(e => e.type === "pinch_runner" && e.pa_id <= pa.pa_id);
+  if (pinchRuns.length) {
+    const runnersCopy = {...pa.runners};
+    pinchRuns.forEach(e => {
+      if (runnersCopy[e.base]) runnersCopy[e.base] = e.new_runner_id;
+    });
+    pa.runners = runnersCopy; // 一時上書き
+  }
+
+  // 守備変更
+  const defChanges = (gameData.events || []).filter(e => e.type === "defense_change" && e.inning <= pa.inning);
+  if (defChanges.length) {
+    const latest = defChanges[defChanges.length-1];
+    currentFielders = {...currentFielders, ...latest.new_fielders};
+  }
+  if (pa.fielders) currentFielders = pa.fielders;
+}
+
+/* ===========================
+   イニングフィルタ
+=========================== */
+function populateInningFilter() {
+  const select = document.getElementById("inningFilter");
+  select.innerHTML = '<option value="all">全イニング</option>';
+  const max = Math.max(...gameData.pitches.map(p => p.inning));
+  for (let i = 1; i <= max; i++) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = `${i}回`;
+    select.appendChild(opt);
+  }
+}
+
+function applyFilter() {
+  renderAll();
 }
 
 /* ===========================
    総描画
 =========================== */
-function renderAll(){
+function renderAll() {
+  const filterVal = document.getElementById("inningFilter").value;
+  const filterInning = filterVal === "all" ? null : parseInt(filterVal);
+
+  let displayPitches = gameData.pitches;
+  if (filterInning !== null) {
+    displayPitches = gameData.pitches.filter(p => p.inning === filterInning);
+  }
+
+  // 最新の表示打席で状態更新
+  if (displayPitches.length > 0) {
+    const latestIdx = displayPitches.length - 1;
+    applyEventsUpTo(gameData.pitches.indexOf(displayPitches[latestIdx]));
+  }
+
   renderSummary();
   renderScoreboard();
   renderLineups();
-  renderBench();          // 新機能：ベンチ
+  renderBench();
+  renderChangeLog();
+  renderCurrentStatus();
   renderPitchLog();
   renderCount();
-  renderBases();          // 新機能：塁状況
+  renderBases();
   renderZone();
   renderField();
   renderPitcherStats();
@@ -696,19 +710,16 @@ function renderAll(){
 /* ===========================
    試合概要
 =========================== */
-function renderSummary(){
-  const m = gameData?.meta;
-  const sb = gameData?.scoreboard;
-  if(!m) return;
-  const awayR = sb?.total?.away?.R ?? 0;
-  const homeR = sb?.total?.home?.R ?? 0;
+function renderSummary() {
+  const m = gameData.meta;
+  const sb = gameData.scoreboard;
+  const awayR = sb.total.away.R;
+  const homeR = sb.total.home.R;
   summary.innerHTML = `
     <div class="hero-summary">
       <div>
         <div class="hero-teams">${m.away} vs ${m.home}</div>
-        <div class="hero-meta">
-          ${m.date || "-"} ｜ ${m.stadium || "-"}
-        </div>
+        <div class="hero-meta">${m.date} ｜ ${m.stadium}</div>
       </div>
       <div class="hero-score">${awayR} - ${homeR}</div>
     </div>
@@ -718,133 +729,182 @@ function renderSummary(){
 /* ===========================
    スコアボード
 =========================== */
-function renderScoreboard(){
-  const container = document.getElementById("scoreboard");
-  if(!gameData?.scoreboard?.innings){
-    container.innerHTML = "<p>スコアデータなし</p>";
-    return;
-  }
+function renderScoreboard() {
   const inningsData = gameData.scoreboard.innings;
   const totals = gameData.scoreboard.total;
   const maxInning = inningsData.length;
   const currentPA = gameData.pitches[currentPAIndex];
-  const currentInning = currentPA?.inning;
+  const currentInning = currentPA ? currentPA.inning : 1;
+
   let html = `<table class="scoreboard-table"><thead><tr><th></th>`;
-  for(let i=1;i<=maxInning;i++){
+  for (let i = 1; i <= maxInning; i++) {
     const highlight = i === currentInning ? "current-inning" : "";
     html += `<th class="${highlight}">${i}</th>`;
   }
   html += `<th>R</th><th>H</th><th>E</th></tr></thead><tbody>`;
+
   html += `<tr><td>${gameData.meta.away}</td>`;
-  inningsData.forEach(inning=>{ html += `<td>${inning.away ?? ""}</td>`; });
-  html += `<td>${totals?.away?.R ?? ""}</td><td>${totals?.away?.H ?? ""}</td><td>${totals?.away?.E ?? ""}</td></tr>`;
+  inningsData.forEach(inning => html += `<td>${inning.away ?? ""}</td>`);
+  html += `<td>${totals.away.R}</td><td>${totals.away.H}</td><td>${totals.away.E}</td></tr>`;
+
   html += `<tr><td>${gameData.meta.home}</td>`;
-  inningsData.forEach(inning=>{ html += `<td>${inning.home ?? ""}</td>`; });
-  html += `<td>${totals?.home?.R ?? ""}</td><td>${totals?.home?.H ?? ""}</td><td>${totals?.home?.E ?? ""}</td></tr>`;
+  inningsData.forEach(inning => html += `<td>${inning.home ?? ""}</td>`);
+  html += `<td>${totals.home.R}</td><td>${totals.home.H}</td><td>${totals.home.E}</td></tr>`;
+
   html += `</tbody></table>`;
-  container.innerHTML = html;
+  scoreboardEl.innerHTML = html;
 }
 
 /* ===========================
-   ラインナップ（スターター）
+   ラインナップ（切り替え対応）
 =========================== */
-function renderLineups(){
-  renderTeam(gameData?.lineups?.home, document.getElementById("homeLineup"));
-  renderTeam(gameData?.lineups?.away, document.getElementById("awayLineup"));
+function renderLineups() {
+  renderTeam(gameData.lineups.home, homeLineup, 0);
+  renderTeam(gameData.lineups.away, awayLineup, 1);
 }
-function renderTeam(players, container){
-  if(!players || !container) return;
+
+function renderTeam(players, container, teamIndex) {
   container.innerHTML = "";
-  players.forEach((p,i)=>{
+  const isCurrentMode = lineupMode[teamIndex] === 1;
+
+  players.forEach((p, i) => {
+    let displayName = p.name;
+    let extra = "";
+
+    // 現在モードの場合、該当打席で代打が入っていれば反映（簡易版：最新打席基準）
+    if (isCurrentMode && currentPAIndex < gameData.pitches.length) {
+      const latestPA = gameData.pitches[currentPAIndex];
+      const actualId = batterHistory[latestPA.pa_id] || latestPA.batter_id;
+      if (actualId === p.id) {
+        displayName = getPlayerNameById(actualId);
+        extra = " <span style='color:#ff0;font-size:11px;'>(現在)</span>";
+      }
+    }
+
     container.innerHTML += `
       <div class="lineup-item">
         <div>${i+1}</div>
         <div>${p.pos || "-"}</div>
-        <div>
-          <a href="/lionscrown/player.html?id=${p.id || p.name}" style="color:#7ecbff;text-decoration:none;">
-            ${p.name || "-"}
-          </a>
-        </div>
+        <div><a href="/lionscrown/player.html?id=${p.id}" style="color:#7ecbff;">${displayName}</a>${extra}</div>
         <div>${p.avg || "-"}</div>
       </div>`;
   });
 }
 
-/* ===========================
-   ベンチ選手表示（新機能）
-=========================== */
-function renderBench(){
-  renderBenchTeam(gameData?.bench?.home || [], document.getElementById("homeBench"));
-  renderBenchTeam(gameData?.bench?.away || [], document.getElementById("awayBench"));
+function toggleLineupMode(teamIndex) {
+  lineupMode[teamIndex] = lineupMode[teamIndex] === 0 ? 1 : 0;
+  renderLineups();
 }
-function renderBenchTeam(players, container){
-  if(!container) return;
+
+/* ===========================
+   ベンチ選手表示
+=========================== */
+function renderBench() {
+  renderBenchTeam(gameData.bench?.home || [], homeBench);
+  renderBenchTeam(gameData.bench?.away || [], awayBench);
+}
+function renderBenchTeam(players, container) {
   container.innerHTML = "";
-  if(players.length === 0){
-    container.innerHTML = `<div style="padding:12px;color:rgba(255,255,255,0.4);text-align:center;font-size:13px;">ベンチ選手データなし（準備中）</div>`;
+  if (!players.length) {
+    container.innerHTML = `<div style="padding:12px;color:rgba(255,255,255,0.4);text-align:center;">ベンチ選手データなし</div>`;
     return;
   }
-  players.forEach((p,i)=>{
+  players.forEach((p,i) => {
     container.innerHTML += `
       <div class="lineup-item">
         <div>${i+1}</div>
         <div style="opacity:0.6;">SUB</div>
-        <div>
-          <a href="/lionscrown/player.html?id=${p.id || p.name}" style="color:#7ecbff;text-decoration:none;">
-            ${p.name || "-"}
-          </a>
-        </div>
+        <div><a href="/lionscrown/player.html?id=${p.id}" style="color:#7ecbff;">${p.name}</a></div>
         <div>${p.avg || "-"}</div>
       </div>`;
   });
 }
 
 /* ===========================
-   投球ログ
+   交代ログ
 =========================== */
-function renderPitchLog(){
+function renderChangeLog() {
+  const logEl = changeLog;
+  logEl.innerHTML = "";
+  if (!gameData.events || !gameData.events.length) {
+    logEl.innerHTML = "<div style='color:#aaa;'>交代・変更履歴なし</div>";
+    return;
+  }
+
+  let html = "<strong>最近の変更：</strong><br>";
+  const recent = gameData.events.slice(-4).reverse();
+  recent.forEach(e => {
+    let text = "";
+    if (e.type === "pitcher_change") {
+      text = `【投手交代】 ${e.inning}回${e.half==="top"?"表":"裏"} ${getPlayerNameById(e.prev_pitcher_id)} → ${getPlayerNameById(e.new_pitcher_id)}`;
+    } else if (e.type === "pinch_hitter") {
+      text = `【代打】 ${getPlayerNameById(e.original_batter_id)} → ${getPlayerNameById(e.new_batter_id)}`;
+    } else if (e.type === "pinch_runner") {
+      text = `【代走】 ${e.base} ${getPlayerNameById(e.original_runner_id)} → ${getPlayerNameById(e.new_runner_id)}`;
+    } else if (e.type === "defense_change") {
+      text = `【守備変更】 ${e.inning}回 ${e.reason || ""}`;
+    }
+    html += text + "<br>";
+  });
+  logEl.innerHTML = html;
+}
+
+/* ===========================
+   状況バー
+=========================== */
+function renderCurrentStatus() {
   const pa = gameData.pitches[currentPAIndex];
-  if(!pa) return;
-  let html = `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}　打者: ${getPlayerNameById(pa.batter_id)}</strong><br>`;
-  pa.pitches?.forEach((p,i)=>{
-    html += `${i+1}球目: ${p.pitch_type || "-"} (${p.velocity || "-"}km/h) → ${p.result}<br>`;
+  if (!pa) return;
+  document.getElementById("currentPitcher").textContent = getPlayerNameById(currentPitcherId) || "---";
+  document.getElementById("currentInning").textContent = `${pa.inning}回 ${pa.half==="top"?"表":"裏"}`;
+  document.getElementById("currentOuts").textContent = pa.final_count?.outs || 0;
+}
+
+/* ===========================
+   投球ログ（代打反映）
+=========================== */
+function renderPitchLog() {
+  const pa = gameData.pitches[currentPAIndex];
+  if (!pa) return;
+  const actualBatterId = batterHistory[pa.pa_id] || pa.batter_id;
+  const isPinch = actualBatterId !== pa.batter_id;
+
+  let html = `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}　打者: ${getPlayerNameById(actualBatterId)}${isPinch ? " <span style='color:#ff0'>(代打)</span>" : ""}</strong><br>`;
+  pa.pitches.forEach((p,i) => {
+    html += `${i+1}球目: ${p.pitch_type} (${p.velocity}km/h) → ${p.result}<br>`;
   });
   pitchLog.innerHTML = html;
 }
 
 /* ===========================
-   カウント
+   カウント・塁状況・ゾーン・フィールド
 =========================== */
-function renderCount(){
+function renderCount() {
   const pa = gameData.pitches[currentPAIndex];
-  if(!pa) return;
-  let balls=0, strikes=0;
-  pa.pitches?.forEach(p=>{
-    if(p.result==="ball" && balls<3) balls++;
-    if((p.result==="strike" || p.result==="foul") && strikes<2) strikes++;
+  if (!pa) return;
+  let balls = 0, strikes = 0;
+  pa.pitches.forEach(p => {
+    if (p.result === "ball" && balls < 3) balls++;
+    if ((p.result === "strike" || p.result === "foul") && strikes < 2) strikes++;
   });
-  let html=`<div class="count-board">B `;
-  for(let i=0;i<3;i++) html+=`<span class="count-dot ${i<balls?'count-on ball':''}"></span>`;
-  html+=` S `;
-  for(let i=0;i<2;i++) html+=`<span class="count-dot ${i<strikes?'count-on strike':''}"></span>`;
-  html+=` O `;
-  for(let i=0;i<2;i++) html+=`<span class="count-dot ${i<(pa.final_count?.outs || 0)?'count-on out':''}"></span>`;
-  html+=`</div>`;
+  let html = `<div class="count-board">B `;
+  for (let i = 0; i < 3; i++) html += `<span class="count-dot ${i < balls ? 'count-on ball' : ''}"></span>`;
+  html += ` S `;
+  for (let i = 0; i < 2; i++) html += `<span class="count-dot ${i < strikes ? 'count-on strike' : ''}"></span>`;
+  html += ` O `;
+  for (let i = 0; i < 2; i++) html += `<span class="count-dot ${i < (pa.final_count?.outs || 0) ? 'count-on out' : ''}"></span>`;
+  html += `</div>`;
   countDisplay.innerHTML = html;
 }
 
-/* ===========================
-   塁状況表示（新機能）
-=========================== */
-function renderBases(){
+function renderBases() {
   const pa = gameData.pitches[currentPAIndex];
-  if(!pa) return;
+  if (!pa) return;
   const runners = pa.runners || {};
-  const setRunner = (elId, key) => {
-    const el = document.getElementById(elId);
-    if(!el) return;
-    const name = runners[key] ? getPlayerNameById(runners[key]) : null;
-    if(name){
+  const set = (id, base) => {
+    const el = document.getElementById(id);
+    const name = runners[base] ? getPlayerNameById(runners[base]) : null;
+    if (name) {
       el.classList.add("occupied");
       el.innerHTML = "🏃";
       el.title = name;
@@ -854,51 +914,42 @@ function renderBases(){
       el.title = "";
     }
   };
-  setRunner("runner1", "1B");
-  setRunner("runner2", "2B");
-  setRunner("runner3", "3B");
+  set("runner1", "1B");
+  set("runner2", "2B");
+  set("runner3", "3B");
 }
 
-/* ===========================
-   ストライクゾーン
-=========================== */
-function renderZone(){
-  const zoneEl = document.getElementById("zone");
+function renderZone() {
   const pa = gameData.pitches[currentPAIndex];
-  if(!pa) return;
-  zoneEl.innerHTML = "";
-  for(let row=0; row<5; row++){
-    for(let col=0; col<5; col++){
+  if (!pa) return;
+  zone.innerHTML = "";
+  for (let r = 0; r < 5; r++) {
+    for (let c = 0; c < 5; c++) {
       const cell = document.createElement("div");
       cell.className = "zone-cell";
-      if(row>=1 && row<=3 && col>=1 && col<=3) cell.classList.add("strike-zone");
-      zoneEl.appendChild(cell);
+      if (r >= 1 && r <= 3 && c >= 1 && c <= 3) cell.classList.add("strike-zone");
+      zone.appendChild(cell);
     }
   }
-  pa.pitches?.forEach(p=>{
-    if(!p.zone) return;
+  pa.pitches.forEach(p => {
+    if (!p.zone) return;
     const dot = document.createElement("div");
-    dot.className = `pitchMarker result-${p.result||"ball"}`;
-    dot.style.left = (p.zone.x/4*100)+"%";
-    dot.style.top = (p.zone.y/4*100)+"%";
+    dot.className = `pitchMarker result-${p.result || "ball"}`;
+    dot.style.left = (p.zone.x / 4 * 100) + "%";
+    dot.style.top = (p.zone.y / 4 * 100) + "%";
     dot.title = `${p.pitch_type} ${p.velocity}km/h`;
-    zoneEl.appendChild(dot);
+    zone.appendChild(dot);
   });
 }
 
-/* ===========================
-   守備位置
-=========================== */
-function renderField(){
+function renderField() {
   const pa = gameData.pitches[currentPAIndex];
-  if(!pa?.fielders) return;
-  if(JSON.stringify(pa.fielders) === JSON.stringify(currentFielders)) return;
-  currentFielders = pa.fielders;
-  const field = document.getElementById("field");
+  if (!pa?.fielders && !currentFielders) return;
+  const useFielders = pa.fielders || currentFielders;
   field.innerHTML = "";
-  const posMap = {P:[50,55], C:[50,85],"1B":[75,65],"2B":[65,45],"3B":[25,65],SS:[35,45],LF:[25,20],CF:[50,10],RF:[75,20]};
-  Object.entries(pa.fielders).forEach(([pos,name])=>{
-    if(!posMap[pos]) return;
+  const posMap = {P:[50,55],C:[50,85],"1B":[75,65],"2B":[65,45],"3B":[25,65],SS:[35,45],LF:[25,20],CF:[50,10],RF:[75,20]};
+  Object.entries(useFielders).forEach(([pos,name]) => {
+    if (!posMap[pos]) return;
     const div = document.createElement("div");
     div.style.cssText = `position:absolute;left:${posMap[pos][0]}%;top:${posMap[pos][1]}%;transform:translate(-50%,-50%);background:white;color:black;padding:4px 8px;border-radius:12px;font-size:12px;`;
     div.textContent = `${pos} ${name}`;
@@ -909,16 +960,16 @@ function renderField(){
 /* ===========================
    投手・打者詳細
 =========================== */
-function renderPitcherStats(){
+function renderPitcherStats() {
   const pa = gameData.pitches[currentPAIndex];
-  if(!pa) return;
-  pitcherStats.innerHTML = `投手: ${getPlayerNameById(pa.pitcher_id)}<br>投球数: ${pa.pitches?.length || 0}`;
+  if (!pa) return;
+  pitcherStats.innerHTML = `投手: ${getPlayerNameById(currentPitcherId)}<br>投球数: ${pa.pitches?.length || 0}`;
 }
-function renderBatterStats(){
+
+function renderBatterStats() {
   const results = {};
   gameData.pitches.forEach(pa => {
-    if(!pa.result) return;
-    results[pa.result] = (results[pa.result] || 0) + 1;
+    if (pa.result) results[pa.result] = (results[pa.result] || 0) + 1;
   });
   let html = "";
   Object.entries(results).forEach(([r,v]) => html += `${r}: ${v}<br>`);
@@ -928,14 +979,19 @@ function renderBatterStats(){
 /* ===========================
    ユーティリティ
 =========================== */
-function getPlayerNameById(id){
-  if(!id) return "-";
-  const all = [...(gameData.lineups?.home||[]), ...(gameData.lineups?.away||[]), ...(gameData.bench?.home||[]), ...(gameData.bench?.away||[])];
+function getPlayerNameById(id) {
+  if (!id) return "-";
+  const all = [
+    ...(gameData.lineups?.home || []),
+    ...(gameData.lineups?.away || []),
+    ...(gameData.bench?.home || []),
+    ...(gameData.bench?.away || [])
+  ];
   const found = all.find(p => p.id === id);
-  return found?.name || id;
+  return found ? found.name : id;
 }
 
-function showUpdateFlash(){
+function showUpdateFlash() {
   const el = document.createElement("div");
   el.textContent = "UPDATE";
   el.style.cssText = "position:fixed;top:20px;right:20px;padding:8px 16px;background:#4da3ff;color:black;font-weight:bold;border-radius:20px;z-index:9999;";
@@ -943,31 +999,23 @@ function showUpdateFlash(){
   setTimeout(() => el.remove(), 1000);
 }
 
-function prevPA(){
-  if(currentPAIndex > 0){
-    currentPAIndex--;
-    renderAll();
-  }
-}
-function nextPA(){
-  if(currentPAIndex < gameData.pitches.length - 1){
-    currentPAIndex++;
-    renderAll();
-  }
-}
-function latestPA(){
-  currentPAIndex = gameData.pitches.length - 1;
-  renderAll();
-}
-function searchBatter(){
-  const name = document.getElementById("searchBatter").value.trim();
-  const idx = gameData.pitches.findIndex(pa => getPlayerNameById(pa.batter_id) === name);
-  if(idx >= 0){
-    currentPAIndex = idx;
-    renderAll();
-  }
+function showError(msg) {
+  document.querySelectorAll("section").forEach(el => {
+    el.innerHTML += `<div style="color:#ff4444;background:#200;padding:15px;border-radius:10px;margin-top:10px;">${msg}</div>`;
+  });
 }
 
+function prevPA() { if (currentPAIndex > 0) { currentPAIndex--; renderAll(); } }
+function nextPA() { if (currentPAIndex < gameData.pitches.length - 1) { currentPAIndex++; renderAll(); } }
+function latestPA() { currentPAIndex = gameData.pitches.length - 1; renderAll(); }
+
+function searchBatter() {
+  const name = document.getElementById("searchBatter").value.trim();
+  const idx = gameData.pitches.findIndex(pa => getPlayerNameById(batterHistory[pa.pa_id] || pa.batter_id) === name);
+  if (idx >= 0) { currentPAIndex = idx; renderAll(); }
+}
+
+/* スタート */
 init();
 </script>
 
@@ -975,10 +1023,7 @@ init();
   <div class="footer-container">
     <div>
       <div class="footer-logo">L-crown</div>
-      <div class="footer-text">
-        データをより身近なものへ。<br>
-        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
-      </div>
+      <div class="footer-text">データをより身近なものへ。<br>埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。</div>
     </div>
     <div>
       <div class="footer-title">リンク</div>
@@ -993,9 +1038,7 @@ init();
       <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
     </div>
   </div>
-  <div class="footer-bottom">
-    © 2026 L-crown. All rights reserved.
-  </div>
+  <div class="footer-bottom">© 2026 L-crown. All rights reserved.</div>
 </footer>
 </body>
 </html>
