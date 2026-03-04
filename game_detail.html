@@ -70,7 +70,6 @@ h2{margin-bottom:14px;font-size:18px;}
 .zone-cell{border:1px solid rgba(255,255,255,0.08);}
 .strike-zone{background:rgba(77,163,255,0.18);border:1px solid rgba(77,163,255,0.6);}
 .pitchMarker{position:absolute;width:22px;height:22px;font-size:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:2px solid #111;font-weight:bold;}
-/* === 5x5ゾーン内の投球マーカー色分け（ここが新強化） === */
 .pitchMarker.result-strike{background:#ffd600;color:#000;border-color:#ffd600;}
 .pitchMarker.result-foul{background:#ffcc00;color:#000;border-color:#ffcc00;}
 .pitchMarker.result-ball{background:#00c853;color:white;border-color:#00c853;}
@@ -146,7 +145,6 @@ footer a:hover{color:white;}
   </section>
 
   <div class="dashboard">
-
     <div class="team-column">
       <section class="lineup-box">
         <div class="lineup-header">
@@ -202,7 +200,6 @@ footer a:hover{color:white;}
         <div id="awayBench" class="lineup-list"></div>
       </section>
     </div>
-
   </div>
 
   <section>
@@ -244,20 +241,34 @@ const changeLog = document.getElementById("changeLog");
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
-  const date = params.get("date") || "2026-03-01";
-  const team = params.get("team") || "1";
+
+  // 今日の日付を自動取得（日本時間 YYYY-MM-DD）
+  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }).slice(0, 10);
+
+  const date = params.get("date") || today;
+  let team = params.get("team") || "1";
+
   const basePath = location.pathname.includes("/lionscrown") ? "/lionscrown/" : "/";
   dataPath = `${basePath}live/${date}_${team}.json`;
 
-  const updated = await fetchGameData();
+  let updated = await fetchGameData();
+
+  // 1がなかったら2を試す（複数試合対応の簡易フォールバック）
+  if (!updated && team === "1") {
+    team = "2";
+    dataPath = `${basePath}live/${date}_${team}.json`;
+    updated = await fetchGameData();
+  }
+
   if (updated) {
     currentPAIndex = gameData.pitches.length - 1;
     detectInitialState();
     populateInningFilter();
     renderAll();
   } else {
-    showError("データ取得失敗");
+    showError(`データ取得失敗: ${date}_${team}.json`);
   }
+
   startPolling();
 }
 
