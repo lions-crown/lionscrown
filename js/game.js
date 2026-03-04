@@ -29,11 +29,17 @@ function renderAll(){
 
 /* ========================= */
 function renderGameInfo(){
+  console.log("gameData =", gameData);
+
+  if(!gameData.game_info){
+    alert("game_infoが存在しません");
+    return;
+  }
+
   const g = gameData.game_info;
+
   document.getElementById("game-info").innerHTML = `
     <h2>${g.away_team} vs ${g.home_team}</h2>
-    <p>${g.stadium} / ${g.start_time}</p>
-    <p>球審: ${g.umpires.plate}</p>
   `;
 }
 
