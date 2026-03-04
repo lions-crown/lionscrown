@@ -176,19 +176,55 @@ section{
 }
 h1{margin-bottom:20px;font-size:26px;}
 h2{margin-bottom:14px;font-size:18px;}
+/* =============================
+   プロ仕様スコアボード
+============================= */
+
 #scoreboard{
   margin-bottom:20px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
+  padding:0;
+  background:none;
 }
-.score-inning{
-  padding:6px 12px;
-  border-radius:8px;
-  background:rgba(255,255,255,0.1);
+
+.scoreboard-wrapper{
+  width:100%;
+  overflow-x:auto;
+}
+
+.scoreboard-table{
+  width:100%;
+  min-width:900px;
+  border-collapse:collapse;
+  font-size:14px;
   text-align:center;
-  min-width:50px;
 }
+
+.scoreboard-table th,
+.scoreboard-table td{
+  border:1px solid rgba(255,255,255,0.15);
+  padding:8px 10px;
+}
+
+.scoreboard-table thead{
+  background:rgba(255,255,255,0.08);
+}
+
+.scoreboard-team{
+  text-align:left;
+  font-weight:600;
+  padding-left:14px;
+  width:160px;
+}
+
+.scoreboard-total{
+  background:rgba(77,163,255,0.25);
+  font-weight:bold;
+}
+
+.scoreboard-table tbody tr:hover{
+  background:rgba(255,255,255,0.06);
+}
+  
 .dashboard{
   display:grid;
   grid-template-columns:1fr 2fr 1fr;
