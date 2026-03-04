@@ -10,7 +10,7 @@
   },
   "scoreboard": {
     "innings": [
-      {"inning":1, "away":-, "home":-},
+      {"inning":1, "away":0, "home":0},
       {"inning":2, "away":-, "home":-},
       {"inning":3, "away":-, "home":-},
       {"inning":4, "away":-, "home":-},
@@ -21,8 +21,8 @@
       {"inning":9, "away":-, "home":-}
     ],
     "total": {
-      "away": {"R":0, "H":-, "E":-},
-      "home": {"R":0, "H":-, "E":-}
+      "away": {"R":0, "H":2, "E":0},
+      "home": {"R":0, "H":0, "E":0}
     }
   },
   "lineups": {
@@ -164,8 +164,8 @@
       "pa_id": 3,
       "inning": 1,
       "half": "top",
-      "batter_id": "J2026_3",
-      "pitcher_id": "L2026_13",
+      "batter_id": "L2026_3",
+      "pitcher_id": "F2026_13",
       "result": "strikeout",
       "final_count": {"balls":2, "strikes":2, "outs":2},
       "runners": {"1B": "J2026_2", "2B": null, "3B": null},
@@ -182,9 +182,9 @@
         "RF": "カナリオ"
       },
       "pitches": [
-        {"pitch_type": "slider", "velocity": 136, "zone": {"x": 2, "y": 3}, "result": "strike"},
-        {"pitch_type": "fastball", "velocity": 150, "zone": {"x": 3, "y": 3}, "result": "strike"},
-        {"pitch_type": "curve", "velocity": 125, "zone": {"x": 2, "y": 4}, "result": "strike"}
+        {"pitch_type": "slider", "velocity": -, "zone": {"x": 2, "y": 3}, "result": "ball"},
+        {"pitch_type": "fork", "velocity": -, "zone": {"x": 3, "y": 3}, "result": "strike"},
+        {"pitch_type": "fastball", "velocity": -, "zone": {"x": 2, "y": 4}, "result": "lefthit"}
       ]
     }
   ]
