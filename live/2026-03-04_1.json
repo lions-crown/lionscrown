@@ -155,6 +155,7 @@
         "CF": "桑原 将志",
         "RF": "カナリオ"
       },
+    
       "pitches": [
         {"pitch_type": "fastball", "velocity": -, "zone": {"x": 3, "y": 2}, "result": "ball"},
         {"pitch_type": "fastball", "velocity": -, "zone": {"x": 2, "y": 3}, "result": "2ndflyout"}
