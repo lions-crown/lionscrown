@@ -2,7 +2,6 @@ let gameData = null;
 let currentIndex = 0;
 let autoPlay = null;
 
-/* ========================= */
 async function loadGame() {
   const params = new URLSearchParams(location.search);
   const date = params.get("date");
@@ -20,14 +19,12 @@ async function loadGame() {
 
     currentIndex = 0;
     renderAll();
-    // startAutoPlay(); // オート再生機能があればここで呼ぶ
   } catch (err) {
     console.error(err);
     alert("データが読み込めませんでした");
   }
 }
 
-/* ========================= */
 function renderAll() {
   if (!gameData) return;
 
@@ -42,7 +39,6 @@ function renderAll() {
   renderLineups();
 }
 
-/* ========================= */
 function renderScoreBar(ab){
   document.getElementById("awayName").innerText=gameData.game_info.away_team;
   document.getElementById("homeName").innerText=gameData.game_info.home_team;
@@ -57,7 +53,6 @@ function renderScoreBar(ab){
     `${ab.inning}回${ab.half==="top"?"表":"裏"} ${ab.outs}アウト`;
 }
 
-/* ========================= */
 function renderScoreboard() {
   const sb = gameData.scoreboard;
   const gi = gameData.game_info;
@@ -75,7 +70,6 @@ function renderScoreboard() {
   `;
 }
 
-/* ========================= */
 function renderField() {
   const ab = gameData.at_bats[currentIndex];
   if (!ab.field) return;
@@ -95,7 +89,6 @@ function renderField() {
   `;
 }
 
-/* ========================= */
 function renderBases() {
   const ab = gameData.at_bats[currentIndex];
   const b = ab.bases || {};
@@ -107,7 +100,6 @@ function renderBases() {
   `;
 }
 
-/* ========================= */
 function renderCount(ab){
   const c = ab.count || {b:0,s:0,o:0};
   document.getElementById("countBoard").innerHTML=
@@ -121,7 +113,6 @@ function renderCount(ab){
    <div class="out ${c.o>=3?'on':''}"></div>`;
 }
 
-/* ========================= */
 function renderZone(ab){
   const zone=document.getElementById("zone");
   zone.innerHTML="";
@@ -135,7 +126,6 @@ function renderZone(ab){
   });
 }
 
-/* ========================= */
 function renderLog(ab){
   let html="";
   ab.log?.forEach(l=>{
@@ -144,7 +134,6 @@ function renderLog(ab){
   document.getElementById("timeline").innerHTML=html;
 }
 
-/* ========================= */
 function renderLineups(){
   const lu=gameData.lineups;
 
@@ -165,7 +154,6 @@ function renderLineups(){
     lu.home.bench.map(p=>p.name).join("<br>");
 }
 
-/* ========================= */
 /* 前後送り */
 function nextAtBat(){
   if(currentIndex<gameData.at_bats.length-1){
@@ -182,7 +170,6 @@ function goLive(){
   renderAll();
 }
 
-/* ========================= */
 /* 検索 */
 function searchPlayer(){
   const name=document.getElementById("playerSearch").value.trim();
@@ -219,5 +206,4 @@ function renderSearchResults(list){
   });
 }
 
-/* ========================= */
 loadGame();
