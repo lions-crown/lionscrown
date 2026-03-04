@@ -1,25 +1,52 @@
 let gameData;
 let currentAtBatIndex = 0;
+let atBats = [];
 
 /* ===============================
-   JSON読み込み（軍別対応）
+   JSON読み込み
 ================================= */
 async function loadGame() {
 
   const params = new URLSearchParams(window.location.search);
-  const date = params.get("date") || "2026-03-01";
+  const date = params.get("date") || "2026-03-04";
   const team = params.get("team") || "1";
 
   const file = `live/${date}_${team}.json`;
 
   try{
     const res = await fetch(file);
+
+    if(!res.ok){
+      throw new Error("JSONが見つかりません: " + file);
+    }
+
     gameData = await res.json();
+    console.log("読み込み成功:", gameData);
+
+    generateAtBats();   // pitches → 打席生成
     renderAll();
+
   }catch(e){
-    alert("データ取得エラー");
     console.error(e);
+    document.body.innerHTML =
+      `<h2 style="color:red;">データ読み込み失敗</h2><p>${e.message}</p>`;
   }
+}
+
+/* ===============================
+   pitches → 打席生成
+================================= */
+function generateAtBats(){
+
+  const grouped = {};
+
+  gameData.pitches.forEach(p => {
+    const key = `${p.inning}_${p.half}_${p.batter}`;
+    if(!grouped[key]) grouped[key] = [];
+    grouped[key].push(p);
+  });
+
+  atBats = Object.values(grouped);
 }
 
 /* ===============================
@@ -29,99 +56,62 @@ function renderAll(){
   renderGameInfo();
   renderScoreboard();
   renderMatchup();
-  renderLineups();
   renderZone();
-  renderData();
 }
 
 /* ===============================
-   試合概要
+   試合概要（meta対応）
 ================================= */
 function renderGameInfo(){
-  const g = gameData.game_info;
+
+  const m = gameData.meta;
+
   document.getElementById("game-info").innerHTML = `
-    <h2>${g.away_team} vs ${g.home_team}</h2>
-    <p>${g.stadium} / ${g.start_time}</p>
-    <p>審判：${g.umpires.plate} (球審)</p>
+    <h2>${m.away_team} vs ${m.home_team}</h2>
+    <p>日付: ${m.date}</p>
+    <p>状態: ${m.status}</p>
+    <p>最終更新: ${m.last_updated}</p>
   `;
 }
 
 /* ===============================
-   スコアボード
+   スコア（live用簡易）
 ================================= */
 function renderScoreboard(){
+
   const s = gameData.scoreboard;
-  let innings = s.away.length;
 
-  let header = "<tr><th></th>";
-  for(let i=1;i<=innings;i++){
-    header += `<th class="inning-link" onclick="jumpToInning(${i})">${i}</th>`;
-  }
-  header += "<th>R</th><th>H</th><th>E</th></tr>";
-
-  let awayRow = `<tr><td>${gameData.game_info.away_team}</td>`;
-  s.away.forEach(r=> awayRow+=`<td>${r}</td>`);
-  awayRow+=`<td>${s.away_total}</td><td>${s.away_hits}</td><td>${s.away_errors}</td></tr>`;
-
-  let homeRow = `<tr><td>${gameData.game_info.home_team}</td>`;
-  s.home.forEach(r=> homeRow+=`<td>${r}</td>`);
-  homeRow+=`<td>${s.home_total}</td><td>${s.home_hits}</td><td>${s.home_errors}</td></tr>`;
-
-  document.getElementById("scoreboard").innerHTML =
-    `<table>${header}${awayRow}${homeRow}</table>`;
-}
-
-function jumpToInning(inning){
-  const index = gameData.at_bats.findIndex(a=>a.inning===inning);
-  if(index>=0){
-    currentAtBatIndex = index;
-    renderZone();
-  }
+  document.getElementById("scoreboard").innerHTML = `
+    <h3>スコア</h3>
+    <p>${gameData.meta.away_team} ${s.away_score}
+    - ${s.home_score} ${gameData.meta.home_team}</p>
+    <p>${s.inning}回 ${s.half === "top" ? "表" : "裏"} /
+       ${s.outs}アウト</p>
+  `;
 }
 
 /* ===============================
-   投手・打者
+   投手 vs 打者
 ================================= */
 function renderMatchup(){
-  const atbat = gameData.at_bats[currentAtBatIndex];
+
+  if(atBats.length === 0) return;
+
+  const pitches = atBats[currentAtBatIndex];
+  const lastPitch = pitches[pitches.length - 1];
+
   document.getElementById("matchup").innerHTML =
-    `投手: ${atbat.pitcher}　vs　打者: ${atbat.batter}`;
+    `投手: ${lastPitch.pitcher}　
+     vs　
+     打者: ${lastPitch.batter}`;
 }
 
 /* ===============================
-   ラインナップ
-================================= */
-function renderLineups(){
-  const l = gameData.lineups;
-
-  document.getElementById("team1-name").innerText =
-    gameData.game_info.away_team;
-  document.getElementById("team2-name").innerText =
-    gameData.game_info.home_team;
-
-  renderPlayers("team1-starters", l.away.starting);
-  renderPlayers("team1-bench", l.away.bench);
-  renderPlayers("team2-starters", l.home.starting);
-  renderPlayers("team2-bench", l.home.bench);
-}
-
-function renderPlayers(id,list){
-  let html="";
-  list.forEach(p=>{
-    html+=`
-      <div class="player">
-        <a href="${p.link}">${p.name}</a>
-        <span>${p.avg || p.era || ""}</span>
-      </div>
-    `;
-  });
-  document.getElementById(id).innerHTML = html;
-}
-
-/* ===============================
-   ゾーン描画
+   ゾーン描画（仮）
 ================================= */
 function renderZone(){
+
+  if(atBats.length === 0) return;
 
   renderMatchup();
 
@@ -141,52 +131,40 @@ function renderZone(){
     }
   }
 
-  const atbat = gameData.at_bats[currentAtBatIndex];
+  const pitches = atBats[currentAtBatIndex];
 
-  atbat.pitches.forEach(p=>{
-    const index = (p.y-1)*5 + (p.x-1);
-    const cell = grid.children[index];
+  pitches.forEach(p=>{
+
+    const cellIndex = Math.floor(Math.random()*25); // 座標未定義のため仮
+    const cell = grid.children[cellIndex];
 
     const dot = document.createElement("div");
     dot.className="pitch-dot";
 
     if(p.result==="strike") dot.style.background="yellow";
-    if(p.result==="ball") dot.style.background="green";
-    if(p.result==="hit") dot.style.background="blue";
-    if(p.result==="out") dot.style.background="red";
+    else if(p.result==="ball") dot.style.background="green";
+    else if(p.result==="foul") dot.style.background="orange";
+    else dot.style.background="gray";
 
     cell.appendChild(dot);
   });
-
-  document.getElementById("pitch-info").innerText =
-    `結果: ${atbat.result}`;
 }
 
 /* ===============================
    前後移動
 ================================= */
 function prevAtBat(){
-  if(currentAtBatIndex>0){
+  if(currentAtBatIndex > 0){
     currentAtBatIndex--;
     renderZone();
   }
 }
+
 function nextAtBat(){
-  if(currentAtBatIndex < gameData.at_bats.length-1){
+  if(currentAtBatIndex < atBats.length - 1){
     currentAtBatIndex++;
     renderZone();
   }
-}
-
-/* ===============================
-   各種データ（簡易版）
-================================= */
-function renderData(){
-  document.getElementById("pitcher-data").innerHTML =
-    "<h3>投手データ</h3>球種割合など（計算実装可）";
-
-  document.getElementById("batter-data").innerHTML =
-    "<h3>打者データ</h3>球種別打率など（計算実装可）";
 }
 
 loadGame();
