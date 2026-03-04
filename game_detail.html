@@ -418,26 +418,69 @@ function renderSummary(){
    スコアボード
 =========================== */
 function renderScoreboard(){
+
   const sb = gameData?.scoreboard;
   if(!sb) return;
 
-  scoreboard.innerHTML = "";
+  const innings = sb.innings || [];
+  const maxInning = Math.max(...innings.map(i=>i.inning),9);
 
-  sb.innings?.forEach(i=>{
-    const div = document.createElement("div");
-    div.className="score-inning";
-    div.innerHTML =
-      `${i.inning}回<br>
-       ${i.away ?? 0} - ${i.home ?? 0}`;
-    scoreboard.appendChild(div);
-  });
+  let html = `
+  <div class="scoreboard-wrapper">
+    <table class="scoreboard-table">
+      <thead>
+        <tr>
+          <th></th>`;
 
-  const total = document.createElement("div");
-  total.className="score-inning";
-  total.innerHTML =
-    `<strong>R</strong><br>
-     ${sb.total?.away?.R ?? 0} - ${sb.total?.home?.R ?? 0}`;
-  scoreboard.appendChild(total);
+  // 回ヘッダー
+  for(let i=1;i<=maxInning;i++){
+    html += `<th>${i}</th>`;
+  }
+
+  html += `
+          <th class="scoreboard-total">R</th>
+          <th>H</th>
+          <th>E</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  // ビジター行
+  html += `<tr>
+    <td class="scoreboard-team">${gameData.meta.away}</td>`;
+
+  for(let i=1;i<=maxInning;i++){
+    const inningData = innings.find(x=>x.inning===i);
+    html += `<td>${inningData?.away ?? ""}</td>`;
+  }
+
+  html += `
+    <td class="scoreboard-total">${sb.total?.away?.R ?? 0}</td>
+    <td>${sb.total?.away?.H ?? "-"}</td>
+    <td>${sb.total?.away?.E ?? "-"}</td>
+  </tr>`;
+
+  // ホーム行
+  html += `<tr>
+    <td class="scoreboard-team">${gameData.meta.home}</td>`;
+
+  for(let i=1;i<=maxInning;i++){
+    const inningData = innings.find(x=>x.inning===i);
+    html += `<td>${inningData?.home ?? ""}</td>`;
+  }
+
+  html += `
+    <td class="scoreboard-total">${sb.total?.home?.R ?? 0}</td>
+    <td>${sb.total?.home?.H ?? "-"}</td>
+    <td>${sb.total?.home?.E ?? "-"}</td>
+  </tr>`;
+
+  html += `
+      </tbody>
+    </table>
+  </div>`;
+
+  scoreboard.innerHTML = html;
 }
 
 /* ===========================
