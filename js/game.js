@@ -1,3 +1,10 @@
+/* =========================
+   GLOBAL STATE
+========================= */
+
+let gameData = null;
+let currentIndex = 0;
+
 let gameData = {};
 let currentAtBat = 0;
 
