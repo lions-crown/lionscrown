@@ -131,143 +131,318 @@ footer a:hover{color:white;}
 
 </main>
 
+<style>
+/* ===== 追加：投球ゾーンUI ===== */
+
+.zone-grid{
+  display:inline-block;
+  margin-bottom:20px;
+}
+.zone-row{
+  display:flex;
+}
+.zone-cell{
+  width:60px;
+  height:60px;
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  font-size:14px;
+}
+.strike-zone{
+  background:rgba(255,255,255,0.08);
+}
+
+.pitch-dot{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:12px;
+  margin:2px;
+  color:#000;
+}
+
+.green{background:#00c853;}
+.yellow{background:#ffd600;}
+.blue{background:#2196f3;color:#fff;}
+.red{background:#ff3d00;color:#fff;}
+
+.pitch-text-log{
+  font-size:13px;
+  margin-top:10px;
+}
+</style>
+
 <script>
+
+/* =========================== */
+/* 状態管理 */
+/* =========================== */
 
 let gameData=null;
 let currentPAIndex=0;
+let dataPath="";
+let lastHash="";
+
+/* =========================== */
+/* 初期化 */
+/* =========================== */
 
 async function init(){
-const res=await fetch("live/2026-03-01_1.json");
-gameData=await res.json();
-currentPAIndex=gameData.pitches.length-1;
-renderAll();
+
+const params=new URLSearchParams(location.search);
+const date=params.get("date")||"2026-03-01";
+const team=params.get("team")||"1";
+
+const basePath=location.pathname.includes("/lionscrown")?"/lionscrown/":"/";
+dataPath=`${basePath}live/${date}_${team}.json`;
+
+await loadData();
 }
+
+async function loadData(){
+try{
+const res=await fetch(dataPath+"?t="+Date.now());
+const text=await res.text();
+
+const hashBuffer=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));
+const hashArray=Array.from(new Uint8Array(hashBuffer));
+const hashHex=hashArray.map(b=>b.toString(16).padStart(2,"0")).join("");
+
+if(hashHex===lastHash)return;
+lastHash=hashHex;
+
+gameData=JSON.parse(text);
+currentPAIndex=gameData.pitches.length-1;
+
+renderAll();
+
+}catch(e){
+console.error(e);
+}
+}
+
+/* =========================== */
+/* 描画統合 */
+/* =========================== */
 
 function renderAll(){
-renderZone();
+renderSummary();
+renderScoreboard();
+renderLineups();
+renderPitch();
 renderPitcher();
 renderBatter();
+renderFinal();
 }
 
-/* ===== 球種記号 ===== */
-function getSymbol(type,hand){
+/* =========================== */
+/* 投球ゾーン描画 */
+/* =========================== */
+
+function renderPitch(){
+
+const pa=gameData.pitches[currentPAIndex];
+if(!pa){ pitchLog.innerHTML=""; return; }
+
+let grid=Array(5).fill().map(()=>Array(5).fill(""));
+
+pa.pitches?.forEach((p,i)=>{
+
+const r=p.zone_row ?? 2;
+const c=p.zone_col ?? 2;
+
+grid[r][c]+=`
+<div class="pitch-dot ${getResultColor(p.result)}">
+${getPitchSymbol(p.type, pa.pitcher_hand)}${i+1}
+</div>`;
+});
+
+let html=`<div class="zone-grid">`;
+
+for(let r=0;r<5;r++){
+html+=`<div class="zone-row">`;
+for(let c=0;c<5;c++){
+
+let cls=(r>=1&&r<=3&&c>=1&&c<=3)?"zone-cell strike-zone":"zone-cell";
+
+html+=`<div class="${cls}">${grid[r][c]}</div>`;
+}
+html+=`</div>`;
+}
+
+html+=`</div>`;
+
+html+=`<div class="pitch-text-log">`;
+
+pa.pitches?.forEach((p,i)=>{
+html+=`${i+1}球目 ｜ ${p.speed||""}km/h ｜ ${p.type} ｜ ${p.result}<br>`;
+});
+
+html+=`</div>`;
+
+pitchLog.innerHTML=html;
+
+renderCount(pa);
+renderBases(pa);
+}
+
+/* =========================== */
+/* 球種記号 */
+/* =========================== */
+
+function getPitchSymbol(type, hand){
+
 switch(type){
+
 case "fastball": return "●";
-case "fork": return "▼";
-case "slider": return hand==="R"?"◀":"▶";
-case "shoot": return hand==="R"?"▶":"◀";
-case "curve": return hand==="R"?"↙":"↘";
-default:return "●";
+case "fork":
+case "splitter": return "▼";
+
+case "slider": return hand==="L"?"▶":"◀";
+case "shoot": return hand==="L"?"◀":"▶";
+case "curve": return hand==="L"?"↘":"↙";
+
+default: return "●";
 }
 }
 
-function getColor(result){
-if(result==="ball")return "ball-color";
-if(result==="strike"||result==="foul")return "strike-color";
-if(result==="hit")return "hit-color";
-if(result==="out")return "out-color";
+/* =========================== */
+/* 色判定 */
+/* =========================== */
+
+function getResultColor(result){
+if(result==="ball") return "green";
+if(result==="strike"||result==="foul") return "yellow";
+if(result==="hit") return "blue";
+if(result==="out") return "red";
 return "";
 }
 
-/* ===== 5x5表示 ===== */
-function renderZone(){
-const pa=gameData.pitches[currentPAIndex];
-let html=`<div class="zone">`;
+/* =========================== */
+/* 投手詳細 */
+/* =========================== */
 
-for(let r=0;r<5;r++){
-for(let c=0;c<5;c++){
-const isStrike=(r>=1&&r<=3&&c>=1&&c<=3);
-html+=`<div class="cell ${isStrike?"strikezone":""}" id="cell-${r}-${c}"></div>`;
-}
-}
-html+="</div>";
-zoneContainer.innerHTML=html;
-
-/* 配置 */
-pa.pitches.forEach((p,i)=>{
-if(p.row===undefined||p.col===undefined)return;
-const cell=document.getElementById(`cell-${p.row}-${p.col}`);
-if(!cell)return;
-
-const icon=document.createElement("div");
-icon.className="pitch-icon "+getColor(p.result);
-icon.innerText=getSymbol(p.type,p.hand)+(i+1);
-cell.appendChild(icon);
-});
-
-/* テキスト */
-let text="";
-pa.pitches.forEach((p,i)=>{
-text+=`<div class="pitch-text">${i+1}球目 ${p.speed||""}km/h ${p.type} ${p.result}</div>`;
-});
-pitchTexts.innerHTML=text;
-}
-
-/* ===== 投手詳細 ===== */
 function renderPitcher(){
-const pa=gameData.pitches[currentPAIndex];
-const id=pa.pitcher_id;
 
-let totalPitches=0;
+const pa=gameData.pitches[currentPAIndex];
+if(!pa) return;
+
+const id=pa.pitcher_id;
+const pas=gameData.pitches.filter(p=>p.pitcher_id===id);
+
+let pitchCount=0;
 let batters=new Set();
 let hits=0;
 let runs=0;
 
-gameData.pitches.forEach(p=>{
-if(p.pitcher_id===id){
+pas.forEach(p=>{
+pitchCount+=p.pitches?.length||0;
 batters.add(p.batter_id);
-totalPitches+=p.pitches.length;
-if(p.result==="hit")hits++;
-if(p.rbi)runs+=p.rbi;
-}
+if(p.result==="hit") hits++;
+runs+=p.runs||0;
 });
 
-let innings=(batters.size/3).toFixed(1);
-let era=innings>0?(runs*9/innings).toFixed(2):"0.00";
+let era=(runs*9/(pas.length||1)).toFixed(2);
 
 pitcherStats.innerHTML=`
 <div class="player-card">
-投球数: ${totalPitches}<br>
+<div>
+<strong>${getName(id)}</strong><br>
+投球数: ${pitchCount}<br>
 対戦打者数: ${batters.size}<br>
 被安打: ${hits}<br>
 失点: ${runs}<br>
 防御率: ${era}
+</div>
 </div>`;
 }
 
-/* ===== 打者詳細 ===== */
+/* =========================== */
+/* 打者詳細 */
+/* =========================== */
+
 function renderBatter(){
+
 const pa=gameData.pitches[currentPAIndex];
+if(!pa) return;
+
 const id=pa.batter_id;
+const pas=gameData.pitches.filter(p=>p.batter_id===id);
 
-let ab=0;
-let hit=0;
-let history="";
+let hits=pas.filter(p=>p.result==="hit").length;
+let atbats=pas.length;
+let avg=atbats?(hits/atbats).toFixed(3):".000";
 
-gameData.pitches.forEach(p=>{
-if(p.batter_id===id){
-if(p.result){
-ab++;
-history+=p.result+" ";
-if(p.result==="hit")hit++;
-}
-}
-});
-
-let avg=ab>0?(hit/ab).toFixed(3):".000";
+let history=pas.slice(0,pas.length-1).map(p=>p.result).join(" ｜ ");
 
 batterStats.innerHTML=`
 <div class="player-card">
+<div>
+<strong>${getName(id)}</strong><br>
 打率: ${avg}<br>
-本日の結果: ${history}
+過去打席: ${history||"なし"}
+</div>
 </div>`;
 }
 
+/* =========================== */
+/* ラインナップ修正 */
+/* =========================== */
+
+function renderTeam(side){
+const lineup=gameData.lineups[side]||[];
+const container=document.getElementById(side+"Lineup");
+
+container.innerHTML="";
+
+lineup.filter(p=>p.pos!=="P").forEach((p,i)=>{
+container.innerHTML+=`<div class="lineup-item">${i+1} ${p.pos} ${p.name}</div>`;
+});
+
+const pitcher=lineup.find(p=>p.pos==="P");
+if(pitcher){
+container.innerHTML+=`<div class="lineup-item">投手 ${pitcher.name}</div>`;
+}
+}
+
+/* =========================== */
+
 init();
+
 </script>
 
 <footer>
-© 2026 L-crown. All rights reserved.
+  <div class="footer-container">
+    <div>
+      <div class="footer-logo">L-crown</div>
+      <div class="footer-text">
+        データをより身近なものへ。<br>
+        埼玉西武ライオンズの王座奪還への道のりを追い続ける分析サイト。
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">リンク</div>
+      <a href="/lionscrown/">ホーム</a><br>
+      <a href="/lionscrown/news">お知らせ</a><br>
+      <a href="/lionscrown/privacypolicy">利用規約</a><br>
+      <a href="/lionscrown/contact">お問い合わせ</a><br>
+      <a href="/lionscrown/pagelist">ページ一覧</a>
+    </div>
+    <div>
+      <div class="footer-title">フォロー</div>
+      <a href="https://x.com/Lcrown_official" target="_blank">𝕏</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 L-crown. All rights reserved.
+  </div>
 </footer>
 
 </body>
