@@ -6,153 +6,47 @@
 <title>試合詳細</title>
 
 <style>
-body{
-  margin:0;
-  font-family: "Segoe UI",sans-serif;
-  background:#f4f6f9;
-}
-
-section{
-  background:white;
-  margin:10px;
-  padding:15px;
-  border-radius:8px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-/* ===== 試合概要 ===== */
-#game-info h2{
-  margin:0;
-}
-
-/* ===== スコアボード ===== */
-#scoreboard table{
-  width:100%;
-  border-collapse:collapse;
-  text-align:center;
-}
-#scoreboard th,#scoreboard td{
-  border:1px solid #ccc;
-  padding:6px;
-}
-.inning-link{
-  cursor:pointer;
-  color:#0066cc;
-}
-.inning-link:hover{
-  text-decoration:underline;
-}
-
-/* ===== 投手・打者 ===== */
-#matchup{
-  display:flex;
-  justify-content:space-around;
-  font-size:18px;
-}
-
-/* ===== 3カラム ===== */
-#main-area{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap:10px;
-}
-
-/* 選手リスト */
-.player-list h3{
-  margin-bottom:5px;
-}
-.player{
-  display:flex;
-  justify-content:space-between;
-  padding:3px 0;
-}
-.player a{
-  text-decoration:none;
-  color:black;
-}
-.player a:hover{
-  color:#0077cc;
-}
-
-/* ===== ゾーン表示 ===== */
-#zone-grid{
-  display:grid;
-  grid-template-columns:repeat(5,50px);
-  grid-template-rows:repeat(5,50px);
-  gap:2px;
-  justify-content:center;
-  margin-bottom:10px;
-}
-.zone-cell{
-  border:1px solid #aaa;
-  background:#eee;
-  position:relative;
-}
-.strike-zone{
-  background:#fdf5d3;
-}
-.pitch-dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-}
-
-/* ===== データエリア ===== */
-#data-area{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
+body{font-family:sans-serif;background:#f2f4f7;margin:0}
+section{background:white;margin:10px;padding:15px;border-radius:8px}
+#main-area{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+#zone-grid{display:grid;grid-template-columns:repeat(5,50px);grid-template-rows:repeat(5,50px);gap:3px;justify-content:center}
+.zone-cell{border:1px solid #ccc;position:relative}
+.strike-zone{background:#fff6cc}
+.pitch-dot{width:12px;height:12px;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.player{display:flex;justify-content:space-between}
+.inning-link{cursor:pointer;color:blue}
 </style>
 </head>
 
 <body>
 
-<!-- ===== 試合概要 ===== -->
 <section id="game-info"></section>
-
-<!-- ===== スコアボード ===== -->
 <section id="scoreboard"></section>
-
-<!-- ===== 投手・打者 ===== -->
 <section id="matchup"></section>
 
-<!-- ===== 3カラム ===== -->
 <section id="main-area">
-
-  <!-- チーム① -->
-  <div class="player-list">
+  <div>
     <h3 id="team1-name"></h3>
     <div id="team1-starters"></div>
     <h4>ベンチ</h4>
     <div id="team1-bench"></div>
   </div>
 
-  <!-- ゾーン -->
   <div>
     <div id="zone-grid"></div>
-    <div style="text-align:center;">
-      <button onclick="prevAtBat()">前打者</button>
-      <button onclick="nextAtBat()">次打者</button>
-    </div>
-    <div id="pitch-info"></div>
+    <button onclick="prevAtBat()">前打者</button>
+    <button onclick="nextAtBat()">次打者</button>
+    <div id="pitch-summary"></div>
   </div>
 
-  <!-- チーム② -->
-  <div class="player-list">
+  <div>
     <h3 id="team2-name"></h3>
     <div id="team2-starters"></div>
     <h4>ベンチ</h4>
     <div id="team2-bench"></div>
   </div>
-
 </section>
 
-<!-- ===== 各種データ ===== -->
 <section id="data-area">
   <div id="pitcher-data"></div>
   <div id="batter-data"></div>
