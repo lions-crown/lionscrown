@@ -3,19 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L-crown</title>
-<!-- サイトアイコン -->
+<title>一球速報 | L-crown</title>
 <link rel="icon" type="image/webp" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <link rel="apple-touch-icon" href="https://lions-crown.homep.jp/img/1766145327164.webp">
 <meta name="theme-color" content="#0f172a">
- 
 <style>
-/* ===== 新しいヘッダー・フッター・全体背景 ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+/* ============================= */
+/* 共通リセット・背景・フォント */
+/* ============================= */
+*{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:"Segoe UI","Noto Sans JP",sans-serif;
   background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
@@ -35,6 +31,9 @@ body::before{
   filter:blur(40px);
   z-index:-1;
 }
+/* ============================= */
+/* ヘッダー・メニュー */
+/* ============================= */
 header{
   position:sticky;
   top:0;
@@ -44,12 +43,12 @@ header{
   z-index:1000;
 }
 nav{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:16px 20px;
+  padding:16px 24px;
 }
 .logo{
   display:flex;
@@ -59,6 +58,7 @@ nav{
   font-size:18px;
   letter-spacing:1px;
   text-decoration:none;
+  color:white;
 }
 .logo span{
   background:linear-gradient(90deg,#4da3ff,#9ad0ff);
@@ -68,20 +68,12 @@ nav{
 .logo img{
   width:26px;
   height:26px;
-  object-fit:contain;
   border-radius:6px;
   filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
-  transition:0.3s;
-}
-.logo:hover img{
-  transform:scale(1.08);
-}
-.logo:hover span{
-  text-shadow:0 0 12px rgba(77,163,255,0.7);
 }
 .menu{
   display:flex;
-  gap:26px;
+  gap:24px;
 }
 .menu a{
   color:rgba(255,255,255,0.7);
@@ -102,11 +94,70 @@ nav{
 }
 .menu a:hover{
   color:white;
-  text-shadow:0 0 10px rgba(77,163,255,0.6);
 }
-.menu a:hover::after,
-.menu a.active::after{
+.menu a:hover::after{
   width:100%;
+}
+/* ヘッダーコントロール（更新ボタン＋トグル） */
+.header-controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.header-controls button{
+  background:#ffcc00;
+  color:black;
+  padding:6px 18px;
+  border-radius:16px;
+  font-weight:bold;
+  font-size:13px;
+  transition:0.25s;
+}
+.header-controls button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(255,204,0,0.4);
+}
+/* トグルスイッチ */
+.toggle{
+  position:relative;
+  display:inline-block;
+  width:54px;
+  height:28px;
+}
+.toggle input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+.slider{
+  position:absolute;
+  cursor:pointer;
+  top:0; left:0; right:0; bottom:0;
+  background:rgba(255,255,255,0.15);
+  transition:.3s;
+  border-radius:34px;
+}
+.slider:before{
+  position:absolute;
+  content:"";
+  height:22px;
+  width:22px;
+  left:3px;
+  bottom:3px;
+  background:#fff;
+  transition:.3s;
+  border-radius:50%;
+}
+input:checked + .slider{
+  background:#4da3ff;
+}
+input:checked + .slider:before{
+  transform:translateX(26px);
+}
+#autoLabel{
+  font-size:13px;
+  color:rgba(255,255,255,0.7);
+  min-width:78px;
 }
 footer{
   margin-top:100px;
@@ -164,792 +215,760 @@ footer a:hover{
     gap:30px;
   }
 }
-
-/* =========================
-   コンテンツ部分のスタイル
-========================= */
-.section {
-  max-width: 1100px;
-  width: 94%;
-  margin: 50px auto;
+/* ============================= */
+/* 本文・カード */
+main{
+  max-width:1200px;
+  margin:50px auto;
+  padding:0 20px;
 }
-.section-title {
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 40px;
-  color: #6eb9ff;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+section{
+  margin-bottom:30px;
+  padding:24px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(14px);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
 }
-
-/* L-crownについてセクション */
-.about {
-  background: rgba(255,255,255,0.03);
-  border-radius: 24px;
-  padding: 60px 40px;
-  border: 1px solid rgba(255,255,255,0.08);
-  text-align: center;
+h1{margin-bottom:20px;font-size:26px;}
+h2{margin-bottom:14px;font-size:18px;}
+/* =============================
+   プロ仕様スコアボード
+============================= */
+#scoreboard{
+  margin-bottom:20px;
+  padding:0;
+  background:none;
 }
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
-  margin-top: 40px;
+.scoreboard-wrapper{
+  width:100%;
+  overflow-x:auto;
 }
-.about-card {
-  background: rgba(255,255,255,0.04);
-  border-radius: 18px;
-  padding: 28px 24px;
-  transition: 0.3s;
+.scoreboard-table{
+  width:100%;
+  min-width:900px;
+  border-collapse:collapse;
+  font-size:14px;
+  text-align:center;
 }
-.about-card:hover {
-  transform: translateY(-8px);
-  background: rgba(255,255,255,0.08);
+.scoreboard-table th,
+.scoreboard-table td{
+  border:1px solid rgba(255,255,255,0.15);
+  padding:8px 10px;
 }
-.about-card h3 {
-  font-size: 20px;
-  margin-bottom: 14px;
-  color: #4da3ff;
+.scoreboard-table thead{
+  background:rgba(255,255,255,0.08);
 }
-.about-card p {
-  opacity: 0.85;
-  font-size: 15px;
-  line-height: 1.7;
+.scoreboard-team{
+  text-align:left;
+  font-weight:600;
+  padding-left:14px;
+  width:160px;
 }
-
-/* 詳細へボタン */
-.more-btn {
-  display: inline-block;
-  margin: 30px auto 0;
-  padding: 14px 34px;
-  background: linear-gradient(90deg, #4da3ff, #6eb9ff);
-  color: white;
-  font-weight: 600;
-  font-size: 15px;
-  border-radius: 50px;
-  text-decoration: none;
-  box-shadow: 0 8px 25px rgba(77, 163, 255, 0.35);
-  transition: all 0.3s ease;
+.scoreboard-total{
+  background:rgba(77,163,255,0.25);
+  font-weight:bold;
 }
-.more-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 35px rgba(77, 163, 255, 0.5);
-  background: linear-gradient(90deg, #6eb9ff, #4da3ff);
+.scoreboard-table tbody tr:hover{
+  background:rgba(255,255,255,0.06);
 }
-
-/* YouTube */
-.video-wrapper {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  border-radius: 16px;
-  overflow: hidden;
+.count-board{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-weight:600;
+  font-size:14px;
 }
-.video-wrapper iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.count-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#333;
+  box-shadow: inset 0 0 6px #000;
 }
-
-/* ヒーロー */
-.hero {
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  padding: 80px 20px 60px;
-  background: linear-gradient(
-    135deg,
-    #001f3f 0%,
-    #0a2a5a 35%,
-    #1a0033 70%,
-    #001f3f 100%
-  );
-  isolation: isolate;
+.count-on.ball{
+  background:#00c853;
+  box-shadow:0 0 8px #00c853;
 }
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 15% 25%, rgba(0, 180, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 85% 75%, rgba(200, 0, 255, 0.05) 0%, transparent 60%);
-  pointer-events: none;
-  z-index: -2;
+.count-on.strike{
+  background:#ffd600;
+  box-shadow:0 0 8px #ffd600;
 }
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 10, 40, 0.40);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  z-index: -1;
-  pointer-events: none;
+.count-on.out{
+  background:#ff3d00;
+  box-shadow:0 0 8px #ff3d00;
 }
-.fade-in {
-  opacity: 0;
-  transform: translateY(40px) scale(0.97);
-  transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform, opacity;
+/* ===== Current Inning Highlight ===== */
+.scoreboard-table th.current-inning,
+.scoreboard-table td.current-inning{
+  background:linear-gradient(135deg,#4da3ff,#1e40af);
+  color:white;
+  font-weight:700;
+  box-shadow:0 0 15px rgba(77,163,255,0.6);
+  animation: inningGlow 1.2s ease-in-out infinite alternate;
 }
-.fade-in:nth-child(1) { transition-delay: 0.1s; }
-.fade-in:nth-child(2) { transition-delay: 0.25s; }
-.fade-in:nth-child(3) { transition-delay: 0.4s; }
-.fade-in:nth-child(4) { transition-delay: 0.55s; }
-.fade-in:nth-child(5) { transition-delay: 0.7s; }
-.fade-in:nth-child(6) { transition-delay: 0.85s; }
-.fade-in:nth-child(7) { transition-delay: 1.0s; }
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+@keyframes inningGlow{
+  from{box-shadow:0 0 10px rgba(77,163,255,0.4);}
+  to{box-shadow:0 0 20px rgba(77,163,255,0.9);}
 }
-.hero h1 {
-  font-size: clamp(1.9rem, 5.5vw, 3.4rem);
-  font-weight: 900;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-  white-space: nowrap !important;
-  text-wrap: nowrap !important;
-  word-break: normal;
-  overflow-wrap: normal;
-  hyphens: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  margin: 0 auto 20px;
-  padding: 0 3%;
-  background: linear-gradient(90deg, #00c0ff, #ffffff, #ff4080, #00c0ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow:
-    0 0 15px rgba(0, 192, 255, 0.4),
-    0 0 30px rgba(255, 64, 128, 0.2);
-  display: inline-block;
+ 
+.dashboard{
+  display:grid;
+  grid-template-columns:1fr 2fr 1fr;
+  gap:30px;
+  align-items:start;
 }
-@media (min-width: 1800px) {
-  .hero h1 {
-    font-size: 3.8rem;
-  }
+.lineup-box{
+  padding:20px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.04);
 }
-@media (max-width: 480px) {
-  .hero h1 {
-    font-size: clamp(1.8rem, 7.5vw, 2.8rem);
-  }
-  .hero {
-    padding: 60px 15px 50px;
-  }
+.lineup-list{display:flex;flex-direction:column;gap:8px;}
+.lineup-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 12px;
+  border-radius:10px;
+  background: rgba(255,255,255,0.06);
+  transition:0.2s;
 }
-.hero p {
-  font-size: clamp(1.0rem, 2.6vw, 1.15rem);
-  max-width: 640px;
-  margin: 0 auto 12px;
-  opacity: 0.94;
-  background: linear-gradient(90deg, #a0e0ff, #e0c0ff, #ffffff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+.lineup-item:hover{
+  background: rgba(255,255,255,0.15);
+  transform: translateX(4px);
+}
+.center-panel{display:flex;flex-direction:column;gap:20px;}
+#zone{
+  position:relative;
+  width:340px;
+  height:340px;
+  border:2px solid white;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  grid-template-rows:repeat(5,1fr);
+}
+#zone div{border:1px solid #333; position:relative;}
+#zone div.strikeZone{border:1px solid #aaa;}
+.pitchMarker{
+  position:absolute;width:18px;height:18px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:1px solid black;
+}
+#zone{
+  background:rgba(255,255,255,0.03);
+}
+.zone-cell{
+  border:1px solid rgba(255,255,255,0.08);
+}
+.strike-zone{
+  background:rgba(77,163,255,0.18);
+  border:1px solid rgba(77,163,255,0.6);
+}
+.result-strike{background:yellow;color:black;}
+.result-ball{background:green;color:white;}
+.result-hit{background:red;color:white;}
+.result-out{background:gray;color:white;}
+button{
+  padding:8px 18px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(90deg,#4da3ff,#7ecbff);
+  color:black;
+  font-weight:bold;
+  transition:0.25s;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.5);
+}
+@media(max-width:1000px){
+  .dashboard{grid-template-columns:1fr;}
 }
 
-/* ビジュアルスライド */
-.visual-slider {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  background: #020617;
-  margin: 30px 0 50px;
+/* ===== 塁状況表示（新機能） ===== */
+.bases-panel{
+  margin:20px auto;
+  padding:14px 20px;
+  background:rgba(255,255,255,0.04);
+  border-radius:16px;
+  width:fit-content;
+  box-shadow:0 8px 25px rgba(0,0,0,0.4);
 }
-.visual-track {
-  display: flex;
-  width: 300%;
-  animation: visualSlide 18s infinite;
+.bases-row{
+  display:flex;
+  justify-content:center;
+  gap:58px;
 }
-.visual-track img {
-  width: 100%;
-  height: 260px;
-  object-fit: cover;
-  flex-shrink: 0;
-  opacity: 0.9;
+.base-label{
+  text-align:center;
+  font-size:11px;
+  margin-bottom:6px;
+  color:rgba(255,255,255,0.65);
+  font-weight:500;
 }
-@keyframes visualSlide {
-  0% { transform: translateX(0); }
-  30% { transform: translateX(0); }
-  35% { transform: translateX(-100%); }
-  65% { transform: translateX(-100%); }
-  70% { transform: translateX(-200%); }
-  95% { transform: translateX(-200%); }
-  100% { transform: translateX(0); }
+.runner-dot{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:#1a263d;
+  border:4px solid rgba(77,163,255,0.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.5);
+  transition:all .4s ease;
+  cursor:default;
 }
-@media (max-width: 600px) {
-  .visual-track img {
-    height: 180px;
-  }
-}
-
-/* 試合速報 */
-.games-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-#slider {
-  display: flex;
-  transition: transform 0.45s ease;
-}
-.slide {
-  min-width: 100%;
-  padding: 10px;
-}
-.game-card {
-  background: linear-gradient(135deg, #092048, #092048);
-  border-radius: 22px;
-  padding: 24px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.45);
-}
-.game-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
-  font-size: 14px;
-  opacity: 0.7;
-}
-.scoreboard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 90px;
-  margin-bottom: 20px;
-  padding: 0 10px;
-}
-.team {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 18px;
-  font-weight: bold;
-}
-.team.right {
-  flex-direction: row-reverse;
-  text-align: right;
-}
-.team-logo {
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
-}
-@media (max-width: 600px) {
-  .scoreboard {
-    min-height: 80px;
-  }
-  .team-logo {
-    width: 48px;
-    height: 48px;
-    gap: 8px;
-  }
-  .team {
-    font-size: 16px;
-  }
-  .score {
-    font-size: 28px;
-  }
-}
-.score {
-  font-size: 34px;
-  font-weight: bold;
-}
-.status {
-  text-align: center;
-  margin-top: 12px;
-  font-size: 13px;
-  opacity: 0.6;
-}
-button.slide-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-#prevBtn { left: 10px; }
-#nextBtn { right: 10px; }
-
-/* ニュース */
-.news-title {
-  font-size: 22px;
-  margin-bottom: 24px;
-  color: #6eb9ff;
-}
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 18px;
-}
-.news-card {
-  background: #1e293b;
-  border-radius: 16px;
-  padding: 18px;
-  transition: 0.25s;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.news-card:hover {
-  transform: translateY(-4px);
-  background: #263449;
-}
-.news-source {
-  font-size: 12px;
-  opacity: 0.5;
-  margin-bottom: 6px;
-}
-.news-card a {
-  text-decoration: none;
-  color: white;
-}
-.news-headline {
-  font-size: 15px;
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-.news-time {
-  font-size: 12px;
-  opacity: 0.4;
+.runner-dot.occupied{
+  background:#00c853;
+  border-color:#00ff9d;
+  box-shadow:0 0 28px #00ff9d;
+  color:#000;
 }
 
-/* MLB */
-.mlb {
-  background: linear-gradient(135deg, #7a0019, #900123);
-  padding: 70px 20px;
+/* ===== Hero Summary ===== */
+.hero-summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:28px;
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(77,163,255,0.18),rgba(0,0,0,0.4));
+  backdrop-filter:blur(18px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.6);
 }
-.mlb-container {
-  max-width: 1100px;
-  margin: 0 auto;
+.hero-teams{
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:1px;
 }
-.mlb-title {
-  font-size: 24px;
-  margin-bottom: 30px;
-  text-align: center;
+.hero-meta{
+  font-size:14px;
+  opacity:.8;
+  margin-top:6px;
 }
-.mlb-description {
-  text-align: center;
-  opacity: 0.7;
-  margin-bottom: 40px;
-  font-size: 15px;
+.hero-score{
+  font-size:42px;
+  font-weight:800;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-.mlb-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
+/* ============================= */
+/* フッター */
+footer{
+  margin-top:100px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,0.08);
+  text-align:center;
+  padding:20px 0;
 }
-.mlb-card {
-  background: rgba(0,0,0,0.25);
-  border-radius: 18px;
-  padding: 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-  transition: 0.25s;
-}
-.mlb-card:hover {
-  transform: translateY(-5px);
-  background: rgba(0,0,0,0.35);
-}
-.mlb-player {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-.mlb-stats {
-  font-size: 13px;
-  opacity: 0.75;
-  line-height: 1.7;
-}
-.mlb-link {
-  margin-top: 12px;
-  display: inline-block;
-  font-size: 13px;
-  color: #6eb9ff;
-  text-decoration: none;
-}
-
-/* お知らせ */
-.notice {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: 80px;
-  padding: 60px 0 20px;
-}
-.notice-title {
-  font-size: 22px;
-  margin-bottom: 30px;
-  color: #6eb9ff;
-}
-.notice-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.notice-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 22px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: all 0.25s ease;
-}
-.notice-item:hover {
-  transform: translateY(-4px);
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(110,185,255,0.4);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
-}
-.notice-item a {
-  color: #cfe6ff;
-  text-decoration: none;
-  font-weight: 500;
-  flex: 1;
-}
-.notice-item a:hover {
-  color: #ffffff;
-}
-.notice-time {
-  font-size: 12px;
-  opacity: 0.5;
-  margin-left: 20px;
-  white-space: nowrap;
-}
-@media (max-width: 600px) {
-  .notice-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  .notice-time {
-    margin-left: 0;
-  }
-}
-.notice-item {
-  position: relative;
-}
-.notice-content {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex: 1;
-}
-.notice-badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 6px 10px;
-  border-radius: 999px;
-  letter-spacing: .05em;
-  white-space: nowrap;
-  border: 1px solid transparent;
-}
-.badge-official {
-  background: rgba(0,180,255,0.15);
-  color: #6ecbff;
-  border-color: rgba(0,180,255,0.4);
-}
-.badge-media {
-  background: rgba(255,255,255,0.08);
-  color: #e2e8f0;
-  border-color: rgba(255,255,255,0.2);
-}
-.badge-update {
-  background: rgba(0,255,180,0.12);
-  color: #2ef0c8;
-  border-color: rgba(0,255,180,0.3);
-}
-.badge-important {
-  background: rgba(255,70,70,0.15);
-  color: #ff6b6b;
-  border-color: rgba(255,70,70,0.4);
-}
-@media (max-width: 600px) {
-  .notice-content {
-    flex-wrap: wrap;
-  }
-}
+footer a{text-decoration:none;color:#7ecbff;}
+footer a:hover{color:white;}
 </style>
 </head>
 <body>
 <header>
   <nav>
-    <a href="/lionscrown/" class="logo">
-      <img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon">
-      <span>L-crown</span>
-    </a>
+    <a href="/" class="logo"><img src="https://lions-crown.homep.jp/img/1766145327164.webp" alt="L-crown icon"><span>L-crown</span></a>
     <div class="menu">
-      <a href="/lionscrown/" class="active">ホーム</a>
-      <a href="/lionscrown/about" class="active">About</a>
+      <a href="/lionscrown/">ホーム</a>
       <a href="/lionscrown/news">お知らせ</a>
       <a href="/lionscrown/privacypolicy">利用規約</a>
       <a href="/lionscrown/contact">お問い合わせ</a>
     </div>
+    <div class="header-controls">
+      <button onclick="manualUpdate()">🔄 更新</button>
+      <label class="toggle">
+        <input type="checkbox" id="autoToggle" checked onchange="toggleAutoUpdate()">
+        <span class="slider"></span>
+      </label>
+      <span id="autoLabel">自動更新 ON</span>
+    </div>
   </nav>
 </header>
-
-<div class="section">
-  <div class="video-wrapper">
-    <iframe src="https://www.youtube.com/embed/3Gc5eSL5kxU"></iframe>
-  </div>
-</div>
-
-<div class="hero">
-  <h1 class="fade-in">「ライオンズで〜た」を更に深化。</h1>
-  <p class="fade-in">データも、機能も、体験も。</p>
-  <p class="fade-in">ひとつ上のレベルへ。</p>
-  <p class="fade-in">埼玉西武ライオンズの成績や記録を、</p>
-  <p class="fade-in">より速く、より見やすく、分かりやすく設計した新データ情報サイトです。</p>
-  <p class="fade-in">ファンの皆さまにとって「データを身近なものにする」ために、</p>
-  <p class="fade-in">これまで以上に進化したコンテンツを発信していきます。</p>
-</div>
-
-<!-- L-crownについて -->
-<div class="section about">
-  <h2 class="section-title">L-crown とは</h2>
-  <p style="max-width:720px; margin:0 auto 40px; font-size:1.15rem; opacity:0.9; line-height:1.8; text-align:center;">
-    埼玉西武ライオンズを愛するすべてのファンのために作られた、<br>
-    <strong>完全無料・データ特化型</strong>ファンサイトです。
-  </p>
-  
-  <div class="about-grid">
-    <div class="about-card">
-      <h3>⚡ リアルタイム速報</h3>
-      <p>試合開始から終了まで、自動更新されるスコア・投球データ・スタメン情報を瞬時に確認できます（準備中）</p>
-    </div>
-    <div class="about-card">
-      <h3>📊 プロ級の深掘りデータ</h3>
-      <p>打率・防御率だけでなく、投球軌道、打球速度、WAR、OPS+など高度な指標も完全網羅（準備中）</p>
-    </div>
-    <div class="about-card">
-      <h3>🌏 MLB挑戦選手追跡</h3>
-      <p>菊池雄星、今井達也をはじめ、ライオンズOB・現役選手のメジャー成績を詳細に分析（準備中）</p>
-    </div>
-  </div>
-</div>
-
-<div class="visual-slider">
-  <div class="visual-track">
-    <img src="images/slide1.jpg" alt="">
-    <img src="images/slide2.jpg" alt="">
-    <img src="images/slide3.jpg" alt="">
-  </div>
-</div>
-
-<div class="games-wrapper">
-  <div id="slider">
-    <!-- スライド1 -->
-    <div class="slide">
-      <div class="game-card">
-        <div class="game-header">
-          <span>【球春みやざき】26年2月28日 対千葉ロッテ1回戦 13:00~ @都城</span>
-          <span>終了</span>
+<main>
+<h1>一球速報</h1>
+<section>
+  <h2>試合概要</h2>
+  <div id="summary"></div>
+</section>
+<section>
+  <h2>スコアボード</h2>
+  <div id="scoreboard"></div>
+</section>
+<div class="dashboard">
+  <section class="lineup-box">
+    <h2>ホーム</h2>
+    <div id="homeLineup"></div>
+  </section>
+  <section class="center-panel">
+    <h2>投球ログ</h2>
+    <input type="text" id="searchBatter" placeholder="選手名で検索">
+    <button onclick="searchBatter()">検索</button>
+    <button onclick="latestPA()">最新に戻る</button>
+    <div id="pitchLog"></div>
+    <div id="countDisplay"></div>
+    
+    <!-- 塁状況表示（新機能） -->
+    <div class="bases-panel">
+      <div class="bases-row">
+        <div>
+          <div class="base-label">3塁</div>
+          <div id="runner3" class="runner-dot"></div>
         </div>
-        <div class="scoreboard">
-          <div class="team">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
-            <span>埼玉西武</span>
-          </div>
-          <div class="score"> 4–1 </div>
-          <div class="team right">
-            <span>千葉ロッテ</span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Chiba_Lotte_Marines_insignia.svg" alt="千葉ロッテ" class="team-logo">
-          </div>
+        <div>
+          <div class="base-label">2塁</div>
+          <div id="runner2" class="runner-dot"></div>
         </div>
-        <div class="status">26.02.28 16:52 更新</div>
+        <div>
+          <div class="base-label">1塁</div>
+          <div id="runner1" class="runner-dot"></div>
+        </div>
       </div>
     </div>
-    <!-- スライド2 -->
-    <div class="slide">
-      <div class="game-card">
-        <div class="game-header">
-          <span>【オープン戦】26年3月1日 対ソフトバンク1回戦　13:00~ @アイビー</span>
-          <span>2回裏</span>
-        </div>
-        <div class="scoreboard">
-          <div class="team">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
-            <span>西武</span>
-          </div>
-          <div class="score">6 - 1</div>
-          <div class="team right">
-            <span>ソフトバンク</span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Fukuoka_SoftBank_Hawks_insignia.svg" alt="ソフトバンク" class="team-logo">
-          </div>
-        </div>
-        <div class="status">26.03.01 13:10 更新</div>
-      </div>
+    
+    <div>
+      <button onclick="prevPA()">前打者</button>
+      <button onclick="nextPA()">次打者</button>
     </div>
-    <!-- スライド3 -->
-    <div class="slide">
-      <div class="game-card">
-        <div class="game-header">
-          <span>【オープン戦】3月4日 対日本ハム1回戦 18:00~ @エスコンF</span>
-          <span>試合前</span>
-        </div>
-        <div class="scoreboard">
-          <div class="team">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Seibu_lions_insignia.svg" alt="西武" class="team-logo">
-            <span>西武</span>
-          </div>
-          <div class="score">試合前</div>
-          <div class="team right">
-            <span>日本ハム</span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Hokkaido_Nippon-Ham_Fighters_insignia.png" alt="日本ハム" class="team-logo">
-          </div>
-        </div>
-        <div class="status">26.03.01 00:00 更新</div>
-      </div>
-    </div>
-  </div>
-  <button id="prevBtn" class="slide-btn">◀</button>
-  <button id="nextBtn" class="slide-btn">▶</button>
+    <div id="zone"></div>
+    <div id="field" style="position:relative;height:240px;"></div>
+  </section>
+  <section class="lineup-box">
+    <h2>ビジター</h2>
+    <div id="awayLineup"></div>
+  </section>
 </div>
 
-<!-- 試合速報の詳細ボタン -->
-<div class="section" style="text-align:center; margin-top:-20px;">
-  <a href="/lionscrown/schedule" class="more-btn">全試合スケジュール＆詳細を見る →</a>
+<!-- ベンチ選手表示（新機能） -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1200px;margin:40px auto;padding:0 20px;">
+  <section class="lineup-box">
+    <h2>ホーム ベンチ</h2>
+    <div id="homeBench" class="lineup-list"></div>
+  </section>
+  <section class="lineup-box">
+    <h2>ビジター ベンチ</h2>
+    <div id="awayBench" class="lineup-list"></div>
+  </section>
 </div>
 
-<div class="section">
-  <h2 class="news-title">最新ニュース</h2>
-  <div class="news-grid">
-    <div class="news-card">
-      <div class="news-source">公式</div>
-      <a href="#">
-        <div class="news-headline">本拠地ベルーナドームの暑さ対策を発表</div>
-        <div class="news-time">8時間前</div>
-      </a>
-    </div>
-    <div class="news-card">
-      <div class="news-source">報道</div>
-      <a href="#">
-        <div class="news-headline">ルーキー小島大河、右太もも違和感でファーム調整に</div>
-        <div class="news-time">10分前</div>
-      </a>
-    </div>
-    <div class="news-card">
-      <div class="news-source">グッズ</div>
-      <a href="#">
-        <div class="news-headline">光るビッグチェーンネックレスが新発売へ</div>
-        <div class="news-time">4時間前</div>
-      </a>
-    </div>
-  </div>
-  <!-- ニュースの詳細ボタン -->
-  <a href="/lionscrown/lionsnews" class="more-btn">すべてのニュースを閲覧する →</a>
-</div>
-
-<div class="mlb">
-  <div class="mlb-container">
-    <h2 class="mlb-title">夢のMLBへ ― 海外挑戦データ</h2>
-    <p class="mlb-description">
-      L-crownでは、MLBで戦うライオンズ戦士の成績・指標・推移データも追跡。
-      NPB時代との比較分析や詳細スタッツを公開。
-    </p>
-    <div class="mlb-grid">
-      <div class="mlb-card">
-        <div class="mlb-player">菊池 雄星</div>
-        <div class="mlb-stats">
-          1991年生まれ。投手／右投右打<br>
-          2010年~2018年に埼玉西武ライオンズに在籍。<br>
-          2018年オフにポスティングシステムによるアメリカ移籍をする。<br>
-          マリナーズ・ブルージェイズ・アストロズを経て現在はエンゼルス在籍。<br>
-          WBC2026の日本代表にも選出。
-        </div>
-        <a href="#" class="mlb-link">MLBデータを見る →</a>
-      </div>
-      <div class="mlb-card">
-        <div class="mlb-player">今井 達也</div>
-        <div class="mlb-stats">
-          1998年生まれ。投手／右投右打<br>
-          2017年~2025年に埼玉西武ライオンズに在籍。<br>
-          2025年オフにポスティングシステムによるアメリカ移籍を行う。<br>
-          26年1月2日にアストロズへの移籍が発表された。<br>
-          メジャーリーグ1年目の挑戦に注目。
-        </div>
-        <a href="#" class="mlb-link">MLB分析ページ →</a>
-      </div>
-    </div>
-    <!-- MLBの詳細ボタン -->
-    <div style="text-align:center; margin-top:40px;">
-      <a href="/lionscrown/mlb" class="more-btn">全選手のMLBデータ一覧を見る →</a>
-    </div>
-  </div>
-</div>
-
-<div class="section notice">
-  <h2 class="notice-title">L-crown 最新のお知らせ</h2>
-  <div id="noticeList" class="notice-list">
-    <div class="notice-item">読み込み中...</div>
-  </div>
-  <!-- お知らせの詳細ボタン -->
-  <div style="text-align:center; margin-top:30px;">
-    <a href="/lionscrown/news" class="more-btn">過去のお知らせすべてを見る →</a>
-  </div>
-</div>
-
+<section>
+  <h2>投手詳細</h2>
+  <div id="pitcherStats"></div>
+</section>
+<section>
+  <h2>打者詳細</h2>
+  <div id="batterStats"></div>
+</section>
+</main>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const fades = document.querySelectorAll(".fade-in");
-  fades.forEach((el, i) => {
-    setTimeout(() => el.classList.add("visible"), i * 400);
-  });
-  loadNotices();
-  setInterval(loadNotices, 60000);
-});
-const slider = document.getElementById("slider");
-const slides = document.querySelectorAll(".slide").length;
-let index = 0;
-function moveSlide(step){
-  index = (index + step + slides) % slides;
-  slider.style.transform = `translateX(-${index * 100}%)`;
+/* ===========================
+   L-crown Pro Live Engine
+   GitHub Pages Compatible + 新機能追加
+   ・ベンチ選手表示
+   ・塁状況表示（ビジュアル）
+   ・自動更新／手動更新切り替え
+=========================== */
+let gameData = null;
+let currentPAIndex = 0;
+let currentFielders = null;
+let lastDataHash = "";
+let pollingInterval = null;
+let dataPath = "";
+let autoUpdateEnabled = true;
+
+/* ===========================
+   初期化
+=========================== */
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const date = params.get("date") || "2026-03-01";
+  const team = params.get("team") || "1";
+  const basePath = location.pathname.includes("/lionscrown") ? "/lionscrown/" : "/";
+  dataPath = `${basePath}live/${date}_${team}.json`;
+
+  const updated = await fetchGameData();
+  if (updated) {
+    currentPAIndex = gameData.pitches.length - 1;
+    renderAll();
+  } else {
+    showError("データ取得失敗");
+    return;
+  }
+  startPolling();
 }
-document.getElementById("prevBtn").onclick = () => moveSlide(-1);
-document.getElementById("nextBtn").onclick = () => moveSlide(1);
-setInterval(()=>moveSlide(1), 4500);
-async function loadNotices() {
+
+/* ===========================
+   データ取得（ハッシュ比較）
+=========================== */
+async function fetchGameData() {
   try {
-    const res = await fetch("/lionscrown/notices.json");
-    const data = await res.json();
-    const list = document.getElementById("noticeList");
-    list.innerHTML = "";
-    data.sort((a, b) => new Date(b.time) - new Date(a.time));
-    data.forEach(item => {
-      const el = document.createElement("div");
-      el.className = "notice-item";
-      let badgeClass = "badge-media";
-      if(item.category === "公式") badgeClass = "badge-official";
-      if(item.category === "更新") badgeClass = "badge-update";
-      if(item.category === "重要") badgeClass = "badge-important";
-      el.innerHTML = `
-        <div class="notice-content">
-          <span class="notice-badge ${badgeClass}">
-            ${item.category || "INFO"}
-          </span>
-          ${
-            item.url && item.url.trim() !== ""
-              ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.text}</a>`
-              : `<span>${item.text}</span>`
-          }
-        </div>
-        <span class="notice-time">${item.time}</span>
-      `;
-      list.appendChild(el);
-    });
-  } catch (e) {
-    console.error("お知らせ取得エラー:", e);
-    document.getElementById("noticeList").innerHTML =
-      '<div class="notice-item">お知らせを取得できませんでした</div>';
+    const res = await fetch(dataPath + "?t=" + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const newHash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    if (newHash === lastDataHash) return false;
+    lastDataHash = newHash;
+    gameData = JSON.parse(text);
+    if (!gameData?.pitches?.length) throw new Error("投球データなし");
+    return true;
+  } catch (err) {
+    console.error("データ取得失敗:", err);
+    return false;
   }
 }
+
+/* ===========================
+   自動更新制御
+=========================== */
+function startPolling() {
+  if (pollingInterval) clearInterval(pollingInterval);
+  if (!autoUpdateEnabled) return;
+  pollingInterval = setInterval(async () => {
+    const updated = await fetchGameData();
+    if (updated) {
+      currentPAIndex = gameData.pitches.length - 1;
+      renderAll();
+      showUpdateFlash();
+    }
+    if (gameData?.meta?.status === "final") {
+      clearInterval(pollingInterval);
+      pollingInterval = null;
+    }
+  }, 30000);
+}
+
+function toggleAutoUpdate() {
+  autoUpdateEnabled = document.getElementById("autoToggle").checked;
+  document.getElementById("autoLabel").textContent = autoUpdateEnabled ? "自動更新 ON" : "自動更新 OFF";
+  if (autoUpdateEnabled) {
+    startPolling();
+  } else if (pollingInterval) {
+    clearInterval(pollingInterval);
+    pollingInterval = null;
+  }
+}
+
+async function manualUpdate() {
+  const updated = await fetchGameData();
+  if (updated) {
+    currentPAIndex = gameData.pitches.length - 1;
+    renderAll();
+    showUpdateFlash();
+  } else {
+    const flash = document.createElement("div");
+    flash.textContent = "最新です";
+    flash.style.cssText = "position:fixed;top:20px;right:20px;padding:8px 16px;background:#666;color:white;font-weight:bold;border-radius:20px;z-index:9999;";
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 1200);
+  }
+}
+
+/* ===========================
+   エラー表示
+=========================== */
+function showError(msg) {
+  document.querySelectorAll("section, #zone, #field").forEach(el => {
+    el.innerHTML = `<div style="color:#ff4444;background:#200;padding:15px;border-radius:10px">データ読み込み失敗: ${msg}</div>`;
+  });
+}
+
+/* ===========================
+   総描画
+=========================== */
+function renderAll(){
+  renderSummary();
+  renderScoreboard();
+  renderLineups();
+  renderBench();          // 新機能：ベンチ
+  renderPitchLog();
+  renderCount();
+  renderBases();          // 新機能：塁状況
+  renderZone();
+  renderField();
+  renderPitcherStats();
+  renderBatterStats();
+}
+
+/* ===========================
+   試合概要
+=========================== */
+function renderSummary(){
+  const m = gameData?.meta;
+  const sb = gameData?.scoreboard;
+  if(!m) return;
+  const awayR = sb?.total?.away?.R ?? 0;
+  const homeR = sb?.total?.home?.R ?? 0;
+  summary.innerHTML = `
+    <div class="hero-summary">
+      <div>
+        <div class="hero-teams">${m.away} vs ${m.home}</div>
+        <div class="hero-meta">
+          ${m.date || "-"} ｜ ${m.stadium || "-"}
+        </div>
+      </div>
+      <div class="hero-score">${awayR} - ${homeR}</div>
+    </div>
+  `;
+}
+
+/* ===========================
+   スコアボード
+=========================== */
+function renderScoreboard(){
+  const container = document.getElementById("scoreboard");
+  if(!gameData?.scoreboard?.innings){
+    container.innerHTML = "<p>スコアデータなし</p>";
+    return;
+  }
+  const inningsData = gameData.scoreboard.innings;
+  const totals = gameData.scoreboard.total;
+  const maxInning = inningsData.length;
+  const currentPA = gameData.pitches[currentPAIndex];
+  const currentInning = currentPA?.inning;
+  let html = `<table class="scoreboard-table"><thead><tr><th></th>`;
+  for(let i=1;i<=maxInning;i++){
+    const highlight = i === currentInning ? "current-inning" : "";
+    html += `<th class="${highlight}">${i}</th>`;
+  }
+  html += `<th>R</th><th>H</th><th>E</th></tr></thead><tbody>`;
+  html += `<tr><td>${gameData.meta.away}</td>`;
+  inningsData.forEach(inning=>{ html += `<td>${inning.away ?? ""}</td>`; });
+  html += `<td>${totals?.away?.R ?? ""}</td><td>${totals?.away?.H ?? ""}</td><td>${totals?.away?.E ?? ""}</td></tr>`;
+  html += `<tr><td>${gameData.meta.home}</td>`;
+  inningsData.forEach(inning=>{ html += `<td>${inning.home ?? ""}</td>`; });
+  html += `<td>${totals?.home?.R ?? ""}</td><td>${totals?.home?.H ?? ""}</td><td>${totals?.home?.E ?? ""}</td></tr>`;
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+}
+
+/* ===========================
+   ラインナップ（スターター）
+=========================== */
+function renderLineups(){
+  renderTeam(gameData?.lineups?.home, document.getElementById("homeLineup"));
+  renderTeam(gameData?.lineups?.away, document.getElementById("awayLineup"));
+}
+function renderTeam(players, container){
+  if(!players || !container) return;
+  container.innerHTML = "";
+  players.forEach((p,i)=>{
+    container.innerHTML += `
+      <div class="lineup-item">
+        <div>${i+1}</div>
+        <div>${p.pos || "-"}</div>
+        <div>
+          <a href="/lionscrown/player.html?id=${p.id || p.name}" style="color:#7ecbff;text-decoration:none;">
+            ${p.name || "-"}
+          </a>
+        </div>
+        <div>${p.avg || "-"}</div>
+      </div>`;
+  });
+}
+
+/* ===========================
+   ベンチ選手表示（新機能）
+=========================== */
+function renderBench(){
+  renderBenchTeam(gameData?.bench?.home || [], document.getElementById("homeBench"));
+  renderBenchTeam(gameData?.bench?.away || [], document.getElementById("awayBench"));
+}
+function renderBenchTeam(players, container){
+  if(!container) return;
+  container.innerHTML = "";
+  if(players.length === 0){
+    container.innerHTML = `<div style="padding:12px;color:rgba(255,255,255,0.4);text-align:center;font-size:13px;">ベンチ選手データなし（準備中）</div>`;
+    return;
+  }
+  players.forEach((p,i)=>{
+    container.innerHTML += `
+      <div class="lineup-item">
+        <div>${i+1}</div>
+        <div style="opacity:0.6;">SUB</div>
+        <div>
+          <a href="/lionscrown/player.html?id=${p.id || p.name}" style="color:#7ecbff;text-decoration:none;">
+            ${p.name || "-"}
+          </a>
+        </div>
+        <div>${p.avg || "-"}</div>
+      </div>`;
+  });
+}
+
+/* ===========================
+   投球ログ
+=========================== */
+function renderPitchLog(){
+  const pa = gameData.pitches[currentPAIndex];
+  if(!pa) return;
+  let html = `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}　打者: ${getPlayerNameById(pa.batter_id)}</strong><br>`;
+  pa.pitches?.forEach((p,i)=>{
+    html += `${i+1}球目: ${p.pitch_type || "-"} (${p.velocity || "-"}km/h) → ${p.result}<br>`;
+  });
+  pitchLog.innerHTML = html;
+}
+
+/* ===========================
+   カウント
+=========================== */
+function renderCount(){
+  const pa = gameData.pitches[currentPAIndex];
+  if(!pa) return;
+  let balls=0, strikes=0;
+  pa.pitches?.forEach(p=>{
+    if(p.result==="ball" && balls<3) balls++;
+    if((p.result==="strike" || p.result==="foul") && strikes<2) strikes++;
+  });
+  let html=`<div class="count-board">B `;
+  for(let i=0;i<3;i++) html+=`<span class="count-dot ${i<balls?'count-on ball':''}"></span>`;
+  html+=` S `;
+  for(let i=0;i<2;i++) html+=`<span class="count-dot ${i<strikes?'count-on strike':''}"></span>`;
+  html+=` O `;
+  for(let i=0;i<2;i++) html+=`<span class="count-dot ${i<(pa.final_count?.outs || 0)?'count-on out':''}"></span>`;
+  html+=`</div>`;
+  countDisplay.innerHTML = html;
+}
+
+/* ===========================
+   塁状況表示（新機能）
+=========================== */
+function renderBases(){
+  const pa = gameData.pitches[currentPAIndex];
+  if(!pa) return;
+  const runners = pa.runners || {};
+  const setRunner = (elId, key) => {
+    const el = document.getElementById(elId);
+    if(!el) return;
+    const name = runners[key] ? getPlayerNameById(runners[key]) : null;
+    if(name){
+      el.classList.add("occupied");
+      el.innerHTML = "🏃";
+      el.title = name;
+    } else {
+      el.classList.remove("occupied");
+      el.innerHTML = "";
+      el.title = "";
+    }
+  };
+  setRunner("runner1", "1B");
+  setRunner("runner2", "2B");
+  setRunner("runner3", "3B");
+}
+
+/* ===========================
+   ストライクゾーン
+=========================== */
+function renderZone(){
+  const zoneEl = document.getElementById("zone");
+  const pa = gameData.pitches[currentPAIndex];
+  if(!pa) return;
+  zoneEl.innerHTML = "";
+  for(let row=0; row<5; row++){
+    for(let col=0; col<5; col++){
+      const cell = document.createElement("div");
+      cell.className = "zone-cell";
+      if(row>=1 && row<=3 && col>=1 && col<=3) cell.classList.add("strike-zone");
+      zoneEl.appendChild(cell);
+    }
+  }
+  pa.pitches?.forEach(p=>{
+    if(!p.zone) return;
+    const dot = document.createElement("div");
+    dot.className = `pitchMarker result-${p.result||"ball"}`;
+    dot.style.left = (p.zone.x/4*100)+"%";
+    dot.style.top = (p.zone.y/4*100)+"%";
+    dot.title = `${p.pitch_type} ${p.velocity}km/h`;
+    zoneEl.appendChild(dot);
+  });
+}
+
+/* ===========================
+   守備位置
+=========================== */
+function renderField(){
+  const pa = gameData.pitches[currentPAIndex];
+  if(!pa?.fielders) return;
+  if(JSON.stringify(pa.fielders) === JSON.stringify(currentFielders)) return;
+  currentFielders = pa.fielders;
+  const field = document.getElementById("field");
+  field.innerHTML = "";
+  const posMap = {P:[50,55], C:[50,85],"1B":[75,65],"2B":[65,45],"3B":[25,65],SS:[35,45],LF:[25,20],CF:[50,10],RF:[75,20]};
+  Object.entries(pa.fielders).forEach(([pos,name])=>{
+    if(!posMap[pos]) return;
+    const div = document.createElement("div");
+    div.style.cssText = `position:absolute;left:${posMap[pos][0]}%;top:${posMap[pos][1]}%;transform:translate(-50%,-50%);background:white;color:black;padding:4px 8px;border-radius:12px;font-size:12px;`;
+    div.textContent = `${pos} ${name}`;
+    field.appendChild(div);
+  });
+}
+
+/* ===========================
+   投手・打者詳細
+=========================== */
+function renderPitcherStats(){
+  const pa = gameData.pitches[currentPAIndex];
+  if(!pa) return;
+  pitcherStats.innerHTML = `投手: ${getPlayerNameById(pa.pitcher_id)}<br>投球数: ${pa.pitches?.length || 0}`;
+}
+function renderBatterStats(){
+  const results = {};
+  gameData.pitches.forEach(pa => {
+    if(!pa.result) return;
+    results[pa.result] = (results[pa.result] || 0) + 1;
+  });
+  let html = "";
+  Object.entries(results).forEach(([r,v]) => html += `${r}: ${v}<br>`);
+  batterStats.innerHTML = html || "データなし";
+}
+
+/* ===========================
+   ユーティリティ
+=========================== */
+function getPlayerNameById(id){
+  if(!id) return "-";
+  const all = [...(gameData.lineups?.home||[]), ...(gameData.lineups?.away||[]), ...(gameData.bench?.home||[]), ...(gameData.bench?.away||[])];
+  const found = all.find(p => p.id === id);
+  return found?.name || id;
+}
+
+function showUpdateFlash(){
+  const el = document.createElement("div");
+  el.textContent = "UPDATE";
+  el.style.cssText = "position:fixed;top:20px;right:20px;padding:8px 16px;background:#4da3ff;color:black;font-weight:bold;border-radius:20px;z-index:9999;";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1000);
+}
+
+function prevPA(){
+  if(currentPAIndex > 0){
+    currentPAIndex--;
+    renderAll();
+  }
+}
+function nextPA(){
+  if(currentPAIndex < gameData.pitches.length - 1){
+    currentPAIndex++;
+    renderAll();
+  }
+}
+function latestPA(){
+  currentPAIndex = gameData.pitches.length - 1;
+  renderAll();
+}
+function searchBatter(){
+  const name = document.getElementById("searchBatter").value.trim();
+  const idx = gameData.pitches.findIndex(pa => getPlayerNameById(pa.batter_id) === name);
+  if(idx >= 0){
+    currentPAIndex = idx;
+    renderAll();
+  }
+}
+
+init();
 </script>
 
 <footer>
