@@ -2,89 +2,169 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Game</title>
+<title>NPB Live View</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
-body{margin:0;font-family:sans-serif;background:#0b1220;color:white}
-.container{max-width:1400px;margin:auto;padding:20px}
+body{
+  margin:0;
+  background:#0b0f1a;
+  color:white;
+  font-family:'Segoe UI',sans-serif;
+}
 
-/* ===== スコアボード ===== */
-.scoreboard{background:#111827;border-radius:20px;padding:20px;margin-bottom:20px}
-.score-row{display:grid;grid-template-columns:200px repeat(12,50px);align-items:center}
-.cell{text-align:center;padding:6px}
-.team{font-weight:bold}
-.total{background:#2563eb;border-radius:8px}
+header{
+  background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+  padding:15px;
+  text-align:center;
+  font-size:24px;
+  font-weight:bold;
+}
 
-/* ===== LED ===== */
-.count-board{display:flex;justify-content:center;gap:40px;margin:20px 0}
-.led{display:flex;gap:6px;margin-top:6px}
-.dot{width:18px;height:18px;border-radius:50%;background:#1f2937}
-.on.green{background:#22c55e}
-.on.yellow{background:#facc15}
-.on.red{background:#ef4444}
+.section{
+  margin:15px;
+  padding:15px;
+  background:#111827;
+  border-radius:12px;
+}
 
-/* ===== レイアウト ===== */
-.main{display:grid;grid-template-columns:2fr 1fr;gap:30px}
+/* スコアボード */
+.score-table{
+  width:100%;
+  border-collapse:collapse;
+  text-align:center;
+  font-size:18px;
+}
+.score-table th,.score-table td{
+  padding:6px;
+  border:1px solid #333;
+}
+.score-table th{
+  background:#1f2937;
+}
 
-/* ===== フィールド ===== */
-.field{position:relative;height:420px;background:#14532d;border-radius:30px}
-.diamond{width:260px;height:260px;background:#166534;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);border-radius:30px}
-.base{width:36px;height:36px;background:white;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold}
-.first{position:absolute;right:-18px;top:112px}
-.second{position:absolute;top:-18px;left:112px}
-.third{position:absolute;left:-18px;top:112px}
-.active{background:#facc15}
-.fielder{position:absolute;font-size:11px;transform:translate(-50%,-50%);text-align:center}
+/* 電光掲示板 */
+.count-board{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  font-size:28px;
+}
+.light{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  margin:4px;
+  background:#333;
+}
+.on.green{background:#0f0;}
+.on.yellow{background:#ff0;}
+.on.red{background:#f00;}
 
-/* ===== パネル ===== */
-.panel{background:#1f2937;padding:20px;border-radius:20px;margin-bottom:20px}
+.count-group{text-align:center}
 
-/* ===== ゾーン ===== */
-.zone{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
-.zone div{aspect-ratio:1;background:#111827;position:relative}
-.strike-zone{background:#1e40af !important}
-.pitch-dot{width:22px;height:22px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:black;margin:auto;margin-top:6px}
+/* フィールド */
+.field{
+  position:relative;
+  width:400px;
+  height:400px;
+  margin:auto;
+  background:#14532d;
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+}
+.base{
+  position:absolute;
+  width:50px;
+  text-align:center;
+  font-size:14px;
+}
+.first{ right:60px; top:160px;}
+.second{ top:40px; left:175px;}
+.third{ left:60px; top:160px;}
 
-/* ===== 実況ログ ===== */
-.timeline{max-height:300px;overflow-y:auto}
-.log-item{border-left:3px solid #2563eb;padding-left:10px;margin-bottom:8px;font-size:14px}
-.log-time{color:#94a3b8;font-size:12px}
+.pos{
+  position:absolute;
+  font-size:13px;
+  text-align:center;
+  width:80px;
+}
+.P{top:200px;left:160px;}
+.C{top:300px;left:160px;}
+.SS{top:150px;left:120px;}
+.CF{top:80px;left:160px;}
+.LF{top:120px;left:40px;}
+.RF{top:120px;right:40px;}
+
+/* ゾーン */
+.zone{
+  display:grid;
+  grid-template-columns:repeat(5,40px);
+  grid-template-rows:repeat(5,40px);
+  gap:2px;
+}
+.cell{
+  background:#1f2937;
+  position:relative;
+}
+.strike{background:#374151;}
+.dot{
+  position:absolute;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  color:black;
+  font-size:12px;
+  text-align:center;
+  line-height:20px;
+  top:10px;
+  left:10px;
+}
+
+/* タイムライン */
+.timeline{
+  max-height:200px;
+  overflow:auto;
+}
+.log-item{
+  border-bottom:1px solid #333;
+  padding:6px;
+}
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<div id="scoreboard" class="scoreboard"></div>
-<div id="countBoard" class="count-board"></div>
+<header id="game-info">Loading...</header>
 
-<div class="main">
+<div class="section" id="scoreboard"></div>
 
-  <div>
-    <div class="field">
-      <div class="diamond">
-        <div class="base first"></div>
-        <div class="base second"></div>
-        <div class="base third"></div>
-      </div>
-      <div id="defense"></div>
-    </div>
-    <div class="panel">
-      <h3>実況ログ</h3>
-      <div id="timeline" class="timeline"></div>
-    </div>
+<div class="section">
+<div class="count-board">
+  <div class="count-group">B
+    <div id="balls"></div>
   </div>
-
-  <div>
-    <div class="panel" id="atbatInfo"></div>
-    <div class="panel">
-      <h3>Pitch Zone</h3>
-      <div class="zone" id="zone"></div>
-    </div>
+  <div class="count-group">S
+    <div id="strikes"></div>
   </div>
-
+  <div class="count-group">O
+    <div id="outs"></div>
+  </div>
 </div>
+</div>
+
+<div class="section">
+<h3>守備位置</h3>
+<div class="field" id="field"></div>
+</div>
+
+<div class="section">
+<h3>ストライクゾーン</h3>
+<div class="zone" id="zone"></div>
+</div>
+
+<div class="section">
+<h3>実況タイムライン</h3>
+<div class="timeline" id="timeline"></div>
 </div>
 
 <script>
@@ -92,123 +172,119 @@ let gameData;
 let currentAtBat=0;
 
 async function loadGame(){
-  const params=new URLSearchParams(location.search);
-  const date=params.get("date")||"2026-03-01";
-  const team=params.get("team")||"1";
-  const res=await fetch(`live/${date}_${team}.json`);
-  gameData=await res.json();
-  renderAll();
+ const params=new URLSearchParams(location.search);
+ const date=params.get("date");
+ const team=params.get("team");
+ const res=await fetch(`live/${date}_${team}.json`);
+ gameData=await res.json();
+ renderAll();
 }
 
 function renderAll(){
-  renderScoreboard();
-  renderCount();
-  renderField();
-  renderAtBat();
-  renderZone();
-  renderTimeline();
+ renderHeader();
+ renderScore();
+ renderCount();
+ renderField();
+ renderZone();
+ renderTimeline();
 }
 
-function renderScoreboard(){
-  const s=gameData.scoreboard;
-  const g=gameData.game_info;
-  let html="";
-  html+=buildRow(g.away_team,s.away,s.away_hits,s.away_errors);
-  html+=buildRow(g.home_team,s.home,s.home_hits,s.home_errors);
-  document.getElementById("scoreboard").innerHTML=html;
+function renderHeader(){
+ const g=gameData.game_info;
+ document.getElementById("game-info").innerText=
+  `${g.away_team} vs ${g.home_team} ＠${g.stadium}`;
 }
 
-function buildRow(name,arr,hits,errors){
-  let row=`<div class="score-row"><div class="cell team">${name}</div>`;
-  arr.forEach(i=>row+=`<div class="cell">${i}</div>`);
-  const total=arr.reduce((a,b)=>a+b,0);
-  row+=`<div class="cell total">${total}</div>
-  <div class="cell">${hits}</div>
-  <div class="cell">${errors}</div></div>`;
-  return row;
+function renderScore(){
+ const s=gameData.scoreboard;
+ let html="<table class='score-table'><tr><th></th>";
+ for(let i=1;i<=s.away.length;i++) html+=`<th>${i}</th>`;
+ html+="<th>R</th><th>H</th><th>E</th></tr>";
+ html+=`<tr><td>${gameData.game_info.away_team}</td>`;
+ s.away.forEach(v=>html+=`<td>${v}</td>`);
+ html+=`<td>${s.away.reduce((a,b)=>a+b,0)}</td>
+        <td>${s.away_hits}</td><td>${s.away_errors}</td></tr>`;
+ html+=`<tr><td>${gameData.game_info.home_team}</td>`;
+ s.home.forEach(v=>html+=`<td>${v}</td>`);
+ html+=`<td>${s.home.reduce((a,b)=>a+b,0)}</td>
+        <td>${s.home_hits}</td><td>${s.home_errors}</td></tr></table>`;
+ document.getElementById("scoreboard").innerHTML=html;
 }
 
 function renderCount(){
-  const ab=gameData.at_bats[currentAtBat];
-  document.getElementById("countBoard").innerHTML=
-    buildLED("BALL",ab.balls,3,"green")+
-    buildLED("STRIKE",ab.strikes,2,"yellow")+
-    buildLED("OUT",ab.outs,3,"red");
+ const c=gameData.at_bats[currentAtBat].count;
+ renderLights("balls",3,c.b,"green");
+ renderLights("strikes",2,c.s,"yellow");
+ renderLights("outs",2,c.o,"red");
 }
 
-function buildLED(label,count,max,color){
-  let dots="";
-  for(let i=0;i<max;i++){
-    dots+=`<div class="dot ${i<count?"on "+color:""}"></div>`;
-  }
-  return `<div><div>${label}</div><div class="led">${dots}</div></div>`;
+function renderLights(id,max,on,color){
+ const el=document.getElementById(id);
+ el.innerHTML="";
+ for(let i=0;i<max;i++){
+   const d=document.createElement("div");
+   d.className="light";
+   if(i<on) d.classList.add("on",color);
+   el.appendChild(d);
+ }
 }
 
 function renderField(){
-  const ab=gameData.at_bats[currentAtBat];
-  const bases=ab.runners;
-  const baseEls=document.querySelectorAll(".base");
-  baseEls.forEach(b=>{b.classList.remove("active");b.innerHTML=""});
-  if(bases.first){baseEls[0].classList.add("active");baseEls[0].innerHTML=bases.first}
-  if(bases.second){baseEls[1].classList.add("active");baseEls[1].innerHTML=bases.second}
-  if(bases.third){baseEls[2].classList.add("active");baseEls[2].innerHTML=bases.third}
-  let html="";
-  ab.defense.forEach(p=>{
-    html+=`<div class="fielder" style="left:${p.x}%;top:${p.y}%">${p.pos}<br>${p.name}</div>`;
-  });
-  document.getElementById("defense").innerHTML=html;
-}
+ const ab=gameData.at_bats[currentAtBat];
+ const f=document.getElementById("field");
+ f.innerHTML="";
 
-function renderAtBat(){
-  const ab=gameData.at_bats[currentAtBat];
-  const prev=gameData.at_bats
-    .filter((a,i)=>i<currentAtBat&&a.batter.name===ab.batter.name)
-    .map(a=>a.result);
-  const prevText=prev.length?"前打席: "+prev.join(" / "):"本日初打席";
-  document.getElementById("atbatInfo").innerHTML=
-  `<h3>${ab.inning}回${ab.half==="top"?"表":"裏"}</h3>
-   <p>${ab.pitcher.name} (防御率 ${ab.pitcher.era}) vs ${ab.batter.name} (打率 ${ab.batter.avg})</p>
-   <p>${prevText}</p>
-   <p>${ab.result}</p>`;
+ // 塁
+ ["first","second","third"].forEach(b=>{
+  const div=document.createElement("div");
+  div.className=`base ${b}`;
+  div.innerText=ab.bases[b]||"";
+  f.appendChild(div);
+ });
+
+ // 守備位置
+ for(const pos in ab.field){
+  const div=document.createElement("div");
+  div.className=`pos ${pos}`;
+  div.innerText=ab.field[pos];
+  f.appendChild(div);
+ }
 }
 
 function renderZone(){
-  const zone=document.getElementById("zone");
-  zone.innerHTML="";
-  for(let y=1;y<=5;y++){
-    for(let x=1;x<=5;x++){
-      const cell=document.createElement("div");
-      if(x>=2&&x<=4&&y>=2&&y<=4)cell.classList.add("strike-zone");
-      zone.appendChild(cell);
-    }
+ const zone=document.getElementById("zone");
+ zone.innerHTML="";
+ for(let y=1;y<=5;y++){
+  for(let x=1;x<=5;x++){
+   const cell=document.createElement("div");
+   cell.className="cell";
+   if(x>=2&&x<=4&&y>=2&&y<=4) cell.classList.add("strike");
+   zone.appendChild(cell);
   }
-  const pitches=gameData.at_bats[currentAtBat].pitches;
-  pitches.forEach((p,i)=>{
-    const index=(p.y-1)*5+(p.x-1);
-    const dot=document.createElement("div");
-    dot.className="pitch-dot";
-    dot.style.background=
-      p.result==="strike"?"#facc15":
-      p.result==="ball"?"#22c55e":
-      p.result==="hit"?"#3b82f6":"#ef4444";
-    dot.innerText=i+1;
-    zone.children[index].appendChild(dot);
-  });
+ }
+ const pitches=gameData.at_bats[currentAtBat].pitches;
+ pitches.forEach((p,i)=>{
+   const index=(p.y-1)*5+(p.x-1);
+   const dot=document.createElement("div");
+   dot.className="dot";
+   dot.style.background=p.result==="strike"?"yellow":
+                        p.result==="ball"?"green":"white";
+   dot.innerText=i+1;
+   zone.children[index].appendChild(dot);
+ });
 }
 
 function renderTimeline(){
-  const log=gameData.at_bats[currentAtBat].log||[];
-  let html="";
-  log.forEach(l=>{
-    html+=`<div class="log-item">
-      <div class="log-time">${l.time}</div>
-      <div>${l.text}</div>
-    </div>`;
-  });
-  document.getElementById("timeline").innerHTML=html;
+ const logs=gameData.at_bats[currentAtBat].log;
+ const tl=document.getElementById("timeline");
+ tl.innerHTML="";
+ logs.forEach(l=>{
+   tl.innerHTML+=`<div class="log-item">${l.time} - ${l.text}</div>`;
+ });
 }
 
 loadGame();
 </script>
+
 </body>
 </html>
