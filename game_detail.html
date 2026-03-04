@@ -431,6 +431,16 @@ function renderTeam(players, container, teamIndex) {
   players.forEach((p, i) => {
     let displayName = p.name;
     let extra = "";
+    let stat = p.avg || "-";
+    let statLabel = "AVG";
+
+    // 投手の場合
+    if (p.pos === "P" || p.era) {
+      stat = p.era || "-";
+      statLabel = "ERA";
+    }
+
+    // 現在モードの代打処理（既存）
     if (isCurrentMode && currentPAIndex < gameData.pitches.length) {
       const latestPA = gameData.pitches[currentPAIndex];
       const actualId = batterHistory[latestPA.pa_id] || latestPA.batter_id;
@@ -439,12 +449,13 @@ function renderTeam(players, container, teamIndex) {
         extra = " <span style='color:#ff0;font-size:11px;'>(現在)</span>";
       }
     }
+
     container.innerHTML += `
       <div class="lineup-item">
         <div>${i+1}</div>
         <div>${p.pos || "-"}</div>
         <div><a href="/lionscrown/player.html?id=${p.id}" style="color:#7ecbff;">${displayName}</a>${extra}</div>
-        <div>${p.avg || "-"}</div>
+        <div>${statLabel} ${stat}</div>
       </div>`;
   });
 }
@@ -466,12 +477,21 @@ function renderBenchTeam(players, container) {
     return;
   }
   players.forEach((p,i) => {
+    let stat = p.avg || "-";
+    let statLabel = "AVG";
+    
+    // 投手判定（posが"P"またはeraが存在する場合）
+    if (p.pos === "P" || p.era) {
+      stat = p.era || "-";
+      statLabel = "ERA";
+    }
+
     container.innerHTML += `
       <div class="lineup-item">
         <div>${i+1}</div>
-        <div style="opacity:0.6;">SUB</div>
+        <div style="opacity:0.6;">${p.pos || "SUB"}</div>
         <div><a href="/lionscrown/player.html?id=${p.id}" style="color:#7ecbff;">${p.name}</a></div>
-        <div>${p.avg || "-"}</div>
+        <div>${statLabel} ${stat}</div>
       </div>`;
   });
 }
