@@ -611,6 +611,35 @@ footer a:hover{
   background: transparent;
 }
 
+#zone{
+  position:relative;
+  width:380px;
+  height:380px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  grid-template-rows:repeat(5,1fr);
+  border:3px solid white;
+}
+
+.zone-cell{
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+.strike-zone{
+  background:rgba(77,163,255,0.12);
+  border:1px solid rgba(77,163,255,0.5);
+}
+
+.pitchMarker{
+  position:absolute;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  border:1px solid black;
+}
+
 
 /* ===== 守備フィールド表示 ===== */
 
