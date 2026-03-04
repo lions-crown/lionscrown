@@ -7,44 +7,31 @@
   },
 
   "scoreboard": {
-    "away": [0,1,0,2,0,0,1,0,0],
-    "home": [0,0,1,0,0,0,0,2,0],
-    "away_hits": 12,
-    "home_hits": 10,
+    "away": [0,1,0,2,0,0,0,0,0],
+    "home": [0,0,1,0,0,0,0,0,0],
+    "away_hits": 6,
+    "home_hits": 4,
     "away_errors": 0,
     "home_errors": 1
   },
 
   "lineups": {
     "away": {
-      "starting": [
+      "starting":[
         {"name":"源田壮亮","pos":"SS"},
         {"name":"外崎修汰","pos":"2B"},
-        {"name":"近藤健介","pos":"LF"},
-        {"name":"中村剛也","pos":"DH"},
-        {"name":"栗山巧","pos":"RF"},
-        {"name":"山川穂高","pos":"1B"},
-        {"name":"愛斗","pos":"CF"},
-        {"name":"森友哉","pos":"C"},
-        {"name":"佐藤龍世","pos":"3B"}
+        {"name":"近藤健介","pos":"LF"}
       ],
       "bench":[
         {"name":"代打A"},
         {"name":"代走B"}
       ]
     },
-
     "home": {
-      "starting": [
+      "starting":[
         {"name":"周東佑京","pos":"RF"},
         {"name":"今宮健太","pos":"SS"},
-        {"name":"柳田悠岐","pos":"CF"},
-        {"name":"近藤健介","pos":"LF"},
-        {"name":"中村晃","pos":"1B"},
-        {"name":"栗原陵矢","pos":"3B"},
-        {"name":"三森大貴","pos":"2B"},
-        {"name":"甲斐拓也","pos":"C"},
-        {"name":"高橋光成","pos":"P"}
+        {"name":"柳田悠岐","pos":"CF"}
       ],
       "bench":[
         {"name":"控えA"}
@@ -52,17 +39,13 @@
     }
   },
 
-  "at_bats": [
-
+  "at_bats":[
     {
-      "inning": 1,
-      "half": "top",
-      "outs": 0,
-
-      "count":{"b":0,"s":0,"o":0},
-
-      "bases":{"first":null,"second":null,"third":null},
-
+      "inning":3,
+      "half":"top",
+      "outs":1,
+      "count":{"b":2,"s":1,"o":1},
+      "bases":{"first":"源田壮亮","second":null,"third":null},
       "field":{
         "P":"高橋光成",
         "C":"甲斐拓也",
@@ -74,23 +57,17 @@
         "CF":"柳田悠岐",
         "RF":"周東佑京"
       },
-
       "pitcher":{"name":"高橋光成","era":"2.85"},
-      "batter":{"name":"源田壮亮","avg":".285","today":"0-0"},
-
-      "result":"ショートゴロ",
-
+      "batter":{"name":"近藤健介","avg":".312","today":"1-1"},
+      "result":"進行中",
       "pitches":[
         {"x":3,"y":3,"result":"strike"},
-        {"x":4,"y":5,"result":"ball"},
-        {"x":2,"y":4,"result":"inplay"}
+        {"x":2,"y":4,"result":"ball"}
       ],
-
       "log":[
-        {"time":"18:00","text":"プレイボール"},
-        {"time":"18:01","text":"源田 ショートゴロ 1アウト"}
+        {"time":"18:32","text":"初球ストライク"},
+        {"time":"18:33","text":"2球目ボール"}
       ]
     }
-
   ]
 }
