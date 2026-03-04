@@ -225,24 +225,14 @@ let pollingInterval = null;
 let dataPath = "";
 let lineupMode = [0, 0];
 
-const summary = document.getElementById("summary");
-const scoreboardEl = document.getElementById("scoreboard");
-const homeLineup = document.getElementById("homeLineup");
-const awayLineup = document.getElementById("awayLineup");
-const homeBench = document.getElementById("homeBench");
-const awayBench = document.getElementById("awayBench");
-const pitchLog = document.getElementById("pitchLog");
-const countDisplay = document.getElementById("countDisplay");
-const zone = document.getElementById("zone");
-const field = document.getElementById("field");
-const pitcherStats = document.getElementById("pitcherStats");
-const batterStats = document.getElementById("batterStats");
-const changeLog = document.getElementById("changeLog");
+// 定数など（前回と同じ）
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
 
+  // 今日の日付を自動取得（日本時間 YYYY-MM-DD）
   const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }).slice(0, 10);
+
   const date = params.get("date") || today;
   let team = params.get("team") || "1";
 
@@ -251,7 +241,7 @@ async function init() {
 
   let updated = await fetchGameData();
 
-  // team=1で失敗したら自動でteam=2を試す（最大3まで対応）
+  // team=1で失敗したら2 → 3を自動試行（最大3まで対応）
   if (!updated && team === "1") {
     team = "2";
     dataPath = `${basePath}live/${date}_${team}.json`;
