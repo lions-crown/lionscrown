@@ -266,6 +266,18 @@ h2{margin-bottom:14px;font-size:18px;}
 .pitchMarker{
   position:absolute;width:18px;height:18px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:1px solid black;
 }
+#zone{
+  background:rgba(255,255,255,0.03);
+}
+
+.zone-cell{
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.strike-zone{
+  background:rgba(77,163,255,0.18);
+  border:1px solid rgba(77,163,255,0.6);
+}
 .result-strike{background:yellow;color:black;}
 .result-ball{background:green;color:white;}
 .result-hit{background:red;color:white;}
@@ -286,6 +298,38 @@ button:hover{
 }
 @media(max-width:1000px){
   .dashboard{grid-template-columns:1fr;}
+}
+
+/* ===== Hero Summary ===== */
+.hero-summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:28px;
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(77,163,255,0.18),rgba(0,0,0,0.4));
+  backdrop-filter:blur(18px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.6);
+}
+
+.hero-teams{
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+.hero-meta{
+  font-size:14px;
+  opacity:.8;
+  margin-top:6px;
+}
+
+.hero-score{
+  font-size:42px;
+  font-weight:800;
+  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 /* ============================= */
@@ -313,6 +357,15 @@ footer a:hover{color:white;}
       <a href="/lionscrown/privacypolicy">利用規約</a>
       <a href="/lionscrown/contact">お問い合わせ</a>
     </div>
+    <button onclick="location.reload()" style="
+      background:#ffcc00;
+      color:black;
+      padding:6px 14px;
+      border-radius:16px;
+      font-weight:bold;
+      margin-left:20px;">
+      更新
+    </button>
   </nav>
 </header>
 
@@ -443,15 +496,22 @@ function renderAll(){
 =========================== */
 function renderSummary(){
   const m = gameData?.meta;
-  if(!m){
-    summary.innerHTML = "";
-    return;
-  }
+  const sb = gameData?.scoreboard;
+  if(!m) return;
+
+  const awayR = sb?.total?.away?.R ?? 0;
+  const homeR = sb?.total?.home?.R ?? 0;
 
   summary.innerHTML = `
-    <strong>${m.home} vs ${m.away}</strong><br>
-    球場: ${m.stadium || "-"}<br>
-    日時: ${m.date || "-"}
+    <div class="hero-summary">
+      <div>
+        <div class="hero-teams">${m.away} vs ${m.home}</div>
+        <div class="hero-meta">
+          ${m.date || "-"} ｜ ${m.stadium || "-"}
+        </div>
+      </div>
+      <div class="hero-score">${awayR} - ${homeR}</div>
+    </div>
   `;
 }
 
@@ -474,7 +534,12 @@ function renderScoreboard(){
           <th></th>`;
 
   for(let i=1;i<=maxInning;i++){
-    html += `<th>${i}</th>`;
+    html += `<th>
+    <a href="#" onclick="jumpToInning(${i});return false;"
+         style="color:#7ecbff;text-decoration:none;">
+         ${i}
+      </a>
+    </th>`;
   }
 
   html += `
@@ -513,6 +578,18 @@ function renderScoreboard(){
   scoreboard.innerHTML = html;
 }
 
+function jumpToInning(inning){
+  const index = gameData.pitches
+    .map((pa,i)=>({pa,i}))
+    .filter(obj=>obj.pa.inning===inning)
+    .pop();
+
+  if(index){
+    currentPAIndex = index.i;
+    renderAll();
+  }
+}
+
 /* ===========================
    ラインナップ
 =========================== */
@@ -524,12 +601,18 @@ function renderLineups(){
 function renderTeam(players, container){
   if(!players || !container) return;
   container.innerHTML = "";
+
   players.forEach((p,i)=>{
     container.innerHTML += `
       <div class="lineup-item">
         <div>${i+1}</div>
         <div>${p.pos || "-"}</div>
-        <div>${p.name || "-"}</div>
+        <div>
+          <a href="/lionscrown/player.html?id=${p.id || p.name}"
+             style="color:#7ecbff;text-decoration:none;">
+            ${p.name || "-"}
+          </a>
+        </div>
         <div>${p.avg || "-"}</div>
       </div>`;
   });
@@ -571,10 +654,28 @@ function renderCount(){
     if(p.result==="foul" && strikes<2) strikes++;
   });
 
-  countDisplay.textContent =
-    `B:${balls}  S:${strikes}  O:${pa.outs ?? 0}`;
-}
+  let html=`<div class="count-board">`;
 
+  html+="B ";
+  for(let i=0;i<3;i++){
+    html+=`<span class="count-dot ${i<balls?'count-on ball':''}"></span>`;
+  }
+
+  html+=" S ";
+  for(let i=0;i<2;i++){
+    html+=`<span class="count-dot ${i<strikes?'count-on strike':''}"></span>`;
+  }
+
+  html+=" O ";
+  for(let i=0;i<2;i++){
+    html+=`<span class="count-dot ${i<(pa.outs||0)?'count-on out':''}"></span>`;
+  }
+
+  html+="</div>";
+
+  countDisplay.innerHTML = html;
+}
+  
 /* ===========================
    ストライクゾーン（正規化）
 =========================== */
