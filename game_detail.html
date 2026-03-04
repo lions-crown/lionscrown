@@ -621,24 +621,16 @@ function renderSummary(){
 =========================== */
 function renderScoreboard(){
 
-  if(!gameData?.scoreboard){
-    document.getElementById("scoreboard").innerHTML =
-      "<p>スコアデータなし</p>";
+  const container = document.getElementById("scoreboard");
+  if(!gameData?.scoreboard?.innings){
+    container.innerHTML = "<p>スコアデータなし</p>";
     return;
   }
 
-  const sb = gameData.scoreboard;
+  const inningsData = gameData.scoreboard.innings;
+  const totals = gameData.scoreboard.total;
 
-  if(!sb?.innings?.away || !sb?.innings?.home){
-    document.getElementById("scoreboard").innerHTML =
-      "<p>イニングデータなし</p>";
-    return;
-  }
-
-  const maxInning = Math.max(
-    sb.innings.away.length,
-    sb.innings.home.length
-  );
+  const maxInning = inningsData.length;
 
   const currentPA = gameData.pitches[currentPAIndex];
   const currentInning = currentPA?.inning;
@@ -652,29 +644,35 @@ function renderScoreboard(){
 
   html += `<th>R</th><th>H</th><th>E</th></tr></thead><tbody>`;
 
-  // Away
-  html += `<tr><td>${sb.away ?? "Away"}</td>`;
-  for(let i=0;i<maxInning;i++){
-    html += `<td>${sb.innings.away[i] ?? ""}</td>`;
-  }
-  html += `<td>${sb.totals?.away?.R ?? ""}</td>`;
-  html += `<td>${sb.totals?.away?.H ?? ""}</td>`;
-  html += `<td>${sb.totals?.away?.E ?? ""}</td></tr>`;
+  /* ===== Away ===== */
+  html += `<tr><td>${gameData.meta.away}</td>`;
 
-  // Home
-  html += `<tr><td>${sb.home ?? "Home"}</td>`;
-  for(let i=0;i<maxInning;i++){
-    html += `<td>${sb.innings.home[i] ?? ""}</td>`;
-  }
-  html += `<td>${sb.totals?.home?.R ?? ""}</td>`;
-  html += `<td>${sb.totals?.home?.H ?? ""}</td>`;
-  html += `<td>${sb.totals?.home?.E ?? ""}</td></tr>`;
+  inningsData.forEach(inning=>{
+    html += `<td>${inning.away ?? ""}</td>`;
+  });
+
+  html += `<td>${totals?.away?.R ?? ""}</td>`;
+  html += `<td>${totals?.away?.H ?? ""}</td>`;
+  html += `<td>${totals?.away?.E ?? ""}</td>`;
+  html += `</tr>`;
+
+  /* ===== Home ===== */
+  html += `<tr><td>${gameData.meta.home}</td>`;
+
+  inningsData.forEach(inning=>{
+    html += `<td>${inning.home ?? ""}</td>`;
+  });
+
+  html += `<td>${totals?.home?.R ?? ""}</td>`;
+  html += `<td>${totals?.home?.H ?? ""}</td>`;
+  html += `<td>${totals?.home?.E ?? ""}</td>`;
+  html += `</tr>`;
 
   html += `</tbody></table>`;
 
-  document.getElementById("scoreboard").innerHTML = html;
+  container.innerHTML = html;
 }
-
+  
 /* ===========================
    ラインナップ
 =========================== */
