@@ -408,7 +408,7 @@ function renderAll(){
 function renderSummary(){
   const m = gameData?.meta;
   if(!m) return;
-  summary.innerHTML =
+  summary.innerHTML =32
     `<strong>${m.home} vs ${m.away}</strong><br>
      球場: ${m.stadium || "-"}<br>
      日時: ${m.date || "-"}`;
@@ -423,29 +423,28 @@ function renderScoreboard(){
   if(!sb) return;
 
   const innings = sb.innings || [];
-  const maxInning = Math.max(...innings.map(i=>i.inning),9);
+  const maxInning = Math.max(9, ...innings.map(i=>i.inning));
 
   let html = `
   <div class="scoreboard-wrapper">
-    <table class="scoreboard-table">
-      <thead>
-        <tr>
-          <th></th>`;
+  <table class="scoreboard-table">
+    <thead>
+      <tr>
+        <th></th>`;
 
-  // 回ヘッダー
   for(let i=1;i<=maxInning;i++){
     html += `<th>${i}</th>`;
   }
 
   html += `
-          <th class="scoreboard-total">R</th>
-          <th>H</th>
-          <th>E</th>
-        </tr>
-      </thead>
-      <tbody>`;
+        <th class="scoreboard-total">R</th>
+        <th>H</th>
+        <th>E</th>
+      </tr>
+    </thead>
+    <tbody>`;
 
-  // ビジター行
+  // ビジター
   html += `<tr>
     <td class="scoreboard-team">${gameData.meta.away}</td>`;
 
@@ -460,7 +459,7 @@ function renderScoreboard(){
     <td>${sb.total?.away?.E ?? "-"}</td>
   </tr>`;
 
-  // ホーム行
+  // ホーム
   html += `<tr>
     <td class="scoreboard-team">${gameData.meta.home}</td>`;
 
@@ -473,11 +472,9 @@ function renderScoreboard(){
     <td class="scoreboard-total">${sb.total?.home?.R ?? 0}</td>
     <td>${sb.total?.home?.H ?? "-"}</td>
     <td>${sb.total?.home?.E ?? "-"}</td>
-  </tr>`;
-
-  html += `
-      </tbody>
-    </table>
+  </tr>
+  </tbody>
+  </table>
   </div>`;
 
   scoreboard.innerHTML = html;
