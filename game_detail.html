@@ -520,45 +520,38 @@ function renderChangeLog() {
 function renderCurrentStatus() {
   const pa = gameData.pitches[currentPAIndex];
   if (!pa) return;
-  document.getElementById("currentPitcher").textContent = getPlayerNameById(currentPitcherId) || "---";
+
+  // 現在のhalf（攻撃側）で投手を判定
+  let pitcherId = pa.pitcher_id;  // 各打席のpitcher_idが正しい投手
+  let teamName = pa.half === "top" ? gameData.meta.away : gameData.meta.home;  // 攻撃側チーム名
+
+  document.getElementById("currentPitcher").textContent = `${teamName}投手: ${getPlayerNameById(pitcherId) || "---"}`;
   document.getElementById("currentInning").textContent = `${pa.inning}回 ${pa.half==="top"?"表":"裏"}`;
   document.getElementById("currentOuts").textContent = pa.final_count?.outs || 0;
 }
 
-function renderPitchLogEnhanced() {
+function renderPitcherStatsEnhanced() {
   const pa = gameData.pitches[currentPAIndex];
   if (!pa) return;
-  const actualBatterId = batterHistory[pa.pa_id] || pa.batter_id;
-  const isPinch = actualBatterId !== pa.batter_id;
-  let html = `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}　打者: ${getPlayerNameById(actualBatterId)}${isPinch ? " <span style='color:#ff0'>(代打)</span>" : ""}</strong><br><br>`;
-  pa.pitches.forEach((p, i) => {
-    let symbol = "●";
-    let colorClass = "pitch-ball";
-    let pitchTypeSymbol = "";
-    const typeLower = (p.pitch_type || "").toLowerCase();
-    if (typeLower.includes("slider")) pitchTypeSymbol = "↝ ";
-    else if (typeLower.includes("curve")) pitchTypeSymbol = "↯ ";
-    else if (typeLower.includes("fork") || typeLower.includes("split")) pitchTypeSymbol = "↓ ";
-    else if (typeLower.includes("sinker")) pitchTypeSymbol = "↘ ";
-    else if (typeLower.includes("cutter")) pitchTypeSymbol = "→ ";
-    else if (typeLower.includes("fastball") || typeLower.includes("four-seam")) pitchTypeSymbol = "→ ";
-    switch(p.result) {
-      case "strike": case "called_strike": case "swinging_strike": colorClass = "pitch-strike"; symbol = "●"; break;
-      case "foul": colorClass = "pitch-foul"; symbol = "●"; break;
-      case "ball": colorClass = "pitch-ball"; symbol = "●"; break;
-      case "hit": case "single": case "double": case "triple": case "home_run": colorClass = "pitch-hit"; symbol = "◆"; break;
-      case "out": case "flyout": case "groundout": case "strikeout": colorClass = "pitch-out"; symbol = "■"; break;
-      default: colorClass = ""; symbol = "○"; break;
-    }
-    html += `
-      <div style="margin:6px 0;">
-        <span style="font-size:15px;">${i+1}球目:</span>
-        <span style="color:#bbb;">${pitchTypeSymbol}${p.pitch_type || "-"}</span>
-        <span style="color:#aaa;">(${p.velocity || "-"}km/h)</span>
-        <span class="pitch-result ${colorClass}">${symbol} ${p.result}</span>
-      </div>`;
-  });
-  pitchLog.innerHTML = html;
+
+  const pitcherId = pa.pitcher_id;  // ← ここをcurrentPitcherIdではなくpa.pitcher_idに変更
+  const pitcher = gameData.pitchers?.[pitcherId] || {};
+  const photo = pitcher.photo || "https://via.placeholder.com/100x130/1e293b/ffffff?text=P";
+  const name = pitcher.name || getPlayerNameById(pitcherId);
+
+  pitcherStats.innerHTML = `
+    <div class="player-photo"><img src="${photo}" alt="${name}"></div>
+    <div class="player-info">
+      <div class="player-name">${name}</div>
+      <div class="player-stats">
+        投球数: ${pa.pitches?.length || 0}球<br>
+        投球方向: ${pitcher.throws || "-"}投げ<br>
+        防御率: ${pitcher.season_stats?.era || "-"}<br>
+        WHIP: ${pitcher.season_stats?.whip || "-"}<br>
+        奪三振: ${pitcher.season_stats?.k || "-"}
+      </div>
+    </div>
+  `;
 }
 
 function renderCount() {
