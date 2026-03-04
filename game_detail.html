@@ -3,55 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>試合詳細</title>
+<title>Live Game</title>
 
 <style>
-body{font-family:sans-serif;background:#f2f4f7;margin:0}
-section{background:white;margin:10px;padding:15px;border-radius:8px}
-#main-area{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-#zone-grid{display:grid;grid-template-columns:repeat(5,50px);grid-template-rows:repeat(5,50px);gap:3px;justify-content:center}
-.zone-cell{border:1px solid #ccc;position:relative}
-.strike-zone{background:#fff6cc}
-.pitch-dot{width:12px;height:12px;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
-.player{display:flex;justify-content:space-between}
-.inning-link{cursor:pointer;color:blue}
+
+/* ===== 全体 ===== */
+body{
+  margin:0;
+  font-family: 'Segoe UI',sans-serif;
+  background:#0b1220;
+  color:white;
+}
+
+.container{
+  max-width:1300px;
+  margin:auto;
+  padding:20px;
+}
+
+/* ===== スコアボード ===== */
+.scoreboard{
+  background:linear-gradient(135deg,#111827,#1f2937);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 0 40px rgba(0,0,0,.7);
+  overflow-x:auto;
+}
+
+.score-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:8px 0;
+}
+
+.cell{
+  min-width:40px;
+  text-align:center;
+  padding:6px;
+  background:#111827;
+  border-radius:8px;
+}
+
+.team{
+  min-width:160px;
+  font-weight:bold;
+}
+
+.total{
+  background:#2563eb;
+  font-weight:bold;
+}
+
+/* ===== LED ===== */
+.count-board{
+  display:flex;
+  justify-content:center;
+  gap:50px;
+  margin:30px 0;
+}
+
+.led{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+
+.dot{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#1f2937;
+}
+
+.on.green{background:#22c55e;}
+.on.yellow{background:#facc15;}
+.on.red{background:#ef4444;}
+
+/* ===== レイアウト ===== */
+.main-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:30px;
+}
+
+/* ===== フィールド ===== */
+.field{
+  position:relative;
+  height:400px;
+  background:#14532d;
+  border-radius:30px;
+}
+
+.diamond{
+  width:240px;
+  height:240px;
+  background:#166534;
+  transform:rotate(45deg);
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(45deg);
+  border-radius:30px;
+}
+
+.base{
+  width:30px;
+  height:30px;
+  background:white;
+  position:absolute;
+}
+
+.first{ right:-15px; top:105px;}
+.second{ top:-15px; left:105px;}
+.third{ left:-15px; top:105px;}
+
+.active{ background:#facc15;}
+
+.fielder{
+  position:absolute;
+  font-size:12px;
+  transform:translate(-50%,-50%);
+}
+
+/* ===== 打席情報 ===== */
+.panel{
+  background:#1f2937;
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:20px;
+}
+
+/* ===== ピッチゾーン ===== */
+.zone{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:2px;
+  margin-top:15px;
+}
+
+.zone div{
+  aspect-ratio:1;
+  background:#111827;
+}
+
+.strike-zone{
+  background:#1e3a8a;
+}
+
+.pitch-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  margin:auto;
+  margin-top:8px;
+}
+
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<section id="game-info"></section>
-<section id="scoreboard"></section>
-<section id="matchup"></section>
+<div id="scoreboard" class="scoreboard"></div>
 
-<section id="main-area">
-  <div>
-    <h3 id="team1-name"></h3>
-    <div id="team1-starters"></div>
-    <h4>ベンチ</h4>
-    <div id="team1-bench"></div>
+<div class="count-board" id="countBoard"></div>
+
+<div class="main-grid">
+
+  <div class="field">
+    <div class="diamond">
+      <div class="base first"></div>
+      <div class="base second"></div>
+      <div class="base third"></div>
+    </div>
+    <div id="defense"></div>
   </div>
 
   <div>
-    <div id="zone-grid"></div>
-    <button onclick="prevAtBat()">前打者</button>
-    <button onclick="nextAtBat()">次打者</button>
-    <div id="pitch-summary"></div>
+    <div class="panel" id="atbatInfo"></div>
+    <div class="panel">
+      <div>Pitch Zone</div>
+      <div class="zone" id="zone"></div>
+    </div>
   </div>
 
-  <div>
-    <h3 id="team2-name"></h3>
-    <div id="team2-starters"></div>
-    <h4>ベンチ</h4>
-    <div id="team2-bench"></div>
-  </div>
-</section>
+</div>
 
-<section id="data-area">
-  <div id="pitcher-data"></div>
-  <div id="batter-data"></div>
-</section>
+</div>
 
-<script src="js/game.js"></script>
+<script>
+
+let gameData;
+let currentAtBat=0;
+
+async function loadGame(){
+
+  const params=new URLSearchParams(location.search);
+  const date=params.get("date")||"2026-03-01";
+  const team=params.get("team")||"1";
+
+  const res=await fetch(`live/${date}_${team}.json`);
+  gameData=await res.json();
+
+  renderAll();
+}
+
+function renderAll(){
+  renderScoreboard();
+  renderCount();
+  renderField();
+  renderAtBat();
+  renderZone();
+}
+
+function renderScoreboard(){
+
+  const s=gameData.scoreboard;
+  const g=gameData.game_info;
+
+  const innings=Math.max(s.away.length,s.home.length);
+
+  let html="";
+  html+=buildRow(g.away_team,s.away,s.away_hits,s.away_errors);
+  html+=buildRow(g.home_team,s.home,s.home_hits,s.home_errors);
+
+  document.getElementById("scoreboard").innerHTML=html;
+}
+
+function buildRow(name,arr,hits,errors){
+
+  let row=`<div class="score-row">
+  <div class="cell team">${name}</div>`;
+
+  arr.forEach(i=>row+=`<div class="cell">${i}</div>`);
+
+  const total=arr.reduce((a,b)=>a+b,0);
+
+  row+=`<div class="cell total">${total}</div>
+  <div class="cell">${hits}</div>
+  <div class="cell">${errors}</div></div>`;
+
+  return row;
+}
+
+function renderCount(){
+
+  const ab=gameData.at_bats[currentAtBat];
+
+  document.getElementById("countBoard").innerHTML=
+  buildLED("BALL",ab.balls,3,"green")+
+  buildLED("STRIKE",ab.strikes,2,"yellow")+
+  buildLED("OUT",ab.outs,3,"red");
+}
+
+function buildLED(label,count,max,color){
+
+  let dots="";
+  for(let i=0;i<max;i++){
+    dots+=`<div class="dot ${i<count?"on "+color:""}"></div>`;
+  }
+
+  return `<div><div>${label}</div><div class="led">${dots}</div></div>`;
+}
+
+function renderField(){
+
+  const bases=gameData.scoreboard.bases;
+  const baseEls=document.querySelectorAll(".base");
+
+  baseEls.forEach(b=>b.classList.remove("active"));
+
+  if(bases[0]) baseEls[0].classList.add("active");
+  if(bases[1]) baseEls[1].classList.add("active");
+  if(bases[2]) baseEls[2].classList.add("active");
+
+  const defense=gameData.at_bats[currentAtBat].defense;
+
+  let html="";
+  defense.forEach(p=>{
+    html+=`<div class="fielder" style="left:${p.x}%;top:${p.y}%">${p.pos}</div>`;
+  });
+
+  document.getElementById("defense").innerHTML=html;
+}
+
+function renderAtBat(){
+
+  const ab=gameData.at_bats[currentAtBat];
+
+  document.getElementById("atbatInfo").innerHTML=
+  `<h3>${ab.inning}回${ab.half==="top"?"表":"裏"}</h3>
+   <p>${ab.pitcher.name} vs ${ab.batter.name}</p>
+   <p>${ab.result}</p>`;
+}
+
+function renderZone(){
+
+  const zone=document.getElementById("zone");
+  zone.innerHTML="";
+
+  for(let y=1;y<=5;y++){
+    for(let x=1;x<=5;x++){
+      const cell=document.createElement("div");
+      if(x>=2&&x<=4&&y>=2&&y<=4)
+        cell.classList.add("strike-zone");
+      zone.appendChild(cell);
+    }
+  }
+
+  const pitches=gameData.at_bats[currentAtBat].pitches;
+
+  pitches.forEach(p=>{
+    const index=(p.y-1)*5+(p.x-1);
+    const dot=document.createElement("div");
+    dot.className="pitch-dot";
+    dot.style.background=
+      p.result==="strike"?"yellow":
+      p.result==="ball"?"green":
+      p.result==="hit"?"blue":"red";
+
+    zone.children[index].appendChild(dot);
+  });
+}
+
+loadGame();
+
+</script>
 </body>
 </html>
