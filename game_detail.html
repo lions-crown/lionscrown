@@ -236,7 +236,7 @@ async function init() {
   const date = params.get("date") || today;
   let team = params.get("team") || "1";
 
-  const basePath = location.pathname.includes("/lionscrown") ? "/lionscrown/" : "/";
+  const basePath = "/lionscrown/";  // ← ここを強制固定
   dataPath = `${basePath}live/${date}_${team}.json`;
 
   let updated = await fetchGameData();
