@@ -476,11 +476,13 @@ function renderBenchTeam(players, container) {
     container.innerHTML = `<div style="padding:12px;color:rgba(255,255,255,0.4);text-align:center;">ベンチ選手データなし</div>`;
     return;
   }
-  players.forEach((p,i) => {
+  players.forEach((p, i) => {
+    // posがあればposを表示、なければSUB
+    const position = p.pos || "SUB";
+    
+    // 投手はERA、それ以外はAVGを表示（前回の修正を活かす）
     let stat = p.avg || "-";
     let statLabel = "AVG";
-    
-    // 投手判定（posが"P"またはeraが存在する場合）
     if (p.pos === "P" || p.era) {
       stat = p.era || "-";
       statLabel = "ERA";
@@ -489,7 +491,7 @@ function renderBenchTeam(players, container) {
     container.innerHTML += `
       <div class="lineup-item">
         <div>${i+1}</div>
-        <div style="opacity:0.6;">${p.pos || "SUB"}</div>
+        <div style="opacity:0.6;">${position}</div>  <!-- ← ここがSUB → posに変わる -->
         <div><a href="/lionscrown/player.html?id=${p.id}" style="color:#7ecbff;">${p.name}</a></div>
         <div>${statLabel} ${stat}</div>
       </div>`;
