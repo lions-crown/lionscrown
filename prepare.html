@@ -9,383 +9,87 @@
 <meta name="theme-color" content="#0f172a">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:"Segoe UI","Noto Sans JP",sans-serif;
-  background: radial-gradient(circle at top, #163b80 0%, #091b3d 40%, #050c1f 100%);
-  color:white;
-  min-height:100vh;
-  overflow-x:hidden;
-  line-height:1.75;
-}
-body::before{
-  content:"";
-  position:fixed;
-  width:500px;
-  height:500px;
-  background: radial-gradient(circle, rgba(77,163,255,0.25), transparent 70%);
-  top:-120px;
-  right:-120px;
-  filter:blur(40px);
-  z-index:-1;
-}
-header{
-  position:sticky;
-  top:0;
-  backdrop-filter:blur(14px);
-  background:rgba(10,25,60,0.55);
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  z-index:1000;
-}
-nav{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:16px 24px;
-}
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:bold;
-  font-size:18px;
-  letter-spacing:1px;
-  text-decoration:none;
-  color:white;
-}
-.logo span{
-  background:linear-gradient(90deg,#4da3ff,#9ad0ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.logo img{
-  width:26px;
-  height:26px;
-  border-radius:6px;
-  filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));
-}
-.menu{
-  display:flex;
-  gap:24px;
-}
-.menu a{
-  color:rgba(255,255,255,0.7);
-  text-decoration:none;
-  font-size:13px;
-  position:relative;
-  transition:0.25s;
-}
-.menu a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-6px;
-  width:0;
-  height:2px;
-  background:linear-gradient(90deg,#4da3ff,#7ecbff);
-  transition:0.25s;
-}
-.menu a:hover{
-  color:white;
-}
-.menu a:hover::after{
-  width:100%;
-}
-.header-controls{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.header-controls button{
-  background:#ffcc00;
-  color:black;
-  padding:6px 18px;
-  border-radius:16px;
-  font-weight:bold;
-  font-size:13px;
-  transition:0.25s;
-}
-.header-controls button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(255,204,0,0.4);
-}
-.toggle{
-  position:relative;
-  display:inline-block;
-  width:54px;
-  height:28px;
-}
-.toggle input{
-  opacity:0;
-  width:0;
-  height:0;
-}
-.slider{
-  position:absolute;
-  cursor:pointer;
-  top:0; left:0; right:0; bottom:0;
-  background:rgba(255,255,255,0.15);
-  transition:.3s;
-  border-radius:34px;
-}
-.slider:before{
-  position:absolute;
-  content:"";
-  height:22px;
-  width:22px;
-  left:3px;
-  bottom:3px;
-  background:#fff;
-  transition:.3s;
-  border-radius:50%;
-}
-input:checked + .slider{
-  background:#4da3ff;
-}
-input:checked + .slider:before{
-  transform:translateX(26px);
-}
-#autoLabel{
-  font-size:13px;
-  color:rgba(255,255,255,0.7);
-  min-width:78px;
-}
-#gameStatusBar{
-  background:rgba(0,0,0,0.45);
-  padding:14px 24px;
-  text-align:center;
-  font-size:15px;
-  font-weight:600;
-  border-bottom:1px solid rgba(255,255,255,0.1);
-}
-#changeLog{
-  margin:15px 0;
-  padding:14px 20px;
-  background:rgba(77,163,255,0.12);
-  border-radius:12px;
-  min-height:68px;
-  font-size:13.5px;
-  line-height:1.65;
-  color:#9ad0ff;
-}
-main{
-  max-width:1200px;
-  margin:30px auto;
-  padding:0 20px;
-}
-section{
-  margin-bottom:30px;
-  padding:24px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(14px);
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);
-}
+body{font-family:"Segoe UI","Noto Sans JP",sans-serif;background:radial-gradient(circle at top,#163b80 0%,#091b3d 40%,#050c1f 100%);color:white;min-height:100vh;overflow-x:hidden;line-height:1.75;}
+body::before{content:"";position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(77,163,255,0.25),transparent 70%);top:-120px;right:-120px;filter:blur(40px);z-index:-1;}
+header{position:sticky;top:0;backdrop-filter:blur(14px);background:rgba(10,25,60,0.55);border-bottom:1px solid rgba(255,255,255,0.08);z-index:1000;}
+nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;}
+.logo{display:flex;align-items:center;gap:10px;font-weight:bold;font-size:18px;letter-spacing:1px;text-decoration:none;color:white;}
+.logo span{background:linear-gradient(90deg,#4da3ff,#9ad0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo img{width:26px;height:26px;border-radius:6px;filter:drop-shadow(0 0 6px rgba(77,163,255,0.6));}
+.menu{display:flex;gap:24px;}
+.menu a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;position:relative;transition:0.25s;}
+.menu a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:linear-gradient(90deg,#4da3ff,#7ecbff);transition:0.25s;}
+.menu a:hover{color:white;}
+.menu a:hover::after{width:100%;}
+.header-controls{display:flex;align-items:center;gap:12px;}
+.header-controls button{background:#ffcc00;color:black;padding:6px 18px;border-radius:16px;font-weight:bold;font-size:13px;transition:0.25s;}
+.header-controls button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,204,0,0.4);}
+.toggle{position:relative;display:inline-block;width:54px;height:28px;}
+.toggle input{opacity:0;width:0;height:0;}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.15);transition:.3s;border-radius:34px;}
+.slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:#fff;transition:.3s;border-radius:50%;}
+input:checked + .slider{background:#4da3ff;}
+input:checked + .slider:before{transform:translateX(26px);}
+#autoLabel{font-size:13px;color:rgba(255,255,255,0.7);min-width:78px;}
+#gameStatusBar{background:rgba(0,0,0,0.45);padding:14px 24px;text-align:center;font-size:15px;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.1);}
+#changeLog{margin:15px 0;padding:14px 20px;background:rgba(77,163,255,0.12);border-radius:12px;min-height:68px;font-size:13.5px;line-height:1.65;color:#9ad0ff;}
+main{max-width:1200px;margin:30px auto;padding:0 20px;}
+section{margin-bottom:30px;padding:24px;border-radius:20px;background:rgba(255,255,255,0.05);backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(0,0,0,0.5);}
 h1{margin-bottom:20px;font-size:26px;}
 h2{margin-bottom:14px;font-size:18px;}
-#inningFilter{
-  background:rgba(255,255,255,0.1);
-  color:white;
-  border:1px solid rgba(255,255,255,0.2);
-  padding:6px 12px;
-  border-radius:8px;
-}
-.lineup-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-}
-.lineup-toggle{
-  background:rgba(77,163,255,0.25);
-  color:white;
-  border:none;
-  padding:6px 14px;
-  border-radius:20px;
-  font-size:12px;
-  cursor:pointer;
-}
-.lineup-toggle:hover{
-  background:rgba(77,163,255,0.45);
-}
-#scoreboard{
-  margin-bottom:20px;
-  padding:0;
-  background:none;
-}
-.scoreboard-table{
-  width:100%;
-  min-width:900px;
-  border-collapse:collapse;
-  font-size:14px;
-  text-align:center;
-}
-.scoreboard-table th,
-.scoreboard-table td{
-  border:1px solid rgba(255,255,255,0.15);
-  padding:8px 10px;
-}
-.scoreboard-table thead{
-  background:rgba(255,255,255,0.08);
-}
-.scoreboard-table tbody tr:hover{
-  background:rgba(255,255,255,0.06);
-}
-.scoreboard-table th.current-inning,
-.scoreboard-table td.current-inning{
-  background:linear-gradient(135deg,#4da3ff,#1e40af);
-  color:white;
-  font-weight:700;
-  box-shadow:0 0 15px rgba(77,163,255,0.6);
-  animation: inningGlow 1.2s ease-in-out infinite alternate;
-}
-@keyframes inningGlow{
-  from{box-shadow:0 0 10px rgba(77,163,255,0.4);}
-  to{box-shadow:0 0 20px rgba(77,163,255,0.9);}
-}
-.count-board{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-weight:600;
-  font-size:14px;
-}
-.count-dot{
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:#333;
-  box-shadow: inset 0 0 6px #000;
-}
+#inningFilter{background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);padding:6px 12px;border-radius:8px;}
+.lineup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.lineup-toggle{background:rgba(77,163,255,0.25);color:white;border:none;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;}
+.lineup-toggle:hover{background:rgba(77,163,255,0.45);}
+#scoreboard{margin-bottom:20px;padding:0;background:none;}
+.scoreboard-table{width:100%;min-width:900px;border-collapse:collapse;font-size:14px;text-align:center;}
+.scoreboard-table th,.scoreboard-table td{border:1px solid rgba(255,255,255,0.15);padding:8px 10px;}
+.scoreboard-table thead{background:rgba(255,255,255,0.08);}
+.scoreboard-table tbody tr:hover{background:rgba(255,255,255,0.06);}
+.scoreboard-table th.current-inning,.scoreboard-table td.current-inning{background:linear-gradient(135deg,#4da3ff,#1e40af);color:white;font-weight:700;box-shadow:0 0 15px rgba(77,163,255,0.6);animation:inningGlow 1.2s ease-in-out infinite alternate;}
+@keyframes inningGlow{from{box-shadow:0 0 10px rgba(77,163,255,0.4);}to{box-shadow:0 0 20px rgba(77,163,255,0.9);}}
+.count-board{display:flex;align-items:center;gap:6px;font-weight:600;font-size:14px;}
+.count-dot{width:14px;height:14px;border-radius:50%;background:#333;box-shadow:inset 0 0 6px #000;}
 .count-on.ball{background:#00c853;box-shadow:0 0 8px #00c853;}
 .count-on.strike{background:#ffd600;box-shadow:0 0 8px #ffd600;}
 .count-on.out{background:#ff3d00;box-shadow:0 0 8px #ff3d00;}
-.bases-panel{
-  margin:20px auto;
-  padding:14px 20px;
-  background:rgba(255,255,255,0.04);
-  border-radius:16px;
-  width:fit-content;
-}
-.bases-row{
-  display:flex;
-  justify-content:center;
-  gap:58px;
-}
-.base-label{
-  text-align:center;
-  font-size:11px;
-  margin-bottom:6px;
-  color:rgba(255,255,255,0.65);
-}
-.runner-dot{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  background:#1a263d;
-  border:4px solid rgba(77,163,255,0.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.5);
-  transition:all .4s ease;
-}
-.runner-dot.occupied{
-  background:#00c853;
-  border-color:#00ff9d;
-  box-shadow:0 0 28px #00ff9d;
-  color:#000;
-}
-.dashboard{
-  display:grid;
-  grid-template-columns:1fr 2fr 1fr;
-  gap:30px;
-  align-items:start;
-  margin-bottom:40px;
-}
-.team-column{
-  display:flex;
-  flex-direction:column;
-  gap:24px;
-}
-.lineup-box, .bench-sidebar{
-  padding:20px;
-  border-radius:18px;
-  background:rgba(255,255,255,0.04);
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
+.bases-panel{margin:20px auto;padding:14px 20px;background:rgba(255,255,255,0.04);border-radius:16px;width:fit-content;}
+.bases-row{display:flex;justify-content:center;gap:58px;}
+.base-label{text-align:center;font-size:11px;margin-bottom:6px;color:rgba(255,255,255,0.65);}
+.runner-dot{width:54px;height:54px;border-radius:50%;background:#1a263d;border:4px solid rgba(77,163,255,0.65);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 6px 18px rgba(0,0,0,0.5);transition:all .4s ease;}
+.runner-dot.occupied{background:#00c853;border-color:#00ff9d;box-shadow:0 0 28px #00ff9d;color:#000;}
+.dashboard{display:grid;grid-template-columns:1fr 2fr 1fr;gap:30px;align-items:start;margin-bottom:40px;}
+.team-column{display:flex;flex-direction:column;gap:24px;}
+.lineup-box,.bench-sidebar{padding:20px;border-radius:18px;background:rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(0,0,0,0.4);}
 .bench-sidebar h2{font-size:17px;margin-bottom:14px;color:rgba(255,255,255,0.9);}
 .lineup-list{display:flex;flex-direction:column;gap:8px;}
-.lineup-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:8px 12px;
-  border-radius:10px;
-  background: rgba(255,255,255,0.06);
-  transition:0.2s;
-}
-.lineup-item:hover{
-  background: rgba(255,255,255,0.15);
-  transform: translateX(4px);
-}
+.lineup-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.06);transition:0.2s;}
+.lineup-item:hover{background:rgba(255,255,255,0.15);transform:translateX(4px);}
 .center-panel{display:flex;flex-direction:column;gap:20px;}
-#zone{
-  position:relative;
-  width:340px;
-  height:340px;
-  border:2px solid white;
-  margin:20px auto;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  grid-template-rows:repeat(5,1fr);
-  background:rgba(255,255,255,0.03);
-}
+#zone{position:relative;width:340px;height:340px;border:2px solid white;margin:20px auto;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);background:rgba(255,255,255,0.03);}
 .zone-cell{border:1px solid rgba(255,255,255,0.08);}
 .strike-zone{background:rgba(77,163,255,0.18);border:1px solid rgba(77,163,255,0.6);}
-.pitchMarker{
-  position:absolute;width:18px;height:18px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:1px solid black;
-}
-button{
-  padding:8px 18px;
-  border-radius:20px;
-  border:none;
-  cursor:pointer;
-  background:linear-gradient(90deg,#4da3ff,#7ecbff);
-  color:black;
-  font-weight:bold;
-  transition:0.25s;
-}
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 20px rgba(0,0,0,0.5);
-}
-@media(max-width:1100px){
-  .dashboard{grid-template-columns:1fr;}
-}
-.hero-summary{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:28px;
-  border-radius:22px;
-  background:linear-gradient(135deg,rgba(77,163,255,0.18),rgba(0,0,0,0.4));
-  backdrop-filter:blur(18px);
-  box-shadow:0 25px 60px rgba(0,0,0,0.6);
-}
+.pitchMarker{position:absolute;width:18px;height:18px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:1px solid black;}
+.pitch-result{font-weight:bold;font-size:15px;margin-left:8px;}
+.pitch-strike{color:#ffd600;}
+.pitch-ball{color:#00c853;}
+.pitch-hit{color:#ff3d00;}
+.pitch-out{color:#aaa;}
+.pitch-foul{color:#ffcc00;}
+.player-card{background:linear-gradient(135deg,rgba(20,40,90,0.7),rgba(10,20,50,0.9));border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.6);display:flex;gap:20px;align-items:center;margin:16px 0;}
+.player-photo{width:100px;height:130px;border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(77,163,255,0.4);flex-shrink:0;}
+.player-photo img{width:100%;height:100%;object-fit:cover;}
+.player-info{flex:1;}
+.player-name{font-size:22px;font-weight:700;margin-bottom:8px;background:linear-gradient(90deg,#4da3ff,#9ad0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.player-stats{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.6;}
+button{padding:8px 18px;border-radius:20px;border:none;cursor:pointer;background:linear-gradient(90deg,#4da3ff,#7ecbff);color:black;font-weight:bold;transition:0.25s;}
+button:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,0.5);}
+@media(max-width:1100px){.dashboard{grid-template-columns:1fr;}}
+.hero-summary{display:flex;justify-content:space-between;align-items:center;padding:28px;border-radius:22px;background:linear-gradient(135deg,rgba(77,163,255,0.18),rgba(0,0,0,0.4));backdrop-filter:blur(18px);box-shadow:0 25px 60px rgba(0,0,0,0.6);}
 .hero-teams{font-size:28px;font-weight:700;letter-spacing:1px;}
 .hero-meta{font-size:14px;opacity:.8;margin-top:6px;}
 .hero-score{font-size:42px;font-weight:800;background:linear-gradient(90deg,#4da3ff,#9ad0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-footer{
-  margin-top:100px;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(16px);
-  border-top:1px solid rgba(255,255,255,0.08);
-  text-align:center;
-  padding:20px 0;
-}
+footer{margin-top:100px;background:rgba(0,0,0,0.35);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.08);text-align:center;padding:20px 0;}
 footer a{text-decoration:none;color:#7ecbff;}
 footer a:hover{color:white;}
 </style>
@@ -435,7 +139,6 @@ footer a:hover{color:white;}
 
   <div class="dashboard">
 
-    <!-- 左列：ホームスタメン → ホームベンチ -->
     <div class="team-column">
       <section class="lineup-box">
         <div class="lineup-header">
@@ -450,7 +153,6 @@ footer a:hover{color:white;}
       </section>
     </div>
 
-    <!-- 中央：投球ログエリア -->
     <section class="center-panel">
       <h2>投球ログ</h2>
       <div id="changeLog">交代・変更履歴なし</div>
@@ -459,8 +161,9 @@ footer a:hover{color:white;}
       <button onclick="searchBatter()">検索</button>
       <button onclick="latestPA()">最新に戻る</button>
       
-      <div id="pitchLog"></div>
-      <div id="countDisplay"></div>
+      <div id="pitchLog" style="margin:20px 0;font-size:14px;line-height:1.8;"></div>
+      
+      <div id="countDisplay" style="margin:20px 0;"></div>
       
       <div class="bases-panel">
         <div class="bases-row">
@@ -470,15 +173,14 @@ footer a:hover{color:white;}
         </div>
       </div>
       
-      <div>
+      <div style="text-align:center;margin:20px 0;">
         <button onclick="prevPA()">前打者</button>
         <button onclick="nextPA()">次打者</button>
       </div>
       <div id="zone"></div>
-      <div id="field" style="position:relative;height:240px;"></div>
+      <div id="field" style="position:relative;height:240px;margin-top:30px;"></div>
     </section>
 
-    <!-- 右列：ビジタースタメン → ビジターベンチ -->
     <div class="team-column">
       <section class="lineup-box">
         <div class="lineup-header">
@@ -496,18 +198,17 @@ footer a:hover{color:white;}
   </div>
 
   <section>
-    <h2>投手詳細</h2>
-    <div id="pitcherStats"></div>
+    <h2>現在の投手</h2>
+    <div id="pitcherStats" class="player-card"></div>
   </section>
 
   <section>
-    <h2>打者詳細</h2>
-    <div id="batterStats"></div>
+    <h2>現在の打者</h2>
+    <div id="batterStats" class="player-card"></div>
   </section>
 </main>
 
 <script>
-// スクリプトは前回と同じ完全版を使用（変更不要）
 let gameData = null;
 let currentPAIndex = 0;
 let currentFielders = null;
@@ -548,7 +249,6 @@ async function init() {
     renderAll();
   } else {
     showError("データ取得失敗");
-    return;
   }
   startPolling();
 }
@@ -607,9 +307,6 @@ async function manualUpdate() {
   }
 }
 
-/* ===========================
-   初期状態検出 & イベント処理
-=========================== */
 function detectInitialState() {
   if (!gameData.pitches.length) return;
   const first = gameData.pitches[0];
@@ -639,13 +336,10 @@ function applyEventsUpTo(paIndex) {
   if (pa.fielders) currentFielders = pa.fielders;
 }
 
-/* ===========================
-   イニングフィルタ
-=========================== */
 function populateInningFilter() {
   const select = document.getElementById("inningFilter");
   select.innerHTML = '<option value="all">全イニング</option>';
-  const max = Math.max(...gameData.pitches.map(p => p.inning));
+  const max = Math.max(...gameData.pitches.map(p => p.inning), 1);
   for (let i = 1; i <= max; i++) {
     const opt = document.createElement("option");
     opt.value = i;
@@ -653,11 +347,9 @@ function populateInningFilter() {
     select.appendChild(opt);
   }
 }
+
 function applyFilter() { renderAll(); }
 
-/* ===========================
-   総描画
-=========================== */
 function renderAll() {
   const filterVal = document.getElementById("inningFilter").value;
   const filterInning = filterVal === "all" ? null : parseInt(filterVal);
@@ -673,28 +365,25 @@ function renderAll() {
   renderBench();
   renderChangeLog();
   renderCurrentStatus();
-  renderPitchLog();
+  renderPitchLogEnhanced();
   renderCount();
   renderBases();
   renderZone();
   renderField();
-  renderPitcherStats();
-  renderBatterStats();
+  renderPitcherStatsEnhanced();
+  renderBatterStatsEnhanced();
 }
 
-/* ===========================
-   試合概要・スコアボード
-=========================== */
 function renderSummary() {
   const m = gameData.meta;
   const sb = gameData.scoreboard;
-  const awayR = sb.total.away.R;
-  const homeR = sb.total.home.R;
+  const awayR = sb.total.away.R ?? 0;
+  const homeR = sb.total.home.R ?? 0;
   summary.innerHTML = `
     <div class="hero-summary">
       <div>
         <div class="hero-teams">${m.away} vs ${m.home}</div>
-        <div class="hero-meta">${m.date} ｜ ${m.stadium}</div>
+        <div class="hero-meta">${m.date || "-"} ｜ ${m.stadium || "-"}</div>
       </div>
       <div class="hero-score">${awayR} - ${homeR}</div>
     </div>
@@ -706,7 +395,7 @@ function renderScoreboard() {
   const totals = gameData.scoreboard.total;
   const maxInning = inningsData.length;
   const currentPA = gameData.pitches[currentPAIndex];
-  const currentInning = currentPA ? currentPA.inning : 1;
+  const currentInning = currentPA?.inning || 1;
   let html = `<table class="scoreboard-table"><thead><tr><th></th>`;
   for (let i = 1; i <= maxInning; i++) {
     const highlight = i === currentInning ? "current-inning" : "";
@@ -715,21 +404,19 @@ function renderScoreboard() {
   html += `<th>R</th><th>H</th><th>E</th></tr></thead><tbody>`;
   html += `<tr><td>${gameData.meta.away}</td>`;
   inningsData.forEach(inning => html += `<td>${inning.away ?? ""}</td>`);
-  html += `<td>${totals.away.R}</td><td>${totals.away.H}</td><td>${totals.away.E}</td></tr>`;
+  html += `<td>${totals?.away?.R ?? ""}</td><td>${totals?.away?.H ?? ""}</td><td>${totals?.away?.E ?? ""}</td></tr>`;
   html += `<tr><td>${gameData.meta.home}</td>`;
   inningsData.forEach(inning => html += `<td>${inning.home ?? ""}</td>`);
-  html += `<td>${totals.home.R}</td><td>${totals.home.H}</td><td>${totals.home.E}</td></tr>`;
+  html += `<td>${totals?.home?.R ?? ""}</td><td>${totals?.home?.H ?? ""}</td><td>${totals?.home?.E ?? ""}</td></tr>`;
   html += `</tbody></table>`;
   scoreboardEl.innerHTML = html;
 }
 
-/* ===========================
-   ラインナップ（切り替え対応）
-=========================== */
 function renderLineups() {
-  renderTeam(gameData.lineups.home, homeLineup, 0);
-  renderTeam(gameData.lineups.away, awayLineup, 1);
+  renderTeam(gameData.lineups?.home || [], homeLineup, 0);
+  renderTeam(gameData.lineups?.away || [], awayLineup, 1);
 }
+
 function renderTeam(players, container, teamIndex) {
   container.innerHTML = "";
   const isCurrentMode = lineupMode[teamIndex] === 1;
@@ -753,18 +440,17 @@ function renderTeam(players, container, teamIndex) {
       </div>`;
   });
 }
+
 function toggleLineupMode(teamIndex) {
   lineupMode[teamIndex] = lineupMode[teamIndex] === 0 ? 1 : 0;
   renderLineups();
 }
 
-/* ===========================
-   ベンチ選手表示（左右配置）
-=========================== */
 function renderBench() {
   renderBenchTeam(gameData.bench?.home || [], homeBench);
   renderBenchTeam(gameData.bench?.away || [], awayBench);
 }
+
 function renderBenchTeam(players, container) {
   container.innerHTML = "";
   if (!players.length) {
@@ -782,14 +468,10 @@ function renderBenchTeam(players, container) {
   });
 }
 
-/* ===========================
-   交代ログ・状況バー・投球ログ
-=========================== */
 function renderChangeLog() {
-  const logEl = changeLog;
-  logEl.innerHTML = "";
+  changeLog.innerHTML = "";
   if (!gameData.events || !gameData.events.length) {
-    logEl.innerHTML = "<div style='color:#aaa;'>交代・変更履歴なし</div>";
+    changeLog.innerHTML = "<div style='color:#aaa;'>交代・変更履歴なし</div>";
     return;
   }
   let html = "<strong>最近の変更：</strong><br>";
@@ -802,7 +484,7 @@ function renderChangeLog() {
     else if (e.type === "defense_change") text = `【守備変更】 ${e.inning}回 ${e.reason || ""}`;
     html += text + "<br>";
   });
-  logEl.innerHTML = html;
+  changeLog.innerHTML = html;
 }
 
 function renderCurrentStatus() {
@@ -813,21 +495,55 @@ function renderCurrentStatus() {
   document.getElementById("currentOuts").textContent = pa.final_count?.outs || 0;
 }
 
-function renderPitchLog() {
+function renderPitchLogEnhanced() {
   const pa = gameData.pitches[currentPAIndex];
   if (!pa) return;
+
   const actualBatterId = batterHistory[pa.pa_id] || pa.batter_id;
   const isPinch = actualBatterId !== pa.batter_id;
-  let html = `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}　打者: ${getPlayerNameById(actualBatterId)}${isPinch ? " <span style='color:#ff0'>(代打)</span>" : ""}</strong><br>`;
-  pa.pitches.forEach((p,i) => {
-    html += `${i+1}球目: ${p.pitch_type} (${p.velocity}km/h) → ${p.result}<br>`;
+
+  let html = `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}　打者: ${getPlayerNameById(actualBatterId)}${isPinch ? " <span style='color:#ff0'>(代打)</span>" : ""}</strong><br><br>`;
+
+  pa.pitches.forEach((p, i) => {
+    let symbol = "●";
+    let colorClass = "pitch-ball";
+    let pitchTypeSymbol = "";
+
+    // 変化球記号
+    const typeLower = (p.pitch_type || "").toLowerCase();
+    if (typeLower.includes("slider")) pitchTypeSymbol = "↝ ";
+    else if (typeLower.includes("curve")) pitchTypeSymbol = "↯ ";
+    else if (typeLower.includes("fork") || typeLower.includes("split")) pitchTypeSymbol = "↓ ";
+    else if (typeLower.includes("sinker")) pitchTypeSymbol = "↘ ";
+    else if (typeLower.includes("cutter")) pitchTypeSymbol = "→ ";
+    else if (typeLower.includes("fastball") || typeLower.includes("four-seam")) pitchTypeSymbol = "→ ";
+
+    // 結果による色・記号
+    switch(p.result) {
+      case "strike":
+      case "called_strike":
+      case "swinging_strike": colorClass = "pitch-strike"; symbol = "●"; break;
+      case "foul":            colorClass = "pitch-foul";  symbol = "●"; break;
+      case "ball":            colorClass = "pitch-ball";  symbol = "●"; break;
+      case "hit": case "single": case "double": case "triple": case "home_run":
+                              colorClass = "pitch-hit";   symbol = "◆"; break;
+      case "out": case "flyout": case "groundout": case "strikeout":
+                              colorClass = "pitch-out";   symbol = "■"; break;
+      default:                colorClass = "";            symbol = "○"; break;
+    }
+
+    html += `
+      <div style="margin:6px 0;">
+        <span style="font-size:15px;">${i+1}球目:</span> 
+        <span style="color:#bbb;">${pitchTypeSymbol}${p.pitch_type || "-"}</span> 
+        <span style="color:#aaa;">(${p.velocity || "-"}km/h)</span>
+        <span class="pitch-result ${colorClass}">${symbol} ${p.result}</span>
+      </div>`;
   });
+
   pitchLog.innerHTML = html;
 }
 
-/* ===========================
-   カウント・塁状況・ゾーン・フィールド・詳細
-=========================== */
 function renderCount() {
   const pa = gameData.pitches[currentPAIndex];
   if (!pa) return;
@@ -906,25 +622,54 @@ function renderField() {
   });
 }
 
-function renderPitcherStats() {
+function renderPitcherStatsEnhanced() {
   const pa = gameData.pitches[currentPAIndex];
   if (!pa) return;
-  pitcherStats.innerHTML = `投手: ${getPlayerNameById(currentPitcherId)}<br>投球数: ${pa.pitches?.length || 0}`;
+  const pitcher = gameData.pitchers?.[currentPitcherId] || {};
+  const photo = pitcher.photo || "https://via.placeholder.com/100x130/1e293b/ffffff?text=P";
+  const name = pitcher.name || getPlayerNameById(currentPitcherId);
+
+  pitcherStats.innerHTML = `
+    <div class="player-photo"><img src="${photo}" alt="${name}"></div>
+    <div class="player-info">
+      <div class="player-name">${name}</div>
+      <div class="player-stats">
+        投球数: ${pa.pitches?.length || 0}球<br>
+        投球方向: ${pitcher.throws || "-"}投げ<br>
+        防御率: ${pitcher.season_stats?.era || "-"}<br>
+        WHIP: ${pitcher.season_stats?.whip || "-"}<br>
+        奪三振: ${pitcher.season_stats?.k || "-"}
+      </div>
+    </div>
+  `;
 }
 
-function renderBatterStats() {
+function renderBatterStatsEnhanced() {
+  const pa = gameData.pitches[currentPAIndex];
+  if (!pa) return;
+  const batterId = batterHistory[pa.pa_id] || pa.batter_id;
+  const allPlayers = [...(gameData.lineups?.home||[]), ...(gameData.lineups?.away||[]), ...(gameData.bench?.home||[]), ...(gameData.bench?.away||[])];
+  const batter = allPlayers.find(p => p.id === batterId) || {};
+  const photo = batter.photo || "https://via.placeholder.com/100x130/1e293b/ffffff?text=B";
+
+  let resultsHtml = "";
   const results = {};
-  gameData.pitches.forEach(pa => {
-    if (pa.result) results[pa.result] = (results[pa.result] || 0) + 1;
-  });
-  let html = "";
-  Object.entries(results).forEach(([r,v]) => html += `${r}: ${v}<br>`);
-  batterStats.innerHTML = html || "データなし";
+  gameData.pitches.forEach(p => { if (p.result) results[p.result] = (results[p.result] || 0) + 1; });
+  Object.entries(results).forEach(([r,v]) => resultsHtml += `<span style="margin-right:12px;">${r}: ${v}</span>`);
+
+  batterStats.innerHTML = `
+    <div class="player-photo"><img src="${photo}" alt="${batter.name || "打者"}"></div>
+    <div class="player-info">
+      <div class="player-name">${getPlayerNameById(batterId)}</div>
+      <div class="player-stats">
+        今日の結果: ${resultsHtml || "データなし"}<br>
+        打率: ${batter.avg || "-"}<br>
+        ポジション: ${batter.pos || "-"}
+      </div>
+    </div>
+  `;
 }
 
-/* ===========================
-   ユーティリティ
-=========================== */
 function getPlayerNameById(id) {
   if (!id) return "-";
   const all = [
