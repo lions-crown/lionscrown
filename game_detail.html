@@ -407,11 +407,16 @@ function renderAll(){
 =========================== */
 function renderSummary(){
   const m = gameData?.meta;
-  if(!m) return;
-  summary.innerHTML =32
-    `<strong>${m.home} vs ${m.away}</strong><br>
-     球場: ${m.stadium || "-"}<br>
-     日時: ${m.date || "-"}`;
+  if(!m){
+    summary.innerHTML = "";
+    return;
+  }
+
+  summary.innerHTML = `
+    <strong>${m.home} vs ${m.away}</strong><br>
+    球場: ${m.stadium || "-"}<br>
+    日時: ${m.date || "-"}
+  `;
 }
 
 /* ===========================
