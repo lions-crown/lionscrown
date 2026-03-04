@@ -423,63 +423,55 @@ function renderSummary(){
    スコアボード
 =========================== */
 function renderScoreboard(){
-
   const sb = gameData?.scoreboard;
   if(!sb) return;
 
   const innings = sb.innings || [];
+  // 最大回数（延長対応込み）
   const maxInning = Math.max(9, ...innings.map(i=>i.inning));
 
   let html = `
   <div class="scoreboard-wrapper">
-  <table class="scoreboard-table">
-    <thead>
-      <tr>
-        <th></th>`;
+    <table class="scoreboard-table">
+      <thead>
+        <tr>
+          <th></th>`;
 
   for(let i=1;i<=maxInning;i++){
     html += `<th>${i}</th>`;
   }
 
   html += `
-        <th class="scoreboard-total">R</th>
-        <th>H</th>
-        <th>E</th>
-      </tr>
-    </thead>
-    <tbody>`;
+          <th class="scoreboard-total">R</th>
+          <th>H</th>
+          <th>E</th>
+        </tr>
+      </thead>
+      <tbody>`;
 
   // ビジター
-  html += `<tr>
-    <td class="scoreboard-team">${gameData.meta.away}</td>`;
-
+  html += `<tr><td class="scoreboard-team">${gameData.meta.away}</td>`;
   for(let i=1;i<=maxInning;i++){
     const inningData = innings.find(x=>x.inning===i);
     html += `<td>${inningData?.away ?? ""}</td>`;
   }
-
-  html += `
-    <td class="scoreboard-total">${sb.total?.away?.R ?? 0}</td>
-    <td>${sb.total?.away?.H ?? "-"}</td>
-    <td>${sb.total?.away?.E ?? "-"}</td>
-  </tr>`;
+  html += `<td class="scoreboard-total">${sb.total?.away?.R ?? 0}</td>
+           <td>${sb.total?.away?.H ?? "-"}</td>
+           <td>${sb.total?.away?.E ?? "-"}</td></tr>`;
 
   // ホーム
-  html += `<tr>
-    <td class="scoreboard-team">${gameData.meta.home}</td>`;
-
+  html += `<tr><td class="scoreboard-team">${gameData.meta.home}</td>`;
   for(let i=1;i<=maxInning;i++){
     const inningData = innings.find(x=>x.inning===i);
     html += `<td>${inningData?.home ?? ""}</td>`;
   }
+  html += `<td class="scoreboard-total">${sb.total?.home?.R ?? 0}</td>
+           <td>${sb.total?.home?.H ?? "-"}</td>
+           <td>${sb.total?.home?.E ?? "-"}</td></tr>`;
 
   html += `
-    <td class="scoreboard-total">${sb.total?.home?.R ?? 0}</td>
-    <td>${sb.total?.home?.H ?? "-"}</td>
-    <td>${sb.total?.home?.E ?? "-"}</td>
-  </tr>
-  </tbody>
-  </table>
+      </tbody>
+    </table>
   </div>`;
 
   scoreboard.innerHTML = html;
