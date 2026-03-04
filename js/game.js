@@ -26,16 +26,41 @@ async function loadGame() {
   }
 }
 
-function renderAll(){
- if(!gameData || !gameData.at_bats?.length) return;
- const ab=gameData.at_bats[currentIndex];
+function renderAll() {
+  if (!gameData) return;
 
- renderScoreBar(ab);
- renderScoreboard();
- renderCount(ab);
- renderZone(ab);
- renderLog(ab);
- renderLineups();
+  renderScoreboard();
+  renderField();
+  renderBases();
+  renderLog();
+}
+
+let gameData = null;
+let currentIndex = 0;
+let autoPlay = null;
+
+async function loadGame() {
+  const params = new URLSearchParams(location.search);
+  const date = params.get("date");
+  const team = params.get("team");
+
+  if (!date || !team) {
+    alert("URLパラメータが不足しています");
+    return;
+  }
+
+  try {
+    const res = await fetch(`data/${date}_${team}.json`);
+    if (!res.ok) throw new Error("JSON not found");
+    gameData = await res.json();
+
+    currentIndex = 0;
+    renderAll();
+    startAutoPlay();
+  } catch (err) {
+    console.error(err);
+    alert("データが読み込めませんでした");
+  }
 }
 
 function renderScoreBar(ab){
@@ -52,25 +77,58 @@ function renderScoreBar(ab){
   `${ab.inning}回${ab.half==="top"?"表":"裏"} ${ab.outs}アウト`;
 }
 
-function renderScoreboard(){
- const sb=gameData.scoreboard;
- let html="<tr><th></th>";
- for(let i=1;i<=9;i++) html+=`<th>${i}</th>`;
- html+="<th>R</th><th>H</th><th>E</th></tr>";
+function renderScoreboard() {
+  const sb = gameData.scoreboard;
+  const gi = gameData.game_info;
 
- html+="<tr><td>Away</td>";
- for(let i=0;i<9;i++) html+=`<td>${sb.away[i]??"-"}</td>`;
- html+=`<td>${sb.away.reduce((a,b)=>a+b,0)}</td>
- <td>${sb.away_hits}</td>
- <td>${sb.away_errors}</td></tr>`;
+  document.getElementById("scorebar").innerHTML = `
+    <div class="scorebar-inner">
+      <div>${gi.away_team}</div>
+      <div>${sb.away.join(" ")}</div>
+      <div>${sb.away_hits}H ${sb.away_errors}E</div>
+      <div>VS</div>
+      <div>${gi.home_team}</div>
+      <div>${sb.home.join(" ")}</div>
+      <div>${sb.home_hits}H ${sb.home_errors}E</div>
+    </div>
+  `;
+}
 
- html+="<tr><td>Home</td>";
- for(let i=0;i<9;i++) html+=`<td>${sb.home[i]??"-"}</td>`;
- html+=`<td>${sb.home.reduce((a,b)=>a+b,0)}</td>
- <td>${sb.home_hits}</td>
- <td>${sb.home_errors}</td></tr>`;
+function renderField() {
+  const ab = gameData.at_bats[currentIndex];
+  if (!ab.field) return;
 
- document.getElementById("scoreboard").innerHTML=html;
+  const f = ab.field;
+
+  document.getElementById("field").innerHTML = `
+    <div class="pos p">${f.P}</div>
+    <div class="pos c">${f.C}</div>
+    <div class="pos fb">${f["1B"]}</div>
+    <div class="pos sb">${f["2B"]}</div>
+    <div class="pos tb">${f["3B"]}</div>
+    <div class="pos ss">${f.SS}</div>
+    <div class="pos lf">${f.LF}</div>
+    <div class="pos cf">${f.CF}</div>
+    <div class="pos rf">${f.RF}</div>
+  `;
+}
+
+function renderBases() {
+  const ab = gameData.at_bats[currentIndex];
+  const b = ab.bases;
+
+  document.getElementById("bases").innerHTML = `
+    1塁: ${b.first || "-"}<br>
+    2塁: ${b.second || "-"}<br>
+    3塁: ${b.third || "-"}
+  `;
+}
+
+function renderLog() {
+  const ab = gameData.at_bats[currentIndex];
+
+  document.getElementById("log").innerHTML =
+    ab.log.map(l => `<div>${l.time} ${l.text}</div>`).join("");
 }
 
 function renderCount(ab){
