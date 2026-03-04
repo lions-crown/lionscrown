@@ -242,9 +242,7 @@ const changeLog = document.getElementById("changeLog");
 async function init() {
   const params = new URLSearchParams(window.location.search);
 
-  // 今日の日付を自動取得（日本時間 YYYY-MM-DD）
   const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }).slice(0, 10);
-
   const date = params.get("date") || today;
   let team = params.get("team") || "1";
 
@@ -253,9 +251,14 @@ async function init() {
 
   let updated = await fetchGameData();
 
-  // 1がなかったら2を試す（複数試合対応の簡易フォールバック）
+  // team=1で失敗したら自動でteam=2を試す（最大3まで対応）
   if (!updated && team === "1") {
     team = "2";
+    dataPath = `${basePath}live/${date}_${team}.json`;
+    updated = await fetchGameData();
+  }
+  if (!updated && team === "2") {
+    team = "3";
     dataPath = `${basePath}live/${date}_${team}.json`;
     updated = await fetchGameData();
   }
@@ -266,7 +269,7 @@ async function init() {
     populateInningFilter();
     renderAll();
   } else {
-    showError(`データ取得失敗: ${date}_${team}.json`);
+    showError(`データ取得失敗: ${date}_${team}.json（1〜3をすべて試しました）`);
   }
 
   startPolling();
