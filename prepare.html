@@ -69,7 +69,15 @@ h2{margin-bottom:14px;font-size:18px;}
 #zone{position:relative;width:340px;height:340px;border:2px solid white;margin:20px auto;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);background:rgba(255,255,255,0.03);}
 .zone-cell{border:1px solid rgba(255,255,255,0.08);}
 .strike-zone{background:rgba(77,163,255,0.18);border:1px solid rgba(77,163,255,0.6);}
-.pitchMarker{position:absolute;width:18px;height:18px;font-size:9px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:1px solid black;}
+.pitchMarker{position:absolute;width:22px;height:22px;font-size:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:2px solid #111;font-weight:bold;}
+/* === 5x5ゾーン内の投球マーカー色分け（ここが新強化） === */
+.pitchMarker.result-strike{background:#ffd600;color:#000;border-color:#ffd600;}
+.pitchMarker.result-foul{background:#ffcc00;color:#000;border-color:#ffcc00;}
+.pitchMarker.result-ball{background:#00c853;color:white;border-color:#00c853;}
+.pitchMarker.result-hit{background:#ff3d00;color:white;border-color:#ff3d00;}
+.pitchMarker.result-out{background:#888;color:white;border-color:#888;}
+.pitchMarker.result-called_strike,
+.pitchMarker.result-swinging_strike{background:#ffd600;color:#000;border-color:#ffd600;}
 .pitch-result{font-weight:bold;font-size:15px;margin-left:8px;}
 .pitch-strike{color:#ffd600;}
 .pitch-ball{color:#00c853;}
@@ -498,18 +506,13 @@ function renderCurrentStatus() {
 function renderPitchLogEnhanced() {
   const pa = gameData.pitches[currentPAIndex];
   if (!pa) return;
-
   const actualBatterId = batterHistory[pa.pa_id] || pa.batter_id;
   const isPinch = actualBatterId !== pa.batter_id;
-
   let html = `<strong>${pa.inning}回 ${pa.half==="top"?"表":"裏"}　打者: ${getPlayerNameById(actualBatterId)}${isPinch ? " <span style='color:#ff0'>(代打)</span>" : ""}</strong><br><br>`;
-
   pa.pitches.forEach((p, i) => {
     let symbol = "●";
     let colorClass = "pitch-ball";
     let pitchTypeSymbol = "";
-
-    // 変化球記号
     const typeLower = (p.pitch_type || "").toLowerCase();
     if (typeLower.includes("slider")) pitchTypeSymbol = "↝ ";
     else if (typeLower.includes("curve")) pitchTypeSymbol = "↯ ";
@@ -517,30 +520,22 @@ function renderPitchLogEnhanced() {
     else if (typeLower.includes("sinker")) pitchTypeSymbol = "↘ ";
     else if (typeLower.includes("cutter")) pitchTypeSymbol = "→ ";
     else if (typeLower.includes("fastball") || typeLower.includes("four-seam")) pitchTypeSymbol = "→ ";
-
-    // 結果による色・記号
     switch(p.result) {
-      case "strike":
-      case "called_strike":
-      case "swinging_strike": colorClass = "pitch-strike"; symbol = "●"; break;
-      case "foul":            colorClass = "pitch-foul";  symbol = "●"; break;
-      case "ball":            colorClass = "pitch-ball";  symbol = "●"; break;
-      case "hit": case "single": case "double": case "triple": case "home_run":
-                              colorClass = "pitch-hit";   symbol = "◆"; break;
-      case "out": case "flyout": case "groundout": case "strikeout":
-                              colorClass = "pitch-out";   symbol = "■"; break;
-      default:                colorClass = "";            symbol = "○"; break;
+      case "strike": case "called_strike": case "swinging_strike": colorClass = "pitch-strike"; symbol = "●"; break;
+      case "foul": colorClass = "pitch-foul"; symbol = "●"; break;
+      case "ball": colorClass = "pitch-ball"; symbol = "●"; break;
+      case "hit": case "single": case "double": case "triple": case "home_run": colorClass = "pitch-hit"; symbol = "◆"; break;
+      case "out": case "flyout": case "groundout": case "strikeout": colorClass = "pitch-out"; symbol = "■"; break;
+      default: colorClass = ""; symbol = "○"; break;
     }
-
     html += `
       <div style="margin:6px 0;">
-        <span style="font-size:15px;">${i+1}球目:</span> 
-        <span style="color:#bbb;">${pitchTypeSymbol}${p.pitch_type || "-"}</span> 
+        <span style="font-size:15px;">${i+1}球目:</span>
+        <span style="color:#bbb;">${pitchTypeSymbol}${p.pitch_type || "-"}</span>
         <span style="color:#aaa;">(${p.velocity || "-"}km/h)</span>
         <span class="pitch-result ${colorClass}">${symbol} ${p.result}</span>
       </div>`;
   });
-
   pitchLog.innerHTML = html;
 }
 
@@ -603,6 +598,10 @@ function renderZone() {
     dot.style.left = (p.zone.x / 4 * 100) + "%";
     dot.style.top = (p.zone.y / 4 * 100) + "%";
     dot.title = `${p.pitch_type} ${p.velocity}km/h`;
+    // 記号も結果ごとに変える
+    if (p.result === "hit") dot.textContent = "◆";
+    else if (p.result === "out") dot.textContent = "■";
+    else dot.textContent = "●";
     zone.appendChild(dot);
   });
 }
@@ -628,7 +627,6 @@ function renderPitcherStatsEnhanced() {
   const pitcher = gameData.pitchers?.[currentPitcherId] || {};
   const photo = pitcher.photo || "https://via.placeholder.com/100x130/1e293b/ffffff?text=P";
   const name = pitcher.name || getPlayerNameById(currentPitcherId);
-
   pitcherStats.innerHTML = `
     <div class="player-photo"><img src="${photo}" alt="${name}"></div>
     <div class="player-info">
@@ -651,12 +649,10 @@ function renderBatterStatsEnhanced() {
   const allPlayers = [...(gameData.lineups?.home||[]), ...(gameData.lineups?.away||[]), ...(gameData.bench?.home||[]), ...(gameData.bench?.away||[])];
   const batter = allPlayers.find(p => p.id === batterId) || {};
   const photo = batter.photo || "https://via.placeholder.com/100x130/1e293b/ffffff?text=B";
-
   let resultsHtml = "";
   const results = {};
   gameData.pitches.forEach(p => { if (p.result) results[p.result] = (results[p.result] || 0) + 1; });
   Object.entries(results).forEach(([r,v]) => resultsHtml += `<span style="margin-right:12px;">${r}: ${v}</span>`);
-
   batterStats.innerHTML = `
     <div class="player-photo"><img src="${photo}" alt="${batter.name || "打者"}"></div>
     <div class="player-info">
