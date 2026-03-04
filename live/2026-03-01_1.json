@@ -11,33 +11,48 @@
     "away_hits": 4,
     "home_hits": 3,
     "away_errors": 0,
-    "home_errors": 0,
-    "bases": [1,0,1]
+    "home_errors": 0
   },
-  "at_bats": [
+  "lineups": {
+    "away": {
+      "starting":[{"name":"周東佑京","avg":".310"},{"name":"近藤健介","avg":".312"},{"name":"柳田悠岐","avg":".298"}],
+      "bench":[{"name":"中村晃"},{"name":"栗原陵矢"}]
+    },
+    "home": {
+      "starting":[{"name":"源田壮亮","avg":".270"},{"name":"外崎修汰","avg":".265"},{"name":"中村剛也","avg":".240"}],
+      "bench":[{"name":"栗山巧"},{"name":"蛭間拓哉"}]
+    }
+  },
+  "at_bats":[
     {
-      "inning": 3,
-      "half": "top",
-      "outs": 1,
-      "balls": 2,
-      "strikes": 1,
-      "pitcher": {"name":"高橋光成"},
-      "batter": {"name":"近藤健介"},
-      "result": "進行中",
+      "inning":3,
+      "half":"top",
+      "outs":1,
+      "balls":2,
+      "strikes":1,
+      "pitcher":{"name":"高橋光成","era":2.45},
+      "batter":{"name":"近藤健介","avg":".312"},
+      "result":"進行中",
+      "runners":{"first":"周東佑京","second":null,"third":"柳田悠岐"},
+      "defense":[
+        {"pos":"P","name":"高橋光成","x":50,"y":60},
+        {"pos":"C","name":"古賀悠斗","x":50,"y":85},
+        {"pos":"1B","name":"マキノン","x":75,"y":65},
+        {"pos":"2B","name":"外崎修汰","x":60,"y":45},
+        {"pos":"3B","name":"ブランドン","x":25,"y":65},
+        {"pos":"SS","name":"源田壮亮","x":40,"y":50},
+        {"pos":"LF","name":"蛭間拓哉","x":20,"y":20},
+        {"pos":"CF","name":"西川愛也","x":50,"y":10},
+        {"pos":"RF","name":"愛斗","x":80,"y":20}
+      ],
       "pitches":[
         {"x":3,"y":3,"result":"strike"},
         {"x":4,"y":2,"result":"ball"}
       ],
-      "defense":[
-        {"pos":"P","x":50,"y":60},
-        {"pos":"C","x":50,"y":85},
-        {"pos":"1B","x":75,"y":65},
-        {"pos":"2B","x":60,"y":45},
-        {"pos":"3B","x":25,"y":65},
-        {"pos":"SS","x":40,"y":50},
-        {"pos":"LF","x":20,"y":20},
-        {"pos":"CF","x":50,"y":10},
-        {"pos":"RF","x":80,"y":20}
+      "log":[
+        {"time":"14:21","text":"近藤健介 打席へ"},
+        {"time":"14:22","text":"1球目 ストライク"},
+        {"time":"14:23","text":"2球目 ボール"}
       ]
     }
   ]
