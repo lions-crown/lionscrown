@@ -18,8 +18,8 @@
     "stadium": "アイビー",
     "time": "13:00",
     "home_away": "V",
-    "result": "",
-    "status": "upcoming"
+    "result": "10-6",
+    "status": "finished"
   },
   {
     "date": "2026-03-04",
@@ -29,8 +29,8 @@
     "stadium": "エスコンF",
     "time": "18:00",
     "home_away": "V",
-    "result": "",
-    "status": "upcoming"
+    "result": "0-2",
+    "status": "finished"
   },
   {
     "date": "2026-03-05",
@@ -40,8 +40,8 @@
     "stadium": "エスコンF",
     "time": "18:00",
     "home_away": "V",
-    "result": "",
-    "status": "upcoming"
+    "result": "4-3",
+    "status": "finished"
   },
   {
     "date": "2026-03-07",
