@@ -22,9 +22,7 @@ margin:auto;
 padding:20px;
 }
 
-h1{
-text-align:center;
-}
+h1{text-align:center;}
 
 /* スコア */
 
@@ -81,9 +79,7 @@ transform:rotate(45deg);
 position:absolute;
 }
 
-.base.active{
-background:#ffd700;
-}
+.base.active{background:#ffd700;}
 
 .base1{bottom:0;left:50%;transform:translateX(-50%) rotate(45deg);}
 .base2{top:0;left:50%;transform:translateX(-50%) rotate(45deg);}
@@ -92,8 +88,8 @@ background:#ffd700;
 /* 投球チャート */
 
 .zone{
-width:220px;
-height:220px;
+width:200px;
+height:200px;
 border:2px solid white;
 margin:auto;
 position:relative;
@@ -123,13 +119,33 @@ background:#12264a;
 padding:15px;
 border-radius:10px;
 margin-top:20px;
-max-height:300px;
-overflow:auto;
 }
 
 .pitch{
 border-bottom:1px solid rgba(255,255,255,0.1);
 padding:6px;
+}
+
+/* 打席ナビ */
+
+.pa-nav{
+display:flex;
+justify-content:center;
+gap:20px;
+margin-top:10px;
+}
+
+button{
+background:#1e3a8a;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2563eb;
 }
 
 </style>
@@ -144,10 +160,6 @@ padding:6px;
 <div class="scoreboard">
 <div>Lions <span id="scoreL">0</span></div>
 <div>Opponent <span id="scoreO">0</span></div>
-</div>
-
-<div class="inning-table">
-<table id="inningTable"></table>
 </div>
 
 <div class="current">
@@ -167,7 +179,17 @@ padding:6px;
 <h3>投球チャート</h3>
 <div class="zone" id="zone"></div>
 
-<div class="pa-log" id="paLog"></div>
+<div class="pa-log">
+
+<div class="pa-nav">
+<button onclick="prevPA()">◀ 前の打席</button>
+<div id="paTitle"></div>
+<button onclick="nextPA()">次の打席 ▶</button>
+</div>
+
+<div id="paLog"></div>
+
+</div>
 
 <div class="pitch-log" id="pitchLog"></div>
 
@@ -177,140 +199,134 @@ padding:6px;
 
 const url="https://opensheet.elk.sh/1E34mPZXcbipFj_78scGueWSu0T4LuIa9DlG4SPsLEac/pitches";
 
-const params = new URLSearchParams(location.search);
-const gameId = params.get("game");
+const params=new URLSearchParams(location.search);
+const gameId=params.get("game");
 
-function bool(v){
-return v==="1"||v==="true"||v===1||v===true;
-}
+let allData=[];
+let paList=[];
+let currentPA=0;
 
 async function load(){
 
-const res = await fetch(url);
-const raw = await res.json();
+const res=await fetch(url);
+const raw=await res.json();
 
-/* 試合フィルタ */
+allData=gameId?raw.filter(d=>d.game_id===gameId):raw;
 
-let data = gameId
- ? raw.filter(d => d.game_id === gameId)
- : raw;
-
-if(!data.length) return;
-
-/* pitch_id順 */
-
-data.sort((a,b)=>Number(a.pitch_id)-Number(b.pitch_id));
-
-const last=data[data.length-1];
+if(!allData.length)return;
 
 /* スコア */
 
-scoreL.textContent=last.score_lions || 0;
-scoreO.textContent=last.score_opponent || 0;
+const last=allData[allData.length-1];
 
-/* 現在状況 */
-
-inning.textContent=(last.innning||"-")+"回 "+(last.top_bottom||"");
-matchup.textContent=(last.投手||"-")+" vs "+(last.打者||"-");
-count.textContent="B"+(last.balls||0)+" S"+(last.strikes||0)+" O"+(last.outs||0);
+scoreL.textContent=last.score_lions;
+scoreO.textContent=last.score_opponent;
 
 /* 走者 */
 
-b1.classList.toggle("active",bool(last.runner_1b));
-b2.classList.toggle("active",bool(last.runner_2b));
-b3.classList.toggle("active",bool(last.runner_3b));
+b1.classList.toggle("active",last.runner_1b);
+b2.classList.toggle("active",last.runner_2b);
+b3.classList.toggle("active",last.runner_3b);
 
-/* イニング表 */
+/* 打席リスト */
 
-let innings=[...new Set(data.map(d=>d.innning))];
+paList=[...new Set(allData.map(d=>d.pa_id))];
 
-let table="<tr><th></th>";
+currentPA=paList.length-1;
 
-innings.forEach(i=>{
-table+="<th>"+i+"</th>";
+renderPA();
+
+}
+
+/* 打席表示 */
+
+function renderPA(){
+
+const paId=paList[currentPA];
+
+const paData=allData.filter(p=>p.pa_id===paId);
+
+if(!paData.length)return;
+
+const first=paData[0];
+const last=paData[paData.length-1];
+
+paTitle.textContent=`${first.innning}回 ${first.top_bottom} 打席`;
+
+inning.textContent=`${first.innning}回 ${first.top_bottom}`;
+matchup.textContent=`${first.投手} vs ${first.打者}`;
+count.textContent=`B${last.balls} S${last.strikes} O${last.outs}`;
+
+/* 打席ログ */
+
+let html="";
+
+paData.forEach(p=>{
+html+=`${p.pitch_type} ${p.pitch_result}<br>`;
 });
 
-table+="</tr>";
+paLog.innerHTML=html;
 
-table+="<tr><td>L</td>";
+/* 投球ログ */
 
-innings.forEach(i=>{
-let p=data.filter(d=>d.innning==i).pop();
-table+="<td>"+(p?p.score_lions:"")+"</td>";
+let log="";
+
+paData.forEach(p=>{
+log+=`
+<div class="pitch">
+${p.pitch_no}球目
+${p.pitch_type}
+${p.velocity}km
+結果:${p.pitch_result}
+</div>
+`;
 });
 
-table+="</tr>";
-
-table+="<tr><td>O</td>";
-
-innings.forEach(i=>{
-let p=data.filter(d=>d.innning==i).pop();
-table+="<td>"+(p?p.score_opponent:"")+"</td>";
-});
-
-table+="</tr>";
-
-inningTable.innerHTML=table;
+pitchLog.innerHTML=log;
 
 /* 投球チャート */
 
 zone.innerHTML="";
 
-data.slice(-30).forEach(p=>{
+paData.forEach(p=>{
 
-if(!p.zone_x || !p.zone_y) return;
+if(!p.zone_x||!p.zone_y)return;
 
-let x=Number(p.zone_x);
-let y=Number(p.zone_y);
+const dot=document.createElement("div");
 
-let dot=document.createElement("div");
 dot.className="pitch-dot";
 
-dot.style.left=(x*100+100)+"px";
-dot.style.top=(110-(y*100))+"px";
+dot.style.left=(100+p.zone_x*40)+"px";
+dot.style.top=(100-p.zone_y*40)+"px";
 
 zone.appendChild(dot);
 
 });
 
-/* 打席ログ */
+}
 
-const pa=last.pa_id;
-let paData=data.filter(p=>p.pa_id===pa);
+/* 前後移動 */
 
-let paHtml="<b>現在打席</b><br>";
+function prevPA(){
 
-paData.forEach(p=>{
-paHtml+=
-(p.pitch_type||"")+
-" "+
-(p.pitch_result||"")+
-"<br>";
-});
+if(currentPA>0){
+currentPA--;
+renderPA();
+}
 
-paLog.innerHTML=paHtml;
+}
 
-/* 投球履歴 */
+function nextPA(){
 
-let logHtml="";
-
-data.slice().reverse().forEach(p=>{
-
-logHtml+=`
-<div class="pitch">
-${p.innning||""}回 ${p.top_bottom||""}  
-${p.pitch_type||""} ${p.velocity||""}km  
-結果:${p.pitch_result||""}
-</div>
-`;
-
-});
-
-pitchLog.innerHTML=logHtml;
+if(currentPA<paList.length-1){
+currentPA++;
+renderPA();
+}
 
 }
 
 load();
+
 setInterval(load,5000);
 
 </script>
