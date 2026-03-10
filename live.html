@@ -22,7 +22,7 @@ margin:auto;
 padding:20px;
 }
 
-h1{text-align:center;}
+h1{text-align:center}
 
 /* スコア */
 
@@ -37,8 +37,8 @@ margin-bottom:20px;
 /* イニング表 */
 
 .inning-table{
-overflow-x:auto;
 margin-bottom:20px;
+overflow-x:auto;
 }
 
 table{
@@ -48,9 +48,9 @@ background:#12264a;
 }
 
 th,td{
-padding:8px;
-text-align:center;
 border:1px solid rgba(255,255,255,0.1);
+padding:6px;
+text-align:center;
 }
 
 /* 現在打席 */
@@ -79,13 +79,13 @@ transform:rotate(45deg);
 position:absolute;
 }
 
-.base.active{background:#ffd700;}
+.base.active{background:#ffd700}
 
-.base1{bottom:0;left:50%;transform:translateX(-50%) rotate(45deg);}
-.base2{top:0;left:50%;transform:translateX(-50%) rotate(45deg);}
-.base3{left:0;top:50%;transform:translateY(-50%) rotate(45deg);}
+.base1{bottom:0;left:50%;transform:translateX(-50%) rotate(45deg)}
+.base2{top:0;left:50%;transform:translateX(-50%) rotate(45deg)}
+.base3{left:0;top:50%;transform:translateY(-50%) rotate(45deg)}
 
-/* 投球チャート */
+/* 投球ゾーン */
 
 .zone{
 width:200px;
@@ -112,6 +112,15 @@ border-radius:10px;
 margin-top:20px;
 }
 
+/* 打席移動 */
+
+.pa-nav{
+display:flex;
+justify-content:center;
+gap:20px;
+margin-bottom:10px;
+}
+
 /* 投球ログ */
 
 .pitch-log{
@@ -123,30 +132,47 @@ margin-top:20px;
 
 .pitch{
 border-bottom:1px solid rgba(255,255,255,0.1);
-padding:6px;
+padding:5px;
 }
 
-/* 打席ナビ */
+/* 打席結果ログ */
 
-.pa-nav{
-display:flex;
-justify-content:center;
-gap:20px;
-margin-top:10px;
+.pa-results{
+background:#12264a;
+padding:15px;
+border-radius:10px;
+margin-top:20px;
+max-height:200px;
+overflow:auto;
+}
+
+/* 実況 */
+
+.live-log{
+background:#12264a;
+padding:15px;
+border-radius:10px;
+margin-top:20px;
+max-height:250px;
+overflow:auto;
+font-size:14px;
+}
+
+.log{
+border-bottom:1px solid rgba(255,255,255,0.1);
+padding:4px;
 }
 
 button{
 background:#1e3a8a;
 color:white;
 border:none;
-padding:8px 14px;
+padding:6px 12px;
 border-radius:6px;
 cursor:pointer;
 }
 
-button:hover{
-background:#2563eb;
-}
+button:hover{background:#2563eb}
 
 </style>
 </head>
@@ -160,6 +186,10 @@ background:#2563eb;
 <div class="scoreboard">
 <div>Lions <span id="scoreL">0</span></div>
 <div>Opponent <span id="scoreO">0</span></div>
+</div>
+
+<div class="inning-table">
+<table id="inningTable"></table>
 </div>
 
 <div class="current">
@@ -182,9 +212,9 @@ background:#2563eb;
 <div class="pa-log">
 
 <div class="pa-nav">
-<button onclick="prevPA()">◀ 前の打席</button>
+<button onclick="prevPA()">◀</button>
 <div id="paTitle"></div>
-<button onclick="nextPA()">次の打席 ▶</button>
+<button onclick="nextPA()">▶</button>
 </div>
 
 <div id="paLog"></div>
@@ -192,6 +222,12 @@ background:#2563eb;
 </div>
 
 <div class="pitch-log" id="pitchLog"></div>
+
+<h3>打席結果</h3>
+<div class="pa-results" id="paResults"></div>
+
+<h3>実況</h3>
+<div class="live-log" id="liveLog"></div>
 
 </div>
 
@@ -215,14 +251,10 @@ allData=gameId?raw.filter(d=>d.game_id===gameId):raw;
 
 if(!allData.length)return;
 
-/* スコア */
-
 const last=allData[allData.length-1];
 
 scoreL.textContent=last.score_lions;
 scoreO.textContent=last.score_opponent;
-
-/* 走者 */
 
 b1.classList.toggle("active",last.runner_1b);
 b2.classList.toggle("active",last.runner_2b);
@@ -235,6 +267,9 @@ paList=[...new Set(allData.map(d=>d.pa_id))];
 currentPA=paList.length-1;
 
 renderPA();
+renderResults();
+renderLive();
+renderInning();
 
 }
 
@@ -243,46 +278,32 @@ renderPA();
 function renderPA(){
 
 const paId=paList[currentPA];
-
 const paData=allData.filter(p=>p.pa_id===paId);
-
-if(!paData.length)return;
 
 const first=paData[0];
 const last=paData[paData.length-1];
 
-paTitle.textContent=`${first.innning}回 ${first.top_bottom} 打席`;
+paTitle.textContent=`${first.innning}回 ${first.top_bottom}`;
 
 inning.textContent=`${first.innning}回 ${first.top_bottom}`;
 matchup.textContent=`${first.投手} vs ${first.打者}`;
 count.textContent=`B${last.balls} S${last.strikes} O${last.outs}`;
 
-/* 打席ログ */
-
-let html="";
-
-paData.forEach(p=>{
-html+=`${p.pitch_type} ${p.pitch_result}<br>`;
-});
-
-paLog.innerHTML=html;
-
 /* 投球ログ */
 
 let log="";
-
 paData.forEach(p=>{
-log+=`
-<div class="pitch">
-${p.pitch_no}球目
-${p.pitch_type}
-${p.velocity}km
-結果:${p.pitch_result}
-</div>
-`;
+log+=`<div class="pitch">${p.pitch_no}球目 ${p.pitch_type} ${p.velocity}km ${p.pitch_result}</div>`;
 });
-
 pitchLog.innerHTML=log;
+
+/* 打席ログ */
+
+let pa="";
+paData.forEach(p=>{
+pa+=`${p.pitch_type} ${p.pitch_result}<br>`;
+});
+paLog.innerHTML=pa;
 
 /* 投球チャート */
 
@@ -293,7 +314,6 @@ paData.forEach(p=>{
 if(!p.zone_x||!p.zone_y)return;
 
 const dot=document.createElement("div");
-
 dot.className="pitch-dot";
 
 dot.style.left=(100+p.zone_x*40)+"px";
@@ -305,24 +325,101 @@ zone.appendChild(dot);
 
 }
 
-/* 前後移動 */
+/* 打席結果 */
+
+function renderResults(){
+
+let html="";
+
+paList.forEach(id=>{
+
+const pa=allData.filter(p=>p.pa_id===id);
+const last=pa[pa.length-1];
+
+if(!last.pa_result)return;
+
+html+=`<div>${last.innning}回${last.top_bottom} ${last.打者} ${last.pa_result}</div>`;
+
+});
+
+paResults.innerHTML=html;
+
+}
+
+/* 実況 */
+
+function renderLive(){
+
+let html="";
+
+allData.forEach(p=>{
+
+html+=`<div class="log">${p.innning}回${p.top_bottom} ${p.投手}→${p.打者} ${p.pitch_type} ${p.pitch_result}</div>`;
+
+});
+
+liveLog.innerHTML=html;
+
+liveLog.scrollTop=liveLog.scrollHeight;
+
+}
+
+/* イニングスコア */
+
+function renderInning(){
+
+let innings=[...new Set(allData.map(d=>d.innning))];
+
+let html="<tr><th></th>";
+
+innings.forEach(i=>html+=`<th>${i}</th>`);
+
+html+="</tr>";
+
+html+="<tr><th>L</th>";
+
+innings.forEach(i=>{
+
+const rows=allData.filter(d=>d.innning==i);
+const last=rows[rows.length-1];
+
+html+=`<td>${last.score_lions}</td>`;
+
+});
+
+html+="</tr>";
+
+html+="<tr><th>O</th>";
+
+innings.forEach(i=>{
+
+const rows=allData.filter(d=>d.innning==i);
+const last=rows[rows.length-1];
+
+html+=`<td>${last.score_opponent}</td>`;
+
+});
+
+html+="</tr>";
+
+inningTable.innerHTML=html;
+
+}
+
+/* 打席移動 */
 
 function prevPA(){
-
 if(currentPA>0){
 currentPA--;
 renderPA();
 }
-
 }
 
 function nextPA(){
-
 if(currentPA<paList.length-1){
 currentPA++;
 renderPA();
 }
-
 }
 
 load();
