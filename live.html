@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>試合速報</title>
+
+<style>
+
+body{
+background:#0b1d3a;
+color:white;
+font-family:sans-serif;
+margin:0;
+padding:30px;
+}
+
+h1{
+text-align:center;
+}
+
+#live{
+max-width:900px;
+margin:auto;
+}
+
+.pitch{
+background:#132a55;
+padding:12px;
+margin-bottom:10px;
+border-radius:10px;
+}
+
+.meta{
+font-size:12px;
+opacity:0.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>試合速報</h1>
+
+<div id="live">読み込み中...</div>
+
+<script>
+
+const url =
+"https://opensheet.elk.sh/1E34mPZXcbipFj_78scGueWSu0T4LuIa9DlG4SPsLEac/pitches";
+
+async function load(){
+
+const res = await fetch(url);
+const data = await res.json();
+
+let html = "";
+
+data.reverse().forEach(p => {
+
+html += `
+<div class="pitch">
+
+<div>
+${p.innning}回 ${p.top_bottom}
+</div>
+
+<div>
+投手：${p.投手}
+</div>
+
+<div>
+打者：${p.打者}
+</div>
+
+<div>
+球種：${p.pitch_type}　
+${p.velocity}km
+</div>
+
+<div>
+結果：${p.pitch_result}
+</div>
+
+<div class="meta">
+B:${p.balls}　
+S:${p.strikes}　
+O:${p.outs}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("live").innerHTML = html;
+
+}
+
+load();
+
+/* 5秒ごと更新 */
+setInterval(load,5000);
+
+</script>
+
+</body>
+</html>
