@@ -92,8 +92,8 @@ background:#ffd700;
 /* 投球チャート */
 
 .zone{
-width:200px;
-height:200px;
+width:220px;
+height:220px;
 border:2px solid white;
 margin:auto;
 position:relative;
@@ -180,6 +180,10 @@ const url="https://opensheet.elk.sh/1E34mPZXcbipFj_78scGueWSu0T4LuIa9DlG4SPsLEac
 const params = new URLSearchParams(location.search);
 const gameId = params.get("game");
 
+function bool(v){
+return v==="1"||v==="true"||v===1||v===true;
+}
+
 async function load(){
 
 const res = await fetch(url);
@@ -187,30 +191,87 @@ const raw = await res.json();
 
 /* 試合フィルタ */
 
-const data = gameId
+let data = gameId
  ? raw.filter(d => d.game_id === gameId)
  : raw;
 
 if(!data.length) return;
 
+/* pitch_id順 */
+
+data.sort((a,b)=>Number(a.pitch_id)-Number(b.pitch_id));
+
 const last=data[data.length-1];
 
 /* スコア */
 
-scoreL.textContent=last.score_lions;
-scoreO.textContent=last.score_opponent;
+scoreL.textContent=last.score_lions || 0;
+scoreO.textContent=last.score_opponent || 0;
 
 /* 現在状況 */
 
-inning.textContent=last.innning+"回 "+last.top_bottom;
-matchup.textContent=last.投手+" vs "+last.打者;
-count.textContent="B"+last.balls+" S"+last.strikes+" O"+last.outs;
+inning.textContent=(last.innning||"-")+"回 "+(last.top_bottom||"");
+matchup.textContent=(last.投手||"-")+" vs "+(last.打者||"-");
+count.textContent="B"+(last.balls||0)+" S"+(last.strikes||0)+" O"+(last.outs||0);
 
 /* 走者 */
 
-b1.classList.toggle("active",last.runner_1b);
-b2.classList.toggle("active",last.runner_2b);
-b3.classList.toggle("active",last.runner_3b);
+b1.classList.toggle("active",bool(last.runner_1b));
+b2.classList.toggle("active",bool(last.runner_2b));
+b3.classList.toggle("active",bool(last.runner_3b));
+
+/* イニング表 */
+
+let innings=[...new Set(data.map(d=>d.innning))];
+
+let table="<tr><th></th>";
+
+innings.forEach(i=>{
+table+="<th>"+i+"</th>";
+});
+
+table+="</tr>";
+
+table+="<tr><td>L</td>";
+
+innings.forEach(i=>{
+let p=data.filter(d=>d.innning==i).pop();
+table+="<td>"+(p?p.score_lions:"")+"</td>";
+});
+
+table+="</tr>";
+
+table+="<tr><td>O</td>";
+
+innings.forEach(i=>{
+let p=data.filter(d=>d.innning==i).pop();
+table+="<td>"+(p?p.score_opponent:"")+"</td>";
+});
+
+table+="</tr>";
+
+inningTable.innerHTML=table;
+
+/* 投球チャート */
+
+zone.innerHTML="";
+
+data.slice(-30).forEach(p=>{
+
+if(!p.zone_x || !p.zone_y) return;
+
+let x=Number(p.zone_x);
+let y=Number(p.zone_y);
+
+let dot=document.createElement("div");
+dot.className="pitch-dot";
+
+dot.style.left=(x*100+100)+"px";
+dot.style.top=(110-(y*100))+"px";
+
+zone.appendChild(dot);
+
+});
 
 /* 打席ログ */
 
@@ -220,7 +281,11 @@ let paData=data.filter(p=>p.pa_id===pa);
 let paHtml="<b>現在打席</b><br>";
 
 paData.forEach(p=>{
-paHtml+=p.pitch_type+" "+p.pitch_result+"<br>";
+paHtml+=
+(p.pitch_type||"")+
+" "+
+(p.pitch_result||"")+
+"<br>";
 });
 
 paLog.innerHTML=paHtml;
@@ -233,9 +298,9 @@ data.slice().reverse().forEach(p=>{
 
 logHtml+=`
 <div class="pitch">
-${p.innning}回 ${p.top_bottom}  
-${p.pitch_type} ${p.velocity}km  
-結果:${p.pitch_result}
+${p.innning||""}回 ${p.top_bottom||""}  
+${p.pitch_type||""} ${p.velocity||""}km  
+結果:${p.pitch_result||""}
 </div>
 `;
 
